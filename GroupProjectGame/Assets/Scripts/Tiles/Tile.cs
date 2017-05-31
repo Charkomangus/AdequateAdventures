@@ -224,6 +224,7 @@ namespace Assets.Scripts.Tiles
             _item = Item;
         }
 
+
         public void GenerateVisuals()
         {
         
