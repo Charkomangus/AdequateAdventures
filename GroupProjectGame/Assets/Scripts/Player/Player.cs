@@ -940,7 +940,9 @@ namespace Assets.Scripts.Player
             if (_steppedOnOil && _playerMoveState != PlayerMoveState.Idle) return;
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                if (_horizontal) return;
+               if (_horizontal) return;
+
+               
                 latest = 1;
                 _playerMoveState = PlayerMoveState.Up;
             }

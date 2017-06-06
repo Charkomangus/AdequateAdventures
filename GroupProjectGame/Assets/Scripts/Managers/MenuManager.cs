@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Intro");
+        SceneManager.LoadScene("Level1");
     }
 
     public void EndGame()

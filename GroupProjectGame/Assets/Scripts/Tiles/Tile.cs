@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.Scripts.MainManagers;
 using Assets.Scripts.MapCreator;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,13 +25,13 @@ namespace Assets.Scripts.Tiles
         // Use this for initialization
         private void Start()
         {
-            //if (SceneManager.GetActiveScene().name == "Level1")
-            //{
-            //    List<List<Tile>> map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
-            //    int mapSize = GameManager.Instance.GetComponent<MapGenerator>().ReturnMapSize();
-            //    GenerateNeighbors(map, mapSize);
-            //}
-            if(SceneManager.GetActiveScene().name == "MapCreatorScene")
+            if (SceneManager.GetActiveScene().name == "Level1")
+            {
+                List<List<Tile>> map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
+                int mapSize = GameManager.Instance.GetComponent<MapGenerator>().ReturnMapSize();
+                GenerateNeighbors(map, mapSize);
+            }
+            if (SceneManager.GetActiveScene().name == "MapCreatorScene")
             {
                 List<List<Tile>> map = GetComponentInParent<MapCreatorManager>().ReturnMap();
                 int mapSize = GetComponentInParent<MapCreatorManager>().ReturnMapSize();
