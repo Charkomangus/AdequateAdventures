@@ -19,75 +19,99 @@ namespace Assets.Scripts.MapCreator
         /// <summary>
         /// UI buttons
         /// </summary>
-        /// 
+      
+        //Utility
         public Button Save;
         public Button Load;
         public Button NewMap;
         public Button ClearMap;
+   
+        //Tile Types
         public Button TileNormal;
         public Button TileOil;
+        public Button TileIce;
+        public Button TileIceCracks;
+        public Button TileFire;
         public Button TileBlocked;
         public Button TileWall;
-        public Button TileFire;
         public Button TileNull;
-        public Button TileExit;
+
+        //Tile Flags
         public Button TileEntry;
+        public Button TileExit;
+        public Button PuzzleEntry;
+        public Button PuzzleComplete;
+
+        //Tile Objects
+        public Button TileBox;
+        public Button TileRollingBox;
+        public Button TileSwitch;
         public Button TileBelt1;
         public Button TileBelt2;
         public Button TileBelt3;
         public Button TileDoor;
-        public Button TileBox;
-        public Button TileRollableBox;
-        public Button TileSwitch;
-
-
+  
         //UI
         public InputField SaveName;
         public InputField LoadName;
         public InputField NewMapSize;
         public Text Size;
         public Text SelectedTile;
+        public Text CurrentLevel;
+        private string _oldCurrentLevel;
+        public Animator MapNotification;
 
         //CAMERA
         private MapCreatorCamera _mainCamera;
 
-        // Use this for initialization
-        private void Awake () {
+        /// <summary>
+        /// Setting up Listeners for the UI elements & initialising variables.
+        /// </summary>
+        private void Awake()
+        {
             Instance = this;
-            Size.text = (MapSize * MapSize).ToString() + " tiles big.";          
+           
             _mapTransform = transform.FindChild("Map");
+            _mainCamera = Camera.main.GetComponent<MapCreatorCamera>();
 
-            //Setting up Listeners for the UI elements                 
+
+            
+
+
             ClearMap.onClick.AddListener(delegate { GenerateBlankMap(MapSize); });
-            TileNormal.onClick.AddListener(delegate { PalletSelection = TileType.Normal;});
+            SaveName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
+            SaveName.onEndEdit.AddListener(delegate { NewMapNotification(SaveName.text,0); _mainCamera.Enabled = true;  SaveName.gameObject.SetActive(false);});
+
+            LoadName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
+            LoadName.onEndEdit.AddListener(delegate { _mainCamera.Enabled = true; NewMapNotification(LoadName.text, 1);LoadName.gameObject.SetActive(false); LoadMapFromXml(LoadName.text); });
+
+            NewMapSize.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false;  });
+            NewMapSize.onEndEdit.AddListener(delegate { _mainCamera.Enabled = true; NewMapSize.gameObject.SetActive(false); NewMapNotification(NewMapSize.text, 2); NewMapInput(NewMapSize); });
+
+            //Tile Type
+            TileNormal.onClick.AddListener(delegate { PalletSelection = TileType.Normal; });
             TileOil.onClick.AddListener(delegate { PalletSelection = TileType.Oil; });
+            TileIce.onClick.AddListener(delegate { PalletSelection = TileType.Oil; });
+            TileIceCracks.onClick.AddListener(delegate { PalletSelection = TileType.Fire; });
+            TileFire.onClick.AddListener(delegate { PalletSelection = TileType.Fire; });
             TileBlocked.onClick.AddListener(delegate { PalletSelection = TileType.Blocked; });
             TileWall.onClick.AddListener(delegate { PalletSelection = TileType.Wall; });
             TileNull.onClick.AddListener(delegate { PalletSelection = TileType.Null; });
-            TileFire.onClick.AddListener(delegate { PalletSelection = TileType.Fire; });
-            TileExit.onClick.AddListener(delegate { PalletSelection = TileType.Exit; });
-            TileEntry.onClick.AddListener(delegate { PalletSelection = TileType.Entry; });
 
+            //Tile Flags
+            TileEntry.onClick.AddListener(delegate { PalletSelection = TileType.Entry; });
+            TileExit.onClick.AddListener(delegate { PalletSelection = TileType.Exit; });
+            PuzzleEntry.onClick.AddListener(delegate { PalletSelection = TileType.Entry; });
+            PuzzleComplete.onClick.AddListener(delegate { PalletSelection = TileType.Exit; });
+
+            //Tile Objects
+            TileBox.onClick.AddListener(delegate { PalletSelection = TileType.Box; });
+            TileRollingBox.onClick.AddListener(delegate { PalletSelection = TileType.RollableBox; });
+            TileSwitch.onClick.AddListener(delegate { PalletSelection = TileType.TileSwitch; });
             TileBelt1.onClick.AddListener(delegate { PalletSelection = TileType.Belt1; });
             TileBelt2.onClick.AddListener(delegate { PalletSelection = TileType.Belt2; });
             TileBelt3.onClick.AddListener(delegate { PalletSelection = TileType.Belt3; });
             TileDoor.onClick.AddListener(delegate { PalletSelection = TileType.Door; });
-            TileBox.onClick.AddListener(delegate { PalletSelection = TileType.Box; });
-            TileRollableBox.onClick.AddListener(delegate { PalletSelection = TileType.RollableBox; });
-            TileSwitch.onClick.AddListener(delegate { PalletSelection = TileType.TileSwitch; });
-
-
-            SaveName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
-            LoadName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
-            NewMapSize.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
-
-            SaveName.onEndEdit.AddListener(delegate { SaveMapToXml(SaveName.text); _mainCamera.Enabled = true; });
-            LoadName.onEndEdit.AddListener(delegate { LoadMapFromXml(LoadName.text); _mainCamera.Enabled = true; });
-            NewMapSize.onEndEdit.AddListener(delegate { NewMapInput(NewMapSize); _mainCamera.Enabled = true; });
-
-
-            _mainCamera = Camera.main.GetComponent<MapCreatorCamera>();
-
 
         }
 
@@ -95,7 +119,8 @@ namespace Assets.Scripts.MapCreator
         private void Start()
         {
             GenerateBlankMap(20);
-            Size.text = "20 tiles big.";
+            Size.text = MapSize + " x " + MapSize + "\n " + (MapSize * MapSize) + " tiles.";
+            CurrentLevel.text = "CurrentLevel: N/A";
         }
 
         private void Update()
@@ -103,7 +128,31 @@ namespace Assets.Scripts.MapCreator
             SelectedTile.text = "SELECTED TILE: " + PalletSelection.ToString().ToUpper();
         }
 
-   
+        private void NewMapNotification(string mapName, int mode)
+        {
+            MapNotification.SetTrigger("Open");
+            switch (mode)
+            {
+                case 0:
+                    MapNotification.GetComponent<Text>().text = "'" + mapName + "' " + "Map has been saved!";
+                    _oldCurrentLevel = CurrentLevel.text;
+                    CurrentLevel.text = "CurrentLevel: " + mapName;
+                    break;
+                case 1:
+                    MapNotification.GetComponent<Text>().text = "'" + mapName + "' " + "Map has been loaded!";
+                    _oldCurrentLevel = CurrentLevel.text;
+                    CurrentLevel.text = "CurrentLevel: " + mapName;
+                    break;
+                case 2:
+                    MapNotification.GetComponent<Text>().text = "New " + mapName + " x " + mapName + " Map";
+                    _oldCurrentLevel = CurrentLevel.text;
+                    CurrentLevel.text = "CurrentLevel: N/A";
+                    break;
+            }
+          
+         
+
+        }
 
 
         //Parse the new map input
@@ -112,9 +161,14 @@ namespace Assets.Scripts.MapCreator
             if (input.text.Length > 0)
             {         
                 int temp;
-                Int32.TryParse(input.text, out temp);
+               if(Int32.TryParse(input.text, out temp) == false)
+                {
+                    MapNotification.GetComponent<Text>().text = "Incorrect format. Full numbers only.";
+                    CurrentLevel.text = _oldCurrentLevel;
+                    return;
+                }
                 MapSize = temp;
-                Size.text = (MapSize * MapSize).ToString() + " tiles big.";
+                Size.text = MapSize + " x " + MapSize + "\n " + (MapSize * MapSize) + " tiles.";
                 GenerateBlankMap(temp);
             }
             else if (input.text.Length == 0)
@@ -159,9 +213,14 @@ namespace Assets.Scripts.MapCreator
             //Load map level
             var container = MapSaveLoad.LoadFromResources(filename);
 
-            if (container == null) return;
+            if (container == null)
+            {
+                MapNotification.GetComponent<Text>().text = "No such file name found!";
+                CurrentLevel.text = _oldCurrentLevel;
+                return;
+            }
             MapSize = container.Size;
-            Size.text = (MapSize * MapSize).ToString() + " tiles big.";
+            Size.text = MapSize + " x " + MapSize + "\n " + (MapSize * MapSize) + " tiles.";
             //Remove all children
             for (var i = 0; i < _mapTransform.childCount; i++) {
                 Destroy (_mapTransform.GetChild(i).gameObject);
