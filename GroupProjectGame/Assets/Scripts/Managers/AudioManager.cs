@@ -23,42 +23,41 @@ namespace Assets
         public AudioClip OpeningMenuClip;
 
         //Sound effects
-        public AudioClip UI_CLICK;
+        public AudioClip UiClick;
 
-        public AudioClip SWITCH;
-        public AudioClip CRATE_PUSH;
-        public AudioClip CRATE_OBSTACLE_COLLISION;
-        public AudioClip AMBIENT_MACHINERY;
-        public AudioClip AMBIENT_FIRE;
-        public Button[] allButtons;
+        public AudioClip Switch;
+        public AudioClip CratePush;
+        public AudioClip CrateObstacleCollision;
+        public AudioClip AmbientMachinery;
+        public AudioClip AmbientFire;
+        public Button[] AllButtons;
 
         // Use this for initialization
         private void Start()
         {
-            MusicAudioSource = GetComponent<AudioSource>();
-
             if (SceneManager.GetActiveScene().name == "menu")
             {
                 PlayMusic(OpeningMenuClip);
             }
-       
+            PlayMusic(LevelTwoClip);
+
         }
 
         // Update is called once per frame
         private void Update()
         {
-            allButtons = GameObject.FindObjectsOfType<Button>();
-            foreach (var button in allButtons)
-            {
-                button.onClick.AddListener(delegate { PlayAudio(UI_CLICK, false); });
-            }
+            
         }
 
 
         void OnLevelWasLoaded()
         {
 
-
+            AllButtons = GameObject.FindObjectsOfType<Button>();
+            foreach (var button in AllButtons)
+            {
+                button.onClick.AddListener(delegate { PlayAudio(UiClick, false); });
+            }
             switch (SceneManager.GetActiveScene().name)
             {
                 case "Level1":
@@ -121,7 +120,6 @@ namespace Assets
             }
             MusicAudioSource.loop = true;
             MusicAudioSource.clip = audioClip;
-            Debug.Log("Playing " + audioClip.name);
             MusicAudioSource.Play();
         }
 
@@ -137,7 +135,6 @@ namespace Assets
             }
             SoundAudioSource.loop = loop;
             SoundAudioSource.clip = audioClip;
-            Debug.Log("Playing " + audioClip.name);
             SoundAudioSource.Play();
         }
     }

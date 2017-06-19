@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.MapCreator;
@@ -7,36 +8,65 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tiles
 {
-    public class Tile : MonoBehaviour, IPointerClickHandler
+    public class Tile : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     {
+        [SerializeField] private TileType _type = TileType.Normal;
+        [SerializeField] private TileObject _object = TileObject.Empty;
+        [SerializeField] private bool _blocked, _exit, _entry, _puzzleComplete, _puzzleEntry;
+        [SerializeField] private Vector2 _gridPosition = Vector2.zero;
+        private GameObject _tilePrefab, _objectPrefab;
+        private GameObject _currentType, _currentObject;
+        private string _currentScene;
+
+        private List<Tile> _neighbors = new List<Tile>();
+        public Tile North, West, East, South;
 
 
 
-        public Vector2 GridPosition = Vector2.zero;
-        private GameObject _prefab;
-        private GameObject _renderType;
-        public TileType Type = TileType.Normal;
-        public bool Blocked, Exit, Entry;
-        private List<Tile> Neighbors = new List<Tile>();
-        public Tile _north, West, East, South;
-        [SerializeField]private GameObject _item;
-        
-      
         // Use this for initialization
         private void Start()
         {
-            if (SceneManager.GetActiveScene().name == "Level1")
+            name = _type + " Tile";
+            _currentScene = SceneManager.GetActiveScene().name;
+
+            switch (_currentScene)
             {
-                List<List<Tile>> map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
-                int mapSize = GameManager.Instance.GetComponent<MapGenerator>().ReturnMapSize();
-                GenerateNeighbors(map, mapSize);
+                case "Level1":
+                {
+                    List<List<Tile>> map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
+                    int mapSize = GameManager.Instance.GetComponent<MapGenerator>().ReturnMapSize();
+                    GenerateNeighbors(map, mapSize);
+                    GetComponentInChildren<TextMesh>().gameObject.SetActive(false);
+                }
+                    break;
+                case "MapCreatorScene":
+                {
+                    List<List<Tile>> map = GetComponentInParent<MapCreatorManager>().ReturnMap();
+                    int mapSize = GetComponentInParent<MapCreatorManager>().ReturnMapSize();
+                    GenerateNeighbors(map, mapSize);
+                    //Level creator
+                    GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
+                    ShowFlags();
+                }
+                    break;
             }
-            if (SceneManager.GetActiveScene().name == "MapCreatorScene")
-            {
-                List<List<Tile>> map = GetComponentInParent<MapCreatorManager>().ReturnMap();
-                int mapSize = GetComponentInParent<MapCreatorManager>().ReturnMapSize();
-                GenerateNeighbors(map, mapSize);
-            }
+
+        }
+
+
+        private void ShowFlags()
+        {
+            if (_puzzleEntry)
+                GetComponentInChildren<TextMesh>().text = "PE";
+            else if (_puzzleComplete)
+                GetComponentInChildren<TextMesh>().text = "PC";
+            else if (_entry)
+                GetComponentInChildren<TextMesh>().text = "ENTRY";
+            else if (_exit)
+                GetComponentInChildren<TextMesh>().text = "EXIT";
+            else
+                GetComponentInChildren<TextMesh>().text = " ";
+
         }
 
         /// <summary>
@@ -44,264 +74,335 @@ namespace Assets.Scripts.Tiles
         /// </summary>
         public void GenerateNeighbors(List<List<Tile>> map, int mapSize)
         {
-            Neighbors = new List<Tile>();
+            _neighbors = new List<Tile>();
 
             //NORTH
-            if (GridPosition.y > 0)
+            if (_gridPosition.y > 0)
             {
-                var n = new Vector2(GridPosition.x, GridPosition.y - 1);
-                Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-                _north = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+                var n = new Vector2(_gridPosition.x, _gridPosition.y - 1);
+                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
+                North = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
             }
 
             //WEST
-            if (GridPosition.x > 0)
+            if (_gridPosition.x > 0)
             {
-                var n = new Vector2(GridPosition.x - 1, GridPosition.y);
-                Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-                West = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+                var n = new Vector2(_gridPosition.x - 1, _gridPosition.y);
+                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
+                West = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
             }
             //EAST
-            if (GridPosition.x < mapSize - 1)
+            if (_gridPosition.x < mapSize - 1)
             {
-                var n = new Vector2(GridPosition.x + 1, GridPosition.y);
-                Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-                East = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+                var n = new Vector2(_gridPosition.x + 1, _gridPosition.y);
+                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
+                East = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
             }
 
             //SOUTH
-            if (GridPosition.y < mapSize - 1)
+            if (_gridPosition.y < mapSize - 1)
             {
-                var n = new Vector2(GridPosition.x, GridPosition.y + 1);
-                Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-                South = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+                var n = new Vector2(_gridPosition.x, _gridPosition.y + 1);
+                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
+                South = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
             }
-
-
-            //////NORTHWEST
-            //if (GridPosition.y > 0 && GridPosition.x > 0)
-            //{
-            //    var n = new Vector2(GridPosition.x - 1, GridPosition.y - 1);
-            //    Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-            //}
-            ////NORTHEAST
-            //if (GridPosition.y > 0 && GridPosition.x < mapSize - 1)
-            //{
-            //    var n = new Vector2(GridPosition.x + 1, GridPosition.y - 1);
-            //    Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-            //}
-            ////SOUTHWEST
-            //if (GridPosition.y < mapSize - 1 && GridPosition.x > 0)
-            //{
-            //    var n = new Vector2(GridPosition.x - 1, GridPosition.y + 1);
-            //    Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-            //}
-            ////SOUTHEAST
-            //if (GridPosition.y < mapSize - 1 && GridPosition.x < mapSize - 1)
-            //{
-            //    var n = new Vector2(GridPosition.x + 1, GridPosition.y + 1);
-            //    Neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
-            //}
-            
-        }
-     
-        //Set this tile as a level exit
-        public void SetExit()
-        {
-            Exit = !Exit;
         }
 
-        //Return true if this tile is an exit
-        public bool IsExit()
-        {
-            return Exit;
-        }
-        //Set this tile as a level entry
-        public void SetEntry()
-        {
-            Entry = !Entry;
-        }
-        //Return true if this tile is an entry
-        public bool IsEntry()
-        {
-            return Entry;
-        }
 
         //Set the tile prefab and variables
         public void SetType(TileType type)
         {
-            Type = type;
+            name = _type + " Tile";
+            _type = type;
             //definitions of TileType properties
             switch (type)
             {
                 case TileType.Normal:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileNormalPrefab;
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.TileNormal;
                     break;
 
                 case TileType.Oil:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileOil;
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.TileOil;
+                    break;
+
+                case TileType.Ice:
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.TileIce;
                     break;
 
                 case TileType.Blocked:
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.TileBlocked;
+                    _blocked = true;
+                    _tilePrefab = PrefabHolder.Instance.TileBlocked;
                     break;
 
                 case TileType.Wall:
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.TileWall;
+                    _blocked = true;
+                    _tilePrefab = PrefabHolder.Instance.TileWall;
                     break;
 
                 case TileType.Fire:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileFire;
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.TileFire;
                     break;
-                case TileType.Null:
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.TileNull;
-                    break;
-                case TileType.Entry:
-                    Entry = true;
-                    Exit = false;
-                    Blocked = false;
-                    _prefab = SceneManager.GetActiveScene().name == "MapCreatorScene" ? PrefabHolder.Instance.TileEntry : PrefabHolder.Instance.TileNormalPrefab;
-                    break;
-                case TileType.Exit:
-                    Exit = true;
-                    Entry = false;
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileNormalPrefab;
-                    _prefab = SceneManager.GetActiveScene().name == "MapCreatorScene" ? PrefabHolder.Instance.TileExit : PrefabHolder.Instance.TileNormalPrefab;
-                    break;
-                case TileType.Belt1:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileBelt1;
-                    break;
-                case TileType.Belt2:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileBelt2;
-                    break;
-                case TileType.Belt3:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileBelt3;
+                case TileType.IceCracks:
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.TileIceCracks;
                     break;
                 case TileType.Door:
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.TileDoor;
+                    _blocked = true;
+                    _tilePrefab = PrefabHolder.Instance.TileDoor;
                     break;
-                case TileType.Box:
-               
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.TileBox;
-                    break;
-                case TileType.RollableBox:
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.RollableBox;
-                    break;
-                case TileType.TileSwitch:
-                    Blocked = true;
-                    _prefab = PrefabHolder.Instance.TileSwitch;
+                case TileType.Null:
+                    _blocked = true;
+                    _tilePrefab = PrefabHolder.Instance.TileNull;
                     break;
                 default:
-                    Blocked = false;
-                    _prefab = PrefabHolder.Instance.TileNormalPrefab;
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.TileNormal;
                     break;
             }
 
             GenerateVisuals();
         }
 
-        //Return crate
-        public GameObject ReturnCrate()
+        //Set the tile prefab and variables
+        public void SetObject(TileObject Object)
         {
-            _item = GetComponentInChildren<Crate>().gameObject;
-            return _item;
+            _object = Object;
+            //definitions of TileType properties
+            switch (Object)
+            {
+                case TileObject.Box:
+                    _blocked = true;
+                    _objectPrefab = PrefabHolder.Instance.Box;
+                    break;
+                case TileObject.SlidingBox:
+                    _blocked = true;
+                    _objectPrefab = PrefabHolder.Instance.SlidingBox;
+                    break;
+                case TileObject.Sign:
+                    _blocked = true;
+                    _objectPrefab = PrefabHolder.Instance.Sign;
+                    break;
+                case TileObject.GreenSwitch:
+                    _blocked = true;
+                    _objectPrefab = PrefabHolder.Instance.GreenSwitch;
+                    break;
+                case TileObject.RedSwitch:
+                    _blocked = true;
+                    _objectPrefab = PrefabHolder.Instance.RedSwitch;
+                    break;
+                case TileObject.BlueSwitch:
+                    _blocked = true;
+                    _objectPrefab = PrefabHolder.Instance.BlueSwitch;
+                    break;
+                case TileObject.GreenConveyorBelt:
+                    _blocked = false;
+                    _objectPrefab = PrefabHolder.Instance.GreenBelt;
+                    break;
+                case TileObject.RedConveyorBelt:
+                    _blocked = false;
+                    _objectPrefab = PrefabHolder.Instance.RedBelt;
+                    break;
+                case TileObject.BlueConveyorBelt:
+                    _blocked = false;
+                    _objectPrefab = PrefabHolder.Instance.BlueBelt;
+                    break;
+                case TileObject.Empty:
+                    _objectPrefab = null;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Object", Object, null);
+            }
+            GenerateObject();
         }
 
-        public void SetItem(GameObject Item)
+
+        //Generate a tiles objects
+        public void GenerateObject()
         {
-            _item = Item;
+
+            var container = transform.FindChild("Objects").gameObject;
+            //initially remove all children
+            for (var i = 0; i < container.transform.childCount; i++)
+            {
+                Destroy(container.transform.GetChild(i).gameObject);
+            }
+            if (_objectPrefab == null) return;
+            var newObject = Instantiate(_objectPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+            newObject.transform.localScale = new Vector3(1, 1, 1);
+            newObject.transform.SetParent(container.transform);
+            newObject.transform.localPosition = new Vector3(0, 0, 0);
+            _currentObject = newObject;
         }
 
-
+        //Generate a tiles visuals
         public void GenerateVisuals()
         {
-        
-              var container = transform.FindChild("Visuals").gameObject;
+
+            var container = transform.FindChild("Visuals").gameObject;
             //initially remove all children
             for (var i = 0; i < container.transform.childCount; i++)
             {
                 Destroy(container.transform.GetChild(i).gameObject);
             }
 
-            GameObject renderType;
-            renderType = (GameObject)Instantiate(_prefab, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            renderType.transform.localScale = new Vector3(1,-1,1);
-            renderType.transform.parent = container.transform;
+            var newType = Instantiate(_tilePrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+            newType.transform.localScale = new Vector3(1, 1, 1);
 
-            _renderType = renderType;
+            newType.transform.SetParent(container.transform);
+
+            _currentType = newType;
         }
 
-        private void OnMouseEnter()
-        {
-            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
-            if (Input.GetMouseButton(0))
-            {
-                SetType(MapCreatorManager.Instance.PalletSelection);
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                SetType(TileType.Normal);
-
-            }
-        }
-
-        private void OnMouseDown()
-        {
-            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
-            if (Input.GetMouseButton(0))
-            {
-                SetType(MapCreatorManager.Instance.PalletSelection);
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                SetType(TileType.Normal);
-
-            }
-        }
-
-        /// <summary>
-        /// When tile is clciked....
-        /// </summary>
-        /// <param name="eventData"></param>
         public void OnPointerClick(PointerEventData eventData)
         {
-            switch (eventData.button)
+            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
+
+            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
             {
-                case PointerEventData.InputButton.Left:
-                    SetType(MapCreatorManager.Instance.PalletSelection);
+                case PlacingStatus.Type:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetType(MapCreatorManager.Instance.TileType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetType(TileType.Normal);
+                    }
+                }
                     break;
-                case PointerEventData.InputButton.Middle:
-                    Debug.Log("Invalid Input");
+                case PlacingStatus.Object:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetObject(MapCreatorManager.Instance.ObjectType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetObject(TileObject.Empty);
+                    }
+                }
                     break;
-                case PointerEventData.InputButton.Right:
-                    SetType(TileType.Normal);
-                    break;
-                default:
-                    Debug.Log("Invalid Input");
+                case PlacingStatus.Flag:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        switch (MapCreatorManager.Instance.TileFlag)
+                        {
+                            case "Entry":
+                                _entry = true;
+                                ShowFlags();
+                                break;
+                            case "Exit":
+                                _exit = true;
+                                ShowFlags();
+                                break;
+                            case "PuzzleEntry":
+                                _puzzleEntry = true;
+                                ShowFlags();
+                                break;
+                            case "PuzzleExit":
+                                _puzzleComplete = true;
+                                ShowFlags();
+                                break;
+                            case "DeleteFlag":
+                                _entry = false;
+                                _exit = false;
+                                _puzzleEntry = false;
+                                _puzzleComplete = false;
+                                ShowFlags();
+                                break;
+                        }
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        _entry = false;
+                        _exit = false;
+                        _puzzleEntry = false;
+                        _puzzleComplete = false;
+                    }
+
+                    ShowFlags();
+                }
                     break;
             }
-
         }
-     
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
 
-
-       
-        
-
+            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
+            {
+                case PlacingStatus.Type:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetType(MapCreatorManager.Instance.TileType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetType(TileType.Normal);
+                    }
+                }
+                    break;
+                case PlacingStatus.Object:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetObject(MapCreatorManager.Instance.ObjectType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetObject(TileObject.Empty);
+                    }
+                }
+                    break;
+                case PlacingStatus.Flag:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        switch (MapCreatorManager.Instance.TileFlag)
+                        {
+                            case "Entry":
+                                _entry = true;
+                                GetComponentInChildren<TextMesh>().text = "ENTRY";
+                                break;
+                            case "Exit":
+                                _exit = true;
+                                GetComponentInChildren<TextMesh>().text = "EXIT";
+                                break;
+                            case "PuzzleEntry":
+                                _puzzleEntry = true;
+                                GetComponentInChildren<TextMesh>().text = "PE";
+                                break;
+                            case "PuzzleComplete":
+                                _puzzleComplete = true;
+                                GetComponentInChildren<TextMesh>().text = "PC";
+                                break;
+                            case "DeleteFlag":
+                                _entry = false;
+                                _exit = false;
+                                _puzzleEntry = false;
+                                _puzzleComplete = false;
+                                break;
+                        }
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        _entry = false;
+                        _exit = false;
+                        _puzzleEntry = false;
+                        _puzzleComplete = false;
+                    }
+                }
+                    break;
+            }
+        }
         #region Sets & Returns
 
         /// <summary>
@@ -310,7 +411,7 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public Tile ReturnNorth()
         {
-            return _north;
+            return North;
         }
 
         /// <summary>
@@ -349,7 +450,7 @@ namespace Assets.Scripts.Tiles
         /// <param name="renderType"></param>
         public void SetRenderType(GameObject renderType)
         {
-            _renderType = renderType;
+            _currentType = renderType;
         }
 
         /// <summary>
@@ -358,7 +459,7 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public GameObject ReturnRenderType()
         {
-            return _renderType;
+            return _currentType;
         }
 
 
@@ -369,17 +470,17 @@ namespace Assets.Scripts.Tiles
         /// <param name="newPosition"></param>
         public void SetPosition(Vector2 newPosition)
         {
-            GridPosition = newPosition;
+            _gridPosition = newPosition;
         }
 
-     
+
         /// <summary>
         /// Return the Tiles neighbors
         /// </summary>
         /// <returns></returns>
         public List<Tile> ReturnNeighbors()
         {
-            return Neighbors;
+            return _neighbors;
         }
 
         /// <summary>
@@ -388,7 +489,7 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public Vector2 ReturnPosition()
         {
-            return GridPosition;
+            return _gridPosition;
         }
 
         /// <summary>
@@ -397,36 +498,104 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public TileType ReturnType()
         {
-            return Type;
+            return _type;
         }
 
         /// <summary>
-        /// Returns true if the tile is impassable
+        /// Returns the tiles object
         /// </summary>
         /// <returns></returns>
+        public TileObject ReturnObject()
+        {
+            return _object;
+        }
+
+        //Set this tile as a level exit
+        public void SetExit()
+        {
+            _exit = !_exit;
+        }
+
+        //Return true if this tile is an exit
+        public bool IsExit()
+        {
+            return _exit;
+        }
+
+        //Set this tile as a level entry
+        public void SetEntry()
+        {
+            _entry = !_entry;
+        }
+
+        //Return true if this tile is an entry
+        public bool IsEntry()
+        {
+            return _entry;
+        }
+
+        //Set this tile as a puzzle complete tile
+        public void SetPuzzleComplete()
+        {
+            _puzzleComplete = !_puzzleComplete;
+        }
+
+        //Return true if this tile is an puzzle complete tile
+        public bool IsPuzzleComplete()
+        {
+            return _puzzleComplete;
+        }
+
+        //Set this tile as a puzzle entry
+        public void SetPuzzleEntry()
+        {
+            _puzzleEntry = !_puzzleEntry;
+        }
+
+        //Return true if this tile is an puzzle entry
+        public bool IsPuzzleEntry()
+        {
+            return _puzzleEntry;
+        }
+
+        //Set this tile as a blocked tile.
+        public void SetBlocked(bool status)
+        {
+            _blocked = status;
+        }
+
+        //Return true if this tile is an puzzle entry
         public bool IsBlocked()
         {
-            return Blocked;
+            return _blocked;
         }
 
 
-        /// <summary>
-        /// Sets tiles material
-        /// </summary>
-        /// <returns></returns>
+        //Sets tiles material
         public void SetMaterial(Material material)
         {
             GetComponentInChildren<Renderer>().sharedMaterial = material;
         }
 
 
-        /// <summary>
-        /// Returns tiles current material
-        /// </summary>
-        /// <returns></returns>
+        //Returns tiles current material
         public Material ReturnMaterial()
         {
             return GetComponentInChildren<Renderer>().sharedMaterial;
+        }
+
+        //Returns tiles current material
+        public string ReturnFlag()
+        {
+            if (_puzzleEntry)
+                return "PuzzleEntry";
+            if (_puzzleComplete)
+                return "PuzzleComplete";
+            if (_entry)
+                return "Entry";
+            if (_exit)
+                return "Exit";
+            return "Null";
         }
         #endregion
     }

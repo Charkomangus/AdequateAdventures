@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Assets.Scripts.Tiles;
+
 using UnityEngine;
 
 namespace Assets.Scripts.MapCreator
@@ -12,14 +13,20 @@ namespace Assets.Scripts.MapCreator
     /// Details needed to store a tile in XML
     /// </summary>
     public class TileXml {
-        [XmlAttribute("id")]
-        public int Id;
+        [XmlAttribute("Type")]
+        public TileType Type;
 
-        [XmlAttribute("locX")]
-        public int LocX;
+        [XmlAttribute("LocationX")]
+        public int LocationX;
 
-        [XmlAttribute("locY")]
-        public int LocY;
+        [XmlAttribute("LocationY")]
+        public int LocationY;
+
+        [XmlAttribute("Object")]
+        public TileObject Object;
+
+        [XmlAttribute("Flag")]
+        public string Flag;
     }
 
     /// <summary>
@@ -67,9 +74,12 @@ namespace Assets.Scripts.MapCreator
         {
             return new TileXml
             {
-                Id = (int) tile.Type,
-                LocX = (int) tile.ReturnPosition().x,
-                LocY = (int) tile.ReturnPosition().y
+                Type = tile.ReturnType(),
+                LocationX = (int) tile.ReturnPosition().x,
+                LocationY = (int) tile.ReturnPosition().y,
+                Object = tile.ReturnObject(),
+                Flag = tile.ReturnFlag()
+
             };
         }
 
@@ -81,9 +91,20 @@ namespace Assets.Scripts.MapCreator
         public static void Save(MapXmlContainer mapContainer, string filename) 
         {
             var serializer = new XmlSerializer(typeof(MapXmlContainer));
-            using(var stream = new FileStream("Assets/Resources/" + filename, FileMode.Create))
+
+            if (Application.isEditor)
             {
-                serializer.Serialize(stream, mapContainer);
+                using (var stream = new FileStream("Assets/Resources/" + filename, FileMode.Create))
+                {
+                    serializer.Serialize(stream, mapContainer);
+                }
+            }
+            else
+            {
+                using (var stream = new FileStream("Level Creator_Data/Resources/" + filename, FileMode.Create))
+                {
+                    serializer.Serialize(stream, mapContainer);
+                }
             }
         }
 

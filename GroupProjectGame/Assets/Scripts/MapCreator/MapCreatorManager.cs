@@ -8,25 +8,39 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.MapCreator
 {
+    public enum PlacingStatus
+    {
+        Type,
+        Object,
+        Flag
+    }
+
     public class MapCreatorManager : MonoBehaviour {
          //Creating an Instance so scripts can access it's variables.
         public static MapCreatorManager Instance;
-        public TileType PalletSelection = TileType.Normal;
         public int MapSize;
+       public PlacingStatus CurrentPlacingStatus;
         private List<List<Tile>> _map = new List<List<Tile>>();
         private Transform _mapTransform;
+
+
+
 
         /// <summary>
         /// UI buttons
         /// </summary>
-      
-        //Utility
+
+     
+        [Header("Utility")]
         public Button Save;
         public Button Load;
         public Button NewMap;
         public Button ClearMap;
-   
-        //Tile Types
+        public Button Types, Flags, Objects;
+
+     
+        [Header("Tile Types")]
+        public TileType TileType;
         public Button TileNormal;
         public Button TileOil;
         public Button TileIce;
@@ -34,24 +48,31 @@ namespace Assets.Scripts.MapCreator
         public Button TileFire;
         public Button TileBlocked;
         public Button TileWall;
+        public Button TileDoor;
         public Button TileNull;
 
-        //Tile Flags
+        [Header("Tile Flags")]
+        public string TileFlag;
         public Button TileEntry;
         public Button TileExit;
         public Button PuzzleEntry;
         public Button PuzzleComplete;
+        public Button FlagNull;
 
-        //Tile Objects
-        public Button TileBox;
-        public Button TileRollingBox;
-        public Button TileSwitch;
-        public Button TileBelt1;
-        public Button TileBelt2;
-        public Button TileBelt3;
-        public Button TileDoor;
-  
-        //UI
+        [Header("Tile Objects")]
+        public TileObject ObjectType;
+        public Button ObjectBox;
+        public Button ObjectRollingBox;
+        public Button ObjectSign;
+        public Button ObjectRedSwitch;
+        public Button ObjectGreenSwitch;
+        public Button ObjectBlueSwitch;
+        public Button ObjectRedBelt;
+        public Button ObjectGreenBelt;
+        public Button ObjectBlueBelt;
+        public Button ObjectNull;
+
+        [Header("UI")]
         public InputField SaveName;
         public InputField LoadName;
         public InputField NewMapSize;
@@ -70,49 +91,80 @@ namespace Assets.Scripts.MapCreator
         private void Awake()
         {
             Instance = this;
-           
+            TileType = TileType.Normal;
+            ObjectType = TileObject.Empty;
+            TileFlag = "N/A";
+            CurrentPlacingStatus = PlacingStatus.Type;
+
             _mapTransform = transform.FindChild("Map");
             _mainCamera = Camera.main.GetComponent<MapCreatorCamera>();
 
 
-            
 
-
+            //UI buttons
             ClearMap.onClick.AddListener(delegate { GenerateBlankMap(MapSize); });
             SaveName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
-            SaveName.onEndEdit.AddListener(delegate { NewMapNotification(SaveName.text,0); _mainCamera.Enabled = true;  SaveName.gameObject.SetActive(false);});
+            SaveName.onEndEdit.AddListener(delegate
+            {
+                NewMapNotification(SaveName.text, 0);
+                _mainCamera.Enabled = true;
+                SaveName.gameObject.SetActive(false);
+                SaveMapToXml(SaveName.text);
+            });
 
             LoadName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
-            LoadName.onEndEdit.AddListener(delegate { _mainCamera.Enabled = true; NewMapNotification(LoadName.text, 1);LoadName.gameObject.SetActive(false); LoadMapFromXml(LoadName.text); });
+            LoadName.onEndEdit.AddListener(delegate
+            {
+                _mainCamera.Enabled = true;
+                NewMapNotification(LoadName.text, 1);
+                LoadName.gameObject.SetActive(false);
+                LoadMapFromXml(LoadName.text);
+            });
 
-            NewMapSize.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false;  });
-            NewMapSize.onEndEdit.AddListener(delegate { _mainCamera.Enabled = true; NewMapSize.gameObject.SetActive(false); NewMapNotification(NewMapSize.text, 2); NewMapInput(NewMapSize); });
+            NewMapSize.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
+            NewMapSize.onEndEdit.AddListener(delegate
+            {
+                _mainCamera.Enabled = true;
+                NewMapSize.gameObject.SetActive(false);
+                NewMapNotification(NewMapSize.text, 2);
+                NewMapInput(NewMapSize);
+            });
+
+            //Category buttons
+            Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
+            Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
+            Objects.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Object; ObjectType = TileObject.Empty; });
 
             //Tile Type
-            TileNormal.onClick.AddListener(delegate { PalletSelection = TileType.Normal; });
-            TileOil.onClick.AddListener(delegate { PalletSelection = TileType.Oil; });
-            TileIce.onClick.AddListener(delegate { PalletSelection = TileType.Oil; });
-            TileIceCracks.onClick.AddListener(delegate { PalletSelection = TileType.Fire; });
-            TileFire.onClick.AddListener(delegate { PalletSelection = TileType.Fire; });
-            TileBlocked.onClick.AddListener(delegate { PalletSelection = TileType.Blocked; });
-            TileWall.onClick.AddListener(delegate { PalletSelection = TileType.Wall; });
-            TileNull.onClick.AddListener(delegate { PalletSelection = TileType.Null; });
+            TileNormal.onClick.AddListener(delegate { TileType = TileType.Normal; });
+            TileOil.onClick.AddListener(delegate { TileType = TileType.Oil; });
+            TileIce.onClick.AddListener(delegate { TileType = TileType.Ice; });
+            TileIceCracks.onClick.AddListener(delegate { TileType = TileType.IceCracks; });
+            TileFire.onClick.AddListener(delegate { TileType = TileType.Fire; });
+            TileBlocked.onClick.AddListener(delegate { TileType = TileType.Blocked; });
+            TileWall.onClick.AddListener(delegate { TileType = TileType.Wall; });
+            TileDoor.onClick.AddListener(delegate { TileType = TileType.Door; });
+            TileNull.onClick.AddListener(delegate { TileType = TileType.Null; });
 
             //Tile Flags
-            TileEntry.onClick.AddListener(delegate { PalletSelection = TileType.Entry; });
-            TileExit.onClick.AddListener(delegate { PalletSelection = TileType.Exit; });
-            PuzzleEntry.onClick.AddListener(delegate { PalletSelection = TileType.Entry; });
-            PuzzleComplete.onClick.AddListener(delegate { PalletSelection = TileType.Exit; });
+            TileEntry.onClick.AddListener(delegate { TileFlag = "Entry"; });
+            TileExit.onClick.AddListener(delegate { TileFlag = "Exit"; });
+            PuzzleEntry.onClick.AddListener(delegate { TileFlag = "PuzzleEntry"; });
+            PuzzleComplete.onClick.AddListener(delegate { TileFlag = "PuzzleComplete"; });
+            FlagNull.onClick.AddListener(delegate { TileFlag = "DeleteFlag"; });
 
             //Tile Objects
-            TileBox.onClick.AddListener(delegate { PalletSelection = TileType.Box; });
-            TileRollingBox.onClick.AddListener(delegate { PalletSelection = TileType.RollableBox; });
-            TileSwitch.onClick.AddListener(delegate { PalletSelection = TileType.TileSwitch; });
-            TileBelt1.onClick.AddListener(delegate { PalletSelection = TileType.Belt1; });
-            TileBelt2.onClick.AddListener(delegate { PalletSelection = TileType.Belt2; });
-            TileBelt3.onClick.AddListener(delegate { PalletSelection = TileType.Belt3; });
-            TileDoor.onClick.AddListener(delegate { PalletSelection = TileType.Door; });
+            ObjectBox.onClick.AddListener(delegate { ObjectType = TileObject.Box; });
+            ObjectRollingBox.onClick.AddListener(delegate { ObjectType = TileObject.SlidingBox; });
+            ObjectSign.onClick.AddListener(delegate { ObjectType = TileObject.Sign; });
+            ObjectRedSwitch.onClick.AddListener(delegate { ObjectType = TileObject.RedSwitch; });
+            ObjectGreenSwitch.onClick.AddListener(delegate { ObjectType = TileObject.GreenSwitch; });
+            ObjectBlueSwitch.onClick.AddListener(delegate { ObjectType = TileObject.BlueSwitch; });
 
+            ObjectRedBelt.onClick.AddListener(delegate { ObjectType = TileObject.RedConveyorBelt; });
+            ObjectGreenBelt.onClick.AddListener(delegate { ObjectType = TileObject.GreenConveyorBelt; });
+            ObjectBlueBelt.onClick.AddListener(delegate { ObjectType = TileObject.BlueConveyorBelt; });
+            ObjectNull.onClick.AddListener(delegate { ObjectType = TileObject.Empty; });
         }
 
 
@@ -123,11 +175,26 @@ namespace Assets.Scripts.MapCreator
             CurrentLevel.text = "CurrentLevel: N/A";
         }
 
+        //Update Ui
         private void Update()
         {
-            SelectedTile.text = "SELECTED TILE: " + PalletSelection.ToString().ToUpper();
+            switch (CurrentPlacingStatus)
+            {
+                case PlacingStatus.Type:
+                    SelectedTile.text = "SELECTED TYPE: " + TileType.ToString().ToUpper();
+                    break;
+                case PlacingStatus.Object:
+                    SelectedTile.text = "SELECTED OBJECT: " + ObjectType.ToString().ToUpper();
+                    break;
+                case PlacingStatus.Flag:
+                    SelectedTile.text = "SELECTED FLAG: " + TileFlag.ToUpper();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        
         }
-
+        //Notify user of any changes such as the map has been saved, etc.
         private void NewMapNotification(string mapName, int mode)
         {
             MapNotification.SetTrigger("Open");
@@ -149,12 +216,8 @@ namespace Assets.Scripts.MapCreator
                     CurrentLevel.text = "CurrentLevel: N/A";
                     break;
             }
-          
-         
-
         }
-
-
+        
         //Parse the new map input
         private void NewMapInput(InputField input)
         {
@@ -199,6 +262,7 @@ namespace Assets.Scripts.MapCreator
                     tile.transform.parent = _mapTransform;
                     tile.SetPosition(new Vector2(x, y));
                     tile.SetType(TileType.Normal);
+              
                     row.Add(tile);
                 }
                 _map.Add(row);
@@ -235,7 +299,29 @@ namespace Assets.Scripts.MapCreator
                     var tile = ((GameObject)Instantiate(PrefabHolder.Instance.BaseTilePrefab, new Vector3(x - Mathf.Floor(MapSize/2f),0, -y + Mathf.Floor(MapSize/2f)), Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
                     tile.transform.parent = _mapTransform;
                     tile.SetPosition(new Vector2(x, y));
-                    tile.SetType((TileType)container.Tiles.First(position => position.LocX == x && position.LocY == y).Id);
+                    var tempTile = container.Tiles.First(position => position.LocationX == x && position.LocationY == y);
+                    tile.SetType((TileType)tempTile.Type);
+                    tile.SetObject(tempTile.Object);
+
+                    switch (tempTile.Flag)
+                    {
+                        case "PuzzleEntry":
+                            tile.SetPuzzleEntry();
+                            break;
+                        case "PuzzleComplete":
+                            tile.SetPuzzleComplete();
+                            break;
+                        case "Entry":
+                            tile.SetEntry();
+                            break;
+                        case "Exit":
+                            tile.SetExit();
+                            break;
+                        case "Null":
+                            break;
+                    }
+
+
                     row.Add (tile);
                 }
                 _map.Add(row);
@@ -266,5 +352,8 @@ namespace Assets.Scripts.MapCreator
         {
             return MapSize;
         }
+
+
+     
     }
 }

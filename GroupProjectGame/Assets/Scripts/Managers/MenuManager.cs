@@ -10,13 +10,13 @@ public class MenuManager : MonoBehaviour
 
 
     public Button start;
-    public Button end;
+    public Button End;
 
     // Use this for initialization
     void Start()
     {
         start.onClick.AddListener(delegate { StartGame(); });
-        end.onClick.AddListener(delegate { EndGame();   });
+        End.onClick.AddListener(delegate { EndGame();   });
     }
 
 

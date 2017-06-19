@@ -3,18 +3,12 @@
     public enum TileType {
         Normal,
         Oil,
+        Ice,
         Blocked,
         Wall,
         Fire,
-        Null,
-        Entry,
-        Exit,
-        Belt1,
-        Belt2,
-        Belt3,
+        IceCracks,
         Door,
-        Box,
-        RollableBox,
-        TileSwitch
+        Null
     }
 }

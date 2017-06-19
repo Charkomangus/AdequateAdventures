@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - NormalTile
+  - Ice
+  - Fire
+  - Box
+  - SlidingBox
+  - IceCracks
+  - UiManager
+  - Fade
+  - Map
+  - Object
   layers:
   - Default
   - TransparentFX
@@ -40,4 +50,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: EnviromentArt
+    uniqueID: 2363283121
+    locked: 0
+  - name: Objects
+    uniqueID: 3111630997
+    locked: 0
+  - name: Player
+    uniqueID: 3027028607
     locked: 0

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.MapCreator;
 using Assets.Scripts.Tiles;
-using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,81 +12,76 @@ namespace Assets.Scripts.MainManagers
         //Creating an Instance so scripts can access it's variables.
         public static GameManager Instance;
 
-        public UiManager uiManager;
-        public AudioManager audioManager;
+       
+        public AudioManager AudioManager;
+        public UiManager UiManager;
         private StateManager _stateManager;
+        private MapGenerator _mapGenerator;
         public Transform MapTransform;
-        private int mapSize;
+        private int _mapSize;
         private List<List<Tile>> _map;
-        private int _level;
-        public Tile _levelEntry, _levelExit;
+        public Tile LevelEntry, LevelExit;
         public int CurrentLevel = 1;
-        public Texture2D cursor;
-        public Player.Player player;
-        public int Ending;
-        public Material brokenDoor;
+        public int CurrentAct = 1;
+        public string CurrentScene;
+        public Player.Player Player;
+    
 
 
-        public GameObject[] Props;
-        [SerializeField] private GameObject _crate;
+     
 
         // Use this for initialization
         private void Awake()
         {
+            if(Instance != null)
+                Destroy(gameObject);
             Application.targetFrameRate = 30;
-            Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
-            GameObject.DontDestroyOnLoad(this);
-            player = GameObject.FindObjectOfType<Player.Player>();
-             Instance = this;
+            DontDestroyOnLoad(this);
+            Instance = this;
             _stateManager = StateManager.Instance;
             _stateManager.OnStateChange += HandleOnStateChange;
-            audioManager = GetComponent<AudioManager>();
 
+            CurrentScene = SceneManager.GetActiveScene().name;
 
+          
+            AudioManager = GetComponentInChildren<AudioManager>();
+         
+            _mapGenerator = GetComponent<MapGenerator>();
+            
         }
 
         // Use this for initialization
         void Start ()
         {
-          SceneManager.LoadScene("Menu");
+            if (CurrentScene == "Level1")
+            {
+                UiManager = FindObjectOfType<UiManager>();
+                StartLevel();
+              
+            }
         }
 
         void OnLevelWasLoaded()
         {
-           
-            Debug.Log(SceneManager.GetActiveScene().name);
             switch (SceneManager.GetActiveScene().name)
             {
                     
                 case "Level1":
-                    uiManager = GameObject.FindGameObjectWithTag("UiManager").GetComponent<UiManager>();
-                    MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
-                  Cursor.visible = CurrentLevel == 10;
-                    
-                    for (int i = 0; i < Props.Length; i++)
-                    {
-                        if(i == CurrentLevel - 1)
-                            Props[i].SetActive(true);
-                        else
-                            Props[i].SetActive(false);
-                    }
-                    StartLevel();
-
-
+                    StartLevel();                    
                     break;
                 case "Transistion":
                     MapTransform = null;
-                    Cursor.visible = true;
+                    UnityEngine.Cursor.visible = true;
                     break;
                 case "Intro":
                     MapTransform = null;
-                    Cursor.visible = false;
+                    UnityEngine.Cursor.visible = false;
                     break;
                 case "Menu":
-                    Cursor.visible = true;
+                    UnityEngine.Cursor.visible = true;
                     break;
                 case "Outro":
-                    Cursor.visible = false;
+                    UnityEngine.Cursor.visible = false;
 
                     break;
             }
@@ -96,59 +90,32 @@ namespace Assets.Scripts.MainManagers
 
         public void StartLevel()
         {
-            Instance.GetComponent<MapGenerator>().LoadMapFromXml("Level" + CurrentLevel);
+            MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
+            _mapGenerator.LoadMapFromXml("LevelMap" + CurrentLevel +"_"+ CurrentAct);
             _map = Instance.GetComponent<MapGenerator>().ReturnMap();
-            mapSize = Instance.GetComponent<MapGenerator>().ReturnMapSize();
+            _mapSize = Instance.GetComponent<MapGenerator>().ReturnMapSize();
             FindLevelEntry();
-            SpawnBoxes();
-            uiManager.TriggerFade();
-            
+            Player = FindObjectOfType<Player.Player>();
+            Player.InitializePlayer();
+
         }
     
 
-        void SpawnBoxes()
-        {
-            var boxes = new List<Tile>();
-            boxes = GetComponent<MapGenerator>().ReturnBoxTiles();
-            Debug.Log(boxes.Count);
-            for (int i = 0; i < boxes.Count; i++)
-            {
-                Crate crate = Instantiate(_crate, new Vector3(boxes[i].transform.position.x, 1, boxes[i].transform.position.z), Quaternion.Euler(new Vector3())).GetComponent<Crate>();
-                crate.transform.SetParent(boxes[i].transform);
-                boxes[i].SetItem(crate.gameObject);
-
-            }
-        }
+   
 
         // Update is called once per frame
-        void Update () {
-            switch (SceneManager.GetActiveScene().name)
-            {
-                case "Game":
-                    break;
-                case "Menu":
-                    audioManager.PlayAudio(audioManager.CRATE_PUSH, false );
-                    break;
-                case "MapCreatorScene":
-                    break;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-               SceneManager.LoadScene("Transistion");
-             
-            }
+        void Update () {       
         }
 
         void FindLevelEntry()
         {
-            for (var i = 0; i < mapSize; i++)
+            for (var i = 0; i < _mapSize; i++)
             {
               
-                for (var j = 0; j < mapSize; j++)
+                for (var j = 0; j < _mapSize; j++)
                 {
-                    if (_map[i][j].Entry)
-                        _levelEntry = _map[i][j];
+                    if (_map[i][j].IsEntry())
+                        LevelEntry = _map[i][j];
                 }
             }
         }
@@ -156,7 +123,7 @@ namespace Assets.Scripts.MainManagers
         private void OnLevelWasLoaded(int level)
         {
             Debug.Log("Level " + level +" was loaded.");
-            _level = level;
+            CurrentScene = SceneManager.GetActiveScene().name;
             switch (level)
             {
                 case 1:
@@ -210,7 +177,7 @@ namespace Assets.Scripts.MainManagers
         /// <returns></returns>
         public int ReturnMapSize()
         {
-            return mapSize;
+            return _mapSize;
         }
 
         /// <summary>
@@ -219,7 +186,7 @@ namespace Assets.Scripts.MainManagers
         /// <returns></returns>
         public Tile ReturnLevelEntry()
         {
-            return _levelEntry;
+            return LevelEntry;
         }
 
 
