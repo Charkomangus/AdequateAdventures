@@ -1,10 +1,9 @@
 ﻿using Assets.Scripts.MainManagers;
-using Assets.Scripts.Tiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Assets
+namespace Assets.Scripts.Managers
 {
     public class AudioManager : MonoBehaviour
     {

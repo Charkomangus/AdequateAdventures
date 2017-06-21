@@ -1,31 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="GameCamera" Collapsed="true">
-    <Position X="2.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Cameras\GameCamera.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="MenuManager" Collapsed="true">
-    <Position X="5.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAACACAAAAAgAAAAAAAgAAAAAAAAAAAAAAAQAAA=</HashCode>
-      <FileName>Assets\Scripts\Managers\MenuManager.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="TranscriptManager" Collapsed="true">
     <Position X="7.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAABADCAAEEAAAIABIAAAIAAEAAAAAAAAAQAAAAA=</HashCode>
       <FileName>Assets\Scripts\Managers\TranscriptManager.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UiManager" Collapsed="true">
-    <Position X="0.5" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAACACACAAACAAAAAAAAAAQEAAAEAAAAAIAQAAA=</HashCode>
-      <FileName>Assets\Scripts\Managers\UiManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Crate" Collapsed="true">
@@ -59,7 +38,7 @@
   <Class Name="Assets.Scripts.MainManagers.GameManager" Collapsed="true">
     <Position X="4" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IIQQAAAIICAAAAWAARCAAwIAAAAGAAFJxEAAAJAAAEA=</HashCode>
+      <HashCode>IAQQAAAAACAAAAQAAQCIAAIgAAIEAAkMwGEAAZCAAEA=</HashCode>
       <FileName>Assets\Scripts\MainManagers\GameManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -70,10 +49,10 @@
       <FileName>Assets\Scripts\MainManagers\StateManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Assets.AudioManager" Collapsed="true">
+  <Class Name="Assets.Scripts.Managers.AudioManager" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABQBgAAgACAAAgAAAAKAAIMCAEAAQAAAAAAAAgEAAAE=</HashCode>
+      <HashCode>AQQDAAAgACAAAoAAAAKAAAMABEAAUAAAgAAAAgAAAAE=</HashCode>
       <FileName>Assets\Scripts\Managers\AudioManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -87,14 +66,14 @@
   <Class Name="Assets.Scripts.MapCreator.MapGenerator" Collapsed="true">
     <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IBAAAAIAAAAAAAQAAAAAAAAAIAAAACAEAFAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAAIAAAAAAAQAAAAAAAAAIAAAACAEAEAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\MapCreator\MapGenerator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Assets.Scripts.MapCreator.TileXml" Collapsed="true">
     <Position X="5.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>DAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAgAAIAAACAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\MapCreator\MapSaveLoad.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -115,36 +94,21 @@
   <Class Name="Assets.Scripts.Player.Player" Collapsed="true">
     <Position X="9.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>kAUCxAAAESAAACBAAAAAAwgQICAAGAAAJgIAAIAAAQA=</HashCode>
+      <HashCode>AAUAUAEAAbABICAAQJAAAAAQIAIAAAGAAAAAAIAAAQA=</HashCode>
       <FileName>Assets\Scripts\Player\Player.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Assets.Scripts.Tiles.PrefabHolder" Collapsed="true">
     <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIEAAAQIAJEQCAAAAAAAAASBAoABAggRAhAQMCAAGQ=</HashCode>
+      <HashCode>AAoAAAAAAAIECLAEAADAAAAAAAIQABAgQAgAAACAIEA=</HashCode>
       <FileName>Assets\Scripts\Tiles\PrefabHolder.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Assets.Scripts.Tiles.Tile" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="4" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AEIQgAAQFiAAFIAQAABAAAEAEBgAggCUKQAEEAAFBCQ=</HashCode>
-      <FileName>Assets\Scripts\Tiles\Tile.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="Assets.Scripts.Utility.ControlInput" Collapsed="true">
-    <Position X="4" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAEAAIAiBAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Utility\ControlInput.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Assets.Scripts.MapCreator.MapCreatorManager" Collapsed="true">
     <Position X="7.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAQEiIKYACYEyiQAAIBgAABEACMQACAgQkgAAACCAGQ=</HashCode>
+      <HashCode>MgQAjIKIACIMySwAFJDgAAIEACMUFCFgQswAAACCCEA=</HashCode>
       <FileName>Assets\Scripts\MapCreator\MapCreatorManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -158,7 +122,7 @@
   <Enum Name="Assets.Scripts.Tiles.TileType" Collapsed="true">
     <Position X="2.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQACAwAAAAAAAAQEBAAAAAAAIMAAQAIAMAAEAAAAA=</HashCode>
+      <HashCode>AAAAACAAAAAACAACQABQAAAAAAAMAAQAAAIAAACAQAA=</HashCode>
       <FileName>Assets\Scripts\Tiles\TileType.cs</FileName>
     </TypeIdentifier>
   </Enum>

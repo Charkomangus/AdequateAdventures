@@ -1,42 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Objects;
 using UnityEngine;
 
-public class UiManager : MonoBehaviour
+namespace Assets.Scripts.Ui
 {
-
-
-    public SignBox signBox;
-    public Sign[] signs;
-    public string[] SignTexts;
-    // Use this for initialization
-    void Start()
+    public class UiManager : MonoBehaviour
     {
-        signBox = GameObject.FindObjectOfType<SignBox>();
-        signs = GameObject.FindObjectsOfType<Sign>();
 
-        for (int i = 0; i < signs.Length; i++)
+
+        public SignBox signBox;
+        public Sign[] signs;
+        public string[] SignTexts;
+        // Use this for initialization
+        void Start()
         {
-            signs[i].SetSignText(SignTexts[i]);
-        }
+            signBox = FindObjectOfType<SignBox>();
+            signs = FindObjectsOfType<Sign>();
+
+
+     
+            for (int i = 0; i < signs.Length; i++)
+            {
+                signs[i].SetSignText(SignTexts[i]);
+            }
         
         
 
      
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        signs = GameObject.FindObjectsOfType<Sign>();
-    }
+        // Update is called once per frame
+        void Update()
+        {
+        }
 
-    public void Open(string text)
-    {
-        signBox.SetTextBoxText(text);
-        signBox.Open(true);
-    }
+        public void Open(string text)
+        {
+            signBox.SetTextBoxText(text);
+            signBox.Open(true);
+        }
+
+
 
     
+    }
 }
     

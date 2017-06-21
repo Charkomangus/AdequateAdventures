@@ -49,6 +49,9 @@ namespace Assets.Scripts.MapCreator
         public Button TileBlocked;
         public Button TileWall;
         public Button TileDoor;
+        public Button TileRedBelt;
+        public Button TileGreenBelt;
+        public Button TileBlueBelt;
         public Button TileNull;
 
         [Header("Tile Flags")]
@@ -67,9 +70,7 @@ namespace Assets.Scripts.MapCreator
         public Button ObjectRedSwitch;
         public Button ObjectGreenSwitch;
         public Button ObjectBlueSwitch;
-        public Button ObjectRedBelt;
-        public Button ObjectGreenBelt;
-        public Button ObjectBlueBelt;
+    
         public Button ObjectNull;
 
         [Header("UI")]
@@ -144,6 +145,9 @@ namespace Assets.Scripts.MapCreator
             TileBlocked.onClick.AddListener(delegate { TileType = TileType.Blocked; });
             TileWall.onClick.AddListener(delegate { TileType = TileType.Wall; });
             TileDoor.onClick.AddListener(delegate { TileType = TileType.Door; });
+            TileRedBelt.onClick.AddListener(delegate { TileType = TileType.RedConveyorBelt; });
+            TileGreenBelt.onClick.AddListener(delegate { TileType = TileType.GreenConveyorBelt; });
+            TileBlueBelt.onClick.AddListener(delegate { TileType = TileType.BlueConveyorBelt; });
             TileNull.onClick.AddListener(delegate { TileType = TileType.Null; });
 
             //Tile Flags
@@ -161,9 +165,7 @@ namespace Assets.Scripts.MapCreator
             ObjectGreenSwitch.onClick.AddListener(delegate { ObjectType = TileObject.GreenSwitch; });
             ObjectBlueSwitch.onClick.AddListener(delegate { ObjectType = TileObject.BlueSwitch; });
 
-            ObjectRedBelt.onClick.AddListener(delegate { ObjectType = TileObject.RedConveyorBelt; });
-            ObjectGreenBelt.onClick.AddListener(delegate { ObjectType = TileObject.GreenConveyorBelt; });
-            ObjectBlueBelt.onClick.AddListener(delegate { ObjectType = TileObject.BlueConveyorBelt; });
+
             ObjectNull.onClick.AddListener(delegate { ObjectType = TileObject.Empty; });
         }
 
@@ -262,7 +264,7 @@ namespace Assets.Scripts.MapCreator
                     tile.transform.parent = _mapTransform;
                     tile.SetPosition(new Vector2(x, y));
                     tile.SetType(TileType.Normal);
-              
+                     tile.SetObject(TileObject.Empty);
                     row.Add(tile);
                 }
                 _map.Add(row);
@@ -296,7 +298,7 @@ namespace Assets.Scripts.MapCreator
                 var row = new List<Tile>();
                 for (var y = 0; y < MapSize; y++) 
                 {
-                    var tile = ((GameObject)Instantiate(PrefabHolder.Instance.BaseTilePrefab, new Vector3(x - Mathf.Floor(MapSize/2f),0, -y + Mathf.Floor(MapSize/2f)), Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
+                    var tile = Instantiate(PrefabHolder.Instance.BaseTilePrefab, new Vector3(x - Mathf.Floor(MapSize/2f),0, -y + Mathf.Floor(MapSize/2f)), Quaternion.Euler(new Vector3())).GetComponent<Tile>();
                     tile.transform.parent = _mapTransform;
                     tile.SetPosition(new Vector2(x, y));
                     var tempTile = container.Tiles.First(position => position.LocationX == x && position.LocationY == y);

@@ -8,9 +8,6 @@
         GreenSwitch,
         RedSwitch,
         BlueSwitch,
-        GreenConveyorBelt,
-        RedConveyorBelt,
-        BlueConveyorBelt,
         Empty
     }
 }

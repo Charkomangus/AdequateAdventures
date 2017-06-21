@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224967248053738220}
   - component: {fileID: 212227929496576910}
   - component: {fileID: 222958410350852460}
+  - component: {fileID: 114934440755036624}
   m_Layer: 0
   m_Name: SlidingBox
   m_TagString: Object
@@ -28,6 +29,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114934440755036624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471259964504928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4346f5b7ddec044b32df8134a894ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parentTile: {fileID: 0}
 --- !u!212 &212227929496576910
 SpriteRenderer:
   m_ObjectHideFlags: 1

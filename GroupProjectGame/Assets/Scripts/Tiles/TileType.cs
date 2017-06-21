@@ -9,6 +9,9 @@
         Fire,
         IceCracks,
         Door,
+        GreenConveyorBelt,
+        RedConveyorBelt,
+        BlueConveyorBelt,
         Null
     }
 }

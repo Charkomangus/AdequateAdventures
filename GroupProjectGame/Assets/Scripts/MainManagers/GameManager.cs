@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
 using Assets.Scripts.Tiles;
+using Assets.Scripts.Ui;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -91,7 +93,8 @@ namespace Assets.Scripts.MainManagers
         public void StartLevel()
         {
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
-            _mapGenerator.LoadMapFromXml("LevelMap" + CurrentLevel +"_"+ CurrentAct);
+           // _mapGenerator.LoadMapFromXml("LevelMap" + CurrentLevel +"_"+ CurrentAct);
+            _mapGenerator.LoadMapFromXml("test");
             _map = Instance.GetComponent<MapGenerator>().ReturnMap();
             _mapSize = Instance.GetComponent<MapGenerator>().ReturnMapSize();
             FindLevelEntry();

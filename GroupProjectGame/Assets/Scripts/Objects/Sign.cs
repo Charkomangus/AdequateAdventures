@@ -1,33 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Sign : MonoBehaviour
+namespace Assets.Scripts.Objects
 {
-
-
-    [SerializeField] private string SignText;
-
-    // Use this for initialization
-    void Start()
+    public class Sign : MonoBehaviour
     {
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        [SerializeField] private string SignText;
 
-    }
+        // Use this for initialization
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
 
 
-    public string ReturnSignText()
-    {
-        return SignText;
-    }
+        public string ReturnSignText()
+        {
+            return SignText;
+        }
     
-    public void SetSignText(string text)
-    {
-        SignText = text;
+        public void SetSignText(string text)
+        {
+            SignText = text;
+        }
     }
 }

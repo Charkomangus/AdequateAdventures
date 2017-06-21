@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tiles
 {
-    public class Tile : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
+    public class Tile : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler
     {
         [SerializeField] private TileType _type = TileType.Normal;
         [SerializeField] private TileObject _object = TileObject.Empty;
@@ -17,7 +17,6 @@ namespace Assets.Scripts.Tiles
         private GameObject _tilePrefab, _objectPrefab;
         private GameObject _currentType, _currentObject;
         private string _currentScene;
-
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
 
@@ -28,7 +27,7 @@ namespace Assets.Scripts.Tiles
         {
             name = _type + " Tile";
             _currentScene = SceneManager.GetActiveScene().name;
-
+            GenerateNewObject();
             switch (_currentScene)
             {
                 case "Level1":
@@ -36,23 +35,31 @@ namespace Assets.Scripts.Tiles
                     List<List<Tile>> map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
                     int mapSize = GameManager.Instance.GetComponent<MapGenerator>().ReturnMapSize();
                     GenerateNeighbors(map, mapSize);
-                    GetComponentInChildren<TextMesh>().gameObject.SetActive(false);
-                }
+                    GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
+                    ShowFlags();
+                    }
                     break;
+                //Level creator
                 case "MapCreatorScene":
                 {
                     List<List<Tile>> map = GetComponentInParent<MapCreatorManager>().ReturnMap();
                     int mapSize = GetComponentInParent<MapCreatorManager>().ReturnMapSize();
                     GenerateNeighbors(map, mapSize);
-                    //Level creator
+                    
+                    //Show flags as text
                     GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
                     ShowFlags();
                 }
                     break;
             }
+            ShowFlags();
 
         }
 
+        void Update()
+        {
+          
+        }
 
         private void ShowFlags()
         {
@@ -154,6 +161,18 @@ namespace Assets.Scripts.Tiles
                     _blocked = true;
                     _tilePrefab = PrefabHolder.Instance.TileDoor;
                     break;
+                case TileType.GreenConveyorBelt:
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.GreenBelt;
+                    break;
+                case TileType.RedConveyorBelt:
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.RedBelt;
+                    break;
+                case TileType.BlueConveyorBelt:
+                    _blocked = false;
+                    _tilePrefab = PrefabHolder.Instance.BlueBelt;
+                    break;
                 case TileType.Null:
                     _blocked = true;
                     _tilePrefab = PrefabHolder.Instance.TileNull;
@@ -198,32 +217,21 @@ namespace Assets.Scripts.Tiles
                     _blocked = true;
                     _objectPrefab = PrefabHolder.Instance.BlueSwitch;
                     break;
-                case TileObject.GreenConveyorBelt:
-                    _blocked = false;
-                    _objectPrefab = PrefabHolder.Instance.GreenBelt;
-                    break;
-                case TileObject.RedConveyorBelt:
-                    _blocked = false;
-                    _objectPrefab = PrefabHolder.Instance.RedBelt;
-                    break;
-                case TileObject.BlueConveyorBelt:
-                    _blocked = false;
-                    _objectPrefab = PrefabHolder.Instance.BlueBelt;
-                    break;
                 case TileObject.Empty:
                     _objectPrefab = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Object", Object, null);
             }
-            GenerateObject();
+         
+
+
         }
 
 
         //Generate a tiles objects
-        public void GenerateObject()
+        public void GenerateNewObject()
         {
-
             var container = transform.FindChild("Objects").gameObject;
             //initially remove all children
             for (var i = 0; i < container.transform.childCount; i++)
@@ -232,9 +240,21 @@ namespace Assets.Scripts.Tiles
             }
             if (_objectPrefab == null) return;
             var newObject = Instantiate(_objectPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
-            newObject.transform.localScale = new Vector3(1, 1, 1);
             newObject.transform.SetParent(container.transform);
-            newObject.transform.localPosition = new Vector3(0, 0, 0);
+            _currentObject = newObject;
+        }
+
+        //Generate a tiles objects
+        public void GenerateObject(GameObject newObject)
+        {
+            var container = transform.FindChild("Objects").gameObject;
+            //initially remove all children
+            for (var i = 0; i < container.transform.childCount; i++)
+            {
+                Destroy(container.transform.GetChild(i).gameObject);
+            }
+            if (_objectPrefab == null) return;
+            newObject.transform.SetParent(container.transform);
             _currentObject = newObject;
         }
 
@@ -257,6 +277,7 @@ namespace Assets.Scripts.Tiles
             _currentType = newType;
         }
 
+        
         public void OnPointerClick(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
@@ -268,6 +289,7 @@ namespace Assets.Scripts.Tiles
                     if (Input.GetMouseButton(0))
                     {
                         SetType(MapCreatorManager.Instance.TileType);
+                          
                     }
                     else if (Input.GetMouseButton(1))
                     {
@@ -280,12 +302,14 @@ namespace Assets.Scripts.Tiles
                     if (Input.GetMouseButton(0))
                     {
                         SetObject(MapCreatorManager.Instance.ObjectType);
-                    }
+                   
+                        }
                     else if (Input.GetMouseButton(1))
                     {
                         SetObject(TileObject.Empty);
                     }
-                }
+                    GenerateNewObject();
+                    }
                     break;
                 case PlacingStatus.Flag:
                 {
@@ -327,12 +351,12 @@ namespace Assets.Scripts.Tiles
                     }
 
                     ShowFlags();
-                }
                     break;
+                }
             }
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
 
@@ -354,13 +378,14 @@ namespace Assets.Scripts.Tiles
                 {
                     if (Input.GetMouseButton(0))
                     {
-                        SetObject(MapCreatorManager.Instance.ObjectType);
-                    }
+                       SetObject(MapCreatorManager.Instance.ObjectType);
+                        }
                     else if (Input.GetMouseButton(1))
                     {
                         SetObject(TileObject.Empty);
                     }
-                }
+                    GenerateNewObject();
+                    }
                     break;
                 case PlacingStatus.Flag:
                 {
@@ -399,8 +424,89 @@ namespace Assets.Scripts.Tiles
                         _puzzleEntry = false;
                         _puzzleComplete = false;
                     }
+                    ShowFlags();
+                        break;
+                }
+                    
+            }
+        }
+
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
+
+            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
+            {
+                case PlacingStatus.Type:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetType(MapCreatorManager.Instance.TileType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetType(TileType.Normal);
+                    }
                 }
                     break;
+                case PlacingStatus.Object:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetObject(MapCreatorManager.Instance.ObjectType);
+                        
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetObject(TileObject.Empty);
+
+                    }
+                    GenerateNewObject();
+                    }
+                    break;
+                case PlacingStatus.Flag:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        switch (MapCreatorManager.Instance.TileFlag)
+                        {
+                            case "Entry":
+                                _entry = true;
+                                GetComponentInChildren<TextMesh>().text = "ENTRY";
+                                break;
+                            case "Exit":
+                                _exit = true;
+                                GetComponentInChildren<TextMesh>().text = "EXIT";
+                                break;
+                            case "PuzzleEntry":
+                                _puzzleEntry = true;
+                                GetComponentInChildren<TextMesh>().text = "PE";
+                                break;
+                            case "PuzzleComplete":
+                                _puzzleComplete = true;
+                                GetComponentInChildren<TextMesh>().text = "PC";
+                                break;
+                            case "DeleteFlag":
+                                _entry = false;
+                                _exit = false;
+                                _puzzleEntry = false;
+                                _puzzleComplete = false;
+                                break;
+                        }
+                    
+                        }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        _entry = false;
+                        _exit = false;
+                        _puzzleEntry = false;
+                        _puzzleComplete = false;
+                    }
+                    ShowFlags();
+                        break;
+                    }
+                   
             }
         }
         #region Sets & Returns
@@ -462,6 +568,14 @@ namespace Assets.Scripts.Tiles
             return _currentType;
         }
 
+        /// <summary>
+        /// Return The tiles render Type
+        /// </summary>
+        /// <returns></returns>
+        public GameObject ReturnCurrentObject()
+        {
+            return _currentObject;
+        }
 
 
         /// <summary>
@@ -598,5 +712,6 @@ namespace Assets.Scripts.Tiles
             return "Null";
         }
         #endregion
+
     }
 }

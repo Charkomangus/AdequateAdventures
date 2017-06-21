@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using Assets.Scripts.MainManagers;
+using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
 using Assets.Scripts.Utility;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace Assets.Scripts.Player
 
 
         private bool initialized;
-      
+        private int direction;
    
     
 
@@ -111,7 +112,23 @@ namespace Assets.Scripts.Player
                     _parentTile = GameManager.Instance.ReturnLevelEntry();
                     transform.position = _parentTile.transform.position;
                     break;
-               
+
+                case TileType.Blocked:
+                    break;
+                case TileType.Wall:
+                    break;
+                case TileType.Door:
+                    break;
+                case TileType.GreenConveyorBelt:
+                    break;
+                case TileType.RedConveyorBelt:
+                    break;
+                case TileType.BlueConveyorBelt:
+                    break;
+                case TileType.Null:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -128,34 +145,53 @@ namespace Assets.Scripts.Player
 
         private void Interact()
         {
-            Debug.Log("Interacting with " + _latestTile.ReturnObject());
+        
+            TileObject Object = _latestTile.ReturnObject();
+            Debug.Log("Interacting with " + Object);
 
-            switch (_latestTile.ReturnObject())
+            switch (Object)
             {
                 case TileObject.Box:
-                    if(_latestTile == _parentTile.ReturnNorth())
-                        _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnNorth());
-                    else if (_latestTile == _parentTile.ReturnSouth())
-                        _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnSouth());
-                    else if(_latestTile == _parentTile.ReturnEast())
-                        _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnEast());
-                    else if(_latestTile == _parentTile.ReturnWest())
-                        _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnWest());
-
+                    switch (direction) 
+                    {
+                        case 0:
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnNorth(), direction);
+                            break;
+                        case 1:
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnSouth(), direction);
+                            break;
+                        case 2:
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnEast(), direction);
+                            break;
+                        case 3:
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnWest(), direction);
+                            break;
+                    }
                     break;
+
                 case TileObject.SlidingBox:
+                    switch (direction)
+                    {
+                        case 0:
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnNorth(), direction);
+                            break;
+                        case 1:
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnSouth(), direction);
+                            break;
+                        case 2:
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnEast(), direction);
+                            break;
+                        case 3:
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnWest(), direction);
+                            break;
+                    }
+                    break;
                     break;
                 case TileObject.GreenSwitch:
                     break;
                 case TileObject.RedSwitch:
                     break;
                 case TileObject.BlueSwitch:
-                    break;
-                case TileObject.GreenConveyorBelt:
-                    break;
-                case TileObject.RedConveyorBelt:
-                    break;
-                case TileObject.BlueConveyorBelt:
                     break;
                 case TileObject.Empty:
                     break;
@@ -189,18 +225,18 @@ namespace Assets.Scripts.Player
             {
                 _parentTile = destination;
                 _moving = true;
-                switch (_playerMoveState) //TEMP
+                switch (direction) 
                 {
-                    case PlayerMoveState.Up:
+                    case 0:
                         _latestTile = destination.ReturnNorth();
                         break;
-                    case PlayerMoveState.Down:
+                    case 1:
                         _latestTile = destination.ReturnSouth();
                         break;
-                    case PlayerMoveState.Right:
+                    case 2:
                         _latestTile = destination.ReturnEast();
                         break;
-                    case PlayerMoveState.Left:
+                    case 3:
                         _latestTile = destination.ReturnWest();
                         break;
                 }
@@ -232,21 +268,25 @@ namespace Assets.Scripts.Player
                 case PlayerMoveState.Up:
 
                     DetermineAnimationStatus("Up");
+                    direction = 0;
                     Move(_parentTile.ReturnNorth());
                     break;
 
                 case PlayerMoveState.Down:
                     DetermineAnimationStatus("Down");
+                    direction = 1;
                     Move(_parentTile.ReturnSouth());
                     break;
 
                 case PlayerMoveState.Right:
                     DetermineAnimationStatus("Right");
+                    direction = 2;
                     Move(_parentTile.ReturnEast());
                     break;
 
                 case PlayerMoveState.Left:
                     DetermineAnimationStatus("Left");
+                    direction = 3;
                     Move(_parentTile.ReturnWest());
                     break;
 

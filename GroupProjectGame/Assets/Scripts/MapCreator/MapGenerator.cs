@@ -42,7 +42,7 @@ namespace Assets.Scripts.MapCreator
         /// <summary>
         /// Load a map from an XML file
         /// </summary>
-        /// <param name="level"></param>
+        /// <param name="name"></param>
         public void LoadMapFromXml(string name)
         {
 

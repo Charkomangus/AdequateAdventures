@@ -16,6 +16,9 @@ namespace Assets.Scripts.Tiles
         public GameObject TileBlocked;
         public GameObject TileWall;
         public GameObject TileDoor;
+        public GameObject RedBelt;
+        public GameObject GreenBelt;
+        public GameObject BlueBelt;
         public GameObject TileNull;
 
         [Header("Tile Objects")]
@@ -25,9 +28,7 @@ namespace Assets.Scripts.Tiles
         public GameObject RedSwitch;
         public GameObject GreenSwitch;
         public GameObject BlueSwitch;
-        public GameObject RedBelt;
-        public GameObject GreenBelt;
-        public GameObject BlueBelt;
+      
 
    
         private void Awake()
