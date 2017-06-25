@@ -19,6 +19,7 @@ namespace Assets.Scripts.MainManagers
         public UiManager UiManager;
         private StateManager _stateManager;
         private MapGenerator _mapGenerator;
+        public PuzzleManager PuzzleManager;
         public Transform MapTransform;
         private int _mapSize;
         private List<List<Tile>> _map;
@@ -42,12 +43,8 @@ namespace Assets.Scripts.MainManagers
             Instance = this;
             _stateManager = StateManager.Instance;
             _stateManager.OnStateChange += HandleOnStateChange;
-
             CurrentScene = SceneManager.GetActiveScene().name;
-
-          
-            AudioManager = GetComponentInChildren<AudioManager>();
-         
+          AudioManager = GetComponentInChildren<AudioManager>();
             _mapGenerator = GetComponent<MapGenerator>();
             
         }
@@ -57,7 +54,7 @@ namespace Assets.Scripts.MainManagers
         {
             if (CurrentScene == "Level1")
             {
-                UiManager = FindObjectOfType<UiManager>();
+               
                 StartLevel();
               
             }
@@ -92,19 +89,22 @@ namespace Assets.Scripts.MainManagers
 
         public void StartLevel()
         {
+            UiManager = FindObjectOfType<UiManager>();
+            PuzzleManager = FindObjectOfType<PuzzleManager>();
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
-           // _mapGenerator.LoadMapFromXml("LevelMap" + CurrentLevel +"_"+ CurrentAct);
-            _mapGenerator.LoadMapFromXml("test");
+            _mapGenerator.LoadMapFromXml("LevelMap" + CurrentLevel +"_"+ CurrentAct);
+           // _mapGenerator.LoadMapFromXml("test");
             _map = Instance.GetComponent<MapGenerator>().ReturnMap();
             _mapSize = Instance.GetComponent<MapGenerator>().ReturnMapSize();
+            PuzzleManager.Initialize();
             FindLevelEntry();
             Player = FindObjectOfType<Player.Player>();
             Player.InitializePlayer();
 
         }
-    
 
-   
+
+
 
         // Update is called once per frame
         void Update () {       

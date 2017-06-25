@@ -54,6 +54,9 @@ TagManager:
   - name: EnviromentArt
     uniqueID: 2363283121
     locked: 0
+  - name: Belts
+    uniqueID: 2771220559
+    locked: 0
   - name: Objects
     uniqueID: 3111630997
     locked: 0

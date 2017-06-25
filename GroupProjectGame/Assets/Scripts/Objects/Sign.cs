@@ -5,7 +5,7 @@ namespace Assets.Scripts.Objects
     public class Sign : MonoBehaviour
     {
 
-
+      
         [SerializeField] private string SignText;
 
         // Use this for initialization
@@ -30,5 +30,6 @@ namespace Assets.Scripts.Objects
         {
             SignText = text;
         }
+       
     }
 }

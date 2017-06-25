@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Player
 {
+    //Player animation state
     enum PlayerMoveState
     {
         Up, Down, Right, Left, Idle, UpPush, DownPush, RightPush, LeftPush
@@ -37,17 +38,12 @@ namespace Assets.Scripts.Player
         [SerializeField]private bool _moving;
 
 
-        private bool initialized;
-        private int direction;
+        private bool _initialized;
+        //Int to indicate direction 0 is North, 1 is South, 2 is East, 3 is West
+        private int _direction;
    
     
-
         // Use this for initialization
-        void Start ()
-        {
-          
-        }
-
         public void InitializePlayer()
         {
             _playerAnimator = GetComponent<Animator>();
@@ -59,15 +55,17 @@ namespace Assets.Scripts.Player
             _normalSpeed = _moveSpeed;
             _slidingSpeed = _moveSpeed * 2;
            
-            initialized = true;
+            _initialized = true;
         }
 	
         // Update is called once per frame
         void Update()
         {
-            if (_parentTile == null || !initialized) return;
+            //If the player has not been yet initalised or hasd no valid parent tile return
+            if (_parentTile == null || !_initialized) return;
 
-            Determine();
+            DetermineMovement();
+            //If the player is close to the parent tile speed them up and read further input
             if (HasReachedTile())
             {
                 SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
@@ -84,51 +82,102 @@ namespace Assets.Scripts.Player
             {
                 _latestTile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
             }
-          
+
+      
         }
 
 
-        private void Determine()
+        //Determines what happens depending on ther type of tile the player is on
+        private void DetermineMovement()
         {
             switch (_parentTile.ReturnType())
             {
+                //Player slides on the oil
                 case TileType.Oil:
                     _sliding = true;
                     _moveSpeed = _slidingSpeed;
+                  
                     break;
+                //Player slides on the ice
                 case TileType.Ice:
                     _sliding = true;
                     _moveSpeed = _slidingSpeed;
+                   
                     break;
+                //No special movement
                 case TileType.Normal:
                     _sliding = false;
                     _moveSpeed = _normalSpeed;
                     break;
+                //Player spawns at puzzle entry
                 case TileType.Fire:
                     _parentTile = GameManager.Instance.ReturnLevelEntry();
                     transform.position = _parentTile.transform.position;
                     break;
+                //Player spawns at puzzle entry
                 case TileType.IceCracks:
                     _parentTile = GameManager.Instance.ReturnLevelEntry();
                     transform.position = _parentTile.transform.position;
                     break;
 
+                //Player slides on belt
+                case TileType.GreenConveyorBelt:
+                    _sliding = true;
+                    var greenBelt = _parentTile.GetComponentInChildren<ConveyorBelt>();
+                    _moveSpeed = greenBelt.ReturnSpeed();
+                    DetermineDirection(greenBelt.ReturnDirection());
+                    break;
+                //Player slides on belt
+                case TileType.RedConveyorBelt:
+                    _sliding = true;
+                    var redBelt = _parentTile.GetComponentInChildren<ConveyorBelt>();
+                    _moveSpeed = redBelt.ReturnSpeed();
+                    DetermineDirection(redBelt.ReturnDirection());
+                    break;
+                //Player slides on belt
+                case TileType.BlueConveyorBelt:
+                    _sliding = true;
+                    var blueBelt = _parentTile.GetComponentInChildren<ConveyorBelt>();
+                    _moveSpeed = blueBelt.ReturnSpeed();
+                    DetermineDirection(blueBelt.ReturnDirection());
+                    break;
                 case TileType.Blocked:
                     break;
                 case TileType.Wall:
                     break;
                 case TileType.Door:
                     break;
-                case TileType.GreenConveyorBelt:
-                    break;
-                case TileType.RedConveyorBelt:
-                    break;
-                case TileType.BlueConveyorBelt:
-                    break;
                 case TileType.Null:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void DetermineDirection(int direction)
+        {
+            switch (direction)
+            {
+                case 0:
+                    _playerMoveState = PlayerMoveState.Up;
+                        if(_moving)
+                    _playerAnimator.Play("PlayerUpIdle");
+                    break;
+                case 1:
+                    _playerMoveState = PlayerMoveState.Down;
+                    if (_moving)
+                        _playerAnimator.Play("PlayerDownIdle");
+                    break;
+                case 2:
+                    _playerMoveState = PlayerMoveState.Left;
+                    if (_moving)
+                        _playerAnimator.Play("PlayerLeftIdle");
+                    break;
+                case 3:
+                    _playerMoveState = PlayerMoveState.Right;
+                    if (_moving)
+                        _playerAnimator.Play("PlayerRightIdle");
+                    break;
             }
         }
 
@@ -143,6 +192,7 @@ namespace Assets.Scripts.Player
             return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 0.6f && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 0.6f;
         }
 
+        //DetermineMovement what the player will do depending on which tile they are intercating with
         private void Interact()
         {
         
@@ -151,81 +201,91 @@ namespace Assets.Scripts.Player
 
             switch (Object)
             {
+                //Push box in the apropriate direction
                 case TileObject.Box:
-                    switch (direction) 
+                    switch (_direction) 
                     {
                         case 0:
-                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnNorth(), direction);
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnNorth(), _direction);
                             break;
                         case 1:
-                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnSouth(), direction);
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnSouth(), _direction);
                             break;
                         case 2:
-                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnEast(), direction);
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnEast(), _direction);
                             break;
                         case 3:
-                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnWest(), direction);
+                            _latestTile.GetComponentInChildren<Box>().SetParentTile(_latestTile.ReturnWest(), _direction);
                             break;
                     }
                     break;
 
+                //Push sliding box in the apropriate direction
                 case TileObject.SlidingBox:
-                    switch (direction)
+                    switch (_direction)
                     {
                         case 0:
-                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnNorth(), direction);
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnNorth(), _direction);
                             break;
                         case 1:
-                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnSouth(), direction);
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnSouth(), _direction);
                             break;
                         case 2:
-                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnEast(), direction);
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnEast(), _direction);
                             break;
                         case 3:
-                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnWest(), direction);
+                            _latestTile.GetComponentInChildren<SlidingBox>().SetParentTile(_latestTile.ReturnWest(), _direction);
                             break;
                     }
                     break;
-                    break;
+
+                //Change direction of green conveyor belts
                 case TileObject.GreenSwitch:
+                    _latestTile.GetComponentInChildren<Switch>().FlipSwitch();
                     break;
+
+                //Change direction of red conveyor belts
                 case TileObject.RedSwitch:
+                    _latestTile.GetComponentInChildren<Switch>().FlipSwitch();
                     break;
+
+                //Change direction of blue conveyor belts
                 case TileObject.BlueSwitch:
+                    _latestTile.GetComponentInChildren<Switch>().FlipSwitch();
                     break;
-                case TileObject.Empty:
-                    break;
+
+                //Open text box with apropriate message
                 case TileObject.Sign:
                     GameManager.Instance.UiManager.Open(_latestTile.GetComponentInChildren<Sign>().ReturnSignText());
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                
+                //Do nothing
+                case TileObject.Empty:
+                    break;
             }
         }
 
         //Determine if this tile can be moved into
-        private bool IsValidTile(Tile tile)
+        private static bool IsValidTile(Tile tile)
         {
-
             if (tile == null)
                 return false;
-
-            if (tile.IsBlocked())
-            {
-              
-                return false;
-            }
-          
-            return true;
+            return !tile.IsBlocked();
         }
 
+        //Check if movement should happen to the tile and set whcih tile the player is directly looking at
         private void Move(Tile destination)
         {
             if (IsValidTile(destination))
             {
+                //Treat the tile the player is on as a blocked tile
+                _parentTile.SetBlocked(false);
                 _parentTile = destination;
+                _parentTile.SetBlocked(true);
                 _moving = true;
-                switch (direction) 
+
+                //Depending on the direction facing save which tile the player is looking at
+                switch (_direction) 
                 {
                     case 0:
                         _latestTile = destination.ReturnNorth();
@@ -244,11 +304,13 @@ namespace Assets.Scripts.Player
             }
             else
             {
+                //If the tile is blocked make it the tile being looked at
                 _latestTile = destination;
                 _moving = false;
             }
         }
 
+        //Set animation if player is not sliding
         private void DetermineAnimationStatus(string trigger)
         {
             if (_sliding && _moving)
@@ -256,9 +318,7 @@ namespace Assets.Scripts.Player
                return;
             }
             _playerAnimator.SetTrigger(trigger);
-           
         }
-
 
         //Determing what happens depending on the player input and position 
         private void DetermineMoveState()
@@ -268,25 +328,25 @@ namespace Assets.Scripts.Player
                 case PlayerMoveState.Up:
 
                     DetermineAnimationStatus("Up");
-                    direction = 0;
+                    _direction = 0;
                     Move(_parentTile.ReturnNorth());
                     break;
 
                 case PlayerMoveState.Down:
                     DetermineAnimationStatus("Down");
-                    direction = 1;
+                    _direction = 1;
                     Move(_parentTile.ReturnSouth());
                     break;
 
                 case PlayerMoveState.Right:
                     DetermineAnimationStatus("Right");
-                    direction = 2;
+                    _direction = 2;
                     Move(_parentTile.ReturnEast());
                     break;
 
                 case PlayerMoveState.Left:
                     DetermineAnimationStatus("Left");
-                    direction = 3;
+                    _direction = 3;
                     Move(_parentTile.ReturnWest());
                     break;
 
@@ -297,15 +357,15 @@ namespace Assets.Scripts.Player
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-         
         }
 
+        //Controls what player input will do to the character
         void PlayerInput()
         {
             //A player cannot act if they are currently sliding
             if (_sliding && _moving) return;
 
-            //
+            //Interact with objects
             if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
             {
                 Interact();
@@ -313,53 +373,35 @@ namespace Assets.Scripts.Player
 
             //If none of the movement keys are pressed the player is assumed to be idle.
             if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) &&
-                !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.UpArrow) &&
-                !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) &&
+                !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) &&
                 !Input.GetKey(KeyCode.DownArrow) && HasReachedTile())
             {
                 _playerMoveState = PlayerMoveState.Idle;
                 return;
             }
 
-
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-            {
-             
                 _playerMoveState = PlayerMoveState.Up;
-             
-
-            }
 
             else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            {
-            
                 _playerMoveState = PlayerMoveState.Down;
-               
-            }
 
             else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-
-               
                 _playerMoveState = PlayerMoveState.Left;
-              
-            }
 
             else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                
-                _playerMoveState = PlayerMoveState.Right;
-               
-            }
+            _playerMoveState = PlayerMoveState.Right;
         }
 
 
+        //Set the players parent tile
         public void SetParentTile(Tile tile)
         {
             _parentTile = tile;
           
         }
 
+        //Return true if the player is moving
         public bool IsMoving()
         {
             return _moving;

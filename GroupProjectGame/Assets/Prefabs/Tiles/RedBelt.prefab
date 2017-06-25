@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224855502700357686}
   - component: {fileID: 212997908390545034}
   - component: {fileID: 222402325157432446}
+  - component: {fileID: 114011980035045158}
   m_Layer: 0
   m_Name: RedBelt
   m_TagString: Object
@@ -28,6 +29,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114011980035045158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1372820762686430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a4ef1f4f9088f41b4ced471ebc4b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _direction: 0
+  _tileType: 9
+  _speed: 4
 --- !u!212 &212997908390545034
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -57,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1523746737
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8fdeb33538f6f69418546c4ddaa96584, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

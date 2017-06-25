@@ -7814,6 +7814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827523616}
   - component: {fileID: 1827523615}
+  - component: {fileID: 1827523617}
   m_Layer: 0
   m_Name: MapCreatorManager
   m_TagString: Untagged
@@ -7894,6 +7895,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1827523617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1827523614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a400c3fe7381e84d8ae3aad75d660f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _conveyorBelts: []
+  _redConveyorBelts: []
+  _greenConveyorBelts: []
+  _blueConveyorBelts: []
 --- !u!1 &1873650832
 GameObject:
   m_ObjectHideFlags: 0
