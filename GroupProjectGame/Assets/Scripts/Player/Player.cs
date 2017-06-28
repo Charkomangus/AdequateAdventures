@@ -25,7 +25,7 @@ namespace Assets.Scripts.Player
         [Header("Tiles")]
         [SerializeField]private Tile _parentTile;
         [SerializeField]private Tile _latestTile;
-
+        [SerializeField]private Tile _currentPuzzleTile;
 
         [Header("Movement")]
         [SerializeField]private PlayerMoveState _playerMoveState;
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Player
         [Header("Status")]
         [SerializeField]private bool _sliding;
         [SerializeField]private bool _moving;
-
+        [SerializeField]private bool _endedLevel;
 
         private bool _initialized;
         //Int to indicate direction 0 is North, 1 is South, 2 is East, 3 is West
@@ -50,19 +50,34 @@ namespace Assets.Scripts.Player
             _playerMoveState = PlayerMoveState.Idle;
 
             //Start at entry tile - if it's null pick one at random.
-            _parentTile = GameManager.Instance.ReturnLevelEntry() ?? FindObjectOfType<Tile>();
+            _parentTile = DetermingStartingTile();
+
             transform.position = new Vector3(_parentTile.transform.position.x, transform.position.y, _parentTile.transform.position.z);
-            _normalSpeed = _moveSpeed;
+          
+            _moveSpeed = _normalSpeed;
             _slidingSpeed = _moveSpeed * 2;
-           
+            _sliding = false;
+            _moving = false;
+            _endedLevel = false;
             _initialized = true;
         }
-	
+
+        //Start at entry tile - if it's null pick one at random.
+        public Tile DetermingStartingTile()
+        {
+           
+          return GameManager.Instance.ReturnLevelEntry() ?? FindObjectOfType<Tile>();
+        }
+
         // Update is called once per frame
         void Update()
         {
+            
             //If the player has not been yet initalised or hasd no valid parent tile return
             if (_parentTile == null || !_initialized) return;
+
+
+
 
             DetermineMovement();
             //If the player is close to the parent tile speed them up and read further input
@@ -78,12 +93,12 @@ namespace Assets.Scripts.Player
             }
 
             //DEBUG - TEMP
-            if (_latestTile != null)
-            {
-                _latestTile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-            }
+            //if (_latestTile != null)
+            //{
+            //    _latestTile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
+            //}
 
-      
+
         }
 
 
@@ -111,11 +126,13 @@ namespace Assets.Scripts.Player
                     break;
                 //Player spawns at puzzle entry
                 case TileType.Fire:
+                    _parentTile.SetBlocked(false);
                     _parentTile = GameManager.Instance.ReturnLevelEntry();
                     transform.position = _parentTile.transform.position;
                     break;
                 //Player spawns at puzzle entry
                 case TileType.IceCracks:
+                    _parentTile.SetBlocked(false);
                     _parentTile = GameManager.Instance.ReturnLevelEntry();
                     transform.position = _parentTile.transform.position;
                     break;
@@ -195,8 +212,9 @@ namespace Assets.Scripts.Player
         //DetermineMovement what the player will do depending on which tile they are intercating with
         private void Interact()
         {
-        
+            if(_latestTile == null) return;
             TileObject Object = _latestTile.ReturnObject();
+          
             Debug.Log("Interacting with " + Object);
 
             switch (Object)
@@ -273,11 +291,25 @@ namespace Assets.Scripts.Player
             return !tile.IsBlocked();
         }
 
+        private void DetermineFlagsEncountered(Tile tile)
+        {
+            if (tile.IsPuzzleEntry() || tile.IsPuzzleComplete())
+                _currentPuzzleTile = tile;
+            if (tile.IsExit())
+            {
+                GameManager.Instance.UiManager.SetFade(false);
+                GameManager.Instance.NextLevelDebug();
+                
+            }
+
+        }
+
         //Check if movement should happen to the tile and set whcih tile the player is directly looking at
         private void Move(Tile destination)
         {
             if (IsValidTile(destination))
             {
+                DetermineFlagsEncountered(destination);
                 //Treat the tile the player is on as a blocked tile
                 _parentTile.SetBlocked(false);
                 _parentTile = destination;
@@ -315,9 +347,15 @@ namespace Assets.Scripts.Player
         {
             if (_sliding && _moving)
             {
-               return;
+                _playerAnimator.Play("Player" + trigger + "Idle");
+                return;
             }
-            _playerAnimator.SetTrigger(trigger);
+            _playerAnimator.Play("Player" + trigger +"Animation");
+
+            //DEPRECIATED FEATURE
+            //There is a separate animation system using Unity's mechanim via triggers. This has been abandonded because the visual aspect
+            //was not expansion friendly and the transitions of animations did not line up well. It has been kept in for legacy purposes.
+            //  _playerAnimator.SetTrigger(trigger);
         }
 
         //Determing what happens depending on the player input and position 
@@ -362,6 +400,13 @@ namespace Assets.Scripts.Player
         //Controls what player input will do to the character
         void PlayerInput()
         {
+            //If the level is ending stop all input and set player to idle
+            if (_endedLevel)
+            {
+                _playerMoveState = PlayerMoveState.Idle;
+                return;
+            }
+
             //A player cannot act if they are currently sliding
             if (_sliding && _moving) return;
 

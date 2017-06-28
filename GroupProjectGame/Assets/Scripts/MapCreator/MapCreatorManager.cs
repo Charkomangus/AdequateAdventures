@@ -36,6 +36,7 @@ namespace Assets.Scripts.MapCreator
         public Button Load;
         public Button NewMap;
         public Button ClearMap;
+        public Button Overlay;
         public Button Types, Flags, Objects;
 
      
@@ -60,6 +61,10 @@ namespace Assets.Scripts.MapCreator
         public Button TileExit;
         public Button PuzzleEntry;
         public Button PuzzleComplete;
+        public Button North;
+        public Button South;
+        public Button West;
+        public Button East;
         public Button FlagNull;
 
         [Header("Tile Objects")]
@@ -83,6 +88,9 @@ namespace Assets.Scripts.MapCreator
         private string _oldCurrentLevel;
         public Animator MapNotification;
 
+        public SpriteRenderer _overlay;
+        private Sprite _overlaySprite;
+        private string _overlayMap;
         //CAMERA
         private MapCreatorCamera _mainCamera;
 
@@ -103,11 +111,12 @@ namespace Assets.Scripts.MapCreator
 
 
             //UI buttons
-            ClearMap.onClick.AddListener(delegate { GenerateBlankMap(MapSize); });
+            ClearMap.onClick.AddListener(delegate { GenerateBlankMap(MapSize); SetOverlay(""); });
             SaveName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
             SaveName.onEndEdit.AddListener(delegate
             {
                 NewMapNotification(SaveName.text, 0);
+                SetOverlay(SaveName.text);
                 _mainCamera.Enabled = true;
                 SaveName.gameObject.SetActive(false);
                 SaveMapToXml(SaveName.text);
@@ -118,8 +127,10 @@ namespace Assets.Scripts.MapCreator
             {
                 _mainCamera.Enabled = true;
                 NewMapNotification(LoadName.text, 1);
+                SetOverlay(LoadName.text);
                 LoadName.gameObject.SetActive(false);
                 LoadMapFromXml(LoadName.text);
+              
             });
 
             NewMapSize.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
@@ -128,8 +139,11 @@ namespace Assets.Scripts.MapCreator
                 _mainCamera.Enabled = true;
                 NewMapSize.gameObject.SetActive(false);
                 NewMapNotification(NewMapSize.text, 2);
+                SetOverlay("");
                 NewMapInput(NewMapSize);
             });
+
+            Overlay.onClick.AddListener(delegate { _overlay.gameObject.SetActive(!_overlay.gameObject.activeSelf); });
 
             //Category buttons
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
@@ -155,6 +169,10 @@ namespace Assets.Scripts.MapCreator
             TileExit.onClick.AddListener(delegate { TileFlag = "Exit"; });
             PuzzleEntry.onClick.AddListener(delegate { TileFlag = "PuzzleEntry"; });
             PuzzleComplete.onClick.AddListener(delegate { TileFlag = "PuzzleComplete"; });
+            North.onClick.AddListener(delegate { TileFlag = "North"; });
+            South.onClick.AddListener(delegate { TileFlag = "South"; });
+            West.onClick.AddListener(delegate { TileFlag = "West"; });
+            East.onClick.AddListener(delegate { TileFlag = "East"; });
             FlagNull.onClick.AddListener(delegate { TileFlag = "DeleteFlag"; });
 
             //Tile Objects
@@ -175,6 +193,12 @@ namespace Assets.Scripts.MapCreator
             GenerateBlankMap(20);
             Size.text = MapSize + " x " + MapSize + "\n " + (MapSize * MapSize) + " tiles.";
             CurrentLevel.text = "CurrentLevel: N/A";
+        }
+
+        private void SetOverlay(string mapName)
+        {
+            _overlaySprite = Resources.Load<Sprite>("LevelMapArt/EnviromentArt/" + mapName);
+            _overlay.sprite = _overlaySprite;
         }
 
         //Update Ui
@@ -270,6 +294,8 @@ namespace Assets.Scripts.MapCreator
                 _map.Add(row);
             }
         }
+
+
       
         /// <summary>
         /// Load a map from an XML file

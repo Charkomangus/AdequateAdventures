@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding="utf-8"?>
 <MapCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="70">
   <Tiles>
     <Tile Type="Normal" LocationX="0" LocationY="0" Object="Empty" Flag="Null" />
@@ -2763,7 +2763,7 @@
     <Tile Type="IceCracks" LocationX="39" LocationY="29" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="39" LocationY="30" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="39" LocationY="31" Object="Empty" Flag="Null" />
-    <Tile Type="Ice" LocationX="39" LocationY="32" Object="Empty" Flag="Null" />
+    <Tile Type="Blocked" LocationX="39" LocationY="32" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="39" LocationY="33" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="39" LocationY="34" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="39" LocationY="35" Object="Empty" Flag="Null" />
@@ -3181,7 +3181,7 @@
     <Tile Type="Ice" LocationX="45" LocationY="27" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="45" LocationY="28" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="45" LocationY="29" Object="Empty" Flag="Null" />
-    <Tile Type="Ice" LocationX="45" LocationY="30" Object="Empty" Flag="Null" />
+    <Tile Type="Blocked" LocationX="45" LocationY="30" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="45" LocationY="31" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="45" LocationY="32" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="45" LocationY="33" Object="Empty" Flag="Null" />
@@ -3250,7 +3250,7 @@
     <Tile Type="Ice" LocationX="46" LocationY="26" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="46" LocationY="27" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="46" LocationY="28" Object="Empty" Flag="Null" />
-    <Tile Type="Ice" LocationX="46" LocationY="29" Object="Empty" Flag="Null" />
+    <Tile Type="Blocked" LocationX="46" LocationY="29" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="46" LocationY="30" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="46" LocationY="31" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="46" LocationY="32" Object="Empty" Flag="Null" />
@@ -3321,7 +3321,7 @@
     <Tile Type="Ice" LocationX="47" LocationY="27" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="47" LocationY="28" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="47" LocationY="29" Object="Empty" Flag="Null" />
-    <Tile Type="Ice" LocationX="47" LocationY="30" Object="Empty" Flag="Null" />
+    <Tile Type="Blocked" LocationX="47" LocationY="30" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="47" LocationY="31" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="47" LocationY="32" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="47" LocationY="33" Object="Empty" Flag="Null" />

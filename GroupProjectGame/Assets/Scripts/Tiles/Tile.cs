@@ -13,7 +13,7 @@ namespace Assets.Scripts.Tiles
         [SerializeField] private TileType _type = TileType.Normal;
         [SerializeField] private TileObject _object = TileObject.Empty;
         [SerializeField] private bool _blocked, _exit, _entry, _puzzleComplete, _puzzleEntry;
-        [SerializeField] private Vector2 _gridPosition = Vector2.zero;
+        [SerializeField] public Vector2 _gridPosition = Vector2.zero;
         private GameObject _tilePrefab, _objectPrefab;
         private GameObject _currentType, _currentObject;
         private string _currentScene;
@@ -53,13 +53,10 @@ namespace Assets.Scripts.Tiles
                     break;
             }
             ShowFlags();
+            SetObject(_object);
 
         }
-
-        void Update()
-        {
-          
-        }
+     
 
         private void ShowFlags()
         {
@@ -340,7 +337,23 @@ namespace Assets.Scripts.Tiles
                                 _puzzleComplete = false;
                                 ShowFlags();
                                 break;
-                        }
+                            case "North":
+                                   if(_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                        GetComponentInChildren<ConveyorBelt>().SetDirecton(0);                               
+                                break;
+                            case "South":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
+                                    break;
+                            case "West":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
+                                    break;
+                            case "East":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
+                                    break;
+                            }
                     }
                     else if (Input.GetMouseButton(1))
                     {

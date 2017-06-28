@@ -1,5 +1,8 @@
 ﻿using System;
+using Assets.Scripts.MapCreator;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tiles
 {
@@ -34,7 +37,8 @@ namespace Assets.Scripts.Tiles
         {
            
         }
-        
+
+     
 
         //Determine starting direction by looking at surround tiles
         private void DetermineDirection()

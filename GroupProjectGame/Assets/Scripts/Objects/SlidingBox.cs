@@ -14,9 +14,9 @@ namespace Assets.Scripts.Objects
         private Tile _parentTile;
         private float _moveSpeed;
         private List<Tile> newTiles;
-        private bool scheduleToDie, _conveyed;
-
-
+        [SerializeField]private bool scheduleToDie, _conveyed;
+        [SerializeField]private int _direction;
+        private TileType _parentTileType;
         // Use this for initialization
         void Start()
         {
@@ -55,6 +55,7 @@ namespace Assets.Scripts.Objects
                       
                     }
                 }
+              
                 //Free the current parent tile and kill the object
                 else if (scheduleToDie)
                 {
@@ -75,56 +76,93 @@ namespace Assets.Scripts.Objects
         //Set parent tile. Depending on the tile type different behaviours will emerge.
         public void SetParentTile(Tile tile, int direction)
         {
-            if (tile == null) return;
-            if (tile.IsBlocked()) return;
-
-            //Free the current parent tile
-            _parentTile.SetBlocked(false);
-            _parentTile.SetObject(TileObject.Empty);
-
-          
-            //Set new tile as parent tile
-            _parentTile = tile;
-            _parentTile.SetObject(TileObject.SlidingBox);
-            _parentTile.GenerateObject(gameObject);
-
-            TileType type = tile.ReturnType();
-
-            //If the box encounters Ice cracks or fire kill it when it reaches the tile
-            if (type == TileType.IceCracks || type == TileType.Fire)
+            _direction = direction;
+            while (true)
             {
-                scheduleToDie = true;
-                return;
-            }
+                if (tile == null) return;
+                if (tile.IsBlocked()) return;
 
-            //If the box is on a conveyor update its direction and set it to be conveyed
-            if (type == TileType.RedConveyorBelt || type == TileType.GreenConveyorBelt || type == TileType.BlueConveyorBelt)
-            {
-                direction = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnDirection();
-                _conveyed = true;
+                //Free the current parent tile
+                _parentTile.SetBlocked(false);
+                _parentTile.SetObject(TileObject.Empty);
 
-            }
-            else
-            {
-                _conveyed = false;
 
-                switch (direction)
+                //Set new tile as parent tile
+                _parentTile = tile;
+                _parentTile.SetObject(TileObject.SlidingBox);
+                _parentTile.GenerateObject(gameObject);
+
+                _parentTileType = tile.ReturnType();
+              
+                switch (_parentTileType)
                 {
-                    case 0:
-                        SetParentTile(_parentTile.North, direction);
+                    //If the box encounters Ice cracks or fire kill it when it reaches the tile
+                    //case TileType.Normal:
+                    //    Debug.Log("HEY");
+                    //    break;
+
+                    case TileType.IceCracks:
+                    case TileType.Fire:
+                        scheduleToDie = true;
+                        return;
+
+                    //S
+                    case TileType.RedConveyorBelt:
+                    case TileType.GreenConveyorBelt:
+                    case TileType.BlueConveyorBelt:
+                        _direction = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnDirection();
+                        _conveyed = true;
                         break;
-                    case 1:
-                        SetParentTile(_parentTile.South, direction);
+                    default:
+                        if (_conveyed == false)
+                        {
+                            _conveyed = true;
+                            switch (_direction)
+                            {
+                                case 0:
+                                    tile = _parentTile.North;
+
+                                    continue;
+                                case 1:
+                                    tile = _parentTile.South;
+                                    continue;
+                                case 2:
+                                    tile = _parentTile.West;
+                                    continue;
+                                case 3:
+                                    tile = _parentTile.East;
+                                    continue;
+                            }
+                            break;
+                        }
+                        else
+
+                        _conveyed = false;
+                        switch (_direction)
+                        {
+                            case 0:
+                                tile = _parentTile.North;
+                                
+                                continue;
+                            case 1:
+                                tile = _parentTile.South;
+                                continue;
+                            case 2:
+                                tile = _parentTile.West;
+                                continue;
+                            case 3:
+                                tile = _parentTile.East;
+                                continue;
+                        }
                         break;
-                    case 2:
-                        SetParentTile(_parentTile.East, direction);
-                        break;
-                    case 3:
-                        SetParentTile(_parentTile.West, direction);
-                        break;
+
                 }
+
+                //If the box is on a conveyor update its direction and set it to be conveyed
+                break;
             }
         }
+
         //Check if player has reached parent tile
         private bool HasReachedTile()
         {

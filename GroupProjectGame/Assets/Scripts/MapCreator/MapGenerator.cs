@@ -15,7 +15,7 @@ namespace Assets.Scripts.MapCreator
         public GameObject TileList;
         private int _mapSize;
         private List<List<Tile>> _map = new List<List<Tile>>();
-
+        private Tile _entryTile;
         /// <summary>
         /// Populate the map with tiles
         /// </summary>
@@ -31,13 +31,20 @@ namespace Assets.Scripts.MapCreator
                    tile.transform.SetParent(TileList.transform);
                     tile.SetPosition(new Vector3(i, j, 0));
                     tile.SetType(TileType.Normal);
-                   
+                   FindLevelEntry(i, j);
                     row.Add(tile);
                 }
                 _map.Add(row);
             }
         }
 
+        //Find the tile that has an entry flag on it
+        void FindLevelEntry(int i, int j)
+        {
+            if (_map[i][j].IsEntry())
+                _entryTile = _map[i][j];
+            
+        }
 
         /// <summary>
         /// Load a map from an XML file
@@ -50,6 +57,7 @@ namespace Assets.Scripts.MapCreator
             Transform mapTransform = GameManager.Instance.MapTransform;
             if (mapTransform == null) return;
             var container = MapSaveLoad.LoadFromResources(name);
+            if(container == null) return;
             _mapSize = container.Size;
 
             //Remove all children
@@ -64,9 +72,7 @@ namespace Assets.Scripts.MapCreator
                 var row = new List<Tile>();
                 for (var y = 0; y < _mapSize; y++)
                 {
-                    Tile tile = Instantiate(PrefabHolder.Instance.BaseTilePrefab,
-                        new Vector3(x - Mathf.Floor(_mapSize / 2f), 0, -y + Mathf.Floor(_mapSize / 2f)),
-                        Quaternion.Euler(new Vector3())).GetComponent<Tile>();
+                    Tile tile = Instantiate(PrefabHolder.Instance.BaseTilePrefab,new Vector3(x - Mathf.Floor(_mapSize / 2f), 0, -y + Mathf.Floor(_mapSize / 2f)),Quaternion.Euler(new Vector3())).GetComponent<Tile>();
                     tile.transform.parent = mapTransform;
                     tile.SetPosition(new Vector2(x, y));
 
@@ -81,12 +87,14 @@ namespace Assets.Scripts.MapCreator
                     {
                         case "PuzzleEntry":
                             tile.SetPuzzleEntry();
+                         
                             break;
                         case "PuzzleComplete":
                             tile.SetPuzzleComplete();
                             break;
                         case "Entry":
                             tile.SetEntry();
+                            _entryTile = tile;
                             break;
                         case "Exit":
                             tile.SetExit();
@@ -118,6 +126,25 @@ namespace Assets.Scripts.MapCreator
         public int ReturnMapSize()
         {
             return _mapSize;
+        }
+
+        /// <summary>
+        /// Return the maps entry tile
+        /// </summary>
+        /// <returns></returns>
+        public Tile ReturnEntryTile()
+        {
+            return _entryTile;
+        }
+
+
+        /// <summary>
+        /// Return the maps entry tile
+        /// </summary>
+        /// <returns></returns>
+        public Tile ReturnSpecificTile(int x, int y)
+        {
+            return _map[x][y];
         }
 
         #endregion

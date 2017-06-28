@@ -16,7 +16,7 @@ namespace Assets.Scripts.Cameras
         // Update is called once per frame
         void Update ()
         {	   
-            transform.position = Vector3.Slerp(new Vector3(_player.position.x, 7.3f, _player.position.z), transform.position,
+            transform.position = Vector3.Slerp(new Vector3(_player.position.x, 8.3f, _player.position.z), transform.position,
                 Time.deltaTime);
 
         }

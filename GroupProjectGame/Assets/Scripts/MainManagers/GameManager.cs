@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
 using Assets.Scripts.Tiles;
@@ -14,22 +15,23 @@ namespace Assets.Scripts.MainManagers
         //Creating an Instance so scripts can access it's variables.
         public static GameManager Instance;
 
-       
+       //Managers
         public AudioManager AudioManager;
         public UiManager UiManager;
+        public PuzzleManager PuzzleManager;
         private StateManager _stateManager;
         private MapGenerator _mapGenerator;
-        public PuzzleManager PuzzleManager;
+        private EnviromentManager _enviromentManager;
         public Transform MapTransform;
         private int _mapSize;
         private List<List<Tile>> _map;
         public Tile LevelEntry, LevelExit;
-        public int CurrentLevel = 1;
-        public int CurrentAct = 1;
+        private Vector2  _checkpoint;
+        public int CurrentAct;
+        public int CurrentLevel;
+  
         public string CurrentScene;
         public Player.Player Player;
-    
-
 
      
 
@@ -46,7 +48,9 @@ namespace Assets.Scripts.MainManagers
             CurrentScene = SceneManager.GetActiveScene().name;
           AudioManager = GetComponentInChildren<AudioManager>();
             _mapGenerator = GetComponent<MapGenerator>();
-            
+            _enviromentManager = FindObjectOfType<EnviromentManager>();
+
+
         }
 
         // Use this for initialization
@@ -54,34 +58,24 @@ namespace Assets.Scripts.MainManagers
         {
             if (CurrentScene == "Level1")
             {
-               
                 StartLevel();
-              
             }
         }
 
+     
+
         void OnLevelWasLoaded()
         {
+            Debug.Log("Level" + CurrentAct + "_" + CurrentLevel + " was loaded.");
+            CurrentScene = SceneManager.GetActiveScene().name;
+            
             switch (SceneManager.GetActiveScene().name)
             {
-                    
                 case "Level1":
                     StartLevel();                    
                     break;
-                case "Transistion":
-                    MapTransform = null;
-                    UnityEngine.Cursor.visible = true;
-                    break;
-                case "Intro":
-                    MapTransform = null;
-                    UnityEngine.Cursor.visible = false;
-                    break;
                 case "Menu":
                     UnityEngine.Cursor.visible = true;
-                    break;
-                case "Outro":
-                    UnityEngine.Cursor.visible = false;
-
                     break;
             }
             
@@ -91,61 +85,39 @@ namespace Assets.Scripts.MainManagers
         {
             UiManager = FindObjectOfType<UiManager>();
             PuzzleManager = FindObjectOfType<PuzzleManager>();
-            MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
-            _mapGenerator.LoadMapFromXml("LevelMap" + CurrentLevel +"_"+ CurrentAct);
-           // _mapGenerator.LoadMapFromXml("test");
-            _map = Instance.GetComponent<MapGenerator>().ReturnMap();
-            _mapSize = Instance.GetComponent<MapGenerator>().ReturnMapSize();
+            InitializeMap();
             PuzzleManager.Initialize();
-            FindLevelEntry();
             Player = FindObjectOfType<Player.Player>();
             Player.InitializePlayer();
+            UiManager.SetFade(true);
+
 
         }
 
+        //public Tile ReturnPlayerTile()
+        //{
+        //    return _mapGenerator.ReturnSpecificTile((int) _checkpoint.x, (int) _checkpoint.y);
+        //}
 
-
-
-        // Update is called once per frame
-        void Update () {       
-        }
-
-        void FindLevelEntry()
+        //Loads the corresponding map to the current act and level and initializes variables concerning it
+        private void InitializeMap()
         {
-            for (var i = 0; i < _mapSize; i++)
-            {
-              
-                for (var j = 0; j < _mapSize; j++)
-                {
-                    if (_map[i][j].IsEntry())
-                        LevelEntry = _map[i][j];
-                }
-            }
+            MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
+            _mapGenerator.LoadMapFromXml("LevelMap" + CurrentAct + "_" + CurrentLevel);
+            _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
+            //_mapGenerator.LoadMapFromXml("test");
+            _map = _mapGenerator.ReturnMap();
+            _mapSize = _mapGenerator.ReturnMapSize();
+            LevelEntry = _mapGenerator.ReturnEntryTile();
         }
-
-        private void OnLevelWasLoaded(int level)
-        {
-            Debug.Log("Level " + level +" was loaded.");
-            CurrentScene = SceneManager.GetActiveScene().name;
-            switch (level)
-            {
-                case 1:
-
-                    break;
-                case 2:
-                    break;
-            }
-        }
-
         
+       
 
         //Starts the game with no other consideration of bools and things
         public void SimpleStartLevel()
         {
             //Start game scene
             _stateManager.SetGameState(GameState.Game);
-            Debug.Log(_stateManager.GameState);
-
         }
 
         /// <summary>
@@ -153,14 +125,42 @@ namespace Assets.Scripts.MainManagers
         /// </summary>
         public void RestartLevel()
         {
-            //Start game scene
-            _stateManager.SetGameState(GameState.Game);
-            Debug.Log(_stateManager.GameState);
+            _checkpoint = Player.DetermingStartingTile()._gridPosition;
+            SimpleStartLevel();     
+           
         }
+
+
+
+       
+
+        //Go to the next level
+        public void NextLevel()
+        {
+            if (CurrentAct == 3 && CurrentLevel == 3)
+                Debug.Log("ENDGAME");
+            else if (CurrentLevel == 3)
+                CurrentAct++;
+            else
+                CurrentLevel++;
+            SimpleStartLevel();
+        }
+
+
+        //DEBUG
+        public void NextLevelDebug()
+        {
+            if (CurrentLevel == 1)
+                CurrentLevel = 2;
+            else
+                CurrentLevel = 1;
+           
+            SimpleStartLevel();
+          }
 
         public void HandleOnStateChange()
         {
-            Invoke("ChangeScene", 0f);
+            Invoke("StartLevel", 1f);
         }
 
 
