@@ -26,6 +26,11 @@ namespace Assets.Scripts.Tiles
         // Use this for initialization
         private void Start()
         {
+            if (_type == TileType.Null && _currentScene == "Level1")
+            {
+                Destroy(gameObject);
+                return;
+            }
             name = _type + " Tile";
             _currentScene = SceneManager.GetActiveScene().name;
             GenerateNewObject();
@@ -230,9 +235,6 @@ namespace Assets.Scripts.Tiles
                 default:
                     throw new ArgumentOutOfRangeException("Object", Object, null);
             }
-         
-
-
         }
 
 
@@ -284,11 +286,137 @@ namespace Assets.Scripts.Tiles
             _currentType = newType;
         }
 
+        //Completely destroy a tile, its close family and all it's friends
+        private void Delete4()
+        {
+            if (North != null)
+            {
+                Delete(North);
+
+                if (North.East != null)
+                {
+                    Delete(North.ReturnEast());
+
+                    if (North.East.East != null)
+                    {
+                        Delete(North.ReturnEast().ReturnEast());
+
+                        if (North.East.East.East != null)
+                            Delete(North.ReturnEast().ReturnEast().ReturnEast());
+                    }
+                }
+            }
+            if (East != null)
+            {
+                Delete(East);
+
+                if (East.East != null)
+                {
+                    Delete(East.ReturnEast());
+
+                    if (East.East.East != null)
+                    {
+                        Delete(East.ReturnEast().ReturnEast());
+
+                    }
+                }
+            }
+            if (South != null)
+            {
+                if (South.South != null)
+                {
+                    Delete(South.ReturnSouth());
+
+                    if (South.South.East != null)
+                    {
+                        Delete(South.ReturnSouth().ReturnEast());
+
+                        if (South.South.East.East != null)
+                        {
+                            Delete(South.ReturnSouth().ReturnEast().ReturnEast());
+
+                            if (South.South.East.East.East != null)
+                                Delete(South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast());
+                        }
+                    }
+                }
+            }
+
+
+            //if (South.ReturnSouth() != null)
+        //{
+        //    Delete(South.ReturnSouth());
+
+        //    if (South.ReturnSouth().ReturnEast() != null)
+        //    {
+        //        Delete(South.ReturnSouth().ReturnEast());
+
+        //        if (South.ReturnSouth().ReturnEast() != null)
+        //        {
+        //            Delete(South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast());
+
+        //            if (South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast()!= null)
+        //            {
+        //                Delete(South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast());
+
+        //            }
+        //        }
+        //    }
+        //}
+
+        if (South != null)
+            {
+                Delete(South);
+
+                if (South.East != null)
+                {
+                    Delete(South.ReturnEast());
+
+                    if (South.East.East != null)
+                    {
+                        Delete(South.ReturnEast().ReturnEast());
+
+                        if (South.East.East.East != null)
+                            Delete(South.ReturnEast().ReturnEast().ReturnEast());
+                    }
+                }
+            }
+            Delete(this);
+        }
+
+
+        //Completely destroy a tile and its close family
+        private void Delete2()
+        {
+           
+            if(North != null && North.East != null)
+                Delete(North.ReturnEast());
+            if (North != null)
+                Delete(North);
+            if (East != null)
+                Delete(East);
+            Delete(this);
+        }
+
+        //Completely destroy a tile
+        private void Delete(Tile tile)
+        {
+            if (tile == null) return;
+            tile.SetType(TileType.Null);
+            tile.SetEntry(false);
+            tile.SetBlocked(false);
+            tile.SetExit(false);
+            tile.SetPuzzleComplete(false);
+            tile.SetPuzzleEntry(false);
+            tile.SetDirection(-1);
+            tile.SetObject(TileObject.Empty);
+        }
+
         //REMOVE IN RELEASE
         public void OnPointerClick(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
-
+         
             switch (MapCreatorManager.Instance.CurrentPlacingStatus)
             {
                 case PlacingStatus.Type:
@@ -381,8 +509,16 @@ namespace Assets.Scripts.Tiles
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
                                 }
                                 break;
-
-                        }
+                            case "Delete":
+                                Delete(this);
+                                break;
+                            case "Delete2":
+                                Delete2();
+                                    break;
+                            case "Delete4":
+                                Delete4();
+                                    break;
+                            }
                     }
                     else if (Input.GetMouseButton(1))
                     {
@@ -491,6 +627,15 @@ namespace Assets.Scripts.Tiles
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
                                 }
                                     break;
+                            case "Delete":
+                                Delete(this);
+                                break;
+                            case "Delete2":
+                                Delete2();
+                                break;
+                            case "Delete4":
+                                Delete4();
+                                break;
 
                             }
                         }
@@ -603,9 +748,16 @@ namespace Assets.Scripts.Tiles
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
                                 }
                                 break;
-
-                        
-                        }
+                            case "Delete":
+                                Delete(this);
+                                break;
+                            case "Delete2":
+                                Delete2();
+                                break;
+                            case "Delete4":
+                                Delete4();
+                                break;
+                            }
                     
                         }
                     else if (Input.GetMouseButton(1))
@@ -737,9 +889,9 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set this tile as a level exit
-        public void SetExit()
+        public void SetExit(bool status)
         {
-            _exit = !_exit;
+            _exit = status;
         }
 
         //Return true if this tile is an exit
@@ -749,9 +901,9 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set this tile as a level entry
-        public void SetEntry()
+        public void SetEntry(bool status)
         {
-            _entry = !_entry;
+            _entry = status;
         }
 
         //Return true if this tile is an entry
@@ -761,9 +913,9 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set this tile as a puzzle complete tile
-        public void SetPuzzleComplete()
+        public void SetPuzzleComplete(bool status)
         {
-            _puzzleComplete = !_puzzleComplete;
+            _puzzleComplete = status;
         }
 
         //Return true if this tile is an puzzle complete tile
@@ -773,9 +925,9 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set this tile as a puzzle entry
-        public void SetPuzzleEntry()
+        public void SetPuzzleEntry(bool status)
         {
-            _puzzleEntry = !_puzzleEntry;
+            _puzzleEntry = status;
         }
 
         //Return true if this tile is an puzzle entry

@@ -40,7 +40,7 @@ namespace Assets.Scripts.MapCreator
         public Slider OverlayOpacitySlider;
         public Text OverlayOpacityPercentage, OverlayNameText;
         public Button Types, Flags, Objects;
-
+        public Button Delete, Delete2, Delete4;
      
         [Header("Tile Types")]
         public TileType TileType;
@@ -56,6 +56,7 @@ namespace Assets.Scripts.MapCreator
         public Button TileGreenBelt;
         public Button TileBlueBelt;
         public Button TileNull;
+       
 
         [Header("Tile Flags")]
         public string TileFlag;
@@ -152,6 +153,10 @@ namespace Assets.Scripts.MapCreator
             OverlayOpacityPercentage.text = (int)(OverlayOpacitySlider.value*100) + "%";
             });
 
+
+            Delete.onClick.AddListener(delegate { TileFlag = "Delete"; CurrentPlacingStatus = PlacingStatus.Flag; });
+            Delete2.onClick.AddListener(delegate { TileFlag = "Delete2"; CurrentPlacingStatus = PlacingStatus.Flag; });
+            Delete4.onClick.AddListener(delegate { TileFlag = "Delete4"; CurrentPlacingStatus = PlacingStatus.Flag; });
             //Category buttons
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
             Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
@@ -170,7 +175,7 @@ namespace Assets.Scripts.MapCreator
             TileGreenBelt.onClick.AddListener(delegate { TileType = TileType.GreenConveyorBelt; });
             TileBlueBelt.onClick.AddListener(delegate { TileType = TileType.BlueConveyorBelt; });
             TileNull.onClick.AddListener(delegate { TileType = TileType.Null; });
-
+            TileNull.onClick.AddListener(delegate { TileType = TileType.Null; });
             //Tile Flags
             TileEntry.onClick.AddListener(delegate { TileFlag = "Entry"; });
             TileExit.onClick.AddListener(delegate { TileFlag = "Exit"; });
@@ -350,16 +355,16 @@ namespace Assets.Scripts.MapCreator
                     switch (tempTile.Flag)
                     {
                         case "PuzzleEntry":
-                            tile.SetPuzzleEntry();
+                            tile.SetPuzzleEntry(true);
                             break;
                         case "PuzzleComplete":
-                            tile.SetPuzzleComplete();
+                            tile.SetPuzzleComplete(true);
                             break;
                         case "Entry":
-                            tile.SetEntry();
+                            tile.SetEntry(true);
                             break;
                         case "Exit":
-                            tile.SetExit();
+                            tile.SetExit(true);
                             break;
                         case "North":
                             tile.SetDirection(0);

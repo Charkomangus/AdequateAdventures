@@ -35,6 +35,7 @@ namespace Assets.Scripts.Tiles
         {
             _tile = GetComponentInParent<Tile>();
             _tileType = GetComponentInParent<Tile>().ReturnType();
+            DetermineDirection();
         }
      
 
@@ -56,15 +57,7 @@ namespace Assets.Scripts.Tiles
                     _direction = Direction.West;
                     break;
             }
-            if(_tile.ReturnWest().ReturnType() == _tileType || _tile.ReturnEast().ReturnType() == _tileType)
-            {
-                _direction = Direction.East;
-            }
-            if (_tile.ReturnNorth().ReturnType() == _tileType || _tile.ReturnSouth().ReturnType() == _tileType)
-            {
-                _direction = Direction.South;
-            }
-
+            GenerateVisuals();
         }
 
         public void GenerateVisuals()
@@ -93,7 +86,7 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-        //Return the tile in the direction this conveyor belt is facing
+      //  Return the tile in the direction this conveyor belt is facing
         public int ReturnDirection()
         {
             switch (_direction)

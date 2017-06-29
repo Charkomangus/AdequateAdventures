@@ -126,9 +126,9 @@
     <Tile Type="Normal" LocationX="6" LocationY="2" Object="Box" Flag="Null" />
     <Tile Type="RedConveyorBelt" LocationX="6" LocationY="3" Object="Empty" Flag="Null" />
     <Tile Type="RedConveyorBelt" LocationX="6" LocationY="4" Object="Empty" Flag="Null" />
-    <Tile Type="RedConveyorBelt" LocationX="6" LocationY="5" Object="Empty" Flag="Null" />
-    <Tile Type="RedConveyorBelt" LocationX="6" LocationY="6" Object="Empty" Flag="Null" />
-    <Tile Type="RedConveyorBelt" LocationX="6" LocationY="7" Object="Empty" Flag="Null" />
+    <Tile Type="RedConveyorBelt" LocationX="6" LocationY="5" Object="Empty" Flag="South" />
+    <Tile Type="RedConveyorBelt" LocationX="6" LocationY="6" Object="Empty" Flag="South" />
+    <Tile Type="RedConveyorBelt" LocationX="6" LocationY="7" Object="Empty" Flag="South" />
     <Tile Type="RedConveyorBelt" LocationX="6" LocationY="8" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="9" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="10" Object="Empty" Flag="Null" />
@@ -146,14 +146,14 @@
     <Tile Type="Normal" LocationX="7" LocationY="2" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="3" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="4" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="5" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="6" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="7" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="8" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="10" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="11" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="12" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="5" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="6" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="7" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="8" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="9" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="10" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="11" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="7" LocationY="12" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="13" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="7" LocationY="14" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="7" LocationY="15" Object="Empty" Flag="Null" />
@@ -168,12 +168,12 @@
     <Tile Type="Normal" LocationX="8" LocationY="4" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="5" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="6" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="8" LocationY="7" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="8" LocationY="8" Object="Empty" Flag="Null" />
-    <Tile Type="Fire" LocationX="8" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Fire" LocationX="8" LocationY="10" Object="Empty" Flag="Null" />
-    <Tile Type="Fire" LocationX="8" LocationY="11" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="8" LocationY="12" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="8" LocationY="7" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="8" LocationY="8" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="8" LocationY="9" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="8" LocationY="10" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="8" LocationY="11" Object="Empty" Flag="Null" />
+    <Tile Type="Null" LocationX="8" LocationY="12" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="13" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="8" LocationY="14" Object="Empty" Flag="Null" />
     <Tile Type="Ice" LocationX="8" LocationY="15" Object="Empty" Flag="Null" />
@@ -186,7 +186,7 @@
     <Tile Type="RedConveyorBelt" LocationX="9" LocationY="2" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="3" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="4" Object="Empty" Flag="Null" />
-    <Tile Type="GreenConveyorBelt" LocationX="9" LocationY="5" Object="Empty" Flag="Null" />
+    <Tile Type="GreenConveyorBelt" LocationX="9" LocationY="5" Object="Empty" Flag="South" />
     <Tile Type="Normal" LocationX="9" LocationY="6" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="BlueConveyorBelt" LocationX="9" LocationY="8" Object="Empty" Flag="Null" />
@@ -206,7 +206,7 @@
     <Tile Type="RedConveyorBelt" LocationX="10" LocationY="2" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="10" LocationY="3" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="10" LocationY="4" Object="Empty" Flag="Null" />
-    <Tile Type="GreenConveyorBelt" LocationX="10" LocationY="5" Object="Empty" Flag="Null" />
+    <Tile Type="GreenConveyorBelt" LocationX="10" LocationY="5" Object="Empty" Flag="South" />
     <Tile Type="Normal" LocationX="10" LocationY="6" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="10" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="BlueConveyorBelt" LocationX="10" LocationY="8" Object="Empty" Flag="Null" />
@@ -271,8 +271,8 @@
     <Tile Type="Normal" LocationX="13" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="BlueConveyorBelt" LocationX="13" LocationY="8" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="13" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="13" LocationY="10" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="13" LocationY="11" Object="Empty" Flag="Null" />
+    <Tile Type="RedConveyorBelt" LocationX="13" LocationY="10" Object="Empty" Flag="East" />
+    <Tile Type="RedConveyorBelt" LocationX="13" LocationY="11" Object="Empty" Flag="North" />
     <Tile Type="Normal" LocationX="13" LocationY="12" Object="GreenSwitch" Flag="Null" />
     <Tile Type="Normal" LocationX="13" LocationY="13" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="13" LocationY="14" Object="Empty" Flag="Null" />
@@ -291,8 +291,8 @@
     <Tile Type="Normal" LocationX="14" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="BlueConveyorBelt" LocationX="14" LocationY="8" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="14" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="14" LocationY="10" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="14" LocationY="11" Object="Empty" Flag="Null" />
+    <Tile Type="RedConveyorBelt" LocationX="14" LocationY="10" Object="Empty" Flag="East" />
+    <Tile Type="RedConveyorBelt" LocationX="14" LocationY="11" Object="Empty" Flag="West" />
     <Tile Type="Normal" LocationX="14" LocationY="12" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="14" LocationY="13" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="14" LocationY="14" Object="Empty" Flag="Null" />
@@ -311,7 +311,7 @@
     <Tile Type="Normal" LocationX="15" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="BlueConveyorBelt" LocationX="15" LocationY="8" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="15" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="15" LocationY="10" Object="Empty" Flag="Null" />
+    <Tile Type="RedConveyorBelt" LocationX="15" LocationY="10" Object="Empty" Flag="East" />
     <Tile Type="Normal" LocationX="15" LocationY="11" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="15" LocationY="12" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="15" LocationY="13" Object="Empty" Flag="Null" />
@@ -331,7 +331,7 @@
     <Tile Type="Normal" LocationX="16" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="BlueConveyorBelt" LocationX="16" LocationY="8" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="16" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="16" LocationY="10" Object="Empty" Flag="Null" />
+    <Tile Type="RedConveyorBelt" LocationX="16" LocationY="10" Object="Empty" Flag="East" />
     <Tile Type="Normal" LocationX="16" LocationY="11" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="16" LocationY="12" Object="BlueSwitch" Flag="Null" />
     <Tile Type="Normal" LocationX="16" LocationY="13" Object="Empty" Flag="Null" />
@@ -351,7 +351,7 @@
     <Tile Type="Normal" LocationX="17" LocationY="7" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="17" LocationY="8" Object="Box" Flag="Null" />
     <Tile Type="Normal" LocationX="17" LocationY="9" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="17" LocationY="10" Object="Empty" Flag="Null" />
+    <Tile Type="RedConveyorBelt" LocationX="17" LocationY="10" Object="Empty" Flag="North" />
     <Tile Type="Normal" LocationX="17" LocationY="11" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="17" LocationY="12" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="17" LocationY="13" Object="Empty" Flag="Null" />

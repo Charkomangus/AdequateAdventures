@@ -40,6 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2b4b65079ff764e8a7af7e409a794f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: faedcb032b6940a4588698f215021b7b, type: 3}
+  - {fileID: 21300000, guid: a27bd7d38fc6f26419f0e96f41c8b21a, type: 3}
   _switchType: 1
   belts: []
 --- !u!212 &212140711378902318
@@ -74,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: -1183336299
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a6b544e5d3e709f4c98bf33311231f07, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dc83ceae96915414b809ab826cd32de7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

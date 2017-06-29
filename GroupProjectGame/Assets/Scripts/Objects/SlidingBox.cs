@@ -116,7 +116,7 @@ namespace Assets.Scripts.Objects
                     default:
                         if (_conveyed == false)
                         {
-                            _conveyed = true;
+                          
                             switch (_direction)
                             {
                                 case 0:

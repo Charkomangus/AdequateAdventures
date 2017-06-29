@@ -104,8 +104,11 @@ namespace Assets.Scripts.MainManagers
         {
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
             _mapGenerator.LoadMapFromXml("LevelMap" + CurrentAct + "_" + CurrentLevel);
-            _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
-            //_mapGenerator.LoadMapFromXml("tt");
+            if(CurrentAct == 4)
+                _mapGenerator.LoadMapFromXml("test");
+            else
+                _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
+           
             _map = _mapGenerator.ReturnMap();
             _mapSize = _mapGenerator.ReturnMapSize();
             LevelEntry = _mapGenerator.ReturnEntryTile();
@@ -131,9 +134,46 @@ namespace Assets.Scripts.MainManagers
         }
 
 
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel1(int level)
+        {
+            CurrentAct = 1;
+            CurrentLevel = level;
+            SimpleStartLevel();
 
-       
+        }
 
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel2(int level)
+        {
+            CurrentAct = 2;
+            CurrentLevel = level;
+            SimpleStartLevel();
+
+        }
+
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel3(int level)
+        {
+            CurrentAct = 3;
+            CurrentLevel = level;
+            SimpleStartLevel();
+        }
+
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel0()
+        {
+            CurrentAct = 4;
+            SimpleStartLevel();
+        }
         //Go to the next level
         public void NextLevel()
         {

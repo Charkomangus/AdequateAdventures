@@ -11,7 +11,8 @@ namespace Assets.Scripts.Objects
     public class Switch : MonoBehaviour
     {
         private string _currentScene;
-
+        private SpriteRenderer _spriteRenderer;
+        [SerializeField]private Sprite[] sprites;
         private enum Type
         {
             Red,
@@ -28,10 +29,13 @@ namespace Assets.Scripts.Objects
         void Start()
         {
             _currentScene = SceneManager.GetActiveScene().name;
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer.sprite = sprites[0];
             switch (_currentScene)
             {
                 case "Level1":
                 {
+
                     switch (_switchType)
                     {
                         case Type.Red:
@@ -80,10 +84,12 @@ namespace Assets.Scripts.Objects
 
         public void FlipSwitch()
         {
+
+            _spriteRenderer.sprite = _spriteRenderer.sprite == sprites[0] ? sprites[1] : sprites[0];
             foreach (var belt in belts)
-            {
-                belt.SwapDirection();
-            }
+                {
+                    belt.SwapDirection();
+                }
         }
     }
 }

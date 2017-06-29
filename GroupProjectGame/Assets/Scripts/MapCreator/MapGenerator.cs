@@ -86,18 +86,18 @@ namespace Assets.Scripts.MapCreator
                     switch (tempTile.Flag)
                     {
                         case "PuzzleEntry":
-                            tile.SetPuzzleEntry();
+                            tile.SetPuzzleEntry(true);
                          
                             break;
                         case "PuzzleComplete":
-                            tile.SetPuzzleComplete();
+                            tile.SetPuzzleComplete(true);
                             break;
                         case "Entry":
-                            tile.SetEntry();
+                            tile.SetEntry(true);
                             _entryTile = tile;
                             break;
                         case "Exit":
-                            tile.SetExit();
+                            tile.SetExit(true);
                             break;
                        
                         case "North":
