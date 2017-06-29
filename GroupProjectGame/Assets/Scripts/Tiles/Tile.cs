@@ -19,7 +19,8 @@ namespace Assets.Scripts.Tiles
         private string _currentScene;
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
-
+        [SerializeField]
+        private int _tileDirection = -1;
 
 
         // Use this for initialization
@@ -28,6 +29,8 @@ namespace Assets.Scripts.Tiles
             name = _type + " Tile";
             _currentScene = SceneManager.GetActiveScene().name;
             GenerateNewObject();
+            if(_tileDirection != -1)
+                SetConveyorDirection(_tileDirection);
             switch (_currentScene)
             {
                 case "Level1":
@@ -55,6 +58,13 @@ namespace Assets.Scripts.Tiles
             ShowFlags();
             SetObject(_object);
 
+        }
+
+        private void SetConveyorDirection(int direction)
+        {
+            if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                _type == TileType.GreenConveyorBelt)
+                GetComponentInChildren<ConveyorBelt>().SetDirecton(direction);
         }
      
 
@@ -274,7 +284,7 @@ namespace Assets.Scripts.Tiles
             _currentType = newType;
         }
 
-        
+        //REMOVE IN RELEASE
         public void OnPointerClick(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
@@ -337,23 +347,42 @@ namespace Assets.Scripts.Tiles
                                 _puzzleComplete = false;
                                 ShowFlags();
                                 break;
+                            //Set the conveyor belt that is on this tile direction
                             case "North":
-                                   if(_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
-                                        GetComponentInChildren<ConveyorBelt>().SetDirecton(0);                               
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 0;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
+
+                                }
                                 break;
                             case "South":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 1;
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
-                                    break;
+                                }
+                                break;
                             case "West":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 2;
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
-                                    break;
+                                }
+                                break;
                             case "East":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 3;
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
-                                    break;
-                            }
+                                }
+                                break;
+
+                        }
                     }
                     else if (Input.GetMouseButton(1))
                     {
@@ -368,7 +397,7 @@ namespace Assets.Scripts.Tiles
                 }
             }
         }
-
+        //REMOVE IN RELEASE
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
@@ -428,8 +457,43 @@ namespace Assets.Scripts.Tiles
                                 _puzzleEntry = false;
                                 _puzzleComplete = false;
                                 break;
+
+                            //Set the conveyor belt that is on this tile direction
+                            case "North":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 0;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
+
+                                }
+                                break;
+                            case "South":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 1;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
+                                }
+                                break;
+                            case "West":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 2;
+                                        GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
+                                }
+                                break;
+                            case "East":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 3;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
+                                }
+                                    break;
+
+                            }
                         }
-                    }
                     else if (Input.GetMouseButton(1))
                     {
                         _entry = false;
@@ -444,7 +508,7 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-
+        //REMOVE IN RELEASE
         public void OnPointerDown(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
@@ -506,6 +570,41 @@ namespace Assets.Scripts.Tiles
                                 _puzzleEntry = false;
                                 _puzzleComplete = false;
                                 break;
+                            //Set the conveyor belt that is on this tile direction
+                            case "North":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 0;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
+
+                                }
+                                break;
+                            case "South":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 1;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
+                                }
+                                break;
+                            case "West":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 2;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
+                                }
+                                break;
+                            case "East":
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                {
+                                    _tileDirection = 3;
+                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
+                                }
+                                break;
+
+                        
                         }
                     
                         }
@@ -697,6 +796,18 @@ namespace Assets.Scripts.Tiles
             return _blocked;
         }
 
+        //Set this tiles direction
+        public void SetDirection(int direction)
+        {
+            _tileDirection = direction;
+        }
+
+        //Return the tiles direction
+        public int ReturnDirection()
+        {
+            return _tileDirection;
+        }
+
 
         //Sets tiles material
         public void SetMaterial(Material material)
@@ -722,6 +833,20 @@ namespace Assets.Scripts.Tiles
                 return "Entry";
             if (_exit)
                 return "Exit";
+            if (_tileDirection != -1)
+            {
+                switch (_tileDirection)
+                {
+                    case 0:
+                        return "North";
+                    case 1:
+                        return "South";
+                    case 2:
+                        return "West";
+                    case 3:
+                        return "East";
+                }
+            }
             return "Null";
         }
         #endregion

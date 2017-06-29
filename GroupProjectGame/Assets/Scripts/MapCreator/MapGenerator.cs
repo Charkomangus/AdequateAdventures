@@ -99,9 +99,23 @@ namespace Assets.Scripts.MapCreator
                         case "Exit":
                             tile.SetExit();
                             break;
+                       
+                        case "North":
+                            tile.SetDirection(0);
+                            break;
+                        case "South":
+                            tile.SetDirection(1);
+                            break;
+                        case "West":
+                            tile.SetDirection(2);
+                            break;
+                        case "East":
+                            tile.SetDirection(3);
+                            break;
                         case "Null":
                             break;
                     }
+                
 
                     row.Add(tile);
                 }

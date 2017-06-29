@@ -104,8 +104,8 @@ namespace Assets.Scripts.MainManagers
         {
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
             _mapGenerator.LoadMapFromXml("LevelMap" + CurrentAct + "_" + CurrentLevel);
-            _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
-            //_mapGenerator.LoadMapFromXml("test");
+            //_enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
+            _mapGenerator.LoadMapFromXml("tt");
             _map = _mapGenerator.ReturnMap();
             _mapSize = _mapGenerator.ReturnMapSize();
             LevelEntry = _mapGenerator.ReturnEntryTile();

@@ -32,8 +32,8 @@ namespace Assets.Scripts.Cameras
         private const float HeightDampening = 5f;
         private const float KeyboardZoomingSensitivity = 3f;
         private const float ScrollWheelZoomingSensitivity = 60f;
-        private float _limitX = 15; //x limit of map
-        private float _limitY = 15; //z limit of map
+        private float _limitX = 20; //x limit of map
+        private float _limitY = 20; //z limit of map
 
     
 

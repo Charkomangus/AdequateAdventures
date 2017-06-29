@@ -24,26 +24,38 @@ namespace Assets.Scripts.Tiles
         private SpriteRenderer _sprite;
    
         // Use this for initialization
+        void Awake()
+        {
+           
+            _sprite = GetComponent<SpriteRenderer>();
+          
+        }
+
         void Start()
         {
             _tile = GetComponentInParent<Tile>();
-            _sprite = GetComponent<SpriteRenderer>();
             _tileType = GetComponentInParent<Tile>().ReturnType();
-            DetermineDirection();
-            GenerateVisuals();
         }
-        // Update is called once per frame
-        void Update()
-        {
-           
-        }
-
      
 
         //Determine starting direction by looking at surround tiles
         private void DetermineDirection()
         {
-
+            switch (_tile.ReturnDirection())
+            {
+                case 0:
+                    _direction = Direction.North;
+                    break;
+                case 1:
+                    _direction = Direction.South;
+                    break;
+                case 2:
+                    _direction = Direction.East;
+                    break;
+                case 3:
+                    _direction = Direction.West;
+                    break;
+            }
             if(_tile.ReturnWest().ReturnType() == _tileType || _tile.ReturnEast().ReturnType() == _tileType)
             {
                 _direction = Direction.East;
@@ -57,6 +69,7 @@ namespace Assets.Scripts.Tiles
 
         public void GenerateVisuals()
         {
+            if (_sprite == null) return;
             switch (_direction)
             {
                 case Direction.North:

@@ -36,7 +36,9 @@ namespace Assets.Scripts.MapCreator
         public Button Load;
         public Button NewMap;
         public Button ClearMap;
-        public Button Overlay;
+        public Toggle OverlayToggle;
+        public Slider OverlayOpacitySlider;
+        public Text OverlayOpacityPercentage, OverlayNameText;
         public Button Types, Flags, Objects;
 
      
@@ -107,8 +109,8 @@ namespace Assets.Scripts.MapCreator
 
             _mapTransform = transform.FindChild("Map");
             _mainCamera = Camera.main.GetComponent<MapCreatorCamera>();
-
-
+            OverlayOpacityPercentage.text = (int)(_overlay.color.a * 100) + "%";
+            OverlayOpacitySlider.value = _overlay.color.a;
 
             //UI buttons
             ClearMap.onClick.AddListener(delegate { GenerateBlankMap(MapSize); SetOverlay(""); });
@@ -143,7 +145,12 @@ namespace Assets.Scripts.MapCreator
                 NewMapInput(NewMapSize);
             });
 
-            Overlay.onClick.AddListener(delegate { _overlay.gameObject.SetActive(!_overlay.gameObject.activeSelf); });
+            OverlayToggle.onValueChanged.AddListener(delegate { _overlay.gameObject.SetActive(OverlayToggle.isOn); });
+            OverlayOpacitySlider.onValueChanged.AddListener(delegate 
+            {
+            _overlay.color = new Color(1,1,1,OverlayOpacitySlider.value);
+            OverlayOpacityPercentage.text = (int)(OverlayOpacitySlider.value*100) + "%";
+            });
 
             //Category buttons
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
@@ -198,7 +205,16 @@ namespace Assets.Scripts.MapCreator
         private void SetOverlay(string mapName)
         {
             _overlaySprite = Resources.Load<Sprite>("LevelMapArt/EnviromentArt/" + mapName);
-            _overlay.sprite = _overlaySprite;
+            if (_overlaySprite == null)
+            {
+                OverlayNameText.text = "N/A";
+                _overlay.sprite = null;
+            }
+            else
+            {
+                _overlay.sprite = _overlaySprite;
+                OverlayNameText.text = mapName;
+            }
         }
 
         //Update Ui
@@ -345,11 +361,22 @@ namespace Assets.Scripts.MapCreator
                         case "Exit":
                             tile.SetExit();
                             break;
+                        case "North":
+                            tile.SetDirection(0);
+                            break;
+                        case "South":
+                            tile.SetDirection(1);
+                            break;
+                        case "West":
+                            tile.SetDirection(2);
+                            break;
+                        case "East":
+                            tile.SetDirection(3);
+                            break;
                         case "Null":
                             break;
+
                     }
-
-
                     row.Add (tile);
                 }
                 _map.Add(row);
