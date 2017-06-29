@@ -104,8 +104,8 @@ namespace Assets.Scripts.MainManagers
         {
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
             _mapGenerator.LoadMapFromXml("LevelMap" + CurrentAct + "_" + CurrentLevel);
-            //_enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
-            _mapGenerator.LoadMapFromXml("tt");
+            _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
+            //_mapGenerator.LoadMapFromXml("tt");
             _map = _mapGenerator.ReturnMap();
             _mapSize = _mapGenerator.ReturnMapSize();
             LevelEntry = _mapGenerator.ReturnEntryTile();
@@ -150,13 +150,21 @@ namespace Assets.Scripts.MainManagers
         //DEBUG
         public void NextLevelDebug()
         {
-            if (CurrentLevel == 1)
-                CurrentLevel = 2;
-            else
-                CurrentLevel = 1;
-           
+            switch (CurrentLevel)
+            {
+                case 1:
+                    CurrentLevel = 2;
+                    break;
+                case 2:
+                    CurrentLevel = 3;
+                    break;
+                case 3:
+                    CurrentLevel = 1;
+                    CurrentAct++;
+                    break;
+            }
             SimpleStartLevel();
-          }
+        }
 
         public void HandleOnStateChange()
         {

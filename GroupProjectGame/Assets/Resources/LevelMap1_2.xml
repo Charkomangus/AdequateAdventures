@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <MapCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="65">
   <Tiles>
     <Tile Type="Normal" LocationX="0" LocationY="0" Object="Empty" Flag="Null" />
@@ -1796,7 +1796,7 @@
     <Tile Type="Normal" LocationX="27" LocationY="37" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="27" LocationY="38" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="27" LocationY="39" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="27" LocationY="40" Object="Empty" Flag="Null" />
+    <Tile Type="Wall" LocationX="27" LocationY="40" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="27" LocationY="41" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="27" LocationY="42" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="27" LocationY="43" Object="Empty" Flag="Null" />
@@ -2562,7 +2562,7 @@
     <Tile Type="Oil" LocationX="39" LocationY="23" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="39" LocationY="24" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="39" LocationY="25" Object="Empty" Flag="Null" />
-    <Tile Type="Wall" LocationX="39" LocationY="26" Object="Empty" Flag="Null" />
+    <Tile Type="Oil" LocationX="39" LocationY="26" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="39" LocationY="27" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="39" LocationY="28" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="39" LocationY="29" Object="Empty" Flag="Null" />
@@ -3862,7 +3862,7 @@
     <Tile Type="Normal" LocationX="59" LocationY="23" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="59" LocationY="24" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="59" LocationY="25" Object="Empty" Flag="Null" />
-    <Tile Type="Oil" LocationX="59" LocationY="26" Object="Empty" Flag="Null" />
+    <Tile Type="Wall" LocationX="59" LocationY="26" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="59" LocationY="27" Object="Empty" Flag="Null" />
     <Tile Type="Blocked" LocationX="59" LocationY="28" Object="Empty" Flag="Null" />
     <Tile Type="Oil" LocationX="59" LocationY="29" Object="Empty" Flag="Null" />
