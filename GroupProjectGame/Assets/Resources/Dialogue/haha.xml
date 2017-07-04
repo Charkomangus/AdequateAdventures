@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
+  <Lines>
+    <Line ActorName="Bunny" Expression="Angry" Direction="1" Content="HI I am maximus &lt;b&gt; HAHAHAHA&lt;/b&gt;" Special="1" FirstChoice="a" SecondChoice="b" ThirdChoice="c" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Content="4" Special="1" FirstChoice="3" SecondChoice="4" ThirdChoice="4" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Content="HI I am maximus &lt;b&gt; HAHAHAHA&lt;/b&gt;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+  </Lines>
+</LineCollection>

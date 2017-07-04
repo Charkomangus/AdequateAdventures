@@ -42,10 +42,8 @@ PlayerSettings:
     duration: 2
   - logo: {fileID: 21300000, guid: 98941cdf38d03d7488e0efad21794329, type: 3}
     duration: 3.17
-  m_SplashScreenBackgroundLandscape: {fileID: 1, guid: 00000000000000000000000000000000,
-    type: 0}
-  m_SplashScreenBackgroundPortrait: {fileID: 1, guid: 00000000000000000000000000000000,
-    type: 0}
+  m_SplashScreenBackgroundLandscape: {fileID: 0}
+  m_SplashScreenBackgroundPortrait: {fileID: 0}
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1280
