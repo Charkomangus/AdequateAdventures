@@ -628,7 +628,7 @@
     <Tile Type="Normal" LocationX="6" LocationY="84" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="85" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="86" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="6" LocationY="87" Object="Empty" Flag="Entry" />
+    <Tile Type="Normal" LocationX="6" LocationY="87" Object="Empty" Flag="Null" />
     <Tile Type="Wall" LocationX="6" LocationY="88" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="89" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="0" Object="Empty" Flag="Null" />
@@ -898,7 +898,7 @@
     <Tile Type="Normal" LocationX="9" LocationY="84" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="85" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="86" Object="Empty" Flag="Null" />
-    <Tile Type="Normal" LocationX="9" LocationY="87" Object="Empty" Flag="Entry" />
+    <Tile Type="Normal" LocationX="9" LocationY="87" Object="Empty" Flag="Null" />
     <Tile Type="Wall" LocationX="9" LocationY="88" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="89" Object="Empty" Flag="Null" />
     <Tile Type="Normal" LocationX="10" LocationY="0" Object="Empty" Flag="Null" />

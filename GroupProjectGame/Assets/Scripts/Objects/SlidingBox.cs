@@ -11,7 +11,7 @@ namespace Assets.Scripts.Objects
 
         [Header("Tiles")]
         [SerializeField]
-        private Tile _parentTile;
+        private Tile _parentTile, _originalTile;
         private float _moveSpeed;
         private List<Tile> newTiles;
         [SerializeField]private bool scheduleToDie, _conveyed;
@@ -22,6 +22,7 @@ namespace Assets.Scripts.Objects
         {
             _moveSpeed = 2;
             _parentTile = GetComponentInParent<Tile>();
+            _originalTile = _parentTile;
         }
 
         // Update is called once per frame
@@ -73,6 +74,12 @@ namespace Assets.Scripts.Objects
             }
         }
 
+        //Return the box back to it's original position
+        public void ResetObject()
+        {
+            SetParentTile(_originalTile, -1);
+        }
+
         //Set parent tile. Depending on the tile type different behaviours will emerge.
         public void SetParentTile(Tile tile, int direction)
         {
@@ -93,20 +100,17 @@ namespace Assets.Scripts.Objects
                 _parentTile.GenerateObject(gameObject);
 
                 _parentTileType = tile.ReturnType();
-              
+
+                if (direction == -1) return;
                 switch (_parentTileType)
                 {
                     //If the box encounters Ice cracks or fire kill it when it reaches the tile
-                    //case TileType.Normal:
-                    //    Debug.Log("HEY");
-                    //    break;
-
                     case TileType.IceCracks:
                     case TileType.Fire:
                         scheduleToDie = true;
                         return;
 
-                    //S
+                    //Switch direction to fit the belts
                     case TileType.RedConveyorBelt:
                     case TileType.GreenConveyorBelt:
                     case TileType.BlueConveyorBelt:

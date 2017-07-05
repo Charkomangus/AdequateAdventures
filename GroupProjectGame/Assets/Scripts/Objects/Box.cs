@@ -9,7 +9,7 @@ namespace Assets.Scripts.Objects
 
 
         [Header("Tiles")]
-        [SerializeField]private Tile _parentTile;
+        [SerializeField]private Tile _parentTile, _originalTile;
         [SerializeField]
         private int _moveSpeed;       
         private bool scheduleToDie, _conveyed;
@@ -20,6 +20,7 @@ namespace Assets.Scripts.Objects
         {
             _moveSpeed = 2;
             _parentTile = GetComponentInParent<Tile>();
+            _originalTile = _parentTile;
         }
 	
         // Update is called once per frame
@@ -72,6 +73,12 @@ namespace Assets.Scripts.Objects
             }
         }
 
+        //Return the box back to it's original position
+        public void ResetObject()
+        {
+            SetParentTile(_originalTile, -1);
+        }
+
         //Set parent tile. Depending on the tile type different behaviours will emerge.
         public void SetParentTile(Tile tile, int direction)
         {
@@ -90,7 +97,7 @@ namespace Assets.Scripts.Objects
             _parentTile.GenerateObject(gameObject);
 
             TileType type = tile.ReturnType();
-
+            if (direction == -1) return;
             //If the box encounters Ice cracks or fire kill it when it reaches the tile
             if (type == TileType.IceCracks || type == TileType.Fire)
             {

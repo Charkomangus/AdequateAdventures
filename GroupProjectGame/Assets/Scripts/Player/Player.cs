@@ -52,7 +52,7 @@ namespace Assets.Scripts.Player
             //Start at entry tile - if it's null pick one at random.
             _parentTile = DetermingStartingTile();
 
-            transform.position = new Vector3(_parentTile.transform.position.x, transform.position.y, _parentTile.transform.position.z);
+           // transform.position = new Vector3(_parentTile.transform.position.x, transform.position.y, _parentTile.transform.position.z);
           
             _moveSpeed = _normalSpeed;
             _slidingSpeed = _moveSpeed * 2;

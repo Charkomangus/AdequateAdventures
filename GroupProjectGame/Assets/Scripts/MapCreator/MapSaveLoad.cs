@@ -94,14 +94,14 @@ namespace Assets.Scripts.MapCreator
 
             if (Application.isEditor)
             {
-                using (var stream = new FileStream("Assets/Resources/" + filename, FileMode.Create))
+                using (var stream = new FileStream("Assets/Resources/LevelMaps/" + filename, FileMode.Create))
                 {
                     serializer.Serialize(stream, mapContainer);
                 }
             }
             else
             {
-                using (var stream = new FileStream("Level Creator_Data/Resources/" + filename, FileMode.Create))
+                using (var stream = new FileStream("Level Creator_Data/Resources/LevelMaps/" + filename, FileMode.Create))
                 {
                     serializer.Serialize(stream, mapContainer);
                 }
@@ -116,7 +116,7 @@ namespace Assets.Scripts.MapCreator
         public static MapXmlContainer Load(string filename) 
         {
             var serializer = new XmlSerializer(typeof(MapXmlContainer));
-            using(var stream = new FileStream("Resources" + filename, FileMode.Open))
+            using(var stream = new FileStream("Resources/LevelMaps/" + filename, FileMode.Open))
             {
                 return serializer.Deserialize(stream) as MapXmlContainer;
             }

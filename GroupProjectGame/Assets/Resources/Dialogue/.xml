@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="4">
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="1">
   <Lines>
-    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Content="You dare to question my authority?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Beaver" Expression="Neutral" Direction="1" Content="Ugghhh what?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Beaver" Expression="Neutral" Direction="1" Content="I'm not sure what is happening." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Badger" Expression="Neutral" Direction="0" Content="Hahahahaha" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Badger" Expression="Angry" Direction="0" Content="This is my first''' ; rty to break this &quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
   </Lines>
 </LineCollection>

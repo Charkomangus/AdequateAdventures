@@ -103,9 +103,9 @@ namespace Assets.Scripts.MainManagers
         private void InitializeMap()
         {
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
-            _mapGenerator.LoadMapFromXml("LevelMap" + CurrentAct + "_" + CurrentLevel);
+            _mapGenerator.LoadMapFromXml("LevelMaps/LevelMap" + CurrentAct + "_" + CurrentLevel);
             if(CurrentAct == 4)
-                _mapGenerator.LoadMapFromXml("test");
+                _mapGenerator.LoadMapFromXml("LevelMaps/test");
             else
                 _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
            

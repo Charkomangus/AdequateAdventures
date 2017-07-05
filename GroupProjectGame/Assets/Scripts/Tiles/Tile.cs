@@ -342,28 +342,6 @@ namespace Assets.Scripts.Tiles
                 }
             }
 
-
-            //if (South.ReturnSouth() != null)
-        //{
-        //    Delete(South.ReturnSouth());
-
-        //    if (South.ReturnSouth().ReturnEast() != null)
-        //    {
-        //        Delete(South.ReturnSouth().ReturnEast());
-
-        //        if (South.ReturnSouth().ReturnEast() != null)
-        //        {
-        //            Delete(South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast());
-
-        //            if (South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast()!= null)
-        //            {
-        //                Delete(South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast());
-
-        //            }
-        //        }
-        //    }
-        //}
-
         if (South != null)
             {
                 Delete(South);
@@ -410,6 +388,18 @@ namespace Assets.Scripts.Tiles
             tile.SetPuzzleEntry(false);
             tile.SetDirection(-1);
             tile.SetObject(TileObject.Empty);
+        }
+
+      
+
+        //Completely destroy a tile, its close family and all it's friends
+        private void DeleteAll(Tile tile)
+        {
+           // if (tile != null) Delete(tile);
+            if(tile.North != null)
+                DeleteAll(tile.North);
+            if(tile.East != null)
+                DeleteAll(tile.East);
         }
 
         //REMOVE IN RELEASE
@@ -516,7 +506,7 @@ namespace Assets.Scripts.Tiles
                                 Delete2();
                                     break;
                             case "Delete4":
-                                Delete4();
+                                DeleteAll(this);
                                     break;
                             }
                     }
@@ -634,8 +624,8 @@ namespace Assets.Scripts.Tiles
                                 Delete2();
                                 break;
                             case "Delete4":
-                                Delete4();
-                                break;
+                                DeleteAll(this);
+                                    break;
 
                             }
                         }
@@ -755,8 +745,8 @@ namespace Assets.Scripts.Tiles
                                 Delete2();
                                 break;
                             case "Delete4":
-                                Delete4();
-                                break;
+                                DeleteAll(this);
+                                    break;
                             }
                     
                         }

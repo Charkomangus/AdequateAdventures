@@ -91,5 +91,11 @@ namespace Assets.Scripts.Objects
                     belt.SwapDirection();
                 }
         }
+
+        //Reset switch to it's original position
+        public void ResetObject()
+        {
+            _spriteRenderer.sprite = sprites[0];
+        }
     }
 }
