@@ -21,7 +21,7 @@ namespace Assets.Scripts.Tiles
         public Tile North, West, East, South;
         [SerializeField]
         private int _tileDirection = -1;
-
+        List<Tile> tiles = new List<Tile>();
 
         // Use this for initialization
         private void Start()
@@ -284,84 +284,7 @@ namespace Assets.Scripts.Tiles
             newType.transform.SetParent(container.transform);
 
             _currentType = newType;
-        }
-
-        //Completely destroy a tile, its close family and all it's friends
-        private void Delete4()
-        {
-            if (North != null)
-            {
-                Delete(North);
-
-                if (North.East != null)
-                {
-                    Delete(North.ReturnEast());
-
-                    if (North.East.East != null)
-                    {
-                        Delete(North.ReturnEast().ReturnEast());
-
-                        if (North.East.East.East != null)
-                            Delete(North.ReturnEast().ReturnEast().ReturnEast());
-                    }
-                }
-            }
-            if (East != null)
-            {
-                Delete(East);
-
-                if (East.East != null)
-                {
-                    Delete(East.ReturnEast());
-
-                    if (East.East.East != null)
-                    {
-                        Delete(East.ReturnEast().ReturnEast());
-
-                    }
-                }
-            }
-            if (South != null)
-            {
-                if (South.South != null)
-                {
-                    Delete(South.ReturnSouth());
-
-                    if (South.South.East != null)
-                    {
-                        Delete(South.ReturnSouth().ReturnEast());
-
-                        if (South.South.East.East != null)
-                        {
-                            Delete(South.ReturnSouth().ReturnEast().ReturnEast());
-
-                            if (South.South.East.East.East != null)
-                                Delete(South.ReturnSouth().ReturnEast().ReturnEast().ReturnEast());
-                        }
-                    }
-                }
-            }
-
-        if (South != null)
-            {
-                Delete(South);
-
-                if (South.East != null)
-                {
-                    Delete(South.ReturnEast());
-
-                    if (South.East.East != null)
-                    {
-                        Delete(South.ReturnEast().ReturnEast());
-
-                        if (South.East.East.East != null)
-                            Delete(South.ReturnEast().ReturnEast().ReturnEast());
-                    }
-                }
-            }
-            Delete(this);
-        }
-
+       }
 
         //Completely destroy a tile and its close family
         private void Delete2()
@@ -394,13 +317,27 @@ namespace Assets.Scripts.Tiles
 
         //Completely destroy a tile, its close family and all it's friends
         private void DeleteAll(Tile tile)
-        {
-           // if (tile != null) Delete(tile);
-            if(tile.North != null)
-                DeleteAll(tile.North);
-            if(tile.East != null)
-                DeleteAll(tile.East);
+        {      
+
+            if (tile.South != null && tile.South.ReturnType() != TileType.Wall)
+            {
+                Debug.Log("HI");
+                tiles.Add(tile.South);
+                DeleteAll(tile.South);
+            }
+            else
+            {
+                foreach (var tempTile in tiles)
+                {
+                    Delete(tempTile);
+                }
+                Delete(this);
+            }
+
+
         }
+
+      
 
         //REMOVE IN RELEASE
         public void OnPointerClick(PointerEventData eventData)
@@ -505,9 +442,9 @@ namespace Assets.Scripts.Tiles
                             case "Delete2":
                                 Delete2();
                                     break;
-                            case "Delete4":
+                          case "DeleteAll":
                                 DeleteAll(this);
-                                    break;
+                                break;
                             }
                     }
                     else if (Input.GetMouseButton(1))
@@ -623,9 +560,9 @@ namespace Assets.Scripts.Tiles
                             case "Delete2":
                                 Delete2();
                                 break;
-                            case "Delete4":
+                            case "DeleteAll":
                                 DeleteAll(this);
-                                    break;
+                                break;
 
                             }
                         }
@@ -744,9 +681,9 @@ namespace Assets.Scripts.Tiles
                             case "Delete2":
                                 Delete2();
                                 break;
-                            case "Delete4":
+                          case "DeleteAll":
                                 DeleteAll(this);
-                                    break;
+                                break;
                             }
                     
                         }

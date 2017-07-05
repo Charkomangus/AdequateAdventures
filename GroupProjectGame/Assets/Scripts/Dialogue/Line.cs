@@ -10,7 +10,17 @@ namespace Assets.Scripts.Dialogue
 
         public string Content, Choise0, Choise1, Choise2;
 
-        public int Special, Direction;
+        public int Special, Direction, Branch;
+
+        public Condition Condition;
+
+
+    }
+
+    public enum Condition
+    {
+        None,
+        PigInJail
     }
 }
     

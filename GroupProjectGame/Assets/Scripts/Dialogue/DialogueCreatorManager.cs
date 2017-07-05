@@ -12,12 +12,12 @@ namespace Assets.Scripts.Dialogue
     public class DialogueCreatorManager : MonoBehaviour
     {
 
-        public Dropdown ActorName, Expression, Direction, Special;
+        public Dropdown ActorName, Expression, Direction, Special, Branch, Condition;
         public GameObject Choises;
         public InputField Content, FirstChoise, SecondChoise, ThirdChoice, SaveField, LoadField;
-        public Line[] Lines = new Line[400];
+        public Line[] Lines = new Line[1000];
         public GameObject PreviousPageButton;
-        public int CurrentPage, MaxPages;
+        public int CurrentPage = 1, MaxPages = 1;
         public Text PageCounterText, PagePercentageText;
         public Slider PagePercentageSlider;
         public Animator MapNotification;
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Dialogue
             {
                 if (!Input.GetMouseButton(0)) return;
                 Lines[CurrentPage] = CreateNewLine();
-                CurrentPage = (int)PagePercentageSlider.value-1;
+                CurrentPage = (int)PagePercentageSlider.value;
                 LoadPage(CurrentPage);
                 SetPageCounters();
             });
@@ -52,12 +52,12 @@ namespace Assets.Scripts.Dialogue
         private void SetPageCounters()
         {
             PreviousPageButton.SetActive(CurrentPage != 0);
-            PageCounterText.text = "Page " + (CurrentPage + 1) + "/" + (MaxPages + 1);
-            PagePercentageSlider.maxValue = MaxPages + 1;
-            PagePercentageSlider.value = CurrentPage + 1;
+            PageCounterText.text = "Page " + (CurrentPage+1) + "/" + (MaxPages+1);
+            PagePercentageSlider.maxValue = MaxPages;
+            PagePercentageSlider.value = CurrentPage ;
 
             //Set what percentage
-            PagePercentageText.text = (int)((float)(CurrentPage + 1) / (MaxPages + 1) * 100) + "%";
+            PagePercentageText.text = (int)((float)(CurrentPage) / (MaxPages) * 100) + "%";
         }
 
         //Resets the dialogue page to the default state
@@ -68,11 +68,15 @@ namespace Assets.Scripts.Dialogue
             Expression.value = 0;
             Direction.value = 0;
             Special.value = 0;
+            Condition.value = 0;
+            Branch.value = 0;
 
             Content.text = "";
             FirstChoise.text = "";
             SecondChoise.text = "";
             ThirdChoice.text = "";
+           
+
         }
 
         //Clear the page if its the last one otherwise delete the page entriely and update the page list
@@ -113,12 +117,7 @@ namespace Assets.Scripts.Dialogue
         //Reveal the special choises
         private void SpecialChoices(string status)
         {
-            Debug.Log(status);
-            if (status == "Yes")
-                Choises.SetActive(true);
-            else
-                Choises.SetActive(false);
-
+            Choises.SetActive(status == "Yes");
         }
 
         //If this is a new page save the old otherwise access the next pages content
@@ -151,10 +150,10 @@ namespace Assets.Scripts.Dialogue
         private void LoadPage(int pageNumber)
         {
             var line = Lines[pageNumber];
-
-        
-            ActorName.value = DetermineActor(line.Actor);
-            Expression.value = DetermineActorExpression(line.ActorExpression);
+            ActorName.value = (int)line.Actor;
+            Expression.value = (int)line.ActorExpression;
+            Branch.value = line.Branch;
+            Condition.value = (int)line.Condition;
             Direction.value = line.Direction;
             Special.value = line.Special;
             Content.text = line.Content;
@@ -168,105 +167,21 @@ namespace Assets.Scripts.Dialogue
         {
             Line line = new Line
             {
-                Actor = DetermineActor(ActorName.value),
-                ActorExpression = DetermineActorExpression(Expression.value),
+                Actor = (Actor)ActorName.value,
+                ActorExpression = (ActorExpression)Expression.value,
                 Direction = Direction.value,
+                Branch = Branch.value,
+                Condition = (Condition)Condition.value,
                 Content = Content.text,
                 Special = Special.value,
                 Choise0 = FirstChoise.text,
                 Choise1 = SecondChoise.text,
                 Choise2 = ThirdChoice.text
+               
             };
             return line;
         }
-
-        //Determines which actor expression to return according to the value given
-        private ActorExpression DetermineActorExpression(int actorExpression)
-        {
-            switch (actorExpression)
-            {
-                case 0:
-                    return ActorExpression.Neutral;
-                case 1:
-                    return ActorExpression.Angry;
-                case 2:
-                    return ActorExpression.Sad;
-                default:
-                    throw new ArgumentOutOfRangeException("actorExpression", actorExpression, null);
-            }
-        }
-
-        //Determines which actor to return according to the value given
-        public int DetermineActorExpression(ActorExpression actorExpression)
-        {
-            switch (actorExpression)
-            {
-                case ActorExpression.Neutral:
-                    return 0;
-                case ActorExpression.Angry:
-                    return 1;
-                case ActorExpression.Sad:
-                    return 2;
-                default:
-                    throw new ArgumentOutOfRangeException("actorExpression", actorExpression, null);
-            }
-        }
-
-        //Determines which actor to return according to the value given
-        public Actor DetermineActor(int value)
-        {
-            switch (value)
-            {
-                case 0:
-                    return Actor.Badger;
-                case 1:
-                    return Actor.Beaver;
-                case 2:
-                    return Actor.Hedgehog;
-                case 3:
-                    return Actor.Mouse;
-                case 4:
-                    return Actor.InjuredMouse;
-                case 5:
-                    return Actor.Pig;
-                case 6:
-                    return Actor.Bunny;
-                case 7:
-                    return Actor.Rats;
-                case 8:
-                    return Actor.Weasel;
-                default:
-                    throw new ArgumentOutOfRangeException("value", value, null);
-            }
-        }
-
-        //Determines which value to set according to the actor given
-        private int DetermineActor(Actor actor)
-        {
-            switch (actor)
-            {
-                case Actor.Badger:
-                    return 0;
-                case Actor.Beaver:
-                    return 1;
-                case Actor.Hedgehog:
-                    return 2;
-                case Actor.Mouse:
-                    return 3;
-                case Actor.InjuredMouse:
-                    return 4;
-                case Actor.Pig:
-                    return 5;
-                case Actor.Bunny:
-                    return 6;
-                case Actor.Rats:
-                    return 7;
-                case Actor.Weasel:
-                    return 8;
-                default:
-                    throw new ArgumentOutOfRangeException("actor", actor, null);
-            }
-        }
+     
 
         //Notify user of any changes such as the map has been saved, etc.
         private void NewMapNotification(string dialogueName, int mode)
@@ -283,6 +198,9 @@ namespace Assets.Scripts.Dialogue
                 case 2:
                     MapNotification.GetComponent<Text>().text = "No such file found!";
                     break;
+                default:
+                    MapNotification.GetComponent<Text>().text = "No such file found!";
+                    break;
             }
         }
 
@@ -296,7 +214,7 @@ namespace Assets.Scripts.Dialogue
 
             if (container != null)
             {
-                Lines = new Line[400];
+                Lines = new Line[1000];
                 for (var x = 0; x < container.Size; x++)
                 {
                     Line line = new Line
@@ -304,11 +222,14 @@ namespace Assets.Scripts.Dialogue
                         Actor = container.Lines[x].ActorName,
                         ActorExpression = container.Lines[x].ActorExpression,
                         Direction = container.Lines[x].Direction,
+                        Branch = container.Lines[x].Branch,
+                        Condition = container.Lines[x].Condition,
                         Content = container.Lines[x].Content,
                         Special = container.Lines[x].Special,
                         Choise0 = container.Lines[x].Choise0,
                         Choise1 = container.Lines[x].Choise1,
                         Choise2 = container.Lines[x].Choise2
+
 
                     };
                     Lines[x] = line;

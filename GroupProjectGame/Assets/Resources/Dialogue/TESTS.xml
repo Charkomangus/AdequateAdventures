@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="4">
+  <Lines>
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="1" Condition="PigInJail" Content="wdwdwdwdw" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="2" Condition="None" Content="dwdwdw" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="3" Condition="None" Content="dwdwd" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="PigInJail" Content="dwdwd" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+  </Lines>
+</LineCollection>

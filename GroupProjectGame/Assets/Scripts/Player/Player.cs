@@ -76,9 +76,6 @@ namespace Assets.Scripts.Player
             //If the player has not been yet initalised or hasd no valid parent tile return
             if (_parentTile == null || !_initialized) return;
 
-
-
-
             DetermineMovement();
             //If the player is close to the parent tile speed them up and read further input
             if (HasReachedTile())
@@ -91,7 +88,6 @@ namespace Assets.Scripts.Player
             {
                 SmoothMove(transform.position, _parentTile.transform.position, _moveSpeed);
             }
-
             //DEBUG - TEMP
             //if (_latestTile != null)
             //{
@@ -171,6 +167,7 @@ namespace Assets.Scripts.Player
             }
         }
 
+        //Determine which way the player is going and which animation to play
         private void DetermineDirection(int direction)
         {
             switch (direction)
@@ -198,6 +195,7 @@ namespace Assets.Scripts.Player
             }
         }
 
+        //Move player smoothly
         public void SmoothMove(Vector3 startPosition, Vector3 endPosition, float speed)
         { 
             transform.position = Vector3.Lerp(startPosition, endPosition, speed * Time.deltaTime);
@@ -451,6 +449,11 @@ namespace Assets.Scripts.Player
         {
             return _moving;
 
+        }
+
+        public void Restart()
+        {
+            //SetParentTile(_currentPuzzleTile);
         }
     }
 

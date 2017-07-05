@@ -87,7 +87,7 @@ namespace Assets.Scripts.Objects
             while (true)
             {
                 if (tile == null) return;
-                if (tile.IsBlocked()) return;
+                if (tile.IsBlocked() && tile.ReturnType() != TileType.Door) return;
 
                 //Free the current parent tile
                 _parentTile.SetBlocked(false);
@@ -104,6 +104,11 @@ namespace Assets.Scripts.Objects
                 if (direction == -1) return;
                 switch (_parentTileType)
                 {
+
+                    case TileType.Door:
+                        _parentTile.SetBlocked(false);
+                        scheduleToDie = true;
+                        return;
                     //If the box encounters Ice cracks or fire kill it when it reaches the tile
                     case TileType.IceCracks:
                     case TileType.Fire:
@@ -131,10 +136,10 @@ namespace Assets.Scripts.Objects
                                     tile = _parentTile.South;
                                     continue;
                                 case 2:
-                                    tile = _parentTile.West;
+                                    tile = _parentTile.East;
                                     continue;
                                 case 3:
-                                    tile = _parentTile.East;
+                                    tile = _parentTile.West;
                                     continue;
                             }
                             break;
@@ -152,10 +157,10 @@ namespace Assets.Scripts.Objects
                                 tile = _parentTile.South;
                                 continue;
                             case 2:
-                                tile = _parentTile.West;
+                                tile = _parentTile.East;
                                 continue;
                             case 3:
-                                tile = _parentTile.East;
+                                tile = _parentTile.West;
                                 continue;
                         }
                         break;

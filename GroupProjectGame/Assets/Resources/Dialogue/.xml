@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="1">
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="6">
   <Lines>
-    <Line ActorName="Badger" Expression="Angry" Direction="0" Content="This is my first''' ; rty to break this &quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="PigInJail" Content="Content" Special="1" FirstChoice="1" SecondChoice="2" ThirdChoice="e" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="1" Condition="None" Content="1" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="1" Condition="None" Content="1 (2)" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="2" Condition="PigInJail" Content="2" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Badger" Expression="Neutral" Direction="0" Branch="2" Condition="None" Content="2 (2)" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="None" Content="ENDING" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
   </Lines>
 </LineCollection>

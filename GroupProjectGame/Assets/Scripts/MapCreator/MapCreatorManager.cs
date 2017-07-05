@@ -40,7 +40,7 @@ namespace Assets.Scripts.MapCreator
         public Slider OverlayOpacitySlider;
         public Text OverlayOpacityPercentage, OverlayNameText;
         public Button Types, Flags, Objects;
-        public Button Delete, Delete2, Delete4;
+        public Button Delete, Delete2, DeleteAll;
      
         [Header("Tile Types")]
         public TileType TileType;
@@ -156,7 +156,7 @@ namespace Assets.Scripts.MapCreator
 
             Delete.onClick.AddListener(delegate { TileFlag = "Delete"; CurrentPlacingStatus = PlacingStatus.Flag; });
             Delete2.onClick.AddListener(delegate { TileFlag = "Delete2"; CurrentPlacingStatus = PlacingStatus.Flag; });
-            Delete4.onClick.AddListener(delegate { TileFlag = "Delete4"; CurrentPlacingStatus = PlacingStatus.Flag; });
+            DeleteAll.onClick.AddListener(delegate { TileFlag = "DeleteAll"; CurrentPlacingStatus = PlacingStatus.Flag; });
             //Category buttons
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
             Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
@@ -324,7 +324,7 @@ namespace Assets.Scripts.MapCreator
         private void LoadMapFromXml(string filename) {
           
             //Load map level
-            var container = MapSaveLoad.LoadFromResources(filename);
+            var container = MapSaveLoad.LoadFromResources("LevelMaps/"+filename);
 
             if (container == null)
             {

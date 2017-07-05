@@ -138,7 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ed576ea821d26489d69d7214699c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileList: {fileID: 0}
+  _puzzleEntryTiles: []
+  _puzzleCompleteTiles: []
 --- !u!114 &93456835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,11 +155,12 @@ MonoBehaviour:
   AudioManager: {fileID: 0}
   UiManager: {fileID: 0}
   PuzzleManager: {fileID: 0}
+  _mapGenerator: {fileID: 0}
   MapTransform: {fileID: 0}
   LevelEntry: {fileID: 0}
   LevelExit: {fileID: 0}
-  CurrentAct: 1
-  CurrentLevel: 1
+  CurrentAct: 2
+  CurrentLevel: 2
   CurrentScene: 
   Player: {fileID: 0}
 --- !u!4 &93456836
@@ -2644,6 +2646,11 @@ MonoBehaviour:
   _redConveyorBelts: []
   _greenConveyorBelts: []
   _blueConveyorBelts: []
+  puzzles: []
+  Boxes: []
+  SlidingBoxes: []
+  Switches: []
+  Belts: []
 --- !u!114 &1292918520
 MonoBehaviour:
   m_ObjectHideFlags: 0

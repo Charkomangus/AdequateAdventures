@@ -19,7 +19,7 @@ namespace Assets.Scripts.Tiles
 
         [SerializeField]private Direction _direction;
         [SerializeField]private TileType _tileType;
-        [SerializeField]private int _speed;
+        [SerializeField]private int _speed, _originalDirection;
         private Tile _tile;
         private SpriteRenderer _sprite;
    
@@ -35,6 +35,7 @@ namespace Assets.Scripts.Tiles
         {
             _tile = GetComponentInParent<Tile>();
             _tileType = GetComponentInParent<Tile>().ReturnType();
+            _originalDirection = _tile.ReturnDirection();
             DetermineDirection();
         }
      
@@ -146,6 +147,26 @@ namespace Assets.Scripts.Tiles
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+            GenerateVisuals();
+        }
+
+        public void ResetObject()
+        {
+            switch (_originalDirection)
+            {
+                case 0:
+                    _direction = Direction.North;
+                    break;
+                case 1:
+                    _direction = Direction.South;
+                    break;
+                case 2:
+                    _direction = Direction.East;
+                    break;
+                case 3:
+                    _direction = Direction.West;
+                    break;
             }
             GenerateVisuals();
         }

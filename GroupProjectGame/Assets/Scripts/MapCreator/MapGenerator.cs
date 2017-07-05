@@ -12,9 +12,9 @@ namespace Assets.Scripts.MapCreator
     /// </summary>
     public class MapGenerator : MonoBehaviour
     {
-        public GameObject TileList;
-        private int _mapSize;
+      private int _mapSize;
         private List<List<Tile>> _map = new List<List<Tile>>();
+        [SerializeField]private List<Tile> _puzzleEntryTiles, _puzzleCompleteTiles;
         private Tile _entryTile;
         /// <summary>
         /// Populate the map with tiles
@@ -27,11 +27,15 @@ namespace Assets.Scripts.MapCreator
                 var row = new List<Tile>();
                 for (var j = 0; j < mapSize; j++)
                 {
-                    var tile = ((GameObject)Instantiate(PrefabHolder.Instance.BaseTilePrefab, new Vector3(i - Mathf.Floor(mapSize / 2f), 0, -j + Mathf.Floor(mapSize / 2f)), Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
-                   tile.transform.SetParent(TileList.transform);
+                    var tile = ((GameObject) Instantiate(PrefabHolder.Instance.BaseTilePrefab,
+                        new Vector3(i - Mathf.Floor(mapSize / 2f), 0, -j + Mathf.Floor(mapSize / 2f)),
+                        Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
+               
                     tile.SetPosition(new Vector3(i, j, 0));
                     tile.SetType(TileType.Normal);
-                   FindLevelEntry(i, j);
+                    FindLevelEntry(i, j);
+                    PuzzleEntry(i, j);
+                    PuzzleExit(i, j);
                     row.Add(tile);
                 }
                 _map.Add(row);
@@ -44,6 +48,28 @@ namespace Assets.Scripts.MapCreator
             if (_map[i][j].IsEntry())
                 _entryTile = _map[i][j];
             
+        }
+
+        //Find the tile that has an entry flag on it
+        void PuzzleEntry(int i, int j)
+        {
+            if (_map[i][j].IsPuzzleEntry())
+            { _puzzleEntryTiles.Add(_map[i][j]);
+            Debug.Log("hey");
+        }
+
+    }
+
+        //Find the tile that has an entry flag on it
+        void PuzzleExit(int i, int j)
+        {
+
+            if (_map[i][j].IsPuzzleComplete())
+            {
+                _puzzleCompleteTiles.Add(_map[i][j]);
+                Debug.Log("hey");
+            }
+
         }
 
         /// <summary>
@@ -87,10 +113,12 @@ namespace Assets.Scripts.MapCreator
                     {
                         case "PuzzleEntry":
                             tile.SetPuzzleEntry(true);
-                         
+                            _puzzleEntryTiles.Add(tile);
+
                             break;
                         case "PuzzleComplete":
                             tile.SetPuzzleComplete(true);
+                            _puzzleCompleteTiles.Add(tile);
                             break;
                         case "Entry":
                             tile.SetEntry(true);
@@ -149,6 +177,24 @@ namespace Assets.Scripts.MapCreator
         public Tile ReturnEntryTile()
         {
             return _entryTile;
+        }
+
+        /// <summary>
+        /// Return the maps entry tile
+        /// </summary>
+        /// <returns></returns>
+        public List<Tile> ReturnPuzzleEntryTile()
+        {
+            return _puzzleEntryTiles;
+        }
+
+        /// <summary>
+        /// Return the maps entry tile
+        /// </summary>
+        /// <returns></returns>
+        public List<Tile> ReturnPuzzleExitTile()
+        {
+            return _puzzleCompleteTiles;
         }
 
 

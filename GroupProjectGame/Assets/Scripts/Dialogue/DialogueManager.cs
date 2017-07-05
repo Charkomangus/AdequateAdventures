@@ -23,7 +23,8 @@ namespace Assets.Scripts.Dialogue
         [SerializeField] private GameObject _choisePrefab;
 
         [SerializeField] private List<GameObject> _choises;
-        // Use this for initialization
+        [SerializeField] private int _currentBranch;
+          // Use this for initialization
         void Awake()
         {
             _portraits = Resources.LoadAll<Sprite>("Portraits");
@@ -38,12 +39,10 @@ namespace Assets.Scripts.Dialogue
         private void Update()
         {
 
-            if (_managerAnimator.GetBool("Open") &&
-                (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+            if (_managerAnimator.GetBool("Open") &&            (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)))
             {
                 Debug.Log(_lines[_currentPage].Special);
                 var line = _lines[_currentPage];
-
 
                 if (line.Special == 0)
                     NextLine();
@@ -119,9 +118,23 @@ namespace Assets.Scripts.Dialogue
             _currentPage++;
             if (_currentPage < _maxPage)
             {
-                _currentyLine = _lines[_currentPage];
-                SetActor(_currentyLine);
-                SetContent(_currentyLine);
+                if (_lines[_currentPage].Branch == _currentBranch)
+                {
+                    _currentyLine = _lines[_currentPage];
+                    SetActor(_currentyLine);
+                    SetContent(_currentyLine);
+                }
+                else if (_lines[_currentPage].Branch == 0)
+                {
+
+                    _currentyLine = _lines[_currentPage];
+                    SetActor(_currentyLine);
+                    SetContent(_currentyLine);
+                }
+                else
+                {
+                    NextLine();
+                }
             }
             else
                 CloseDialogue();
@@ -130,11 +143,14 @@ namespace Assets.Scripts.Dialogue
         //Create a new line
         private void CreateNewLine(string content)
         {
-            var line = _lines[_currentPage+1];
-            line.Content = content;
-            line.Special = 0;
-            SetContent(line);
-            SetActor(line);
+            _lines[_currentPage] = _lines[_currentPage + 1];
+            _lines[_currentPage].Content = content;
+            _lines[_currentPage].Special = 0;
+            
+            SetContent(_lines[_currentPage]);
+            SetActor(_lines[_currentPage]);
+            _currentPage++;
+
         }
 
         //Set the content
@@ -179,19 +195,17 @@ namespace Assets.Scripts.Dialogue
 
 
 
-
+        //Switch off the choises
         private void ChooseResponse(int chosenButton)
         {
-   
-            
-            for (int j = 0; j < _choises.Count + 1; j++)
+            for (int j = 0; j < _choises.Count; j++)
             {
                if (j == chosenButton)
                {
                    _choises[j].GetComponent<Button>().interactable = false;
                     StartCoroutine(CloseSpecial(_choises[j]));
-
-                }
+                   _currentBranch = chosenButton+1;
+               }
                 else
                 {
                     _choises[j].GetComponent<Animator>().SetBool("Open", false);

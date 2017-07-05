@@ -21,6 +21,12 @@ namespace Assets.Scripts.Dialogue
         [XmlAttribute("Direction")]
         public int Direction;
 
+        [XmlAttribute("Branch")]
+        public int Branch;
+
+        [XmlAttribute("Condition")]
+        public Condition Condition;
+
         [XmlAttribute("Content")]
         public string Content;
 
@@ -86,6 +92,8 @@ namespace Assets.Scripts.Dialogue
                 ActorName = line.Actor,
                 ActorExpression = line.ActorExpression,
                 Direction = line.Direction,
+                Branch = line.Branch,
+                Condition = line.Condition,
                 Content = line.Content,
                 Special = line.Special,
                 Choise0 = line.Choise0,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
+using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
 using Assets.Scripts.Ui;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Assets.Scripts.MainManagers
         public UiManager UiManager;
         public PuzzleManager PuzzleManager;
         private StateManager _stateManager;
-        private MapGenerator _mapGenerator;
+        public MapGenerator _mapGenerator;
         private EnviromentManager _enviromentManager;
         public Transform MapTransform;
         private int _mapSize;
@@ -46,7 +47,7 @@ namespace Assets.Scripts.MainManagers
             _stateManager = StateManager.Instance;
             _stateManager.OnStateChange += HandleOnStateChange;
             CurrentScene = SceneManager.GetActiveScene().name;
-          AudioManager = GetComponentInChildren<AudioManager>();
+            AudioManager = GetComponentInChildren<AudioManager>();
             _mapGenerator = GetComponent<MapGenerator>();
             _enviromentManager = FindObjectOfType<EnviromentManager>();
 
@@ -81,6 +82,7 @@ namespace Assets.Scripts.MainManagers
             
         }
 
+        //Start level
         public void StartLevel()
         {
             UiManager = FindObjectOfType<UiManager>();
@@ -94,21 +96,27 @@ namespace Assets.Scripts.MainManagers
 
         }
 
-        //public Tile ReturnPlayerTile()
-        //{
-        //    return _mapGenerator.ReturnSpecificTile((int) _checkpoint.x, (int) _checkpoint.y);
-        //}
+        public Tile ReturnPlayerTile()
+        {
+            return _mapGenerator.ReturnSpecificTile((int)_checkpoint.x, (int)_checkpoint.y);
+        }
 
         //Loads the corresponding map to the current act and level and initializes variables concerning it
         private void InitializeMap()
         {
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
-            _mapGenerator.LoadMapFromXml("LevelMaps/LevelMap" + CurrentAct + "_" + CurrentLevel);
-            if(CurrentAct == 4)
+
+            if (CurrentAct == 4)
+            {
                 _mapGenerator.LoadMapFromXml("LevelMaps/test");
+                _enviromentManager.LoadEnviromentArt("");
+            }
             else
+            {
+                _mapGenerator.LoadMapFromXml("LevelMaps/LevelMap" + CurrentAct + "_" + CurrentLevel);
                 _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
-           
+            }
+
             _map = _mapGenerator.ReturnMap();
             _mapSize = _mapGenerator.ReturnMapSize();
             LevelEntry = _mapGenerator.ReturnEntryTile();
@@ -129,8 +137,9 @@ namespace Assets.Scripts.MainManagers
         public void RestartLevel()
         {
             _checkpoint = Player.DetermingStartingTile()._gridPosition;
-            SimpleStartLevel();     
-           
+            Player.Restart();
+          PuzzleManager.RestartLevel();
+
         }
 
 
