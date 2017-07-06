@@ -108,7 +108,7 @@ namespace Assets.Scripts.MapCreator
             TileFlag = "N/A";
             CurrentPlacingStatus = PlacingStatus.Type;
 
-            _mapTransform = transform.FindChild("Map");
+            _mapTransform = transform.Find("Map");
             _mainCamera = Camera.main.GetComponent<MapCreatorCamera>();
             OverlayOpacityPercentage.text = (int)(_overlay.color.a * 100) + "%";
             OverlayOpacitySlider.value = _overlay.color.a;

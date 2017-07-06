@@ -241,7 +241,7 @@ namespace Assets.Scripts.Tiles
         //Generate a tiles objects
         public void GenerateNewObject()
         {
-            var container = transform.FindChild("Objects").gameObject;
+            var container = transform.Find("Objects").gameObject;
             //initially remove all children
             for (var i = 0; i < container.transform.childCount; i++)
             {
@@ -256,7 +256,7 @@ namespace Assets.Scripts.Tiles
         //Generate a tiles objects
         public void GenerateObject(GameObject newObject)
         {
-            var container = transform.FindChild("Objects").gameObject;
+            var container = transform.Find("Objects").gameObject;
             //initially remove all children
             for (var i = 0; i < container.transform.childCount; i++)
             {
@@ -271,7 +271,7 @@ namespace Assets.Scripts.Tiles
         public void GenerateVisuals()
         {
 
-            var container = transform.FindChild("Visuals").gameObject;
+            var container = transform.Find("Visuals").gameObject;
             //initially remove all children
             for (var i = 0; i < container.transform.childCount; i++)
             {

@@ -12,12 +12,11 @@ namespace Assets.Scripts.Managers
         public Button End;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-            start.onClick.AddListener(delegate { StartGame(); });
-            End.onClick.AddListener(delegate { EndGame();   });
+            start.onClick.AddListener(StartGame);
+            End.onClick.AddListener(EndGame);
         }
-
 
 
         public void StartGame()
