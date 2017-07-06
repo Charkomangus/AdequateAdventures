@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="6">
   <Lines>
-    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="None" Content="I come now in!" Special="0" FirstChoice="1" SecondChoice="2" ThirdChoice="e" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="PigInJail" Content="I come now in!" Special="0" FirstChoice="1" SecondChoice="2" ThirdChoice="e" />
     <Line ActorName="Pig" Expression="Neutral" Direction="1" Branch="0" Condition="None" Content="How dare doing you are just now?!" Special="1" FirstChoice="I dare then!" SecondChoice="No, I but better!" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="None" Content="TEMPORARY" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Pig" Expression="Neutral" Direction="1" Branch="1" Condition="PigInJail" Content="You dare then? How dare you then then?!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Pig" Expression="Neutral" Direction="1" Branch="2" Condition="None" Content="No, I better!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="None" Content="ENDING" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="Neutral" Direction="0" Branch="0" Condition="None" Content="Huh?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
   </Lines>
 </LineCollection>

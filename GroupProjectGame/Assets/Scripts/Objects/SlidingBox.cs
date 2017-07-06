@@ -63,7 +63,7 @@ namespace Assets.Scripts.Objects
 
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
-                    Destroy(gameObject);
+                    GetComponent<SpriteRenderer>().enabled = false;
                 }
             }
             else
@@ -77,7 +77,11 @@ namespace Assets.Scripts.Objects
         //Return the box back to it's original position
         public void ResetObject()
         {
+            transform.position = _originalTile.transform.position;
             SetParentTile(_originalTile, -1);
+            GetComponent<SpriteRenderer>().enabled = true;
+            scheduleToDie = false;
+            _direction = -1;
         }
 
         //Set parent tile. Depending on the tile type different behaviours will emerge.

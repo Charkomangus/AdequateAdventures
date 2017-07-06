@@ -974,7 +974,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 440, y: 299}
+  m_AnchoredPosition: {x: 400, y: 299}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &132912238
@@ -2052,7 +2052,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 440, y: 373}
+  m_AnchoredPosition: {x: 430, y: 373}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285590213
@@ -3545,8 +3545,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 334}
+  m_AnchoredPosition: {x: 40, y: 2}
+  m_SizeDelta: {x: 79, y: 443}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &415219610
 MonoBehaviour:
@@ -11088,7 +11088,21 @@ MonoBehaviour:
     m_Options:
     - m_Text: N/A
       m_Image: {fileID: 0}
-    - m_Text: Pig is in Jail
+    - m_Text: PigFailedInterrogation
+      m_Image: {fileID: 0}
+    - m_Text: PigFakedEvidence
+      m_Image: {fileID: 0}
+    - m_Text: PigFree
+      m_Image: {fileID: 0}
+    - m_Text: BadgerFailedInterrogation
+      m_Image: {fileID: 0}
+    - m_Text: BadgerFakedEvidence
+      m_Image: {fileID: 0}
+    - m_Text: BadgerFree
+      m_Image: {fileID: 0}
+    - m_Text: RatsFailedInterrogation
+      m_Image: {fileID: 0}
+    - m_Text: RatsFakedEvidence
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

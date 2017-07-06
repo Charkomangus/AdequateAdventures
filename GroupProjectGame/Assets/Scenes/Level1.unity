@@ -159,8 +159,8 @@ MonoBehaviour:
   MapTransform: {fileID: 0}
   LevelEntry: {fileID: 0}
   LevelExit: {fileID: 0}
-  CurrentAct: 2
-  CurrentLevel: 2
+  CurrentAct: 1
+  CurrentLevel: 1
   CurrentScene: 
   Player: {fileID: 0}
 --- !u!4 &93456836

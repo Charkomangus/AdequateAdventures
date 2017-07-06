@@ -51,8 +51,8 @@ namespace Assets.Scripts.Player
 
             //Start at entry tile - if it's null pick one at random.
             _parentTile = DetermingStartingTile();
-
-           // transform.position = new Vector3(_parentTile.transform.position.x, transform.position.y, _parentTile.transform.position.z);
+            
+            transform.position = _parentTile.transform.position;
           
             _moveSpeed = _normalSpeed;
             _slidingSpeed = _moveSpeed * 2;
@@ -122,15 +122,11 @@ namespace Assets.Scripts.Player
                     break;
                 //Player spawns at puzzle entry
                 case TileType.Fire:
-                    _parentTile.SetBlocked(false);
-                    _parentTile = GameManager.Instance.ReturnLevelEntry();
-                    transform.position = _parentTile.transform.position;
+                   GameManager.Instance.RestartLevel();
                     break;
                 //Player spawns at puzzle entry
                 case TileType.IceCracks:
-                    _parentTile.SetBlocked(false);
-                    _parentTile = GameManager.Instance.ReturnLevelEntry();
-                    transform.position = _parentTile.transform.position;
+                    GameManager.Instance.RestartLevel();
                     break;
 
                 //Player slides on belt
@@ -437,9 +433,10 @@ namespace Assets.Scripts.Player
         }
 
 
-        //Set the players parent tile
+        //Set the players parent tile and unblocks their current one
         public void SetParentTile(Tile tile)
         {
+            _parentTile.SetBlocked(false);
             _parentTile = tile;
           
         }
@@ -448,13 +445,18 @@ namespace Assets.Scripts.Player
         public bool IsMoving()
         {
             return _moving;
-
         }
 
+        //Reset to the players location to the last checkpoint
         public void Restart()
         {
-            //SetParentTile(_currentPuzzleTile);
+            //Check if there is a checkpoint - if not use the level entry as one
+            var tile = _currentPuzzleTile ?? GameManager.Instance.LevelEntry;
+            transform.position = tile.transform.position;
+            SetParentTile(tile);
+            _latestTile = null;
         }
+        
     }
 
 }

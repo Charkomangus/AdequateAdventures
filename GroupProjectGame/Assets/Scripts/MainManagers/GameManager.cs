@@ -139,6 +139,8 @@ namespace Assets.Scripts.MainManagers
             _checkpoint = Player.DetermingStartingTile()._gridPosition;
             Player.Restart();
           PuzzleManager.RestartLevel();
+     
+            UiManager.SetFade(true);
 
         }
 
@@ -217,7 +219,7 @@ namespace Assets.Scripts.MainManagers
 
         public void HandleOnStateChange()
         {
-            Invoke("StartLevel", 1f);
+            Invoke("StartLevel", 0);
         }
 
 

@@ -31,18 +31,20 @@ namespace Assets.Scripts.Tiles
           
         }
 
+     
+
         void Start()
         {
             _tile = GetComponentInParent<Tile>();
             _tileType = GetComponentInParent<Tile>().ReturnType();
-            _originalDirection = _tile.ReturnDirection();
-            DetermineDirection();
+           DetermineDirection();
         }
      
 
-        //Determine starting direction by looking at surround tiles
+        //Determine starting direction by looking at what the tile has to say
         private void DetermineDirection()
         {
+         
             switch (_tile.ReturnDirection())
             {
                 case 0:
@@ -58,7 +60,8 @@ namespace Assets.Scripts.Tiles
                     _direction = Direction.West;
                     break;
             }
-            GenerateVisuals();
+         
+         GenerateVisuals();
         }
 
         public void GenerateVisuals()
@@ -108,6 +111,7 @@ namespace Assets.Scripts.Tiles
         //Set the belts direction
         public void SetDirecton(int newDirection)
         {
+            _originalDirection = newDirection;
             switch (newDirection)
             {
                 case 0:
