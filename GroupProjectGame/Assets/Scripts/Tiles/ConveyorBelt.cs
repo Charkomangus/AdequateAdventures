@@ -20,6 +20,8 @@ namespace Assets.Scripts.Tiles
         [SerializeField]private Direction _direction;
         [SerializeField]private TileType _tileType;
         [SerializeField]private int _speed, _originalDirection;
+
+        [SerializeField]private int _puzzleNumber;
         private Tile _tile;
         private SpriteRenderer _sprite;
    
@@ -36,7 +38,8 @@ namespace Assets.Scripts.Tiles
         void Start()
         {
             _tile = GetComponentInParent<Tile>();
-            _tileType = GetComponentInParent<Tile>().ReturnType();
+            _tileType = _tile.ReturnType();
+            _puzzleNumber = _tile.ReturnPuzzleNumber();
            DetermineDirection();
         }
      
@@ -184,6 +187,16 @@ namespace Assets.Scripts.Tiles
         public TileType ReturnType()
         {
             return _tileType;
+        }
+
+        public void SetPuzzle(int puzzle)
+        {
+            _puzzleNumber = puzzle;
+        }
+
+        public int ReturnPuzzle()
+        {
+            return _puzzleNumber;
         }
 
 

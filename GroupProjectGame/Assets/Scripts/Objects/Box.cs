@@ -13,7 +13,8 @@ namespace Assets.Scripts.Objects
         [SerializeField]
         private int _moveSpeed;       
         private bool scheduleToDie, _conveyed;
-
+        [SerializeField]
+        private int _puzzleNumber;
 
         // Use this for initialization
         void Start ()
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Objects
             _moveSpeed = 2;
             _parentTile = GetComponentInParent<Tile>();
             _originalTile = _parentTile;
+            _puzzleNumber = _parentTile.ReturnPuzzleNumber();
         }
 	
         // Update is called once per frame
@@ -151,6 +153,16 @@ namespace Assets.Scripts.Objects
         public void SmoothMove(Vector3 startPosition, Vector3 endPosition, float speed)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, speed * Time.deltaTime);
+        }
+
+        public void SetPuzzle(int puzzle)
+        {
+            _puzzleNumber = puzzle;
+        }
+
+        public int ReturnPuzzle()
+        {
+            return _puzzleNumber;
         }
     }
 }

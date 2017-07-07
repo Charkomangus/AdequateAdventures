@@ -25,6 +25,7 @@ namespace Assets.Scripts.Player
         [Header("Tiles")]
         [SerializeField]private Tile _parentTile;
         [SerializeField]private Tile _latestTile;
+        [SerializeField]private int _currentPuzzle = -1;
         [SerializeField]private Tile _currentPuzzleTile;
 
         [Header("Movement")]
@@ -37,7 +38,7 @@ namespace Assets.Scripts.Player
         [SerializeField]private bool _sliding;
         [SerializeField]private bool _moving;
         [SerializeField]private bool _endedLevel;
-
+        [SerializeField] private bool _scheduleToDie;
         private bool _initialized;
         //Int to indicate direction 0 is North, 1 is South, 2 is East, 3 is West
         private int _direction;
@@ -65,7 +66,6 @@ namespace Assets.Scripts.Player
         //Start at entry tile - if it's null pick one at random.
         public Tile DetermingStartingTile()
         {
-           
           return GameManager.Instance.ReturnLevelEntry() ?? FindObjectOfType<Tile>();
         }
 
@@ -82,7 +82,14 @@ namespace Assets.Scripts.Player
             {
                 SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
                 PlayerInput();
-                DetermineMoveState();             
+                DetermineMoveState(); 
+
+                //Free the current parent tile and kill the object
+                if (_scheduleToDie)
+                {
+                    _scheduleToDie = false;
+                    GameManager.Instance.RestartLevel();
+                }
             }
             else
             {
@@ -122,11 +129,8 @@ namespace Assets.Scripts.Player
                     break;
                 //Player spawns at puzzle entry
                 case TileType.Fire:
-                   GameManager.Instance.RestartLevel();
-                    break;
-                //Player spawns at puzzle entry
                 case TileType.IceCracks:
-                    GameManager.Instance.RestartLevel();
+                    _scheduleToDie = true;
                     break;
 
                 //Player slides on belt
@@ -309,7 +313,7 @@ namespace Assets.Scripts.Player
                 _parentTile = destination;
                 _parentTile.SetBlocked(true);
                 _moving = true;
-
+                _currentPuzzle = destination.ReturnPuzzleNumber();
                 //Depending on the direction facing save which tile the player is looking at
                 switch (_direction) 
                 {
@@ -455,6 +459,14 @@ namespace Assets.Scripts.Player
             transform.position = tile.transform.position;
             SetParentTile(tile);
             _latestTile = null;
+            _playerMoveState = PlayerMoveState.Idle;
+        }
+
+
+        //Return which puzzle the player is standing in
+        public int ReturnCurrentPuzzle()
+        {
+            return _currentPuzzle;
         }
         
     }

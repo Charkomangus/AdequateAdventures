@@ -7,7 +7,7 @@ namespace Assets.Scripts.Objects
 
       
         [SerializeField] private string SignText;
-
+        [SerializeField]private int _puzzleNumber;
         // Use this for initialization
         void Start()
         {

@@ -8,35 +8,52 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tiles
 {
-    public class Tile : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler
+    public class Tile : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
-        [SerializeField] private TileType _type = TileType.Normal;
-        [SerializeField] private TileObject _object = TileObject.Empty;
-        [SerializeField] private bool _blocked, _exit, _entry, _puzzleComplete, _puzzleEntry;
-        [SerializeField] public Vector2 _gridPosition = Vector2.zero;
+        [Header("Tile Type")]
+        [SerializeField]private TileType _type = TileType.Normal;
+        [Header("Object")]
+        [SerializeField]private TileObject _object = TileObject.Empty;
+
+        [Header("Flags")]
+        [SerializeField] private bool _blocked;
+        [SerializeField] private bool _exit;
+        [SerializeField] private bool _entry;
+        [SerializeField]private bool _puzzleComplete;
+        [SerializeField]private bool _puzzleEntry;
+
+        [SerializeField]private int _puzzleNumber = -1;
+        [SerializeField]private int _tileDirection = -1;
+        [Header("Position")]
+        [SerializeField]private Vector2 _gridPosition = Vector2.zero;
+      
+        //Local reference to Prefabs of the tile and objects
         private GameObject _tilePrefab, _objectPrefab;
+        //Which type and object does this tile currently have
         private GameObject _currentType, _currentObject;
-        private string _currentScene;
+
+        [Header("Neighbors")]
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
-        [SerializeField]
-        private int _tileDirection = -1;
-        List<Tile> tiles = new List<Tile>();
+        private readonly List<Tile> _tiles = new List<Tile>();
 
         // Use this for initialization
         private void Start()
         {
-            if (_type == TileType.Null && _currentScene == "Level1")
+            //If the tiles type is null and it's currently in level destroy this tile
+            if (_type == TileType.Null && SceneManager.GetActiveScene().name == "Level1")
             {
                 Destroy(gameObject);
                 return;
             }
+
+            //Set Tiles name for easy identification
             name = _type + " Tile";
-            _currentScene = SceneManager.GetActiveScene().name;
+         
             GenerateNewObject();
             if(_tileDirection != -1)
                 SetConveyorDirection(_tileDirection);
-            switch (_currentScene)
+            switch (SceneManager.GetActiveScene().name)
             {
                 case "Level1":
                 {
@@ -83,9 +100,10 @@ namespace Assets.Scripts.Tiles
                 GetComponentInChildren<TextMesh>().text = "ENTRY";
             else if (_exit)
                 GetComponentInChildren<TextMesh>().text = "EXIT";
+            else if (_puzzleNumber >= 0)
+                GetComponentInChildren<TextMesh>().text = _puzzleNumber.ToString(); //TEMP
             else
-                GetComponentInChildren<TextMesh>().text = " ";
-
+                GetComponentInChildren<TextMesh>().text = "";
         }
 
         /// <summary>
@@ -304,38 +322,81 @@ namespace Assets.Scripts.Tiles
         {
             if (tile == null) return;
             tile.SetType(TileType.Null);
+            DeleteFlags(tile);
+            tile.SetDirection(-1);
+            tile.SetObject(TileObject.Empty);
+        }
+
+        //Set all bools to false and all ints to -1
+        private void DeleteFlags(Tile tile)
+        {
             tile.SetEntry(false);
             tile.SetBlocked(false);
             tile.SetExit(false);
             tile.SetPuzzleComplete(false);
             tile.SetPuzzleEntry(false);
-            tile.SetDirection(-1);
-            tile.SetObject(TileObject.Empty);
+            tile.SetPuzzleNumber(-1);
         }
-
-      
 
         //Completely destroy a tile, its close family and all it's friends
         private void DeleteAll(Tile tile)
-        {      
-
-            if (tile.South != null && tile.South.ReturnType() != TileType.Wall)
+        {
+            while (true)
             {
-                Debug.Log("HI");
-                tiles.Add(tile.South);
-                DeleteAll(tile.South);
-            }
-            else
-            {
-                foreach (var tempTile in tiles)
+                if (tile.South != null && tile.South.ReturnType() != TileType.Wall)
                 {
-                    Delete(tempTile);
+                    _tiles.Add(tile.South);
+                    tile = tile.South;
+                    continue;
                 }
+                foreach (var tempTile in _tiles)
+                        Delete(tempTile);
+
                 Delete(this);
+                break;
+            }
+        }
+
+
+        //Set all valid tilesa to the apropriate puzzle number then increase the puzzle number
+        public void PuzzleLoop(int puzzleNumber)
+        {
+            SetPuzzle(puzzleNumber);
+            MapCreatorManager.Instance.PuzzleNumber++;
+        }
+
+
+
+        //Create an area that constitutes a puzzle. Stops at walls and PuzzleComlete/PuzzleEntry tiles.
+        private void SetPuzzle(int puzzleNumber)
+        {
+            //Set this tile to the aproproate puzzle number
+            if (IsValidPuzzleTile(this, puzzleNumber))
+            {
+                SetPuzzleNumber(puzzleNumber);
             }
 
-
+            //Set all valid neighbors to the same then call this function from them
+            foreach (var neighbor in _neighbors)
+            {
+                if (IsValidPuzzleTile(neighbor, puzzleNumber)) continue;
+                neighbor.SetPuzzleNumber(puzzleNumber);
+                neighbor.SetPuzzle(puzzleNumber);
+            }
+           
         }
+
+        //Check if this tile can be a valid puzzle tile
+        private bool IsValidPuzzleTile(Tile tile, int puzzleNumber)
+        {
+            return tile.ReturnPuzzleNumber() == puzzleNumber || tile.IsPuzzleComplete() || tile.IsPuzzleEntry() ||
+                   tile.ReturnType() == TileType.Door || tile.ReturnType() == TileType.Wall ||
+                   tile.ReturnType() == TileType.Blocked;
+        }
+
+        
+
+       
 
       
 
@@ -395,11 +456,12 @@ namespace Assets.Scripts.Tiles
                                 _puzzleComplete = true;
                                 ShowFlags();
                                 break;
-                            case "DeleteFlag":
-                                _entry = false;
-                                _exit = false;
-                                _puzzleEntry = false;
-                                _puzzleComplete = false;
+                            case "Puzzle":
+                                PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
+                                ShowFlags();
+                          break;
+                                case "DeleteFlag":
+                               DeleteFlags(this);
                                 ShowFlags();
                                 break;
                             //Set the conveyor belt that is on this tile direction
@@ -460,6 +522,8 @@ namespace Assets.Scripts.Tiles
                 }
             }
         }
+
+        
         //REMOVE IN RELEASE
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -514,12 +578,14 @@ namespace Assets.Scripts.Tiles
                                 _puzzleComplete = true;
                                 GetComponentInChildren<TextMesh>().text = "PC";
                                 break;
-                            case "DeleteFlag":
-                                _entry = false;
-                                _exit = false;
-                                _puzzleEntry = false;
-                                _puzzleComplete = false;
+                            case "Puzzle":
+                                PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
+                                    ShowFlags();
                                 break;
+                                case "DeleteFlag":
+                                    DeleteFlags(this);
+                                    ShowFlags();
+                                    break;
 
                             //Set the conveyor belt that is on this tile direction
                             case "North":
@@ -604,7 +670,7 @@ namespace Assets.Scripts.Tiles
                     if (Input.GetMouseButton(0))
                     {
                         SetObject(MapCreatorManager.Instance.ObjectType);
-                        
+
                     }
                     else if (Input.GetMouseButton(1))
                     {
@@ -612,7 +678,7 @@ namespace Assets.Scripts.Tiles
 
                     }
                     GenerateNewObject();
-                    }
+                }
                     break;
                 case PlacingStatus.Flag:
                 {
@@ -636,12 +702,14 @@ namespace Assets.Scripts.Tiles
                                 _puzzleComplete = true;
                                 GetComponentInChildren<TextMesh>().text = "PC";
                                 break;
-                            case "DeleteFlag":
-                                _entry = false;
-                                _exit = false;
-                                _puzzleEntry = false;
-                                _puzzleComplete = false;
+                            case "Puzzle":
+                                PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
+                                ShowFlags();
                                 break;
+                           case "DeleteFlag":
+                                DeleteFlags(this);
+                                ShowFlags();
+                                    break;
                             //Set the conveyor belt that is on this tile direction
                             case "North":
                                 if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
@@ -669,7 +737,8 @@ namespace Assets.Scripts.Tiles
                                 }
                                 break;
                             case "East":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                                    _type == TileType.GreenConveyorBelt)
                                 {
                                     _tileDirection = 3;
                                     GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
@@ -681,12 +750,12 @@ namespace Assets.Scripts.Tiles
                             case "Delete2":
                                 Delete2();
                                 break;
-                          case "DeleteAll":
+                            case "DeleteAll":
                                 DeleteAll(this);
                                 break;
-                            }
-                    
                         }
+
+                    }
                     else if (Input.GetMouseButton(1))
                     {
                         _entry = false;
@@ -695,17 +764,19 @@ namespace Assets.Scripts.Tiles
                         _puzzleComplete = false;
                     }
                     ShowFlags();
-                        break;
-                    }
-                   
+                    break;
+                }
             }
         }
+
+
+
         #region Sets & Returns
 
-        /// <summary>
-        /// Return Tile north of this tile
-        /// </summary>
-        /// <returns></returns>
+                    /// <summary>
+                    /// Return Tile north of this tile
+                    /// </summary>
+                    /// <returns></returns>
         public Tile ReturnNorth()
         {
             return North;
@@ -879,6 +950,20 @@ namespace Assets.Scripts.Tiles
         public void SetDirection(int direction)
         {
             _tileDirection = direction;
+        }
+
+        //Return the tiles puzzle number
+        public int ReturnPuzzleNumber()
+        {
+            return _puzzleNumber;
+        }
+
+
+        //Set this tiles puzzle number
+        public void SetPuzzleNumber(int PuzzleNumber)
+        {
+            _puzzleNumber = PuzzleNumber;
+            ShowFlags();
         }
 
         //Return the tiles direction

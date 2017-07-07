@@ -19,33 +19,46 @@ namespace Assets.Scripts.Objects
             Green,
             Blue
         }
+        [SerializeField]private Type _switchType;
+        [SerializeField]private int _puzzleNumber;
+        [SerializeField] private readonly List<ConveyorBelt> _belts = new List<ConveyorBelt>();
 
-
-        [SerializeField] private Type _switchType;
-
-        [SerializeField] private ConveyorBelt[] belts;
-
+        private PuzzleManager _puzzlemanager;
         // Use this for initialization
         void Start()
         {
+            _puzzleNumber = GetComponentInParent<Tile>().ReturnPuzzleNumber();
             _currentScene = SceneManager.GetActiveScene().name;
             _spriteRenderer = GetComponent<SpriteRenderer>();
+      
             _spriteRenderer.sprite = sprites[0];
             switch (_currentScene)
             {
                 case "Level1":
                 {
-
-                    switch (_switchType)
+                    _puzzlemanager = GameManager.Instance.PuzzleManager;
+                        switch (_switchType)
                     {
                         case Type.Red:
-                            belts = GameManager.Instance.PuzzleManager.ReturnRedConveyorBelts().ToArray();
-                            break;
+                            foreach (var belt in _puzzlemanager.ReturnRedConveyorBelts())
+                                {
+                                    if (belt.ReturnPuzzle() == _puzzleNumber)
+                                        _belts.Add(belt);
+                                }
+                                break;
                         case Type.Green:
-                            belts = GameManager.Instance.PuzzleManager.ReturnGreenConveyorBelts().ToArray();
-                            break;
+                            foreach (var belt in _puzzlemanager.ReturnGreenConveyorBelts())
+                            {
+                                if (belt.ReturnPuzzle() == _puzzleNumber)
+                                    _belts.Add(belt);
+                            }
+                                break;
                         case Type.Blue:
-                            belts = GameManager.Instance.PuzzleManager.ReturnBlueConveyorBelts().ToArray();
+                            foreach (var belt in _puzzlemanager.ReturnBlueConveyorBelts())
+                            {
+                                if (belt.ReturnPuzzle() == _puzzleNumber)
+                                    _belts.Add(belt);
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -55,18 +68,24 @@ namespace Assets.Scripts.Objects
                 //Level creator
                 case "MapCreatorScene":
                 {
-                    PuzzleManager puzzleManager = GetComponentInParent<PuzzleManager>();
+                    _puzzlemanager = GetComponentInParent<PuzzleManager>();
                         switch (_switchType)
                     {
                         case Type.Red:
-                            belts = puzzleManager.ReturnRedConveyorBelts().ToArray();
-                            break;
+                            foreach (var belt in _puzzlemanager.ReturnRedConveyorBelts())
+                                if (belt.ReturnPuzzle() == _puzzleNumber)
+                                    _belts.Add(belt);
+                                break;
                         case Type.Green:
-                            belts = puzzleManager.ReturnGreenConveyorBelts().ToArray();
-                            break;
+                            foreach (var belt in _puzzlemanager.ReturnGreenConveyorBelts())
+                                if (belt.ReturnPuzzle() == _puzzleNumber)
+                                    _belts.Add(belt);
+                                break;
                         case Type.Blue:
-                            belts = puzzleManager.ReturnBlueConveyorBelts().ToArray();
-                            break;
+                            foreach (var belt in _puzzlemanager.ReturnBlueConveyorBelts())
+                                if (belt.ReturnPuzzle() == _puzzleNumber)
+                                    _belts.Add(belt);
+                                break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -76,17 +95,11 @@ namespace Assets.Scripts.Objects
         }
 
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
+      
         public void FlipSwitch()
         {
-
             _spriteRenderer.sprite = _spriteRenderer.sprite == sprites[0] ? sprites[1] : sprites[0];
-            foreach (var belt in belts)
+            foreach (var belt in _belts)
                 {
                     belt.SwapDirection();
                 }
@@ -96,6 +109,17 @@ namespace Assets.Scripts.Objects
         public void ResetObject()
         {
             _spriteRenderer.sprite = sprites[0];
+        }
+
+
+        public void SetPuzzle(int puzzle)
+        {
+            _puzzleNumber = puzzle;
+        }
+
+        public int ReturnPuzzle()
+        {
+            return _puzzleNumber;
         }
     }
 }

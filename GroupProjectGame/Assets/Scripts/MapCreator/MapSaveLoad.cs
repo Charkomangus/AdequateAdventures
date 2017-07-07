@@ -27,6 +27,9 @@ namespace Assets.Scripts.MapCreator
 
         [XmlAttribute("Flag")]
         public string Flag;
+
+        [XmlAttribute("Puzzle")]
+        public string PuzzleNumber;
     }
 
     /// <summary>
@@ -78,8 +81,8 @@ namespace Assets.Scripts.MapCreator
                 LocationX = (int) tile.ReturnPosition().x,
                 LocationY = (int) tile.ReturnPosition().y,
                 Object = tile.ReturnObject(),
-                Flag = tile.ReturnFlag()
-
+                Flag = tile.ReturnFlag(),
+                PuzzleNumber = tile.ReturnPuzzleNumber().ToString()
             };
         }
 

@@ -14,8 +14,10 @@ namespace Assets.Scripts.MapCreator
     {
       private int _mapSize;
         private List<List<Tile>> _map = new List<List<Tile>>();
-        [SerializeField]private List<Tile> _puzzleEntryTiles, _puzzleCompleteTiles;
+        private readonly List<Tile> _puzzleEntryTiles = new List<Tile>();
+        private readonly List<Tile> _puzzleCompleteTiles = new List<Tile>();
         private Tile _entryTile;
+
         /// <summary>
         /// Populate the map with tiles
         /// </summary>
@@ -33,6 +35,7 @@ namespace Assets.Scripts.MapCreator
                
                     tile.SetPosition(new Vector3(i, j, 0));
                     tile.SetType(TileType.Normal);
+                    tile.SetPuzzleNumber(-1);
                     FindLevelEntry(i, j);
                     PuzzleEntry(i, j);
                     PuzzleExit(i, j);
@@ -43,33 +46,30 @@ namespace Assets.Scripts.MapCreator
         }
 
         //Find the tile that has an entry flag on it
-        void FindLevelEntry(int i, int j)
+        private void FindLevelEntry(int i, int j)
         {
             if (_map[i][j].IsEntry())
+            {
                 _entryTile = _map[i][j];
-            
+            }
         }
 
         //Find the tile that has an entry flag on it
-        void PuzzleEntry(int i, int j)
+        private void PuzzleEntry(int i, int j)
         {
             if (_map[i][j].IsPuzzleEntry())
-            { _puzzleEntryTiles.Add(_map[i][j]);
-            Debug.Log("hey");
+            {
+                _puzzleEntryTiles.Add(_map[i][j]);
+            }
         }
 
-    }
-
         //Find the tile that has an entry flag on it
-        void PuzzleExit(int i, int j)
+        private void PuzzleExit(int i, int j)
         {
-
             if (_map[i][j].IsPuzzleComplete())
             {
                 _puzzleCompleteTiles.Add(_map[i][j]);
-                Debug.Log("hey");
             }
-
         }
 
         /// <summary>
@@ -78,7 +78,6 @@ namespace Assets.Scripts.MapCreator
         /// <param name="name"></param>
         public void LoadMapFromXml(string name)
         {
-
             //Load map level
             Transform mapTransform = GameManager.Instance.MapTransform;
             if (mapTransform == null) return;
@@ -108,13 +107,12 @@ namespace Assets.Scripts.MapCreator
                     tile.SetType(type);
                     tile.name = tempTile.Type + " Tile";
                     tile.SetObject(tempTile.Object);
-
+                    tile.SetPuzzleNumber(Convert.ToInt32(tempTile.PuzzleNumber));
                     switch (tempTile.Flag)
                     {
                         case "PuzzleEntry":
                             tile.SetPuzzleEntry(true);
                             _puzzleEntryTiles.Add(tile);
-
                             break;
                         case "PuzzleComplete":
                             tile.SetPuzzleComplete(true);

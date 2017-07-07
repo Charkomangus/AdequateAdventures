@@ -34,6 +34,8 @@ namespace Assets.Scripts.MainManagers
         public string CurrentScene;
         public Player.Player Player;
 
+
+        public string Level; //TEMP
      
 
         // Use this for initialization
@@ -108,7 +110,7 @@ namespace Assets.Scripts.MainManagers
 
             if (CurrentAct == 4)
             {
-                _mapGenerator.LoadMapFromXml("LevelMaps/test");
+                _mapGenerator.LoadMapFromXml("LevelMaps/test1");
                 _enviromentManager.LoadEnviromentArt("");
             }
             else
@@ -136,9 +138,9 @@ namespace Assets.Scripts.MainManagers
         /// </summary>
         public void RestartLevel()
         {
-            _checkpoint = Player.DetermingStartingTile()._gridPosition;
+            _checkpoint = Player.DetermingStartingTile().ReturnPosition();
             Player.Restart();
-          PuzzleManager.RestartLevel();
+          PuzzleManager.ResetPuzzle();
      
             UiManager.SetFade(true);
 

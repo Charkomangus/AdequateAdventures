@@ -19,18 +19,16 @@ namespace Assets.Scripts.MapCreator
          //Creating an Instance so scripts can access it's variables.
         public static MapCreatorManager Instance;
         public int MapSize;
-       public PlacingStatus CurrentPlacingStatus;
+        //Number of puzzles in map
+        public int PuzzleNumber;
+        public PlacingStatus CurrentPlacingStatus;
         private List<List<Tile>> _map = new List<List<Tile>>();
         private Transform _mapTransform;
 
-
-
-
+        
         /// <summary>
         /// UI buttons
         /// </summary>
-
-     
         [Header("Utility")]
         public Button Save;
         public Button Load;
@@ -41,7 +39,9 @@ namespace Assets.Scripts.MapCreator
         public Text OverlayOpacityPercentage, OverlayNameText;
         public Button Types, Flags, Objects;
         public Button Delete, Delete2, DeleteAll;
-     
+        public Button RemovePuzzleNumber;
+
+
         [Header("Tile Types")]
         public TileType TileType;
         public Button TileNormal;
@@ -64,6 +64,7 @@ namespace Assets.Scripts.MapCreator
         public Button TileExit;
         public Button PuzzleEntry;
         public Button PuzzleComplete;
+        public Button Puzzle;
         public Button North;
         public Button South;
         public Button West;
@@ -118,6 +119,7 @@ namespace Assets.Scripts.MapCreator
             SaveName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
             SaveName.onEndEdit.AddListener(delegate
             {
+                PuzzleNumber = 0;
                 NewMapNotification(SaveName.text, 0);
                 SetOverlay(SaveName.text);
                 _mainCamera.Enabled = true;
@@ -128,6 +130,7 @@ namespace Assets.Scripts.MapCreator
             LoadName.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
             LoadName.onEndEdit.AddListener(delegate
             {
+                PuzzleNumber = 0;
                 _mainCamera.Enabled = true;
                 NewMapNotification(LoadName.text, 1);
                 SetOverlay(LoadName.text);
@@ -139,6 +142,7 @@ namespace Assets.Scripts.MapCreator
             NewMapSize.onValueChanged.AddListener(delegate { _mainCamera.Enabled = false; });
             NewMapSize.onEndEdit.AddListener(delegate
             {
+                PuzzleNumber = 0;
                 _mainCamera.Enabled = true;
                 NewMapSize.gameObject.SetActive(false);
                 NewMapNotification(NewMapSize.text, 2);
@@ -157,6 +161,7 @@ namespace Assets.Scripts.MapCreator
             Delete.onClick.AddListener(delegate { TileFlag = "Delete"; CurrentPlacingStatus = PlacingStatus.Flag; });
             Delete2.onClick.AddListener(delegate { TileFlag = "Delete2"; CurrentPlacingStatus = PlacingStatus.Flag; });
             DeleteAll.onClick.AddListener(delegate { TileFlag = "DeleteAll"; CurrentPlacingStatus = PlacingStatus.Flag; });
+            RemovePuzzleNumber.onClick.AddListener(delegate { RemovePuzzleNumbers(); });
             //Category buttons
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
             Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
@@ -181,6 +186,7 @@ namespace Assets.Scripts.MapCreator
             TileExit.onClick.AddListener(delegate { TileFlag = "Exit"; });
             PuzzleEntry.onClick.AddListener(delegate { TileFlag = "PuzzleEntry"; });
             PuzzleComplete.onClick.AddListener(delegate { TileFlag = "PuzzleComplete"; });
+            Puzzle.onClick.AddListener(delegate { TileFlag = "Puzzle"; });
             North.onClick.AddListener(delegate { TileFlag = "North"; });
             South.onClick.AddListener(delegate { TileFlag = "South"; });
             West.onClick.AddListener(delegate { TileFlag = "West"; });
@@ -205,6 +211,20 @@ namespace Assets.Scripts.MapCreator
             GenerateBlankMap(20);
             Size.text = MapSize + " x " + MapSize + "\n " + (MapSize * MapSize) + " tiles.";
             CurrentLevel.text = "CurrentLevel: N/A";
+        }
+
+        //Remove any puzzle numbers
+        private void RemovePuzzleNumbers()
+        {
+            PuzzleNumber = 0;
+            for (var x = 0; x < MapSize; x++)
+            {
+                var row = new List<Tile>();
+                for (var y = 0; y < MapSize; y++)
+                {
+                    _map[x][y].SetPuzzleNumber(-1);
+                }
+            }
         }
 
         private void SetOverlay(string mapName)
@@ -310,6 +330,7 @@ namespace Assets.Scripts.MapCreator
                     tile.SetPosition(new Vector2(x, y));
                     tile.SetType(TileType.Normal);
                      tile.SetObject(TileObject.Empty);
+                    tile.SetPuzzleNumber(-1);
                     row.Add(tile);
                 }
                 _map.Add(row);
@@ -351,7 +372,7 @@ namespace Assets.Scripts.MapCreator
                     var tempTile = container.Tiles.First(position => position.LocationX == x && position.LocationY == y);
                     tile.SetType((TileType)tempTile.Type);
                     tile.SetObject(tempTile.Object);
-
+                    tile.SetPuzzleNumber(Convert.ToInt32(tempTile.PuzzleNumber));
                     switch (tempTile.Flag)
                     {
                         case "PuzzleEntry":

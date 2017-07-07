@@ -10,7 +10,7 @@ public class PuzzleManager : MonoBehaviour {
     [SerializeField]private ConveyorBelt[] _conveyorBelts;
     [SerializeField] private List<ConveyorBelt> _redConveyorBelts, _greenConveyorBelts, _blueConveyorBelts;
 
-    [SerializeField]private List<Tile> puzzles;
+ 
 
     [SerializeField]
     private Box[]Boxes;
@@ -30,12 +30,48 @@ public class PuzzleManager : MonoBehaviour {
     {
     }
 
+    //Reset objects in the current puzzle
+    public void ResetPuzzle()
+    {
+        Boxes = FindObjectsOfType<Box>();
+        SlidingBoxes = FindObjectsOfType<SlidingBox>();
+        Switches = FindObjectsOfType<Switch>();
+        Belts = FindObjectsOfType<ConveyorBelt>();
+        var puzzle = GameManager.Instance.Player.ReturnCurrentPuzzle();
+
+        foreach (var box in Boxes)
+        {
+            if(box.ReturnPuzzle() == puzzle)
+                box.ResetObject();
+        }
+
+        foreach (var slidingBox in SlidingBoxes)
+        {
+            if (slidingBox.ReturnPuzzle() == puzzle)
+                slidingBox.ResetObject();
+        }
+        foreach (var Switch in Switches)
+        {
+            if (Switch.ReturnPuzzle() == puzzle)
+                Switch.ResetObject();
+        }
+
+        foreach (var belt in Belts)
+        {
+            if (belt.ReturnPuzzle() == puzzle)
+                belt.ResetObject();
+        }
+    }
+
+
+    //Reset everything in the level
     public void RestartLevel()
     {
         Boxes = FindObjectsOfType<Box>();
         SlidingBoxes = FindObjectsOfType<SlidingBox>();
         Switches = FindObjectsOfType<Switch>();
         Belts = FindObjectsOfType<ConveyorBelt>();
+
         foreach (var box in Boxes)
         {
             box.ResetObject();
@@ -45,9 +81,9 @@ public class PuzzleManager : MonoBehaviour {
         {
             slidingBox.ResetObject();
         }
-        foreach (var stc in Switches)
+        foreach (var Switch in Switches)
         {
-            stc.ResetObject();
+            Switch.ResetObject();
         }
 
         foreach (var belt in Belts)
@@ -57,21 +93,7 @@ public class PuzzleManager : MonoBehaviour {
     }
 
 
-    private void CreatePuzzles(Tile tile)
-    {
-        while (true)
-        {
-            if (tile != null && tile.ReturnType() != TileType.Wall)
-            {
-                puzzles.Add(tile);
-                tile = tile.North;
-               
-                continue;
-            }
-
-            break;
-        }
-    }
+    
 
     // Update is called once per frame
 	void Update () {

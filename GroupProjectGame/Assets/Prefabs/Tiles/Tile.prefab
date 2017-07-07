@@ -213,9 +213,10 @@ MonoBehaviour:
   _entry: 0
   _puzzleComplete: 0
   _puzzleEntry: 0
+  _puzzleNumber: -1
+  _tileDirection: -1
   _gridPosition: {x: 0, y: 0}
   North: {fileID: 0}
   West: {fileID: 0}
   East: {fileID: 0}
   South: {fileID: 0}
-  _item: {fileID: 0}
