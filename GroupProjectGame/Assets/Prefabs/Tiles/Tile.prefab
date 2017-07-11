@@ -67,7 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4517712321614880}
   - component: {fileID: 114471321643902072}
-  - component: {fileID: 65962068347179060}
+  - component: {fileID: 65866776368586838}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -162,7 +162,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65962068347179060
+--- !u!65 &65866776368586838
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -213,6 +213,7 @@ MonoBehaviour:
   _entry: 0
   _puzzleComplete: 0
   _puzzleEntry: 0
+  _patrol: 0
   _puzzleNumber: -1
   _tileDirection: -1
   _gridPosition: {x: 0, y: 0}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Cameras;
+using Assets.Scripts.Dialogue;
 using Assets.Scripts.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,8 @@ namespace Assets.Scripts.MapCreator
     {
         Type,
         Object,
-        Flag
+        Flag,
+        Actor
     }
 
     public class MapCreatorManager : MonoBehaviour {
@@ -37,9 +39,12 @@ namespace Assets.Scripts.MapCreator
         public Toggle OverlayToggle;
         public Slider OverlayOpacitySlider;
         public Text OverlayOpacityPercentage, OverlayNameText;
-        public Button Types, Flags, Objects;
         public Button Delete, Delete2, DeleteAll;
         public Button RemovePuzzleNumber;
+
+        //Category buttons
+        public Button Types, Flags, Objects, Actors;
+      
 
 
         [Header("Tile Types")]
@@ -69,6 +74,7 @@ namespace Assets.Scripts.MapCreator
         public Button South;
         public Button West;
         public Button East;
+        public Button Patrol;
         public Button FlagNull;
 
         [Header("Tile Objects")]
@@ -79,8 +85,20 @@ namespace Assets.Scripts.MapCreator
         public Button ObjectRedSwitch;
         public Button ObjectGreenSwitch;
         public Button ObjectBlueSwitch;
-    
         public Button ObjectNull;
+
+        [Header("Tile Objects")]
+        public Actor ActorType;
+        public Button Badger;
+        public Button Beaver;
+        public Button Hedgehog;
+        public Button Mouse;
+        public Button InjuredMouse;
+        public Button Pig;
+        public Button Rats;
+        public Button Weasel;
+        public Button Guard;
+        public Button DeleteActors;
 
         [Header("UI")]
         public InputField SaveName;
@@ -166,7 +184,7 @@ namespace Assets.Scripts.MapCreator
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
             Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
             Objects.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Object; ObjectType = TileObject.Empty; });
-
+            Actors.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Actor; ActorType = Actor.Null; });
             //Tile Type
             TileNormal.onClick.AddListener(delegate { TileType = TileType.Normal; });
             TileOil.onClick.AddListener(delegate { TileType = TileType.Oil; });
@@ -191,6 +209,7 @@ namespace Assets.Scripts.MapCreator
             South.onClick.AddListener(delegate { TileFlag = "South"; });
             West.onClick.AddListener(delegate { TileFlag = "West"; });
             East.onClick.AddListener(delegate { TileFlag = "East"; });
+            Patrol.onClick.AddListener(delegate { TileFlag = "Patrol"; });
             FlagNull.onClick.AddListener(delegate { TileFlag = "DeleteFlag"; });
 
             //Tile Objects
@@ -200,9 +219,19 @@ namespace Assets.Scripts.MapCreator
             ObjectRedSwitch.onClick.AddListener(delegate { ObjectType = TileObject.RedSwitch; });
             ObjectGreenSwitch.onClick.AddListener(delegate { ObjectType = TileObject.GreenSwitch; });
             ObjectBlueSwitch.onClick.AddListener(delegate { ObjectType = TileObject.BlueSwitch; });
-
-
             ObjectNull.onClick.AddListener(delegate { ObjectType = TileObject.Empty; });
+
+            //Actors
+            Badger.onClick.AddListener(delegate { ActorType = Actor.Badger; });
+            Beaver.onClick.AddListener(delegate { ActorType = Actor.Beaver; });
+            Hedgehog.onClick.AddListener(delegate { ActorType = Actor.Hedgehog; });
+            Mouse.onClick.AddListener(delegate { ActorType = Actor.Mouse; });
+            InjuredMouse.onClick.AddListener(delegate { ActorType = Actor.InjuredMouse; });
+            Pig.onClick.AddListener(delegate { ActorType = Actor.Pig; });
+            Rats.onClick.AddListener(delegate { ActorType = Actor.Rats; });
+            Weasel.onClick.AddListener(delegate { ActorType = Actor.Weasel; });
+            Guard.onClick.AddListener(delegate { ActorType = Actor.Guard; });
+            DeleteActors.onClick.AddListener(delegate { ActorType = Actor.Null; });
         }
 
 
@@ -255,6 +284,9 @@ namespace Assets.Scripts.MapCreator
                     break;
                 case PlacingStatus.Flag:
                     SelectedTile.text = "SELECTED FLAG: " + TileFlag.ToUpper();
+                    break;
+                case PlacingStatus.Actor:
+                    SelectedTile.text = "SELECTED ACTOR: " + ActorType.ToString().ToUpper();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -398,6 +430,9 @@ namespace Assets.Scripts.MapCreator
                             break;
                         case "East":
                             tile.SetDirection(3);
+                            break;
+                        case "Patrol":
+                            tile.SetPatrol(true);
                             break;
                         case "Null":
                             break;

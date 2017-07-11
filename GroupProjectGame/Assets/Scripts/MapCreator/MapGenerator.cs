@@ -138,6 +138,9 @@ namespace Assets.Scripts.MapCreator
                         case "East":
                             tile.SetDirection(3);
                             break;
+                        case "Patrol":
+                            tile.SetPatrol(true);
+                            break;
                         case "Null":
                             break;
                     }
@@ -202,6 +205,8 @@ namespace Assets.Scripts.MapCreator
         /// <returns></returns>
         public Tile ReturnSpecificTile(int x, int y)
         {
+            if (x < 0 || x > _mapSize) return null;
+            if (y < 0 || y > _mapSize) return null;
             return _map[x][y];
         }
 

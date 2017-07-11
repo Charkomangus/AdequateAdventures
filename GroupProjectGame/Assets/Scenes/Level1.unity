@@ -153,11 +153,14 @@ MonoBehaviour:
   AudioManager: {fileID: 0}
   UiManager: {fileID: 0}
   PuzzleManager: {fileID: 0}
-  _mapGenerator: {fileID: 0}
+  StateManager: {fileID: 0}
+  MapGenerator: {fileID: 0}
+  EnviromentManager: {fileID: 0}
+  GuardManager: {fileID: 0}
   MapTransform: {fileID: 0}
   LevelEntry: {fileID: 0}
   LevelExit: {fileID: 0}
-  CurrentAct: 1
+  CurrentAct: 4
   CurrentLevel: 1
   CurrentScene: 
   Player: {fileID: 0}
@@ -1740,7 +1743,6 @@ GameObject:
   m_Component:
   - component: {fileID: 932481135}
   - component: {fileID: 932481139}
-  - component: {fileID: 932481140}
   - component: {fileID: 932481136}
   - component: {fileID: 932481138}
   m_Layer: 0
@@ -1844,18 +1846,6 @@ MonoBehaviour:
   _moving: 0
   _endedLevel: 0
   _scheduleToDie: 0
---- !u!65 &932481140
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 932481134}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &949524506
 GameObject:
   m_ObjectHideFlags: 0
@@ -2612,6 +2602,7 @@ GameObject:
   - component: {fileID: 1292918518}
   - component: {fileID: 1292918519}
   - component: {fileID: 1292918520}
+  - component: {fileID: 1292918521}
   m_Layer: 0
   m_Name: MapManager
   m_TagString: Map
@@ -2665,6 +2656,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enviromentArt: {fileID: 0}
+--- !u!114 &1292918521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1292918517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b1b5df31d8f7d449a04d8fa23941c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guardPrefab: {fileID: 114271016821576894, guid: 82f9866bdaf63f24a8306b7f24059410,
+    type: 2}
+  _guards: []
+  _guardPositions: []
 --- !u!1 &1362321134
 GameObject:
   m_ObjectHideFlags: 0

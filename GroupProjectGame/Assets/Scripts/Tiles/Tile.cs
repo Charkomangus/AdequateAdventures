@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Dialogue;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.MapCreator;
 using UnityEngine;
@@ -16,26 +17,32 @@ namespace Assets.Scripts.Tiles
         [SerializeField]private TileObject _object = TileObject.Empty;
 
         [Header("Flags")]
-        [SerializeField] private bool _blocked;
-        [SerializeField] private bool _exit;
-        [SerializeField] private bool _entry;
+        [SerializeField]private bool _blocked;
+        [SerializeField]private bool _exit;
+        [SerializeField]private bool _entry;
         [SerializeField]private bool _puzzleComplete;
         [SerializeField]private bool _puzzleEntry;
-
+        [SerializeField]private bool _patrol;
         [SerializeField]private int _puzzleNumber = -1;
         [SerializeField]private int _tileDirection = -1;
+
         [Header("Position")]
         [SerializeField]private Vector2 _gridPosition = Vector2.zero;
-      
+
+        [Header("Actor")]
+        [SerializeField]private bool _actor;
+        [SerializeField]private string _actorName;
+
         //Local reference to Prefabs of the tile and objects
         private GameObject _tilePrefab, _objectPrefab;
         //Which type and object does this tile currently have
         private GameObject _currentType, _currentObject;
 
         [Header("Neighbors")]
+        private readonly List<Tile> _tiles = new List<Tile>();
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
-        private readonly List<Tile> _tiles = new List<Tile>();
+    
 
         // Use this for initialization
         private void Start()
@@ -49,10 +56,18 @@ namespace Assets.Scripts.Tiles
 
             //Set Tiles name for easy identification
             name = _type + " Tile";
-         
+
+
+           //Generate the tiles object
             GenerateNewObject();
-            if(_tileDirection != -1)
+
+            //If this tile has an assigned direction set the convyer belts direction
+            if (_tileDirection != -1)
+            {
                 SetConveyorDirection(_tileDirection);
+            }
+
+
             switch (SceneManager.GetActiveScene().name)
             {
                 case "Level1":
@@ -82,6 +97,7 @@ namespace Assets.Scripts.Tiles
 
         }
 
+        //If this tile is a conveyor belt set it's directions
         private void SetConveyorDirection(int direction)
         {
             if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
@@ -89,7 +105,7 @@ namespace Assets.Scripts.Tiles
                 GetComponentInChildren<ConveyorBelt>().SetDirecton(direction);
         }
      
-
+        //Show what bool this tile has
         private void ShowFlags()
         {
             if (_puzzleEntry)
@@ -100,6 +116,8 @@ namespace Assets.Scripts.Tiles
                 GetComponentInChildren<TextMesh>().text = "ENTRY";
             else if (_exit)
                 GetComponentInChildren<TextMesh>().text = "EXIT";
+            else if (_patrol)
+                GetComponentInChildren<TextMesh>().text = "PATROL";
             else if (_puzzleNumber >= 0)
                 GetComponentInChildren<TextMesh>().text = _puzzleNumber.ToString(); //TEMP
             else
@@ -307,7 +325,6 @@ namespace Assets.Scripts.Tiles
         //Completely destroy a tile and its close family
         private void Delete2()
         {
-           
             if(North != null && North.East != null)
                 Delete(North.ReturnEast());
             if (North != null)
@@ -333,6 +350,7 @@ namespace Assets.Scripts.Tiles
             tile.SetEntry(false);
             tile.SetBlocked(false);
             tile.SetExit(false);
+            tile.SetPatrol(false);
             tile.SetPuzzleComplete(false);
             tile.SetPuzzleEntry(false);
             tile.SetPuzzleNumber(-1);
@@ -357,15 +375,12 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-
         //Set all valid tilesa to the apropriate puzzle number then increase the puzzle number
         public void PuzzleLoop(int puzzleNumber)
         {
             SetPuzzle(puzzleNumber);
             MapCreatorManager.Instance.PuzzleNumber++;
         }
-
-
 
         //Create an area that constitutes a puzzle. Stops at walls and PuzzleComlete/PuzzleEntry tiles.
         private void SetPuzzle(int puzzleNumber)
@@ -383,7 +398,6 @@ namespace Assets.Scripts.Tiles
                 neighbor.SetPuzzleNumber(puzzleNumber);
                 neighbor.SetPuzzle(puzzleNumber);
             }
-           
         }
 
         //Check if this tile can be a valid puzzle tile
@@ -393,12 +407,6 @@ namespace Assets.Scripts.Tiles
                    tile.ReturnType() == TileType.Door || tile.ReturnType() == TileType.Wall ||
                    tile.ReturnType() == TileType.Blocked;
         }
-
-        
-
-       
-
-      
 
         //REMOVE IN RELEASE
         public void OnPointerClick(PointerEventData eventData)
@@ -460,6 +468,10 @@ namespace Assets.Scripts.Tiles
                                 PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
                                 ShowFlags();
                           break;
+                            case "Patrol":
+                                _patrol = true;
+                                ShowFlags();
+                                break;
                                 case "DeleteFlag":
                                DeleteFlags(this);
                                 ShowFlags();
@@ -581,6 +593,10 @@ namespace Assets.Scripts.Tiles
                             case "Puzzle":
                                 PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
                                     ShowFlags();
+                                break;
+                            case "Patrol":
+                                _patrol = true;
+                                ShowFlags();
                                 break;
                                 case "DeleteFlag":
                                     DeleteFlags(this);
@@ -706,7 +722,11 @@ namespace Assets.Scripts.Tiles
                                 PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
                                 ShowFlags();
                                 break;
-                           case "DeleteFlag":
+                            case "Patrol":
+                                _patrol = true;
+                                ShowFlags();
+                                break;
+                                case "DeleteFlag":
                                 DeleteFlags(this);
                                 ShowFlags();
                                     break;
@@ -952,6 +972,20 @@ namespace Assets.Scripts.Tiles
             _tileDirection = direction;
         }
 
+        //Return if the tile is a patrol tile
+        public bool ReturnPatrol()
+        {
+            return _patrol;
+        }
+
+
+        //Set this tiles as a patrol tile
+        public void SetPatrol(bool status)
+        {
+            _patrol = status;
+            ShowFlags();
+        }
+
         //Return the tiles puzzle number
         public int ReturnPuzzleNumber()
         {
@@ -997,6 +1031,8 @@ namespace Assets.Scripts.Tiles
                 return "Entry";
             if (_exit)
                 return "Exit";
+            if (_patrol)
+                return "Patrol";
             if (_tileDirection != -1)
             {
                 switch (_tileDirection)

@@ -14,7 +14,9 @@ namespace Assets.Scripts.Dialogue
         Pig,
         Bunny,
         Rats,
-        Weasel
+        Weasel,
+        Guard,
+        Null
     } 
    
 

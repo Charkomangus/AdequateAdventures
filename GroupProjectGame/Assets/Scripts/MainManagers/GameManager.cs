@@ -20,9 +20,12 @@ namespace Assets.Scripts.MainManagers
         public AudioManager AudioManager;
         public UiManager UiManager;
         public PuzzleManager PuzzleManager;
-        private StateManager _stateManager;
-        public MapGenerator _mapGenerator;
-        private EnviromentManager _enviromentManager;
+        public StateManager StateManager;
+        public MapGenerator MapGenerator;
+        public EnviromentManager EnviromentManager;
+        public GuardManager GuardManager;
+
+
         public Transform MapTransform;
         private int _mapSize;
         private List<List<Tile>> _map;
@@ -46,13 +49,13 @@ namespace Assets.Scripts.MainManagers
             Application.targetFrameRate = 30;
             DontDestroyOnLoad(this);
             Instance = this;
-            _stateManager = StateManager.Instance;
-            _stateManager.OnStateChange += HandleOnStateChange;
+            StateManager = StateManager.Instance;
+            StateManager.OnStateChange += HandleOnStateChange;
             CurrentScene = SceneManager.GetActiveScene().name;
             AudioManager = GetComponentInChildren<AudioManager>();
-            _mapGenerator = GetComponent<MapGenerator>();
-            _enviromentManager = FindObjectOfType<EnviromentManager>();
-
+            MapGenerator = GetComponent<MapGenerator>();
+            EnviromentManager = FindObjectOfType<EnviromentManager>();
+            GuardManager = FindObjectOfType<GuardManager>();
 
         }
 
@@ -94,14 +97,9 @@ namespace Assets.Scripts.MainManagers
             Player = FindObjectOfType<Player.Player>();
             Player.InitializePlayer();
             UiManager.SetFade(true);
-
-
+            GuardManager.SpawnGuards();
         }
-
-        public Tile ReturnPlayerTile()
-        {
-            return _mapGenerator.ReturnSpecificTile((int)_checkpoint.x, (int)_checkpoint.y);
-        }
+        
 
         //Loads the corresponding map to the current act and level and initializes variables concerning it
         private void InitializeMap()
@@ -110,18 +108,18 @@ namespace Assets.Scripts.MainManagers
 
             if (CurrentAct == 4)
             {
-                _mapGenerator.LoadMapFromXml("LevelMaps/test1");
-                _enviromentManager.LoadEnviromentArt("");
+                MapGenerator.LoadMapFromXml("LevelMaps/testStealth");
+                EnviromentManager.LoadEnviromentArt("");
             }
             else
             {
-                _mapGenerator.LoadMapFromXml("LevelMaps/LevelMap" + CurrentAct + "_" + CurrentLevel);
-                _enviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
+                MapGenerator.LoadMapFromXml("LevelMaps/LevelMap" + CurrentAct + "_" + CurrentLevel);
+                EnviromentManager.LoadEnviromentArt("LevelMap" + CurrentAct + "_" + CurrentLevel);
             }
 
-            _map = _mapGenerator.ReturnMap();
-            _mapSize = _mapGenerator.ReturnMapSize();
-            LevelEntry = _mapGenerator.ReturnEntryTile();
+            _map = MapGenerator.ReturnMap();
+            _mapSize = MapGenerator.ReturnMapSize();
+            LevelEntry = MapGenerator.ReturnEntryTile();
         }
         
        
@@ -130,7 +128,7 @@ namespace Assets.Scripts.MainManagers
         public void SimpleStartLevel()
         {
             //Start game scene
-            _stateManager.SetGameState(GameState.Game);
+            StateManager.SetGameState(GameState.Game);
         }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace Assets.Scripts.MainManagers
             _checkpoint = Player.DetermingStartingTile().ReturnPosition();
             Player.Restart();
           PuzzleManager.ResetPuzzle();
-     
+            GuardManager.ResetGuards();
             UiManager.SetFade(true);
 
         }

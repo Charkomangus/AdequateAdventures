@@ -206,7 +206,10 @@ namespace Assets.Scripts.Player
         {
             return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 0.6f && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 0.6f;
         }
-
+        void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.gameObject.name);
+        }
         //DetermineMovement what the player will do depending on which tile they are intercating with
         private void Interact()
         {
@@ -443,6 +446,12 @@ namespace Assets.Scripts.Player
             _parentTile.SetBlocked(false);
             _parentTile = tile;
           
+        }
+
+        //Set the players parent tile and unblocks their current one
+        public Tile ReturnParentTile()
+        {
+            return _parentTile;
         }
 
         //Return true if the player is moving
