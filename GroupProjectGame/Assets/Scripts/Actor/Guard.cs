@@ -36,7 +36,6 @@ public class Guard : MonoBehaviour {
     [SerializeField]private bool _seeing;
     [SerializeField]private bool _initialized;
     [SerializeField]private int _direction;
-    private BoxCollider[] _colliders;
     private int _originalDirection;
     private Tile _originalTile;
 
@@ -48,7 +47,6 @@ public class Guard : MonoBehaviour {
         transform.position = _parentTile.transform.position;
         _originalTile = _parentTile;
         _originalDirection = _direction;
-        _colliders = GetComponents<BoxCollider>();
         _initialized = true;
     }
 	
@@ -408,6 +406,12 @@ public class Guard : MonoBehaviour {
                 throw new ArgumentOutOfRangeException();
         }
         
+    }
+
+    //Return which puzzle the guards are in
+    public int ReturnCurrentPuzzle()
+    {
+        return _currentPuzzle;
     }
 
 

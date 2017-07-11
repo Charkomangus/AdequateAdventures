@@ -41,6 +41,7 @@ namespace Assets.Scripts.MapCreator
         public Text OverlayOpacityPercentage, OverlayNameText;
         public Button Delete, Delete2, DeleteAll;
         public Button RemovePuzzleNumber;
+        public Button RemoveActors;
 
         //Category buttons
         public Button Types, Flags, Objects, Actors;
@@ -232,9 +233,9 @@ namespace Assets.Scripts.MapCreator
             Weasel.onClick.AddListener(delegate { ActorType = Actor.Weasel; });
             Guard.onClick.AddListener(delegate { ActorType = Actor.Guard; });
             DeleteActors.onClick.AddListener(delegate { ActorType = Actor.Null; });
+            RemoveActors.onClick.AddListener(delegate { RemoveAllActors(); });
         }
-
-
+     
         private void Start()
         {
             GenerateBlankMap(20);
@@ -248,7 +249,6 @@ namespace Assets.Scripts.MapCreator
             PuzzleNumber = 0;
             for (var x = 0; x < MapSize; x++)
             {
-                var row = new List<Tile>();
                 for (var y = 0; y < MapSize; y++)
                 {
                     _map[x][y].SetPuzzleNumber(-1);
@@ -256,6 +256,19 @@ namespace Assets.Scripts.MapCreator
             }
         }
 
+        //Delete all actors in the map
+        private void RemoveAllActors()
+        {
+            for (var x = 0; x < MapSize; x++)
+            {
+                for (var y = 0; y < MapSize; y++)
+                {
+                    _map[x][y].SetActor(Actor.Null);
+                }
+            }
+        }
+
+        //Switch on an art overlay if there is one
         private void SetOverlay(string mapName)
         {
             _overlaySprite = Resources.Load<Sprite>("LevelMapArt/EnviromentArt/" + mapName);
@@ -361,7 +374,8 @@ namespace Assets.Scripts.MapCreator
                     tile.transform.parent = _mapTransform;
                     tile.SetPosition(new Vector2(x, y));
                     tile.SetType(TileType.Normal);
-                     tile.SetObject(TileObject.Empty);
+                    tile.SetActor(Actor.Null);
+                    tile.SetObject(TileObject.Empty);
                     tile.SetPuzzleNumber(-1);
                     row.Add(tile);
                 }
@@ -404,6 +418,7 @@ namespace Assets.Scripts.MapCreator
                     var tempTile = container.Tiles.First(position => position.LocationX == x && position.LocationY == y);
                     tile.SetType((TileType)tempTile.Type);
                     tile.SetObject(tempTile.Object);
+                    tile.SetActor(tempTile.Actor);
                     tile.SetPuzzleNumber(Convert.ToInt32(tempTile.PuzzleNumber));
                     switch (tempTile.Flag)
                     {

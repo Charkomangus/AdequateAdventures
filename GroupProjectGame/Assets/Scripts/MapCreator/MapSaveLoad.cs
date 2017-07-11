@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using Assets.Scripts.Dialogue;
 using Assets.Scripts.Tiles;
 
 using UnityEngine;
@@ -30,6 +31,9 @@ namespace Assets.Scripts.MapCreator
 
         [XmlAttribute("Puzzle")]
         public string PuzzleNumber;
+
+        [XmlAttribute("Actor")]
+        public Actor Actor;
     }
 
     /// <summary>
@@ -82,7 +86,8 @@ namespace Assets.Scripts.MapCreator
                 LocationY = (int) tile.ReturnPosition().y,
                 Object = tile.ReturnObject(),
                 Flag = tile.ReturnFlag(),
-                PuzzleNumber = tile.ReturnPuzzleNumber().ToString()
+                PuzzleNumber = tile.ReturnPuzzleNumber().ToString(),
+                Actor = tile.ReturnActor()
             };
         }
 

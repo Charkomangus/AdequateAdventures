@@ -13,7 +13,7 @@ namespace Assets.Scripts.Tiles
     {
         [Header("Tile Type")] [SerializeField] private TileType _type = TileType.Normal;
         [Header("Object")] [SerializeField] private TileObject _object = TileObject.Empty;
-
+        [Header("Actor")][SerializeField]private Actor _actor = Actor.Null;
         [Header("Flags")] [SerializeField] private bool _blocked;
         [SerializeField] private bool _exit;
         [SerializeField] private bool _entry;
@@ -25,14 +25,13 @@ namespace Assets.Scripts.Tiles
 
         [Header("Position")] [SerializeField] private Vector2 _gridPosition = Vector2.zero;
 
-        [Header("Actor")] [SerializeField] private bool _actor;
-        [SerializeField] private string _actorName;
+   
 
         //Local reference to Prefabs of the tile and objects
         private GameObject _tilePrefab, _objectPrefab, _actorPrefab;
 
         //Which type and object does this tile currently have
-        private GameObject _currentType, _currentObject;
+        private GameObject _currentType, _currentObject, _currentActor;
 
         [Header("Neighbors")] private readonly List<Tile> _tiles = new List<Tile>();
         private List<Tile> _neighbors = new List<Tile>();
@@ -158,6 +157,11 @@ namespace Assets.Scripts.Tiles
             }
         }
 
+        #region Set Traits
+
+        
+
+       
 
         //Set the tile prefab and variables
         public void SetType(TileType type)
@@ -309,9 +313,10 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set tiles actor
-        private void SetActor(Actor ActorType)
+        public void SetActor(Actor Actor)
         {
-            switch (ActorType)
+            _actor = Actor;
+            switch (Actor)
             {
                 case Actor.Badger:
                     _blocked = true;
@@ -356,7 +361,7 @@ namespace Assets.Scripts.Tiles
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            GenerateActor(_actorPrefab);
+            GenerateNewActor();
         }
 
 
@@ -400,6 +405,7 @@ namespace Assets.Scripts.Tiles
         }
 
 
+        #endregion
         //Generate a tiles objects
         public void GenerateNewObject()
         {
@@ -430,7 +436,7 @@ namespace Assets.Scripts.Tiles
         }
 
         //Generate a tiles objects
-        public void GenerateActor(GameObject newObject)
+        public void GenerateNewActor()
         {
             var container = transform.Find("Actors").gameObject;
             //initially remove all children
@@ -438,9 +444,26 @@ namespace Assets.Scripts.Tiles
             {
                 Destroy(container.transform.GetChild(i).gameObject);
             }
-            if (_objectPrefab == null) return;
-            newObject.transform.SetParent(container.transform);
-            _currentObject = newObject;
+            if (_actorPrefab == null) return;
+            var newActor = Instantiate(_actorPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+            newActor.transform.SetParent(container.transform);
+            newActor.name = MapCreatorManager.Instance.ActorType.ToString(); //TEMP
+            _currentActor = newActor;
+        }
+
+        //Generate a tiles objects
+        public void GenerateActor(GameObject newActor)
+        {
+            var container = transform.Find("Actors").gameObject;
+            //initially remove all children
+            for (var i = 0; i < container.transform.childCount; i++)
+            {
+                Destroy(container.transform.GetChild(i).gameObject);
+            }
+            if (_actorPrefab == null) return;
+            newActor.transform.SetParent(container.transform);
+            _currentActor = newActor;
+
         }
 
         //Generate a tiles visuals
@@ -700,6 +723,15 @@ namespace Assets.Scripts.Tiles
             return _currentObject;
         }
 
+        /// <summary>
+        /// Return The tiles render Type
+        /// </summary>
+        /// <returns></returns>
+        public GameObject ReturnCurrentActor()
+        {
+            return _currentActor;
+        }
+
 
         /// <summary>
         /// Set the Tiles Position
@@ -745,6 +777,14 @@ namespace Assets.Scripts.Tiles
         public TileObject ReturnObject()
         {
             return _object;
+        }
+        /// <summary>
+        /// Returns the tiles actor
+        /// </summary>
+        /// <returns></returns>
+        public Actor ReturnActor()
+        {
+            return _actor;
         }
 
         //Set this tile as a level exit

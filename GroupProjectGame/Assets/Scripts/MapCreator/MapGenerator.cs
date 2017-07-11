@@ -107,6 +107,7 @@ namespace Assets.Scripts.MapCreator
                     tile.SetType(type);
                     tile.name = tempTile.Type + " Tile";
                     tile.SetObject(tempTile.Object);
+                    tile.SetActor(tempTile.Actor);
                     tile.SetPuzzleNumber(Convert.ToInt32(tempTile.PuzzleNumber));
                     switch (tempTile.Flag)
                     {
