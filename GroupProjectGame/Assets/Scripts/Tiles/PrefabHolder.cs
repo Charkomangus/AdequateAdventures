@@ -28,9 +28,22 @@ namespace Assets.Scripts.Tiles
         public GameObject RedSwitch;
         public GameObject GreenSwitch;
         public GameObject BlueSwitch;
-      
 
-   
+
+        [Header("Tile Actors")]
+        public GameObject Badger;
+        public GameObject Beaver;
+        public GameObject Hedgehog;
+        public GameObject Mouse;
+        public GameObject InjuredMouse;
+        public GameObject Pig;
+        public GameObject Bunny;
+        public GameObject Rats;
+        public GameObject Weasel;
+        public GameObject Guard;
+        public GameObject Null;
+        
+
         private void Awake()
         {
             Instance = this;

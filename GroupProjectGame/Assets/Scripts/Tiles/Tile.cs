@@ -11,38 +11,33 @@ namespace Assets.Scripts.Tiles
 {
     public class Tile : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
-        [Header("Tile Type")]
-        [SerializeField]private TileType _type = TileType.Normal;
-        [Header("Object")]
-        [SerializeField]private TileObject _object = TileObject.Empty;
+        [Header("Tile Type")] [SerializeField] private TileType _type = TileType.Normal;
+        [Header("Object")] [SerializeField] private TileObject _object = TileObject.Empty;
 
-        [Header("Flags")]
-        [SerializeField]private bool _blocked;
-        [SerializeField]private bool _exit;
-        [SerializeField]private bool _entry;
-        [SerializeField]private bool _puzzleComplete;
-        [SerializeField]private bool _puzzleEntry;
-        [SerializeField]private bool _patrol;
-        [SerializeField]private int _puzzleNumber = -1;
-        [SerializeField]private int _tileDirection = -1;
+        [Header("Flags")] [SerializeField] private bool _blocked;
+        [SerializeField] private bool _exit;
+        [SerializeField] private bool _entry;
+        [SerializeField] private bool _puzzleComplete;
+        [SerializeField] private bool _puzzleEntry;
+        [SerializeField] private bool _patrol;
+        [SerializeField] private int _puzzleNumber = -1;
+        [SerializeField] private int _tileDirection = -1;
 
-        [Header("Position")]
-        [SerializeField]private Vector2 _gridPosition = Vector2.zero;
+        [Header("Position")] [SerializeField] private Vector2 _gridPosition = Vector2.zero;
 
-        [Header("Actor")]
-        [SerializeField]private bool _actor;
-        [SerializeField]private string _actorName;
+        [Header("Actor")] [SerializeField] private bool _actor;
+        [SerializeField] private string _actorName;
 
         //Local reference to Prefabs of the tile and objects
-        private GameObject _tilePrefab, _objectPrefab;
+        private GameObject _tilePrefab, _objectPrefab, _actorPrefab;
+
         //Which type and object does this tile currently have
         private GameObject _currentType, _currentObject;
 
-        [Header("Neighbors")]
-        private readonly List<Tile> _tiles = new List<Tile>();
+        [Header("Neighbors")] private readonly List<Tile> _tiles = new List<Tile>();
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
-    
+
 
         // Use this for initialization
         private void Start()
@@ -58,7 +53,7 @@ namespace Assets.Scripts.Tiles
             name = _type + " Tile";
 
 
-           //Generate the tiles object
+            //Generate the tiles object
             GenerateNewObject();
 
             //If this tile has an assigned direction set the convyer belts direction
@@ -77,7 +72,7 @@ namespace Assets.Scripts.Tiles
                     GenerateNeighbors(map, mapSize);
                     GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
                     ShowFlags();
-                    }
+                }
                     break;
                 //Level creator
                 case "MapCreatorScene":
@@ -85,7 +80,7 @@ namespace Assets.Scripts.Tiles
                     List<List<Tile>> map = GetComponentInParent<MapCreatorManager>().ReturnMap();
                     int mapSize = GetComponentInParent<MapCreatorManager>().ReturnMapSize();
                     GenerateNeighbors(map, mapSize);
-                    
+
                     //Show flags as text
                     GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
                     ShowFlags();
@@ -104,7 +99,7 @@ namespace Assets.Scripts.Tiles
                 _type == TileType.GreenConveyorBelt)
                 GetComponentInChildren<ConveyorBelt>().SetDirecton(direction);
         }
-     
+
         //Show what bool this tile has
         private void ShowFlags()
         {
@@ -234,7 +229,138 @@ namespace Assets.Scripts.Tiles
             GenerateVisuals();
         }
 
-        //Set the tile prefab and variables
+        //Set the tiles flags
+        private void SetFlag(string TileFlag)
+        {
+            switch (TileFlag)
+            {
+                case "Entry":
+                    _entry = true;
+                    ShowFlags();
+                    break;
+                case "Exit":
+                    _exit = true;
+                    ShowFlags();
+                    break;
+                case "PuzzleEntry":
+                    _puzzleEntry = true;
+                    ShowFlags();
+                    break;
+                case "PuzzleExit":
+                    _puzzleComplete = true;
+                    ShowFlags();
+                    break;
+                case "Puzzle":
+                    PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
+                    ShowFlags();
+                    break;
+                case "Patrol":
+                    _patrol = true;
+                    ShowFlags();
+                    break;
+                case "DeleteFlag":
+                    DeleteFlags(this);
+                    ShowFlags();
+                    break;
+                //Set the conveyor belt that is on this tile direction
+                case "North":
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                        _type == TileType.GreenConveyorBelt)
+                    {
+                        _tileDirection = 0;
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
+
+                    }
+                    break;
+                case "South":
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                        _type == TileType.GreenConveyorBelt)
+                    {
+                        _tileDirection = 1;
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
+                    }
+                    break;
+                case "West":
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                        _type == TileType.GreenConveyorBelt)
+                    {
+                        _tileDirection = 2;
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
+                    }
+                    break;
+                case "East":
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
+                        _type == TileType.GreenConveyorBelt)
+                    {
+                        _tileDirection = 3;
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
+                    }
+                    break;
+                case "Delete":
+                    Delete(this);
+                    break;
+                case "Delete2":
+                    Delete2();
+                    break;
+                case "DeleteAll":
+                    DeleteAll(this);
+                    break;
+            }
+        }
+
+        //Set tiles actor
+        private void SetActor(Actor ActorType)
+        {
+            switch (ActorType)
+            {
+                case Actor.Badger:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Badger;
+                    break;
+                case Actor.Beaver:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Beaver;
+                    break;
+                case Actor.Hedgehog:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Hedgehog;
+                    break;
+                case Actor.Mouse:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Mouse;
+                    break;
+                case Actor.InjuredMouse:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.InjuredMouse;
+                    break;
+                case Actor.Pig:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Pig;
+                    break;
+                case Actor.Rats:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Rats;
+                    break;
+                case Actor.Weasel:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Weasel;
+                    break;
+                case Actor.Guard:
+                    _blocked = true;
+                    _actorPrefab = PrefabHolder.Instance.Guard;
+                    break;
+                case Actor.Null:
+                    _blocked = false;
+                    _actorPrefab = PrefabHolder.Instance.Null;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            GenerateActor(_actorPrefab);
+        }
+
+
+        //Set the tiles obhect and variables
         public void SetObject(TileObject Object)
         {
             _object = Object;
@@ -303,6 +429,20 @@ namespace Assets.Scripts.Tiles
             _currentObject = newObject;
         }
 
+        //Generate a tiles objects
+        public void GenerateActor(GameObject newObject)
+        {
+            var container = transform.Find("Actors").gameObject;
+            //initially remove all children
+            for (var i = 0; i < container.transform.childCount; i++)
+            {
+                Destroy(container.transform.GetChild(i).gameObject);
+            }
+            if (_objectPrefab == null) return;
+            newObject.transform.SetParent(container.transform);
+            _currentObject = newObject;
+        }
+
         //Generate a tiles visuals
         public void GenerateVisuals()
         {
@@ -320,12 +460,12 @@ namespace Assets.Scripts.Tiles
             newType.transform.SetParent(container.transform);
 
             _currentType = newType;
-       }
+        }
 
         //Completely destroy a tile and its close family
         private void Delete2()
         {
-            if(North != null && North.East != null)
+            if (North != null && North.East != null)
                 Delete(North.ReturnEast());
             if (North != null)
                 Delete(North);
@@ -368,14 +508,14 @@ namespace Assets.Scripts.Tiles
                     continue;
                 }
                 foreach (var tempTile in _tiles)
-                        Delete(tempTile);
+                    Delete(tempTile);
 
                 Delete(this);
                 break;
             }
         }
 
-        //Set all valid tilesa to the apropriate puzzle number then increase the puzzle number
+        //Set all valid tiles to the apropriate puzzle number then increase the puzzle number
         public void PuzzleLoop(int puzzleNumber)
         {
             SetPuzzle(puzzleNumber);
@@ -408,11 +548,10 @@ namespace Assets.Scripts.Tiles
                    tile.ReturnType() == TileType.Blocked;
         }
 
-        //REMOVE IN RELEASE
-        public void OnPointerClick(PointerEventData eventData)
+
+        //Set all the tiles traits (Type, Flags, Objects and Actors)
+        private void SetTile()
         {
-            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
-         
             switch (MapCreatorManager.Instance.CurrentPlacingStatus)
             {
                 case PlacingStatus.Type:
@@ -420,7 +559,6 @@ namespace Assets.Scripts.Tiles
                     if (Input.GetMouseButton(0))
                     {
                         SetType(MapCreatorManager.Instance.TileType);
-                          
                     }
                     else if (Input.GetMouseButton(1))
                     {
@@ -433,370 +571,73 @@ namespace Assets.Scripts.Tiles
                     if (Input.GetMouseButton(0))
                     {
                         SetObject(MapCreatorManager.Instance.ObjectType);
-                   
-                        }
+
+                    }
                     else if (Input.GetMouseButton(1))
                     {
                         SetObject(TileObject.Empty);
                     }
                     GenerateNewObject();
-                    }
+                }
                     break;
                 case PlacingStatus.Flag:
                 {
                     if (Input.GetMouseButton(0))
                     {
-                        switch (MapCreatorManager.Instance.TileFlag)
-                        {
-                            case "Entry":
-                                _entry = true;
-                                ShowFlags();
-                                break;
-                            case "Exit":
-                                _exit = true;
-                                ShowFlags();
-                                break;
-                            case "PuzzleEntry":
-                                _puzzleEntry = true;
-                                ShowFlags();
-                                break;
-                            case "PuzzleExit":
-                                _puzzleComplete = true;
-                                ShowFlags();
-                                break;
-                            case "Puzzle":
-                                PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
-                                ShowFlags();
-                          break;
-                            case "Patrol":
-                                _patrol = true;
-                                ShowFlags();
-                                break;
-                                case "DeleteFlag":
-                               DeleteFlags(this);
-                                ShowFlags();
-                                break;
-                            //Set the conveyor belt that is on this tile direction
-                            case "North":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 0;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
-
-                                }
-                                break;
-                            case "South":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 1;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
-                                }
-                                break;
-                            case "West":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 2;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
-                                }
-                                break;
-                            case "East":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 3;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
-                                }
-                                break;
-                            case "Delete":
-                                Delete(this);
-                                break;
-                            case "Delete2":
-                                Delete2();
-                                    break;
-                          case "DeleteAll":
-                                DeleteAll(this);
-                                break;
-                            }
+                        SetFlag(MapCreatorManager.Instance.TileFlag);
                     }
                     else if (Input.GetMouseButton(1))
                     {
-                        _entry = false;
-                        _exit = false;
-                        _puzzleEntry = false;
-                        _puzzleComplete = false;
+                        DeleteFlags(this);
                     }
-
                     ShowFlags();
+                    break;
+                }
+                case PlacingStatus.Actor:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetActor(MapCreatorManager.Instance.ActorType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetActor(Actor.Null);
+                    }
                     break;
                 }
             }
         }
 
-        
+        #region Paint Tile
+
+        //REMOVE IN RELEASE
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
+            SetTile();
+        }
+
         //REMOVE IN RELEASE
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
-
-            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
-            {
-                case PlacingStatus.Type:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetType(MapCreatorManager.Instance.TileType);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetType(TileType.Normal);
-                    }
-                }
-                    break;
-                case PlacingStatus.Object:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                       SetObject(MapCreatorManager.Instance.ObjectType);
-                        }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetObject(TileObject.Empty);
-                    }
-                    GenerateNewObject();
-                    }
-                    break;
-                case PlacingStatus.Flag:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        switch (MapCreatorManager.Instance.TileFlag)
-                        {
-                            case "Entry":
-                                _entry = true;
-                                GetComponentInChildren<TextMesh>().text = "ENTRY";
-                                break;
-                            case "Exit":
-                                _exit = true;
-                                GetComponentInChildren<TextMesh>().text = "EXIT";
-                                break;
-                            case "PuzzleEntry":
-                                _puzzleEntry = true;
-                                GetComponentInChildren<TextMesh>().text = "PE";
-                                break;
-                            case "PuzzleComplete":
-                                _puzzleComplete = true;
-                                GetComponentInChildren<TextMesh>().text = "PC";
-                                break;
-                            case "Puzzle":
-                                PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
-                                    ShowFlags();
-                                break;
-                            case "Patrol":
-                                _patrol = true;
-                                ShowFlags();
-                                break;
-                                case "DeleteFlag":
-                                    DeleteFlags(this);
-                                    ShowFlags();
-                                    break;
-
-                            //Set the conveyor belt that is on this tile direction
-                            case "North":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 0;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
-
-                                }
-                                break;
-                            case "South":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 1;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
-                                }
-                                break;
-                            case "West":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 2;
-                                        GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
-                                }
-                                break;
-                            case "East":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 3;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
-                                }
-                                    break;
-                            case "Delete":
-                                Delete(this);
-                                break;
-                            case "Delete2":
-                                Delete2();
-                                break;
-                            case "DeleteAll":
-                                DeleteAll(this);
-                                break;
-
-                            }
-                        }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        _entry = false;
-                        _exit = false;
-                        _puzzleEntry = false;
-                        _puzzleComplete = false;
-                    }
-                    ShowFlags();
-                        break;
-                }
-                    
-            }
+            SetTile();
         }
 
         //REMOVE IN RELEASE
         public void OnPointerDown(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
-
-            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
-            {
-                case PlacingStatus.Type:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetType(MapCreatorManager.Instance.TileType);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetType(TileType.Normal);
-                    }
-                }
-                    break;
-                case PlacingStatus.Object:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetObject(MapCreatorManager.Instance.ObjectType);
-
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetObject(TileObject.Empty);
-
-                    }
-                    GenerateNewObject();
-                }
-                    break;
-                case PlacingStatus.Flag:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        switch (MapCreatorManager.Instance.TileFlag)
-                        {
-                            case "Entry":
-                                _entry = true;
-                                GetComponentInChildren<TextMesh>().text = "ENTRY";
-                                break;
-                            case "Exit":
-                                _exit = true;
-                                GetComponentInChildren<TextMesh>().text = "EXIT";
-                                break;
-                            case "PuzzleEntry":
-                                _puzzleEntry = true;
-                                GetComponentInChildren<TextMesh>().text = "PE";
-                                break;
-                            case "PuzzleComplete":
-                                _puzzleComplete = true;
-                                GetComponentInChildren<TextMesh>().text = "PC";
-                                break;
-                            case "Puzzle":
-                                PuzzleLoop(MapCreatorManager.Instance.PuzzleNumber);
-                                ShowFlags();
-                                break;
-                            case "Patrol":
-                                _patrol = true;
-                                ShowFlags();
-                                break;
-                                case "DeleteFlag":
-                                DeleteFlags(this);
-                                ShowFlags();
-                                    break;
-                            //Set the conveyor belt that is on this tile direction
-                            case "North":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 0;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
-
-                                }
-                                break;
-                            case "South":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 1;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
-                                }
-                                break;
-                            case "West":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 2;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
-                                }
-                                break;
-                            case "East":
-                                if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                                    _type == TileType.GreenConveyorBelt)
-                                {
-                                    _tileDirection = 3;
-                                    GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
-                                }
-                                break;
-                            case "Delete":
-                                Delete(this);
-                                break;
-                            case "Delete2":
-                                Delete2();
-                                break;
-                            case "DeleteAll":
-                                DeleteAll(this);
-                                break;
-                        }
-
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        _entry = false;
-                        _exit = false;
-                        _puzzleEntry = false;
-                        _puzzleComplete = false;
-                    }
-                    ShowFlags();
-                    break;
-                }
-            }
+            SetTile();
         }
-
-
+#endregion
 
         #region Sets & Returns
 
-                    /// <summary>
-                    /// Return Tile north of this tile
-                    /// </summary>
-                    /// <returns></returns>
+        /// <summary>
+        /// Return Tile north of this tile
+        /// </summary>
+        /// <returns></returns>
         public Tile ReturnNorth()
         {
             return North;
@@ -1049,6 +890,7 @@ namespace Assets.Scripts.Tiles
             }
             return "Null";
         }
+
         #endregion
 
     }

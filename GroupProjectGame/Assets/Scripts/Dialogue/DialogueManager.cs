@@ -19,7 +19,7 @@ namespace Assets.Scripts.Dialogue
         [SerializeField]private Text _content;
         [SerializeField] private GameObject _actorName, _choisesTransform;
         [SerializeField]private Line _currentyLine;
-
+        [SerializeField]private Text _expressionText;
         [SerializeField] private GameObject _choisePrefab;
 
         [SerializeField] private List<GameObject> _choises;
@@ -69,7 +69,7 @@ namespace Assets.Scripts.Dialogue
                 Debug.Log("OPEN");
                 _managerAnimator.SetBool("Open", true);
                 _textbox.SetBool("Open", true);
-
+               
                 _currentyLine = _lines[_currentPage];
                 SetActor(_currentyLine);
                 SetContent(_currentyLine);
@@ -101,7 +101,8 @@ namespace Assets.Scripts.Dialogue
             actor.SetBool("Open", true);
             _actorName.GetComponentInChildren<Text>().text = line.Actor.ToString();
             _actorName.transform.localPosition = direction == 0 ? new Vector3(-750, _actorName.transform.localPosition.y, _actorName.transform.localPosition.z) : new Vector3(Mathf.Abs(_actorName.transform.localPosition.x), _actorName.transform.localPosition.y, _actorName.transform.localPosition.z);
-            
+            _expressionText.text = _currentyLine.ActorExpression.ToString(); //TEMP
+            _expressionText.transform.localPosition = direction == 0 ? new Vector3(-750, _expressionText.transform.localPosition.y, _expressionText.transform.localPosition.z) : new Vector3(Mathf.Abs(_expressionText.transform.localPosition.x), _expressionText.transform.localPosition.y, _expressionText.transform.localPosition.z);
         }
 
         //Load the next line of dialogue
