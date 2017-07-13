@@ -6,18 +6,15 @@ namespace Assets.Scripts.Managers
 {
     public class GuardManager : MonoBehaviour
     {
-
-        [SerializeField]private Guard _guardPrefab;
-        [SerializeField]private List<Guard> _guards;
-        [SerializeField]private List<Guard> _guardPositions;
-
-     
+        [SerializeField]private Guard[] _guards;
         
         public void SpawnGuards()
         {
-            var newGuard = Instantiate(_guardPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
-            newGuard.InitializeGuard();
-            _guards.Add(newGuard);
+            _guards = FindObjectsOfType<Guard>();
+            foreach (var guard in _guards)
+            {
+                guard.InitializeGuard();
+            }
         }
 
         public void ResetGuards()

@@ -2667,10 +2667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b1b5df31d8f7d449a04d8fa23941c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guardPrefab: {fileID: 114271016821576894, guid: 82f9866bdaf63f24a8306b7f24059410,
-    type: 2}
   _guards: []
-  _guardPositions: []
 --- !u!1 &1362321134
 GameObject:
   m_ObjectHideFlags: 0
@@ -4692,3 +4689,14 @@ MonoBehaviour:
   GreenSwitch: {fileID: 1369167571411984, guid: 26cf8c2f92f59f441a1de48b157d78b9,
     type: 2}
   BlueSwitch: {fileID: 1341382615328866, guid: c8cbb176ae1cf3b468a0f243eef35a53, type: 2}
+  Badger: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Beaver: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Hedgehog: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Mouse: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  InjuredMouse: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410,
+    type: 2}
+  Pig: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Bunny: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Rats: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Weasel: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Guard: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}

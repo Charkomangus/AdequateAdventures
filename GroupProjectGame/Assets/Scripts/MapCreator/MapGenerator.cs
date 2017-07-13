@@ -206,8 +206,8 @@ namespace Assets.Scripts.MapCreator
         /// <returns></returns>
         public Tile ReturnSpecificTile(int x, int y)
         {
-            if (x < 0 || x > _mapSize) return null;
-            if (y < 0 || y > _mapSize) return null;
+            if (x < 0 || x > _mapSize-1) return null;
+            if (y < 0 || y > _mapSize-1) return null;
             return _map[x][y];
         }
 

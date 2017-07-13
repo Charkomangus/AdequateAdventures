@@ -16,7 +16,7 @@ public class Guard : MonoBehaviour {
     }
     private Animator _animator;
 
-    [Header("Tiles")] [SerializeField] private Tile _parentTile, _oldPatrol;
+    [Header("Tiles")] [SerializeField] private Tile _parentTile;
     [SerializeField] private Tile _latestTile;
     [SerializeField]private int _currentPuzzle = -1;
    
@@ -28,6 +28,7 @@ public class Guard : MonoBehaviour {
     [SerializeField]private int _waitTime;
     [SerializeField]private int _patrolLength;
     [SerializeField]private List<Tile> _watchedTiles = new List<Tile>();
+    [SerializeField]private List<Tile> _patrolTiles = new List<Tile>();
     private int _tilesWalked;
 
 
@@ -36,17 +37,20 @@ public class Guard : MonoBehaviour {
     [SerializeField]private bool _seeing;
     [SerializeField]private bool _initialized;
     [SerializeField]private int _direction;
-    private int _originalDirection;
+    [SerializeField] private int _currentPatrolTile;
+    private int _originalDirection, _patrolDirection = 1;
     private Tile _originalTile;
 
     // Use this for initialization
     public void InitializeGuard() {
         _animator = GetComponent<Animator>();
         _guardMoveState = GuardMoveState.Patrol;
-        _parentTile = GameManager.Instance.ReturnLevelEntry() ?? FindObjectOfType<Tile>();
+        _parentTile = GetComponentInParent<Tile>();
         transform.position = _parentTile.transform.position;
+    
         _originalTile = _parentTile;
         _originalDirection = _direction;
+      
         _initialized = true;
     }
 	
@@ -58,78 +62,122 @@ public class Guard : MonoBehaviour {
 
         transform.SetParent(_parentTile.transform);
         _currentPuzzle = _parentTile.ReturnPuzzleNumber();
-        //If the player is close to the parent tile speed them up and read further input
+
+        //If the guard is close to the parent tile speed them up
         if (HasReachedTile())
         {
             SeeingCone();
-            SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
-           DetermineAnimationStatus();
-       
 
+
+            SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
 
             if (_parentTile.ReturnPatrol())
             {
                 _guardMoveState = GuardMoveState.Patrol;
+                if (_patrolTiles.Count <= 0)
+                CreatePatrolRoute(_parentTile);
                 FollowPatrolRoute();
-                
+              
+
+
             }
             else
             {
+                //If not on patrol do the standard four tile shuffle
                 DetermineDirection();
                     Move(_latestTile);
                
             }
-            
+            DetermineAnimationStatus();
+          
+
         }
         else
         {
+           
             SmoothMove(transform.position, _parentTile.transform.position, _moveSpeed);
         }
+
+      
+       
 
        
     }
 
-    private void FollowPatrolRoute()
+    //Create a list with all the patrol tiles including the original tile
+    private void CreatePatrolRoute(Tile tile)
     {
-        //Add all the neighboring tiles that are patrol tiles
-        var temp = _parentTile.ReturnNeighbors().Where(tile => tile.ReturnPatrol()).ToList();
-
-
-        //Try not to double back
-        foreach (var tile in temp)
+        if (!_patrolTiles.Contains(_parentTile))
         {
-            switch (_direction)
-            {
-                case 0:
-                    if (tile != _parentTile.South)
-                    {
-                        _latestTile = tile;
-                    }
-                    break;
-                case 1:
-                    if (tile != _parentTile.North)
-                    {
-                        _latestTile = tile;
-                    }
-                    break;
-                case 2:
-                    if (tile != _parentTile.East)
-                    {
-                        _latestTile = tile;
-                    }
-                    break;
-                case 3:
-                    if (tile != _parentTile.West)
-                    {
-                        _latestTile = tile;
-                      
-                    }
-                    break;
-            }
-            if (_latestTile != _parentTile && !_latestTile.IsBlocked()) break;
+            _patrolTiles.Add(_parentTile);
         }
 
-        //Determine which direction to face
+        foreach (var neighbor in tile.ReturnNeighbors())
+        {
+            if (!neighbor.ReturnPatrol() || _patrolTiles.Contains(neighbor)) continue;
+            _patrolTiles.Add(neighbor);
+
+            CreatePatrolRoute(neighbor);
+        }
+        for (int i = 0; i < _patrolTiles.Count; i++)
+        {
+            _patrolTiles[i].GetComponentInChildren<TextMesh>().text = i.ToString();
+        }
+    }
+
+
+    //Go from one tile to the other
+    private void FollowPatrolRoute()
+    {
+        //WHen you reach the last patrol tile
+        if (_currentPatrolTile == _patrolTiles.Count - 1 && _patrolDirection != -1)
+        {
+            foreach (var neighbor in _patrolTiles[_currentPatrolTile].ReturnNeighbors())
+            {
+
+                if (neighbor == _patrolTiles[0])
+                {
+                    _currentPatrolTile = -1;
+                    _patrolDirection = 1;
+                    break;
+                }
+                //Otherwise double back
+                _patrolDirection = -1;
+            }
+
+        }
+        //BEgin the patrol 
+        else if (_currentPatrolTile == 0 && _patrolDirection != 1)
+        {
+            foreach (var neighbor in _patrolTiles[0].ReturnNeighbors())
+            {                
+                if (neighbor == _patrolTiles[_patrolTiles.Count-1])
+                {
+                    _currentPatrolTile = _patrolTiles.Count;
+                    _patrolDirection = -1;
+                    break;
+                }
+                //Otherwise keep going
+                _patrolDirection = 1;
+            }
+        }
+      
+        _currentPatrolTile += _patrolDirection;
+
+        _latestTile = _patrolTiles[_currentPatrolTile];
+
+        //If the next tile is blocked reverse direction
+        if (_latestTile.IsBlocked())
+        {
+            _patrolDirection = -_patrolDirection;
+
+            _currentPatrolTile += _patrolDirection;
+            return;
+         
+        }
+        _guardMoveState = GuardMoveState.Patrol;
+
+        // Determine which direction to face
         if (_latestTile == _parentTile.North)
             _direction = 0;
         else if (_latestTile == _parentTile.South)
@@ -139,20 +187,11 @@ public class Guard : MonoBehaviour {
         else if (_latestTile == _parentTile.East)
             _direction = 3;
 
-        //Check if he sees the player
-        foreach (var tile in _watchedTiles)
-        {
-            if (tile == GameManager.Instance.Player.ReturnParentTile())
-                Debug.Log("GOT HIM");
-            if (tile != null && !tile.IsBlocked()) // TEMP
-                tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-        }
-
-        //Move to the latest tile if its valid
-        if (!IsValidTile(_latestTile)) return;
+        //Move to the latest tile 
         _parentTile.SetBlocked(false);
         _parentTile = _latestTile;
         _parentTile.SetBlocked(true);
+
     }
 
     //Checks if this is a valid tile to look at
@@ -166,7 +205,8 @@ public class Guard : MonoBehaviour {
     private void CreateSeeingCone(Tile tile, int x, int y)
     {
         var tempTile = GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x + x, (int)tile.ReturnPosition().y + y);
-        AddTile(_watchedTiles, tempTile);
+        if(IsValidTile(tempTile))
+            AddTile(_watchedTiles, tempTile);
     }
 
 
@@ -190,7 +230,7 @@ public class Guard : MonoBehaviour {
                 _direction = 2;
                 break;
         }
-        DetermineDirection();
+        
         _guardMoveState = GuardMoveState.Patrol;
     }
 
@@ -240,7 +280,10 @@ public class Guard : MonoBehaviour {
         yield return new WaitForSeconds(_waitTime);
         Turn();
     }
-   
+
+
+
+
 
     //Check if movement should happen to the tile and set whcih tile the player is directly looking at
     private void Move(Tile destination)
@@ -258,7 +301,8 @@ public class Guard : MonoBehaviour {
             //If the patrol length is met make the player wait
             if (_tilesWalked != _patrolLength) return;
             _guardMoveState = GuardMoveState.Stationary;
-            StartCoroutine(Wait()); 
+            StartCoroutine(Wait());
+            DetermineDirection();
             _tilesWalked = 0;
         }
         else
@@ -267,6 +311,7 @@ public class Guard : MonoBehaviour {
             _guardMoveState = GuardMoveState.Turning;
             _tilesWalked = 0;
             Turn();
+            DetermineDirection();
         }
     }
 
@@ -283,13 +328,14 @@ public class Guard : MonoBehaviour {
 //Creates a cone where the guard can see
     private void SeeingCone()
     {
-        foreach (var tile in _watchedTiles)
+        if (_watchedTiles.Count > 0)
         {
-            if (tile != null || !tile.IsBlocked())
+            foreach (var tile in _watchedTiles)
+            {
                 tile.GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1);
+            }
+            _watchedTiles.Clear();
         }
-        _watchedTiles.Clear();
-
         switch (_direction)
         {
             case 0:
@@ -356,7 +402,26 @@ public class Guard : MonoBehaviour {
                 CreateSeeingCone(_parentTile, 4, -2);
                 CreateSeeingCone(_parentTile, 4, 2);
                 break;
+            default:
+                Debug.Log("IMPOSSIBLE!");
+                break;
         }
+
+
+        //Check if he sees the player
+        if (_watchedTiles.Count > 0)
+            foreach (var tile in _watchedTiles)
+        {
+            tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
+                if (tile == GameManager.Instance.Player.ReturnParentTile())
+            {
+                Debug.Log("GOT HIM");
+            }
+
+
+           
+              
+            }
     }
 
     //Play the apropriate animation depending on the direction and status of the guard

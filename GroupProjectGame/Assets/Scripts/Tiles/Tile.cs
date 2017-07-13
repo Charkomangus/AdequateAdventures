@@ -355,8 +355,7 @@ namespace Assets.Scripts.Tiles
                     _actorPrefab = PrefabHolder.Instance.Guard;
                     break;
                 case Actor.Null:
-                    _blocked = false;
-                    _actorPrefab = PrefabHolder.Instance.Null;
+                    _actorPrefab = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -447,7 +446,7 @@ namespace Assets.Scripts.Tiles
             if (_actorPrefab == null) return;
             var newActor = Instantiate(_actorPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
             newActor.transform.SetParent(container.transform);
-            newActor.name = MapCreatorManager.Instance.ActorType.ToString(); //TEMP
+          //  newActor.name = MapCreatorManager.Instance.ActorType.ToString(); //TEMP
             _currentActor = newActor;
         }
 

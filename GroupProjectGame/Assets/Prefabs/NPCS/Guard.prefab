@@ -75,12 +75,14 @@ MonoBehaviour:
   _currentPuzzle: -1
   _guardMoveState: 0
   _moveSpeed: 2
-  _waitTime: 4
+  _waitTime: 1
   _patrolLength: 4
   _watchedTiles: []
+  _patrolTiles: []
   _seeing: 0
   _initialized: 0
   _direction: 0
+  _currentPatrolTile: 0
 --- !u!212 &212057548199185616
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -41,7 +41,6 @@ namespace Assets.Scripts.Tiles
         public GameObject Rats;
         public GameObject Weasel;
         public GameObject Guard;
-        public GameObject Null;
         
 
         private void Awake()
