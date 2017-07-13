@@ -12,6 +12,7 @@ namespace Assets.Scripts.Ui
         public string[] SignTexts;
         public Animator _fade;
 
+        public JournalManager _journalManager;
         // Use this for initialization
         void Start()
         {
@@ -19,7 +20,7 @@ namespace Assets.Scripts.Ui
             signs = FindObjectsOfType<Sign>();
 
             _fade = GameObject.FindGameObjectWithTag("Fade").GetComponent<Animator>();
-
+            _journalManager = GetComponentInChildren<JournalManager>();
 
             for (int i = 0; i < signs.Length; i++)
             {
@@ -34,6 +35,11 @@ namespace Assets.Scripts.Ui
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.J))
+                _journalManager.OpenJournal(true);
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                _journalManager.OpenJournal(false);
         }
 
         public void Open(string text)
