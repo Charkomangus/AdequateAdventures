@@ -6,7 +6,7 @@ namespace Assets.Scripts.Dialogue
     {
         public Actor Actor;
 
-        public ActorExpression ActorExpression;
+        public int ActorExpression;
 
         public string Content, Choise0, Choise1, Choise2;
 

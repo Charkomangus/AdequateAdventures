@@ -22,9 +22,9 @@ namespace Assets.Scripts.Dialogue
 
     public enum ActorExpression
     {
-        Neutral,
-        Angry,
-        Sad
+        First,
+        Second,
+        Third
     }
 
 

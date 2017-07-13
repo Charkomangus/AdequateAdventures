@@ -16,7 +16,7 @@ namespace Assets.Scripts.Dialogue
         public Actor ActorName;
 
         [XmlAttribute("Expression")]
-        public ActorExpression ActorExpression;
+        public int ActorExpression;
 
         [XmlAttribute("Direction")]
         public int Direction;

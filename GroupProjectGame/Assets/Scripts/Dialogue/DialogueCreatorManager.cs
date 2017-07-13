@@ -25,10 +25,11 @@ namespace Assets.Scripts.Dialogue
         // Use this for initialization
         void Start()
         {
+            UpdateExpressions(ActorName.value);
             SetPageCounters();
             Special.onValueChanged.AddListener(delegate { SpecialChoices(Special.captionText.text); });
             SaveField.onEndEdit.AddListener(delegate{SaveDialogueToXml(SaveField.text);NewMapNotification(SaveField.text, 0);});
-
+            ActorName.onValueChanged.AddListener(delegate { UpdateExpressions(ActorName.value); });
 
             LoadField.onEndEdit.AddListener(delegate { LoadDialogueFromXml(LoadField.text); SetPageCounters();  });
             //This allows the user to directly load a page by using the slider
@@ -46,6 +47,59 @@ namespace Assets.Scripts.Dialogue
         void Update()
         {
             Lines[CurrentPage] = CreateNewLine();
+        }
+
+        private void UpdateExpressions(int value)
+        {
+            Expression.options = new List<Dropdown.OptionData>();
+            
+       
+            switch (value)
+            {
+                case 0:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Agressive"));
+                    break;
+                case 1:
+                    Expression.options.Add(new Dropdown.OptionData("Happy"));
+                    Expression.options.Add(new Dropdown.OptionData("Confused"));
+                    Expression.options.Add(new Dropdown.OptionData("Assertive"));
+                    break;
+                case 2:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Shocked"));
+                    break;
+                case 3:
+                case 4:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Shy"));
+                    break;
+                case 5:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Afraid"));
+                    Expression.options.Add(new Dropdown.OptionData("Crying"));
+                    break;
+                case 6:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Angry"));
+                    Expression.options.Add(new Dropdown.OptionData("Triumphant"));
+                    break;
+                case 7:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Annoyed"));
+                    break;
+                case 8:
+                    Expression.options.Add(new Dropdown.OptionData("Neutral"));
+                    Expression.options.Add(new Dropdown.OptionData("Sly"));
+                    Expression.options.Add(new Dropdown.OptionData("Laughing"));
+                    break;
+                case 9:
+                    Expression.options.Add(new Dropdown.OptionData("N/A"));
+                    break;
+
+            }
+            Expression.value = 0;
+            Expression.captionText.text = Expression.options[0].text;
         }
 
         //Update any page text or buttons that needs to be updated
@@ -151,7 +205,7 @@ namespace Assets.Scripts.Dialogue
         {
             var line = Lines[pageNumber];
             ActorName.value = (int)line.Actor;
-            Expression.value = (int)line.ActorExpression;
+            Expression.value = line.ActorExpression;
             Branch.value = line.Branch;
             Condition.value = (int)line.Condition;
             Direction.value = line.Direction;
@@ -168,7 +222,7 @@ namespace Assets.Scripts.Dialogue
             Line line = new Line
             {
                 Actor = (Actor)ActorName.value,
-                ActorExpression = (ActorExpression)Expression.value,
+                ActorExpression = Expression.value,
                 Direction = Direction.value,
                 Branch = Branch.value,
                 Condition = (Condition)Condition.value,
