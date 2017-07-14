@@ -58,10 +58,9 @@ namespace Assets.Scripts.Tiles
             //If this tile has an assigned direction set the convyer belts direction
             if (_tileDirection != -1)
             {
-                SetConveyorDirection(_tileDirection);
+                SetObjectsDirection(_tileDirection);
+
             }
-
-
             switch (SceneManager.GetActiveScene().name)
             {
                 case "Level1":
@@ -88,15 +87,21 @@ namespace Assets.Scripts.Tiles
             }
             ShowFlags();
             SetObject(_object);
-
         }
-
+        
         //If this tile is a conveyor belt set it's directions
-        private void SetConveyorDirection(int direction)
+        private void SetObjectsDirection(int direction)
         {
             if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
                 _type == TileType.GreenConveyorBelt)
+            {
                 GetComponentInChildren<ConveyorBelt>().SetDirecton(direction);
+            }
+            else if (_currentActor != null)
+            {
+
+                GetComponentInChildren<Guard>().SetDirection(direction);
+            }
         }
 
         //Show what bool this tile has
@@ -110,10 +115,13 @@ namespace Assets.Scripts.Tiles
                 GetComponentInChildren<TextMesh>().text = "ENTRY";
             else if (_exit)
                 GetComponentInChildren<TextMesh>().text = "EXIT";
-            else if (_patrol)
-                GetComponentInChildren<TextMesh>().text = "PATROL";
             else if (_puzzleNumber >= 0)
                 GetComponentInChildren<TextMesh>().text = _puzzleNumber.ToString(); //TEMP
+            else if (_tileDirection != -1)
+                GetComponentInChildren<TextMesh>().text = _tileDirection.ToString();
+            
+            else if (_patrol)
+                GetComponentInChildren<TextMesh>().text = "PATROL";
             else
                 GetComponentInChildren<TextMesh>().text = "";
         }
@@ -268,36 +276,47 @@ namespace Assets.Scripts.Tiles
                     break;
                 //Set the conveyor belt that is on this tile direction
                 case "North":
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                        _type == TileType.GreenConveyorBelt)
+                    _tileDirection = 0;
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
                     {
-                        _tileDirection = 0;
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(0);
-
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
+                    }
+                    else if(_currentActor!= null)
+                    {
+                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
                     }
                     break;
                 case "South":
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                        _type == TileType.GreenConveyorBelt)
+                    _tileDirection = 1;
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
                     {
-                        _tileDirection = 1;
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(1);
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
+                    }
+                    else if (_currentActor != null)
+                    {
+                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
                     }
                     break;
                 case "West":
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                        _type == TileType.GreenConveyorBelt)
+                    _tileDirection = 2;
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
                     {
-                        _tileDirection = 2;
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(2);
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
+                    }
+                    else if (_currentActor != null)
+                    {
+                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
                     }
                     break;
                 case "East":
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                        _type == TileType.GreenConveyorBelt)
+                    _tileDirection = 3;
+                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
                     {
-                        _tileDirection = 3;
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(3);
+                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
+                    }
+                    else if (_currentActor != null)
+                    {
+                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
                     }
                     break;
                 case "Delete":
@@ -516,6 +535,7 @@ namespace Assets.Scripts.Tiles
             tile.SetPuzzleComplete(false);
             tile.SetPuzzleEntry(false);
             tile.SetPuzzleNumber(-1);
+            tile.SetDirection(-1);
         }
 
         //Completely destroy a tile, its close family and all it's friends
@@ -911,8 +931,7 @@ namespace Assets.Scripts.Tiles
                 return "Entry";
             if (_exit)
                 return "Exit";
-            if (_patrol)
-                return "Patrol";
+         
             if (_tileDirection != -1)
             {
                 switch (_tileDirection)
@@ -927,6 +946,8 @@ namespace Assets.Scripts.Tiles
                         return "East";
                 }
             }
+            else if (_patrol)
+                return "Patrol";
             return "Null";
         }
 

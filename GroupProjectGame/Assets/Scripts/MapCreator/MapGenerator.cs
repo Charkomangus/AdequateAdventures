@@ -129,15 +129,19 @@ namespace Assets.Scripts.MapCreator
                        
                         case "North":
                             tile.SetDirection(0);
+                            tile.SetPatrol(true);
                             break;
                         case "South":
                             tile.SetDirection(1);
+                            tile.SetPatrol(true);
                             break;
                         case "West":
                             tile.SetDirection(2);
+                            tile.SetPatrol(true);
                             break;
                         case "East":
                             tile.SetDirection(3);
+                            tile.SetPatrol(true);
                             break;
                         case "Patrol":
                             tile.SetPatrol(true);

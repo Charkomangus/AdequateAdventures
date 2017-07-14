@@ -38,25 +38,33 @@ public class Guard : MonoBehaviour {
     [SerializeField]private bool _initialized;
     [SerializeField]private int _direction;
     [SerializeField] private int _currentPatrolTile;
-    private int _originalDirection, _patrolDirection = 1;
+    private int _originalDirection;
+    private int _patrolDirection;
     private Tile _originalTile;
 
-    // Use this for initialization
-    public void InitializeGuard() {
+    void Start()
+    {
         _animator = GetComponent<Animator>();
         _guardMoveState = GuardMoveState.Patrol;
         _parentTile = GetComponentInParent<Tile>();
         transform.position = _parentTile.transform.position;
-    
         _originalTile = _parentTile;
         _originalDirection = _direction;
-      
+        _direction = _parentTile.ReturnDirection();
+
+    }
+
+    // Use this for initialization
+    public void InitializeGuard()
+    {  
         _initialized = true;
     }
 	
 	// Update is called once per frame
     void Update()
     {
+
+
         //If the player has not been yet initalised or hasd no valid parent tile return
         if (_parentTile == null || !_initialized) return;
 
@@ -104,6 +112,23 @@ public class Guard : MonoBehaviour {
        
     }
 
+    private void AddPatrolTiles(Tile tile)
+    {
+        if (!_patrolTiles.Contains(tile))
+        {
+            _patrolTiles.Add(tile);
+        }
+
+        foreach (var neighbor in tile.ReturnNeighbors())
+        {
+            if (!neighbor.ReturnPatrol() || _patrolTiles.Contains(neighbor)) continue;
+            _patrolTiles.Add(neighbor);
+
+            AddPatrolTiles(neighbor);
+        }
+    }
+
+
     //Create a list with all the patrol tiles including the original tile
     private void CreatePatrolRoute(Tile tile)
     {
@@ -112,13 +137,35 @@ public class Guard : MonoBehaviour {
             _patrolTiles.Add(_parentTile);
         }
 
-        foreach (var neighbor in tile.ReturnNeighbors())
+        switch (_direction)
         {
-            if (!neighbor.ReturnPatrol() || _patrolTiles.Contains(neighbor)) continue;
-            _patrolTiles.Add(neighbor);
+          
+            case 0:
+                AddPatrolTiles(_parentTile.North);
+                break;
+            case 1:
+           
+                AddPatrolTiles(_parentTile.South);
+                break;
+            case 2:
+                AddPatrolTiles(_parentTile.West);
+                break;
+            case 3:
+                AddPatrolTiles(_parentTile.East);
+                break;
+            case -1:
+                foreach (var neighbor in _parentTile.ReturnNeighbors())
+                {
+                    if (!neighbor.ReturnPatrol() || _patrolTiles.Contains(neighbor)) continue;
+                    _patrolTiles.Add(neighbor);
 
-            CreatePatrolRoute(neighbor);
+                    AddPatrolTiles(neighbor);
+                }
+                break;
         }
+
+
+        //TEMP
         for (int i = 0; i < _patrolTiles.Count; i++)
         {
             _patrolTiles[i].GetComponentInChildren<TextMesh>().text = i.ToString();
@@ -129,6 +176,15 @@ public class Guard : MonoBehaviour {
     //Go from one tile to the other
     private void FollowPatrolRoute()
     {
+        for (int i = 0; i < _patrolTiles.Count; i++)
+        {
+            if (_patrolTiles[i] == _parentTile)
+            {
+                _currentPatrolTile = i;
+                break;
+            }
+        }
+       
         //WHen you reach the last patrol tile
         if (_currentPatrolTile == _patrolTiles.Count - 1 && _patrolDirection != -1)
         {
@@ -161,6 +217,7 @@ public class Guard : MonoBehaviour {
                 _patrolDirection = 1;
             }
         }
+       
       
         _currentPatrolTile += _patrolDirection;
 
@@ -205,7 +262,7 @@ public class Guard : MonoBehaviour {
     private void CreateSeeingCone(Tile tile, int x, int y)
     {
         var tempTile = GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x + x, (int)tile.ReturnPosition().y + y);
-        if(IsValidTile(tempTile))
+        if(tempTile !=null)
             AddTile(_watchedTiles, tempTile);
     }
 
@@ -318,11 +375,13 @@ public class Guard : MonoBehaviour {
     //ResetGuard to its original location and direction
     public void ResetGuard()
     {
+        _direction = _originalDirection;
         _initialized = false;
         _parentTile.SetBlocked(false);
         _parentTile = _originalTile;
         _parentTile.SetBlocked(true);
-        _direction = _originalDirection;
+        transform.position = _parentTile.transform.position;
+     
         InitializeGuard();
     }
 //Creates a cone where the guard can see
@@ -348,11 +407,11 @@ public class Guard : MonoBehaviour {
                 CreateSeeingCone(_parentTile, 0, -3);
                 CreateSeeingCone(_parentTile, 1, -3);
                 CreateSeeingCone(_parentTile, -1, -3);
-                CreateSeeingCone(_parentTile, 0, -4);
-                CreateSeeingCone(_parentTile, 1, -4);
-                CreateSeeingCone(_parentTile, -1, -4);
-                CreateSeeingCone(_parentTile, 2, -4);
-                CreateSeeingCone(_parentTile, -2, -4);
+                //CreateSeeingCone(_parentTile, 0, -4);
+                //CreateSeeingCone(_parentTile, 1, -4);
+                //CreateSeeingCone(_parentTile, -1, -4);
+                //CreateSeeingCone(_parentTile, 2, -4);
+                //CreateSeeingCone(_parentTile, -2, -4);
                 break;
             case 1:
                 CreateSeeingCone(_parentTile, 0, 1);
@@ -364,11 +423,11 @@ public class Guard : MonoBehaviour {
                 CreateSeeingCone(_parentTile, 0, 3);
                 CreateSeeingCone(_parentTile, 1, 3);
                 CreateSeeingCone(_parentTile, -1, 3);
-                CreateSeeingCone(_parentTile, 0, 4);
-                CreateSeeingCone(_parentTile, 1, 4);
-                CreateSeeingCone(_parentTile, -1, 4);
-                CreateSeeingCone(_parentTile, 2, 4);
-                CreateSeeingCone(_parentTile, -2, 4);
+                //CreateSeeingCone(_parentTile, 0, 4);
+                //CreateSeeingCone(_parentTile, 1, 4);
+                //CreateSeeingCone(_parentTile, -1, 4);
+                //CreateSeeingCone(_parentTile, 2, 4);
+                //CreateSeeingCone(_parentTile, -2, 4);
                 break;
             case 2:
                 CreateSeeingCone(_parentTile, -1, 0);
@@ -380,11 +439,11 @@ public class Guard : MonoBehaviour {
                 CreateSeeingCone(_parentTile, -3, 0);
                 CreateSeeingCone(_parentTile, -3, -1);
                 CreateSeeingCone(_parentTile, -3, 1);
-                CreateSeeingCone(_parentTile, -4, 0);
-                CreateSeeingCone(_parentTile, -4, 1);
-                CreateSeeingCone(_parentTile, -4, -1);
-                CreateSeeingCone(_parentTile, -4, -2);
-                CreateSeeingCone(_parentTile, -4, 2);
+                //CreateSeeingCone(_parentTile, -4, 0);
+                //CreateSeeingCone(_parentTile, -4, 1);
+                //CreateSeeingCone(_parentTile, -4, -1);
+                //CreateSeeingCone(_parentTile, -4, -2);
+                //CreateSeeingCone(_parentTile, -4, 2);
                 break;
             case 3:
                 CreateSeeingCone(_parentTile, 1, 0);
@@ -396,11 +455,11 @@ public class Guard : MonoBehaviour {
                 CreateSeeingCone(_parentTile, 3, 0);
                 CreateSeeingCone(_parentTile, 3, -1);
                 CreateSeeingCone(_parentTile, 3, 1);
-                CreateSeeingCone(_parentTile, 4, 0);
-                CreateSeeingCone(_parentTile, 4, 1);
-                CreateSeeingCone(_parentTile, 4, -1);
-                CreateSeeingCone(_parentTile, 4, -2);
-                CreateSeeingCone(_parentTile, 4, 2);
+                //CreateSeeingCone(_parentTile, 4, 0);
+                //CreateSeeingCone(_parentTile, 4, 1);
+                //CreateSeeingCone(_parentTile, 4, -1);
+                //CreateSeeingCone(_parentTile, 4, -2);
+                //CreateSeeingCone(_parentTile, 4, 2);
                 break;
             default:
                 Debug.Log("IMPOSSIBLE!");
@@ -411,17 +470,17 @@ public class Guard : MonoBehaviour {
         //Check if he sees the player
         if (_watchedTiles.Count > 0)
             foreach (var tile in _watchedTiles)
-        {
-            tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-                if (tile == GameManager.Instance.Player.ReturnParentTile())
             {
-                Debug.Log("GOT HIM");
+                tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
+                if (tile == GameManager.Instance.Player.ReturnParentTile())
+                {
+                    GameManager.Instance.RestartLevel();
+                }
+
+
             }
 
 
-           
-              
-            }
     }
 
     //Play the apropriate animation depending on the direction and status of the guard
@@ -479,8 +538,31 @@ public class Guard : MonoBehaviour {
         return _currentPuzzle;
     }
 
+    //Set the direction
+    public void SetDirection(int direction)
+    {
+        if(_animator == null)
+            _animator = GetComponent<Animator>();
+        _direction = direction;
+        switch (_direction)
+        {
+            case 0:
+                _animator.Play("GuardStationaryUp");
+                break;
+            case 1:
+                _animator.Play("GuardStationaryDown");
+                break;
+            case 2:
+                _animator.Play("GuardStationaryLeft");
+                break;
+            case 3:
+                _animator.Play("GuardStationaryRight");
+                break;
+        }
+    }
 
-    
-   
-   
+
+
+
+
 }

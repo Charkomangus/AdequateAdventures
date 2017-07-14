@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <MapCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="20">
   <Tiles>
-    <Tile Type="Normal" LocationX="0" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Badger" />
+    <Tile Type="Normal" LocationX="0" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="0" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="0" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="0" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -21,7 +21,7 @@
     <Tile Type="Normal" LocationX="0" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="0" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="0" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="1" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Beaver" />
+    <Tile Type="Normal" LocationX="1" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="1" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="1" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="1" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -41,7 +41,7 @@
     <Tile Type="Normal" LocationX="1" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="1" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="1" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="2" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Hedgehog" />
+    <Tile Type="Normal" LocationX="2" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="2" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="2" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="2" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -61,7 +61,7 @@
     <Tile Type="Normal" LocationX="2" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="2" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="2" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="3" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Mouse" />
+    <Tile Type="Normal" LocationX="3" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="3" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="3" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="3" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -81,7 +81,7 @@
     <Tile Type="Normal" LocationX="3" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="3" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="3" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="4" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="InjuredMouse" />
+    <Tile Type="Normal" LocationX="4" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="4" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="4" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="4" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -101,7 +101,7 @@
     <Tile Type="Normal" LocationX="4" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="4" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="4" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="5" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Pig" />
+    <Tile Type="Normal" LocationX="5" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="5" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="5" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="5" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -121,7 +121,7 @@
     <Tile Type="Normal" LocationX="5" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="5" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="5" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="6" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Pig" />
+    <Tile Type="Normal" LocationX="6" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -141,7 +141,7 @@
     <Tile Type="Normal" LocationX="6" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="6" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="7" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Rats" />
+    <Tile Type="Normal" LocationX="7" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -161,7 +161,7 @@
     <Tile Type="Normal" LocationX="7" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="7" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="8" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Weasel" />
+    <Tile Type="Normal" LocationX="8" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -174,14 +174,14 @@
     <Tile Type="Normal" LocationX="8" LocationY="10" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="11" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="12" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="8" LocationY="13" Object="Empty" Flag="Null" Puzzle="-1" Actor="InjuredMouse" />
+    <Tile Type="Normal" LocationX="8" LocationY="13" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="14" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="15" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="16" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="17" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="18" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="8" LocationY="19" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="9" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Guard" />
+    <Tile Type="Normal" LocationX="9" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="2" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="9" LocationY="3" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />

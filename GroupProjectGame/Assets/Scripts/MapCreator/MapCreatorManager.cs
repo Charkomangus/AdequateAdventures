@@ -46,8 +46,6 @@ namespace Assets.Scripts.MapCreator
         //Category buttons
         public Button Types, Flags, Objects, Actors;
       
-
-
         [Header("Tile Types")]
         public TileType TileType;
         public Button TileNormal;
@@ -63,7 +61,6 @@ namespace Assets.Scripts.MapCreator
         public Button TileBlueBelt;
         public Button TileNull;
        
-
         [Header("Tile Flags")]
         public string TileFlag;
         public Button TileEntry;
