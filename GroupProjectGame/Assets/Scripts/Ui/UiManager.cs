@@ -35,11 +35,7 @@ namespace Assets.Scripts.Ui
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.J))
-                _journalManager.OpenJournal(true);
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-                _journalManager.OpenJournal(false);
+        
         }
 
         public void Open(string text)

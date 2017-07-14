@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: b4a15fde08a88244e92088d476945bcf
+timeCreated: 1500031445
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: CMU Typewriter Text
+  fontNames:
+  - CMU Typewriter Text
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 437bc9f4dcacea340bf4e4ec6e1a9ab1, type: 3}
+  - {fileID: 12800000, guid: 0b284c5c2660ea247a9b07d388f590a3, type: 3}
+  - {fileID: 12800000, guid: 1dd8860d4f65e724991f11eb566cd1eb, type: 3}
+  - {fileID: 12800000, guid: 1db1927e954a3104aa752481a9c50602, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

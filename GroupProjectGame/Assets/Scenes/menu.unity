@@ -4798,7 +4798,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6869,7 +6869,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 36578a16234cf3f49bca8db6332f7bb2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bf9445b358e566243a7e3b231c0007ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -17,6 +17,10 @@ TagManager:
   - Content
   - ActorName
   - Choises
+  - PageButtons
+  - Evidence
+  - Options
+  - EvidenceTextBox
   layers:
   - Default
   - TransparentFX
