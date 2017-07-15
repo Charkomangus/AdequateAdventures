@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
-  <Lines>
-    <Line ActorName="Mouse" Expression="1" Direction="0" Branch="0" Condition="None" Content="wddwdwd" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="wddwd" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Rats" Expression="1" Direction="0" Branch="0" Condition="None" Content="wddw" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-  </Lines>
-</LineCollection>

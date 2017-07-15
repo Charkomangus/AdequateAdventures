@@ -11,7 +11,7 @@ namespace Assets.Scripts.Dialogue
 {
     public class DialogueManager : MonoBehaviour, IPointerDownHandler
     {
-        [SerializeField]private Sprite[] _portraits;
+        [SerializeField]private Sprite[] _portraitsBunny, _portraitsBadger, _portraitsBeaver, _portraitsMouse, _portraitsInjuredMouse, _portraitsPig, _portraitsWeasel, _portraitsRats, _portraitsHedgehog;
         [SerializeField]private Animator _actor0, _actor1, _textbox, _managerAnimator;
         [SerializeField]private DialogueCreatorManager _manager;
         [SerializeField] private Line[] _lines;
@@ -19,7 +19,6 @@ namespace Assets.Scripts.Dialogue
         [SerializeField]private Text _content;
         [SerializeField] private GameObject _actorName, _choisesTransform;
         [SerializeField]private Line _currentyLine;
-        [SerializeField]private Text _expressionText;
         [SerializeField] private GameObject _choisePrefab;
 
         [SerializeField] private List<GameObject> _choises;
@@ -27,19 +26,28 @@ namespace Assets.Scripts.Dialogue
           // Use this for initialization
         void Awake()
         {
-            _portraits = Resources.LoadAll<Sprite>("Portraits");
-          
-             _manager = GameObject.FindObjectOfType<DialogueCreatorManager>();
+            _portraitsBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/");
+            _portraitsBadger = Resources.LoadAll<Sprite>("Portraits/Badger/");
+            _portraitsBeaver = Resources.LoadAll<Sprite>("Portraits/Beaver/");
+            _portraitsMouse = Resources.LoadAll<Sprite>("Portraits/Mouse/");
+            _portraitsInjuredMouse = Resources.LoadAll<Sprite>("Portraits/InjuredMouse/");
+            _portraitsPig = Resources.LoadAll<Sprite>("Portraits/Pig/");
+            _portraitsWeasel = Resources.LoadAll<Sprite>("Portraits/Weasel/");
+            _portraitsRats = Resources.LoadAll<Sprite>("Portraits/Rats/");
+            _portraitsHedgehog = Resources.LoadAll<Sprite>("Portraits/Hedgehog/");
+
+
+            _manager = GameObject.FindObjectOfType<DialogueCreatorManager>();
             _content = GameObject.FindGameObjectWithTag("Content").GetComponent<Text>();
             _actorName = GameObject.FindGameObjectWithTag("ActorName");
             _choisesTransform = GameObject.FindGameObjectWithTag("Choises");
        
         }
 
+        //Input
         private void Update()
         {
-
-            if (_managerAnimator.GetBool("Open") &&            (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+            if (_managerAnimator.GetBool("Open") &&  (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)))
             {
                 Debug.Log(_lines[_currentPage].Special);
                 var line = _lines[_currentPage];
@@ -92,23 +100,25 @@ namespace Assets.Scripts.Dialogue
         //Set the apropriate actors spite and position
         private void SetActor(Line line)
         {
-         
-            int direction = line.Direction;
+            //Left or right
+            var direction = line.Direction;
+            //Activate correct actor
             var actor = direction == 0 ? _actor0 : _actor1;
-            Sprite sprite = _portraits[DetermineActor(line.Actor)];
-
+            //Assign correct sprite according to actor and expression chosen
+            var sprite = DetermineActor(line.Actor, line.ActorExpression);
             actor.GetComponent<Image>().sprite = sprite;
             actor.SetBool("Open", true);
-            _actorName.GetComponentInChildren<Text>().text = line.Actor.ToString();
+
+            //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its be cruel otherwise.
+            _actorName.GetComponentInChildren<Text>().text = line.Actor == Actor.InjuredMouse ? "Mouse" : line.Actor.ToString();
             _actorName.transform.localPosition = direction == 0 ? new Vector3(-750, _actorName.transform.localPosition.y, _actorName.transform.localPosition.z) : new Vector3(Mathf.Abs(_actorName.transform.localPosition.x), _actorName.transform.localPosition.y, _actorName.transform.localPosition.z);
-            _expressionText.text = _currentyLine.ActorExpression.ToString(); //TEMP
-            _expressionText.transform.localPosition = direction == 0 ? new Vector3(-750, _expressionText.transform.localPosition.y, _expressionText.transform.localPosition.z) : new Vector3(Mathf.Abs(_expressionText.transform.localPosition.x), _expressionText.transform.localPosition.y, _expressionText.transform.localPosition.z);
+          
         }
 
         //Load the next line of dialogue
         private void NextLine()
         {
-         
+            //Destroy previous choises
             foreach (var choise in _choises)
             {
                 Destroy(choise.gameObject);
@@ -117,6 +127,7 @@ namespace Assets.Scripts.Dialogue
 
 
             _currentPage++;
+            //Check if the next dialogue suits the breanch we are on - if not skip it
             if (_currentPage < _maxPage)
             {
                 if (_lines[_currentPage].Branch == _currentBranch)
@@ -161,7 +172,7 @@ namespace Assets.Scripts.Dialogue
         }
 
 
-
+        //Click to the rest of the dialogue
         public void OnPointerDown(PointerEventData eventData)
         {
             Debug.Log(_lines[_currentPage].Special);
@@ -228,29 +239,29 @@ namespace Assets.Scripts.Dialogue
             
         }
 
-        //Determines which value to set according to the actor given
-        private int DetermineActor(Actor actor)
+        //Determineswhich sprite is apropriate given the current actor and its expression
+        private Sprite DetermineActor(Actor actor, int actorExpression)
         {
             switch (actor)
             {
                 case Actor.Badger:
-                    return 0;
+                    return _portraitsBadger[actorExpression];
                 case Actor.Beaver:
-                    return 1;
+                    return _portraitsBeaver[actorExpression];
                 case Actor.Hedgehog:
-                    return 2;
+                    return _portraitsHedgehog[actorExpression];
                 case Actor.Mouse:
-                    return 3;
+                    return _portraitsMouse[actorExpression];
                 case Actor.InjuredMouse:
-                    return 4;
+                    return _portraitsInjuredMouse[actorExpression];
                 case Actor.Pig:
-                    return 5;
+                    return _portraitsPig[actorExpression];
                 case Actor.Bunny:
-                    return 6;
+                    return _portraitsBunny[actorExpression];
                 case Actor.Rats:
-                    return 7;
+                    return _portraitsRats[actorExpression];
                 case Actor.Weasel:
-                    return 8;
+                    return _portraitsWeasel[actorExpression];
                 default:
                     throw new ArgumentOutOfRangeException("actor", actor, null);
             }

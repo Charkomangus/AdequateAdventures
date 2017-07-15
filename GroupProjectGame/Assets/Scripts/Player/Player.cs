@@ -72,7 +72,6 @@ namespace Assets.Scripts.Player
         // Update is called once per frame
         void Update()
         {
-            
             //If the player has not been yet initalised or hasd no valid parent tile return
             if (_parentTile == null || !_initialized) return;
 
@@ -95,13 +94,6 @@ namespace Assets.Scripts.Player
             {
                 SmoothMove(transform.position, _parentTile.transform.position, _moveSpeed);
             }
-            //DEBUG - TEMP
-            //if (_latestTile != null)
-            //{
-            //    _latestTile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-            //}
-
-
         }
 
 
@@ -114,7 +106,6 @@ namespace Assets.Scripts.Player
                 case TileType.Oil:
                     _sliding = true;
                     _moveSpeed = _slidingSpeed;
-                  
                     break;
                 //Player slides on the ice
                 case TileType.Ice:

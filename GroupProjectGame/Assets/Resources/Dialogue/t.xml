@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
-  <Lines>
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="dfcddfdf" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="dfdf" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Hedgehog" Expression="1" Direction="0" Branch="0" Condition="None" Content="dfdfdf" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-  </Lines>
-</LineCollection>
