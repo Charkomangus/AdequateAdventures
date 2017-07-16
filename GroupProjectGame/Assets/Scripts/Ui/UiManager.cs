@@ -47,7 +47,9 @@ namespace Assets.Scripts.Ui
 
         public void SetFade(bool status)
         {
+        
             if (_fade == null) return;
+            Debug.Log("Fade is " + status);
             _fade.SetBool("Open", status);
         }
 

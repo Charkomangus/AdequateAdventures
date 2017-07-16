@@ -39,7 +39,7 @@ namespace Assets.Scripts.Player
         [SerializeField]private bool _moving;
         [SerializeField]private bool _endedLevel;
         [SerializeField] private bool _scheduleToDie;
-        private bool _initialized;
+        public bool _initialized;
         //Int to indicate direction 0 is North, 1 is South, 2 is East, 3 is West
         private int _direction;
    
@@ -416,18 +416,26 @@ namespace Assets.Scripts.Player
                 _playerMoveState = PlayerMoveState.Idle;
                 return;
             }
-
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-                _playerMoveState = PlayerMoveState.Up;
-
-            else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-                _playerMoveState = PlayerMoveState.Down;
-
-            else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                _playerMoveState = PlayerMoveState.Left;
-
-            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            _playerMoveState = PlayerMoveState.Right;
+            if (_playerMoveState != PlayerMoveState.Up)
+            {
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                    _playerMoveState = PlayerMoveState.Up;
+            }
+            if (_playerMoveState != PlayerMoveState.Down)
+            {
+                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                    _playerMoveState = PlayerMoveState.Down;
+            }
+            if (_playerMoveState != PlayerMoveState.Left)
+            {
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                    _playerMoveState = PlayerMoveState.Left;
+            }
+            if (_playerMoveState != PlayerMoveState.Right)
+            {
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                    _playerMoveState = PlayerMoveState.Right;
+            }
         }
 
 
@@ -460,6 +468,7 @@ namespace Assets.Scripts.Player
             SetParentTile(tile);
             _latestTile = null;
             _playerMoveState = PlayerMoveState.Idle;
+            _initialized = true;
         }
 
 

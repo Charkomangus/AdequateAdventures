@@ -41,7 +41,7 @@ public class Guard : MonoBehaviour {
     private int _originalDirection;
     private int _patrolDirection;
     private Tile _originalTile;
-
+    private bool _caughtPlayer;
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -75,8 +75,14 @@ public class Guard : MonoBehaviour {
         if (HasReachedTile())
         {
             SeeingCone();
+            if (_caughtPlayer)
+            {
+                _caughtPlayer = false;
+                StartCoroutine(CaughtPlayer());
+              return;
+            }
 
-
+           
             SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
 
             if (_parentTile.ReturnPatrol())
@@ -105,11 +111,20 @@ public class Guard : MonoBehaviour {
            
             SmoothMove(transform.position, _parentTile.transform.position, _moveSpeed);
         }
+    }
 
-      
-       
+    //Guard waits in place
+    private IEnumerator CaughtPlayer()
+    {
+        GameManager.Instance.Player._initialized = false;
+        if (Camera.main.fieldOfView > 16)
+        Camera.main.fieldOfView-= 0.4f;
+        yield return new WaitForSeconds(1);
+        GameManager.Instance.UiManager.SetFade(false);
+        yield return new WaitForSeconds(2);
+        GameManager.Instance.RestartLevel();
+        Camera.main.fieldOfView = 60;
 
-       
     }
 
     private void AddPatrolTiles(Tile tile)
@@ -259,11 +274,24 @@ public class Guard : MonoBehaviour {
     }
 
     //Creates a cone with all the tiles the guard sees
-    private void CreateSeeingCone(Tile tile, int x, int y)
+    private bool CreateSeeingCone(Tile tile, int x, int y)
     {
         var tempTile = GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x + x, (int)tile.ReturnPosition().y + y);
-        if(tempTile !=null)
+
+        if (tempTile == GameManager.Instance.Player.ReturnParentTile())
+        {
+            _caughtPlayer = true;
+            return false;
+        }
+
+
+
+        if (IsValidTile(tempTile))
+        {
             AddTile(_watchedTiles, tempTile);
+            return true;
+        }
+        return false;
     }
 
 
@@ -398,68 +426,60 @@ public class Guard : MonoBehaviour {
         switch (_direction)
         {
             case 0:
-                CreateSeeingCone(_parentTile, 0, -1);
-                CreateSeeingCone(_parentTile, 1, -1);
-                CreateSeeingCone(_parentTile, -1, -1);
-                CreateSeeingCone(_parentTile, 0, -2);
-                CreateSeeingCone(_parentTile, 1, -2);
-                CreateSeeingCone(_parentTile, -1, -2);
-                CreateSeeingCone(_parentTile, 0, -3);
-                CreateSeeingCone(_parentTile, 1, -3);
-                CreateSeeingCone(_parentTile, -1, -3);
-                //CreateSeeingCone(_parentTile, 0, -4);
-                //CreateSeeingCone(_parentTile, 1, -4);
-                //CreateSeeingCone(_parentTile, -1, -4);
-                //CreateSeeingCone(_parentTile, 2, -4);
-                //CreateSeeingCone(_parentTile, -2, -4);
+                if (CreateSeeingCone(_parentTile, 0, -1))
+                    if (CreateSeeingCone(_parentTile, 0, -2))
+                        CreateSeeingCone(_parentTile, 0, -3);
+
+                if (CreateSeeingCone(_parentTile, 1, -1))
+                    if (CreateSeeingCone(_parentTile, 1, -2))
+                        CreateSeeingCone(_parentTile, 1, -3);
+
+                if (CreateSeeingCone(_parentTile, -1, -1))
+                    if (CreateSeeingCone(_parentTile, -1, -2))
+                        CreateSeeingCone(_parentTile, -1, -3);
                 break;
             case 1:
-                CreateSeeingCone(_parentTile, 0, 1);
-                CreateSeeingCone(_parentTile, 1, 1);
-                CreateSeeingCone(_parentTile, -1, 1);
-                CreateSeeingCone(_parentTile, 0, 2);
-                CreateSeeingCone(_parentTile, 1, 2);
-                CreateSeeingCone(_parentTile, -1, 2);
-                CreateSeeingCone(_parentTile, 0, 3);
-                CreateSeeingCone(_parentTile, 1, 3);
-                CreateSeeingCone(_parentTile, -1, 3);
-                //CreateSeeingCone(_parentTile, 0, 4);
-                //CreateSeeingCone(_parentTile, 1, 4);
-                //CreateSeeingCone(_parentTile, -1, 4);
-                //CreateSeeingCone(_parentTile, 2, 4);
-                //CreateSeeingCone(_parentTile, -2, 4);
+                if (CreateSeeingCone(_parentTile, 0, 1))
+                    if (CreateSeeingCone(_parentTile, 0, 2))
+                        CreateSeeingCone(_parentTile, 0, 3);
+
+                if (CreateSeeingCone(_parentTile, 1, 1))
+                    if (CreateSeeingCone(_parentTile, 1, 2))
+                        CreateSeeingCone(_parentTile, 1, 3);
+
+                if (CreateSeeingCone(_parentTile, -1, 1))
+                    if (CreateSeeingCone(_parentTile, -1, 2))
+                        CreateSeeingCone(_parentTile, -1, 3);
+
+               
                 break;
             case 2:
-                CreateSeeingCone(_parentTile, -1, 0);
-                CreateSeeingCone(_parentTile, -1, -1);
-                CreateSeeingCone(_parentTile, -1, 1);
-                CreateSeeingCone(_parentTile, -2, 0);
-                CreateSeeingCone(_parentTile, -2, -1);
-                CreateSeeingCone(_parentTile, -2, 1);
-                CreateSeeingCone(_parentTile, -3, 0);
-                CreateSeeingCone(_parentTile, -3, -1);
-                CreateSeeingCone(_parentTile, -3, 1);
-                //CreateSeeingCone(_parentTile, -4, 0);
-                //CreateSeeingCone(_parentTile, -4, 1);
-                //CreateSeeingCone(_parentTile, -4, -1);
-                //CreateSeeingCone(_parentTile, -4, -2);
-                //CreateSeeingCone(_parentTile, -4, 2);
+
+                if (CreateSeeingCone(_parentTile, -1, 0))
+                    if (CreateSeeingCone(_parentTile, -2, 0))
+                        CreateSeeingCone(_parentTile, -3, 0);
+
+                if (CreateSeeingCone(_parentTile, -1, 1))
+                    if (CreateSeeingCone(_parentTile, -2, 1))
+                        CreateSeeingCone(_parentTile, -3, 1);
+
+                if (CreateSeeingCone(_parentTile, -1, -1))
+                    if (CreateSeeingCone(_parentTile, -2, -1))
+                        CreateSeeingCone(_parentTile, -3, -1);
                 break;
             case 3:
-                CreateSeeingCone(_parentTile, 1, 0);
-                CreateSeeingCone(_parentTile, 1, -1);
-                CreateSeeingCone(_parentTile, 1, 1);
-                CreateSeeingCone(_parentTile, 2, 0);
-                CreateSeeingCone(_parentTile, 2, -1);
-                CreateSeeingCone(_parentTile, 2, 1);
-                CreateSeeingCone(_parentTile, 3, 0);
-                CreateSeeingCone(_parentTile, 3, -1);
-                CreateSeeingCone(_parentTile, 3, 1);
-                //CreateSeeingCone(_parentTile, 4, 0);
-                //CreateSeeingCone(_parentTile, 4, 1);
-                //CreateSeeingCone(_parentTile, 4, -1);
-                //CreateSeeingCone(_parentTile, 4, -2);
-                //CreateSeeingCone(_parentTile, 4, 2);
+
+                if (CreateSeeingCone(_parentTile, 1, 0))
+                    if (CreateSeeingCone(_parentTile, 2, 0))
+                        CreateSeeingCone(_parentTile, 3, 0);
+
+                if (CreateSeeingCone(_parentTile, 1, -1))
+                    if (CreateSeeingCone(_parentTile, 2, -1))
+                        CreateSeeingCone(_parentTile, 3, -1);
+
+                if (CreateSeeingCone(_parentTile, 1, 1))
+                    if (CreateSeeingCone(_parentTile, 2, 1))
+                        CreateSeeingCone(_parentTile, 3, 1);
                 break;
             default:
                 Debug.Log("IMPOSSIBLE!");
@@ -472,10 +492,7 @@ public class Guard : MonoBehaviour {
             foreach (var tile in _watchedTiles)
             {
                 tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-                if (tile == GameManager.Instance.Player.ReturnParentTile())
-                {
-                    GameManager.Instance.RestartLevel();
-                }
+             
 
 
             }
