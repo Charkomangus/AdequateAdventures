@@ -560,19 +560,23 @@ public class Guard : MonoBehaviour {
     {
         if(_animator == null)
             _animator = GetComponent<Animator>();
-        _direction = direction;
+    
         switch (_direction)
         {
             case 0:
+                _direction = 1;
                 _animator.Play("GuardStationaryUp");
                 break;
             case 1:
+                _direction = 0;
                 _animator.Play("GuardStationaryDown");
                 break;
             case 2:
+                _direction = 3;
                 _animator.Play("GuardStationaryLeft");
                 break;
             case 3:
+                _direction = 2;
                 _animator.Play("GuardStationaryRight");
                 break;
         }

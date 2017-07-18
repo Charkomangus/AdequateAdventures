@@ -73,6 +73,7 @@ namespace Assets.Scripts.MapCreator
         public Button West;
         public Button East;
         public Button Patrol;
+        public Button Dialogue;
         public Button FlagNull;
 
         [Header("Tile Objects")]
@@ -208,6 +209,7 @@ namespace Assets.Scripts.MapCreator
             West.onClick.AddListener(delegate { TileFlag = "West"; });
             East.onClick.AddListener(delegate { TileFlag = "East"; });
             Patrol.onClick.AddListener(delegate { TileFlag = "Patrol"; });
+            Dialogue.onClick.AddListener(delegate { TileFlag = "Dialogue"; });
             FlagNull.onClick.AddListener(delegate { TileFlag = "DeleteFlag"; });
 
             //Tile Objects
