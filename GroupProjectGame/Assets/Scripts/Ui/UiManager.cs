@@ -14,6 +14,12 @@ namespace Assets.Scripts.Ui
 
         public JournalManager _journalManager;
         // Use this for initialization
+        void Awake()
+        {
+            _fade = GameObject.FindGameObjectWithTag("Fade").GetComponent<Animator>();
+        }
+
+
         void Start()
         {
             signBox = FindObjectOfType<SignBox>();

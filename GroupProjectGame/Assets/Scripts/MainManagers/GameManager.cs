@@ -96,6 +96,7 @@ namespace Assets.Scripts.MainManagers
             PuzzleManager.Initialize();
             Player = FindObjectOfType<Player.Player>();
             Player.InitializePlayer();
+            Debug.Log("hey");
             UiManager.SetFade(true);
             GuardManager.SpawnGuards();
         }
