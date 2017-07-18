@@ -74,15 +74,15 @@ public class Guard : MonoBehaviour {
         //If the guard is close to the parent tile speed them up
         if (HasReachedTile())
         {
-            SeeingCone();
+        
             if (_caughtPlayer)
             {
                 _caughtPlayer = false;
                 StartCoroutine(CaughtPlayer());
               return;
             }
-
            
+
             SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
 
             if (_parentTile.ReturnPatrol())
@@ -111,6 +111,7 @@ public class Guard : MonoBehaviour {
            
             SmoothMove(transform.position, _parentTile.transform.position, _moveSpeed);
         }
+        SeeingCone();
     }
 
     //Guard waits in place
