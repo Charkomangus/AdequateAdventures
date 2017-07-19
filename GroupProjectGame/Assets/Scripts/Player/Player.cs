@@ -287,14 +287,21 @@ namespace Assets.Scripts.Player
         {
             if (tile.IsPuzzleEntry() || tile.IsPuzzleComplete())
                 _currentPuzzleTile = tile;
-            if (tile.IsExit())
+            else if (tile.IsExit())
             {
                 GameManager.Instance.UiManager.SetFade(false);
                 GameManager.Instance.NextLevelDebug();
-                
             }
+            else if (tile.IsDialogue())
+            {
 
+
+                GameManager.Instance.OpenDialogue(tile);
+
+
+            }
         }
+
 
         //Check if movement should happen to the tile and set whcih tile the player is directly looking at
         private void Move(Tile destination)

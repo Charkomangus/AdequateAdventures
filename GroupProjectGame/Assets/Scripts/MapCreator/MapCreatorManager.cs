@@ -168,8 +168,7 @@ namespace Assets.Scripts.MapCreator
             });
 
             OverlayToggle.onValueChanged.AddListener(delegate { _overlay.gameObject.SetActive(OverlayToggle.isOn); });
-            OverlayOpacitySlider.onValueChanged.AddListener(delegate 
-            {
+            OverlayOpacitySlider.onValueChanged.AddListener(delegate {
             _overlay.color = new Color(1,1,1,OverlayOpacitySlider.value);
             OverlayOpacityPercentage.text = (int)(OverlayOpacitySlider.value*100) + "%";
             });
@@ -178,7 +177,7 @@ namespace Assets.Scripts.MapCreator
             Delete.onClick.AddListener(delegate { TileFlag = "Delete"; CurrentPlacingStatus = PlacingStatus.Flag; });
             Delete2.onClick.AddListener(delegate { TileFlag = "Delete2"; CurrentPlacingStatus = PlacingStatus.Flag; });
             DeleteAll.onClick.AddListener(delegate { TileFlag = "DeleteAll"; CurrentPlacingStatus = PlacingStatus.Flag; });
-            RemovePuzzleNumber.onClick.AddListener(delegate { RemovePuzzleNumbers(); });
+            RemovePuzzleNumber.onClick.AddListener(RemovePuzzleNumbers);
             //Category buttons
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
             Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
@@ -447,6 +446,9 @@ namespace Assets.Scripts.MapCreator
                             break;
                         case "Patrol":
                             tile.SetPatrol(true);
+                            break;
+                        case "Dialogue":
+                            tile.SetDialogue(true);
                             break;
                         case "Null":
                             break;

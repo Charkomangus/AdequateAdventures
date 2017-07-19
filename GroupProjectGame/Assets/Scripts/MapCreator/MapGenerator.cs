@@ -126,7 +126,9 @@ namespace Assets.Scripts.MapCreator
                         case "Exit":
                             tile.SetExit(true);
                             break;
-                       
+                        case "Dialogue":
+                            tile.SetDialogue(true);
+                            break;
                         case "North":
                             tile.SetDirection(0);
                             tile.SetPatrol(true);

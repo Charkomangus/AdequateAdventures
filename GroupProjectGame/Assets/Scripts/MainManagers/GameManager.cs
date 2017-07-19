@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.Dialogue;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
 using Assets.Scripts.Objects;
@@ -24,6 +25,7 @@ namespace Assets.Scripts.MainManagers
         public MapGenerator MapGenerator;
         public EnviromentManager EnviromentManager;
         public GuardManager GuardManager;
+        public DialogueManager DialogueManager;
 
 
         public Transform MapTransform;
@@ -33,13 +35,13 @@ namespace Assets.Scripts.MainManagers
         private Vector2  _checkpoint;
         public int CurrentAct;
         public int CurrentLevel;
-  
+        [SerializeField]private int _dialogueNumber;
         public string CurrentScene;
         public Player.Player Player;
 
 
         public string Level; //TEMP
-     
+   
 
         // Use this for initialization
         private void Awake()
@@ -56,6 +58,7 @@ namespace Assets.Scripts.MainManagers
             MapGenerator = GetComponent<MapGenerator>();
             EnviromentManager = FindObjectOfType<EnviromentManager>();
             GuardManager = FindObjectOfType<GuardManager>();
+            DialogueManager = FindObjectOfType<DialogueManager>();
 
         }
 
@@ -68,7 +71,7 @@ namespace Assets.Scripts.MainManagers
             }
         }
 
-     
+       
 
         void OnLevelWasLoaded()
         {
@@ -121,6 +124,16 @@ namespace Assets.Scripts.MainManagers
             _map = MapGenerator.ReturnMap();
             _mapSize = MapGenerator.ReturnMapSize();
             LevelEntry = MapGenerator.ReturnEntryTile();
+        }
+
+
+
+        //Open the apropriate dialogue
+        public void OpenDialogue(Tile tile)
+        {
+            _dialogueNumber++;
+            DialogueManager.DialogueTrigger(tile, "Level" + CurrentAct + "_" + CurrentLevel +"_" + _dialogueNumber);
+          
         }
         
        

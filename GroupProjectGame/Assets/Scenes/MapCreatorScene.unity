@@ -12767,7 +12767,7 @@ MonoBehaviour:
   West: {fileID: 247592398}
   East: {fileID: 1332971969}
   Patrol: {fileID: 1974157828}
-  Dialogue: {fileID: 0}
+  Dialogue: {fileID: 1187554927}
   FlagNull: {fileID: 318945389}
   ObjectType: 0
   ObjectBox: {fileID: 809579582}

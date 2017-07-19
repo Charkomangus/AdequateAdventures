@@ -152,6 +152,7 @@ namespace Assets.Scripts.Dialogue
             if (text == null)
             {
                 Debug.Log("File not found");
+                Time.timeScale = 1;
                 return null;
             }
 

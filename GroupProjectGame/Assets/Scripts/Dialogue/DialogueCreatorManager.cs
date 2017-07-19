@@ -11,9 +11,9 @@ namespace Assets.Scripts.Dialogue
 {
     public class DialogueCreatorManager : MonoBehaviour
     {
-
+        public Button Load, Save;
         public Dropdown ActorName, Expression, Direction, Special, Branch, Condition;
-        public GameObject Choises;
+        public GameObject Choises, AreYouSureLoad, AreYouSureSave;
         public InputField Content, FirstChoise, SecondChoise, ThirdChoice, SaveField, LoadField;
         public Line[] Lines = new Line[1000];
         public GameObject PreviousPageButton;
@@ -28,10 +28,12 @@ namespace Assets.Scripts.Dialogue
             UpdateExpressions(ActorName.value);
             SetPageCounters();
             Special.onValueChanged.AddListener(delegate { SpecialChoices(Special.captionText.text); });
-            SaveField.onEndEdit.AddListener(delegate{SaveDialogueToXml(SaveField.text);NewMapNotification(SaveField.text, 0);});
+        LoadField.onEndEdit.AddListener(delegate { AreYouSureLoad.SetActive(true); });
+            SaveField.onEndEdit.AddListener(delegate { AreYouSureSave.SetActive(true); });
             ActorName.onValueChanged.AddListener(delegate { UpdateExpressions(ActorName.value); });
-
-            LoadField.onEndEdit.AddListener(delegate { LoadDialogueFromXml(LoadField.text); SetPageCounters();  });
+            Load.onClick.AddListener(delegate { LoadDialogueFromXml(LoadField.text); SetPageCounters(); });
+            Save.onClick.AddListener(delegate { SaveDialogueToXml(SaveField.text); NewMapNotification(SaveField.text, 0); });
+          
             //This allows the user to directly load a page by using the slider
             PagePercentageSlider.onValueChanged.AddListener(delegate
             {
@@ -47,6 +49,14 @@ namespace Assets.Scripts.Dialogue
         void Update()
         {
             Lines[CurrentPage] = CreateNewLine();
+        }
+
+        public void NewDialogue()
+        {
+            CurrentPage = 0;
+            MaxPages = 0;
+            ClearDialogue();
+            SetPageCounters();
         }
 
         private void UpdateExpressions(int value)

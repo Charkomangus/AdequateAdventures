@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.MainManagers;
 using Assets.Scripts.MapCreator;
+using Assets.Scripts.Tiles;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,7 +16,7 @@ namespace Assets.Scripts.Dialogue
         [SerializeField]private Sprite[] _portraitsBunny, _portraitsBadger, _portraitsBeaver, _portraitsMouse, _portraitsInjuredMouse, _portraitsPig, _portraitsWeasel, _portraitsRats, _portraitsHedgehog;
         [SerializeField]private Animator _actor0, _actor1, _textbox, _managerAnimator;
         [SerializeField]private DialogueCreatorManager _manager;
-        [SerializeField] private Line[] _lines;
+        [SerializeField] private Line[] _lines = new Line[1000];
         [SerializeField]private int _currentPage, _maxPage;
         [SerializeField]private Text _content;
         [SerializeField] private GameObject _actorName, _choisesTransform;
@@ -67,8 +69,25 @@ namespace Assets.Scripts.Dialogue
         }
 
 
+        //When a dialogue is treiggered ddisbale the trigger and open the dialogue
+        public void DialogueTrigger(Tile tile, string filename)
+        {
+            OpenDialogue(filename);
+            var container = GameManager.Instance.ReturnMap();
+            
+            tile.SetDialogue(false);
+            tile.ShowFlags();
+            foreach (List<Tile> row in container)
+                for (var y = 0; y < container.Count; y++)
+                {
+                    if (!row[y].IsDialogue() || row[y].ReturnPuzzleNumber() != tile.ReturnPuzzleNumber()) continue;
+                    row[y].SetDialogue(false);
+                    row[y].ShowFlags();
+                }
+        }
+
         //Opens the dialogue TEMP - for dialogue creator use only!
-        public void OpenDialogue()
+        public void OpenCreatorDialogue()
         {
             _lines = _manager.ReturnLines().ToArray();
             _maxPage = _lines.Length;
@@ -86,10 +105,58 @@ namespace Assets.Scripts.Dialogue
                 CloseDialogue();
         }
 
+        //Opens the dialogue TEMP - for dialogue creator use only!
+        public void OpenDialogue(string filename)
+        {
+            //Pause movement
+            Time.timeScale = 0;
+
+            //Load map level
+            var container = DialogueSaveLoad.LoadFromResources(filename);
+
+            if (container == null) return;
+            for (var x = 0; x < container.Size; x++)
+            {
+                var line = new Line
+                {
+                    Actor = container.Lines[x].ActorName,
+                    ActorExpression = container.Lines[x].ActorExpression,
+                    Direction = container.Lines[x].Direction,
+                    Branch = container.Lines[x].Branch,
+                    Condition = container.Lines[x].Condition,
+                    Content = container.Lines[x].Content,
+                    Special = container.Lines[x].Special,
+                    Choise0 = container.Lines[x].Choise0,
+                    Choise1 = container.Lines[x].Choise1,
+                    Choise2 = container.Lines[x].Choise2
+
+
+                };
+                _lines[x] = line;
+            }
+            _maxPage = _lines.Length;
+            if (_currentPage < _maxPage)
+            {
+                _maxPage = container.Size;
+                _currentPage = 0;
+                Debug.Log("OPEN");
+                _managerAnimator.SetBool("Open", true);
+                _textbox.SetBool("Open", true);
+
+                _currentyLine = _lines[_currentPage];
+                SetActor(_currentyLine);
+                SetContent(_currentyLine);
+            }
+            else
+                CloseDialogue();
+        }
+
+
 
         //Close the dialogue screen
         private void CloseDialogue()
         {
+            Time.timeScale = 1;
             _currentPage = 0;
            _managerAnimator.SetBool("Open", false);
             _textbox.SetBool("Open", false);
@@ -216,7 +283,8 @@ namespace Assets.Scripts.Dialogue
                {
                    _choises[j].GetComponent<Button>().interactable = false;
                     StartCoroutine(CloseSpecial(_choises[j]));
-                   _currentBranch = chosenButton+1;
+                
+                    _currentBranch = chosenButton+1;
                }
                 else
                 {
@@ -230,11 +298,11 @@ namespace Assets.Scripts.Dialogue
         //Close any remaining special items
         IEnumerator CloseSpecial(GameObject button)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
             button.GetComponent<Animator>().SetBool("Open", false);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
             _choisesTransform.GetComponent<Animator>().SetBool("Open", false);
-            CreateNewLine(button.GetComponentInChildren<Text>().text);
+            NextLine();
         
             
         }

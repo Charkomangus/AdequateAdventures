@@ -15,6 +15,7 @@ namespace Assets.Scripts.Tiles
         [Header("Object")] [SerializeField] private TileObject _object = TileObject.Empty;
         [Header("Actor")][SerializeField]private Actor _actor = Actor.Null;
         [Header("Flags")] [SerializeField] private bool _blocked;
+        [SerializeField]private bool _dialogue;
         [SerializeField] private bool _exit;
         [SerializeField] private bool _entry;
         [SerializeField] private bool _puzzleComplete;
@@ -105,8 +106,8 @@ namespace Assets.Scripts.Tiles
         }
 
         //Show what bool this tile has
-        private void ShowFlags()
-        {
+        public void ShowFlags()
+        {       
             if (_puzzleEntry)
                 GetComponentInChildren<TextMesh>().text = "PE";
             else if (_puzzleComplete)
@@ -115,6 +116,8 @@ namespace Assets.Scripts.Tiles
                 GetComponentInChildren<TextMesh>().text = "ENTRY";
             else if (_exit)
                 GetComponentInChildren<TextMesh>().text = "EXIT";
+            else if(_dialogue)
+                GetComponentInChildren<TextMesh>().text = "DLGE";
             else if (_puzzleNumber >= 0)
                 GetComponentInChildren<TextMesh>().text = _puzzleNumber.ToString(); //TEMP
             else if (_tileDirection != -1)
@@ -123,7 +126,7 @@ namespace Assets.Scripts.Tiles
             else if (_patrol)
                 GetComponentInChildren<TextMesh>().text = "PATROL";
             else
-                GetComponentInChildren<TextMesh>().text = "";
+                GetComponentInChildren<TextMesh>().text = " ";
         }
 
         /// <summary>
@@ -268,6 +271,10 @@ namespace Assets.Scripts.Tiles
                     break;
                 case "Patrol":
                     _patrol = true;
+                    ShowFlags();
+                    break;
+                case "Dialogue":
+                    _dialogue = true;
                     ShowFlags();
                     break;
                 case "DeleteFlag":
@@ -532,6 +539,7 @@ namespace Assets.Scripts.Tiles
             tile.SetBlocked(false);
             tile.SetExit(false);
             tile.SetPatrol(false);
+            tile.SetDialogue(false);
             tile.SetPuzzleComplete(false);
             tile.SetPuzzleEntry(false);
             tile.SetPuzzleNumber(-1);
@@ -842,6 +850,19 @@ namespace Assets.Scripts.Tiles
             return _puzzleComplete;
         }
 
+        //Set this tile as a dialogue tile
+        public void SetDialogue(bool status)
+        {
+            _dialogue = status;
+        }
+
+        //Return true if this tile is a dialogue tile
+        public bool IsDialogue()
+        {
+            return _dialogue;
+        }
+
+
         //Set this tile as a puzzle entry
         public void SetPuzzleEntry(bool status)
         {
@@ -948,6 +969,8 @@ namespace Assets.Scripts.Tiles
             }
             else if (_patrol)
                 return "Patrol";
+            if (_dialogue)
+                return "Dialogue";
             return "Null";
         }
 
