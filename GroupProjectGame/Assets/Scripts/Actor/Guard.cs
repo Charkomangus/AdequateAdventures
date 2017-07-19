@@ -488,14 +488,11 @@ public class Guard : MonoBehaviour {
         }
 
 
-        //Check if he sees the player
+        //Check if he sees the player //TEMP
         if (_watchedTiles.Count > 0)
             foreach (var tile in _watchedTiles)
             {
                 tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-             
-
-
             }
 
 

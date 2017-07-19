@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.Cameras;
 using Assets.Scripts.Dialogue;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
@@ -69,6 +70,37 @@ namespace Assets.Scripts.MainManagers
             {
                 StartLevel();
             }
+        }
+
+        void Update()
+        {
+            var puzzle = Player.ReturnCurrentPuzzle();
+            if (Player._initialized == false) return;
+            if (CurrentAct == 1)
+            {
+                switch (CurrentLevel)
+                {
+                    case 1:
+                        if (puzzle == 4)
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(10);
+                        else
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
+                        break;
+                    case 2:
+                        if (puzzle == 2 || puzzle == 3)
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(10);
+                        else
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
+                        break;
+                    case 3:
+                        if (puzzle == 1 || puzzle == 2)
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(10);
+                        else
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
+                        break;
+                }
+            }
+
         }
 
        

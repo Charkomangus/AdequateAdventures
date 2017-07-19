@@ -261,7 +261,7 @@ namespace Assets.Scripts.Tiles
                     _puzzleEntry = true;
                     ShowFlags();
                     break;
-                case "PuzzleExit":
+                case "PuzzleComplete":
                     _puzzleComplete = true;
                     ShowFlags();
                     break;

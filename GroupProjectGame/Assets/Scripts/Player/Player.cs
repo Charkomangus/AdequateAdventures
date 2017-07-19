@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
+using Assets.Scripts.Cameras;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
@@ -86,8 +87,8 @@ namespace Assets.Scripts.Player
                 //Free the current parent tile and kill the object
                 if (_scheduleToDie)
                 {
+                    StartCoroutine(PlayerDeath());
                     _scheduleToDie = false;
-                    GameManager.Instance.RestartLevel();
                 }
             }
             else
@@ -122,6 +123,7 @@ namespace Assets.Scripts.Player
                 case TileType.Fire:
                 case TileType.IceCracks:
                     _scheduleToDie = true;
+                    
                     break;
 
                 //Player slides on belt
@@ -355,6 +357,20 @@ namespace Assets.Scripts.Player
             //There is a separate animation system using Unity's mechanim via triggers. This has been abandonded because the visual aspect
             //was not expansion friendly and the transitions of animations did not line up well. It has been kept in for legacy purposes.
             //  _playerAnimator.SetTrigger(trigger);
+        }
+
+        //Guard waits in place
+        private IEnumerator PlayerDeath()
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            _initialized = false;
+            Camera.main.GetComponent<GameCamera>().SetCameraHeight(2);
+            yield return new WaitForSeconds(1);
+            GameManager.Instance.UiManager.SetFade(false);
+            yield return new WaitForSeconds(2);
+            GameManager.Instance.RestartLevel();
+            GetComponent<SpriteRenderer>().enabled = true;
+            Camera.main.gameObject.transform.position = new Vector3(Camera.main.gameObject.transform.position.x, 7.5f, Camera.main.gameObject.transform.position.z);
         }
 
         //Determing what happens depending on the player input and position 
