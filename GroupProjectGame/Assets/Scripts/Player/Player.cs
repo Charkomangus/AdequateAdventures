@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using Assets.Scripts.Cameras;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
-using Assets.Scripts.Utility;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Player
 {
     //Player animation state
-    enum PlayerMoveState
+    internal enum PlayerMoveState
     {
         Up, Down, Right, Left, Idle, UpPush, DownPush, RightPush, LeftPush
     }
@@ -40,7 +36,7 @@ namespace Assets.Scripts.Player
         [SerializeField]private bool _moving;
         [SerializeField]private bool _endedLevel;
         [SerializeField] private bool _scheduleToDie;
-        public bool _initialized;
+        [SerializeField]private bool _initialized;
         //Int to indicate direction 0 is North, 1 is South, 2 is East, 3 is West
         private int _direction;
    
@@ -71,7 +67,7 @@ namespace Assets.Scripts.Player
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             //If the player has not been yet initalised or hasd no valid parent tile return
             if (_parentTile == null || !_initialized) return;
@@ -204,7 +200,8 @@ namespace Assets.Scripts.Player
         {
             return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 0.6f && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 0.6f;
         }
-        void OnTriggerEnter(Collider other)
+
+        private void OnTriggerEnter(Collider other)
         {
             Debug.Log(other.gameObject.name);
         }
@@ -303,7 +300,7 @@ namespace Assets.Scripts.Player
             {
 
 
-                GameManager.Instance.OpenDialogue(tile);
+                GameManager.Instance.TriggerDialogue(tile);
 
 
             }
@@ -421,7 +418,7 @@ namespace Assets.Scripts.Player
         }
 
         //Controls what player input will do to the character
-        void PlayerInput()
+        private void PlayerInput()
         {
             //If the level is ending stop all input and set player to idle
             if (_endedLevel)
@@ -469,6 +466,18 @@ namespace Assets.Scripts.Player
             }
         }
 
+        //Reset to the players location to the last checkpoint
+        public void Restart()
+        {
+            //Check if there is a checkpoint - if not use the level entry as one
+            var tile = _currentPuzzleTile ?? GameManager.Instance.LevelEntry;
+            GetComponent<SpriteRenderer>().enabled = true;
+            transform.position = tile.transform.position;
+            SetParentTile(tile);
+            _latestTile = null;
+            _playerMoveState = PlayerMoveState.Idle;
+            _initialized = true;
+        }
 
         //Set the players parent tile and unblocks their current one
         public void SetParentTile(Tile tile)
@@ -490,17 +499,18 @@ namespace Assets.Scripts.Player
             return _moving;
         }
 
-        //Reset to the players location to the last checkpoint
-        public void Restart()
+
+        //Return true if the player is moving
+        public bool IsInitialized()
         {
-            //Check if there is a checkpoint - if not use the level entry as one
-            var tile = _currentPuzzleTile ?? GameManager.Instance.LevelEntry;
-            GetComponent<SpriteRenderer>().enabled = true;
-            transform.position = tile.transform.position;
-            SetParentTile(tile);
-            _latestTile = null;
-            _playerMoveState = PlayerMoveState.Idle;
-            _initialized = true;
+            return _initialized;
+        }
+
+
+        //Set if the player is initialised or not
+        public void SetInitialized(bool status)
+        {
+            _initialized = status;
         }
 
 

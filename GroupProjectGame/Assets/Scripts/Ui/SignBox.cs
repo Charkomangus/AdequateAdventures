@@ -12,19 +12,19 @@ namespace Assets.Scripts.Ui
 
         
         // Use this for initialization
-        void Start ()
+        private void Start ()
         {
             _signBoxAnimator = GetComponent<Animator>();
             _signBoxText = GetComponentInChildren<Text>();
         }
 	
         // Update is called once per frame
-        void Update ()
+        private void Update()
         {
             //Switch off when the player moves away
-            if (GameManager.Instance.Player.IsMoving())
+            if (GameManager.Instance.Player.IsMoving() && _signBoxAnimator.GetBool("Open"))
             {
-                Open(false);
+                Open();
             }
         }
 
@@ -35,10 +35,11 @@ namespace Assets.Scripts.Ui
         }
 
         //Change status of the animator
-        public void Open(bool status)
+        public void Open()
         {
-            _signBoxAnimator.SetBool("Open", status);
+            _signBoxAnimator.SetBool("Open", !_signBoxAnimator.GetBool("Open"));
         }
+      
 
         //Returns text box's current state
         public bool IsOpen()

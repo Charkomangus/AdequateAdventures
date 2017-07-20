@@ -20,7 +20,7 @@ namespace Assets.Scripts.Objects
         private int _puzzleNumber;
         private TileType _parentTileType;
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             _moveSpeed = 2;
             _parentTile = GetComponentInParent<Tile>();
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Objects
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             //Only perform this if the object is in the target tile
             if (HasReachedTile())
@@ -65,6 +65,7 @@ namespace Assets.Scripts.Objects
                 {
                     scheduleToDie = false;
                     _parentTile.GetComponentInChildren<ParticleSystem>().Play();
+                    _parentTile.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
                     GetComponent<SpriteRenderer>().enabled = false;

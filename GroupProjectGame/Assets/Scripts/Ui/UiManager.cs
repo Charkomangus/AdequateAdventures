@@ -14,13 +14,13 @@ namespace Assets.Scripts.Ui
 
         public JournalManager _journalManager;
         // Use this for initialization
-        void Awake()
+        private void Awake()
         {
             _fade = GameObject.FindGameObjectWithTag("Fade").GetComponent<Animator>();
         }
 
 
-        void Start()
+        private void Start()
         {
             signBox = FindObjectOfType<SignBox>();
            
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Ui
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             signs = FindObjectsOfType<Sign>();
             for (int i = 0; i < signs.Length; i++)
@@ -48,15 +48,13 @@ namespace Assets.Scripts.Ui
         public void Open(string text)
         {
             signBox.SetTextBoxText(text);
-            signBox.Open(true);
+            signBox.Open();
         }
 
 
         public void SetFade(bool status)
         {
-        
             if (_fade == null) return;
-            Debug.Log("Fade is " + status);
             _fade.SetBool("Open", status);
         }
 

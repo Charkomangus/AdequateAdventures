@@ -49,7 +49,7 @@ namespace Assets.Scripts.Managers
         }
 
 
-        void OnLevelWasLoaded()
+        private void OnLevelWasLoaded()
         {
 
             AllButtons = GameObject.FindObjectsOfType<Button>();

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Actors;
 using Assets.Scripts.Cameras;
 using Assets.Scripts.Dialogue;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
-using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
 using Assets.Scripts.Ui;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.MainManagers
 {
@@ -33,7 +31,7 @@ namespace Assets.Scripts.MainManagers
         private int _mapSize;
         private List<List<Tile>> _map;
         public Tile LevelEntry, LevelExit;
-        private Vector2  _checkpoint;
+       
         public int CurrentAct;
         public int CurrentLevel;
         [SerializeField]private int _dialogueNumber;
@@ -64,7 +62,7 @@ namespace Assets.Scripts.MainManagers
         }
 
         // Use this for initialization
-        void Start ()
+        private void Start ()
         {
             if (CurrentScene == "Level1")
             {
@@ -72,10 +70,10 @@ namespace Assets.Scripts.MainManagers
             }
         }
 
-        void Update()
+        private void Update()
         {
             var puzzle = Player.ReturnCurrentPuzzle();
-            if (Player._initialized == false) return;
+            if (Player.IsInitialized() == false) return;
             if (CurrentAct == 1)
             {
                 switch (CurrentLevel)
@@ -103,9 +101,8 @@ namespace Assets.Scripts.MainManagers
 
         }
 
-       
 
-        void OnLevelWasLoaded()
+        private void OnLevelWasLoaded()
         {
             Debug.Log("Level" + CurrentAct + "_" + CurrentLevel + " was loaded.");
             CurrentScene = SceneManager.GetActiveScene().name;
@@ -131,11 +128,11 @@ namespace Assets.Scripts.MainManagers
             PuzzleManager.Initialize();
             Player = FindObjectOfType<Player.Player>();
             Player.InitializePlayer();
-            Debug.Log("hey");
             UiManager.SetFade(true);
             GuardManager.SpawnGuards();
+            if (CurrentAct == 1 && CurrentLevel == 1)
+                TriggerDialogue();
         }
-        
 
         //Loads the corresponding map to the current act and level and initializes variables concerning it
         private void InitializeMap()
@@ -161,14 +158,20 @@ namespace Assets.Scripts.MainManagers
 
 
         //Open the apropriate dialogue
-        public void OpenDialogue(Tile tile)
+        public void TriggerDialogue(Tile tile)
         {
             _dialogueNumber++;
             DialogueManager.DialogueTrigger(tile, "Level" + CurrentAct + "_" + CurrentLevel +"_" + _dialogueNumber);
           
         }
-        
-       
+        //Open the apropriate dialogue
+        public void TriggerDialogue()
+        {
+            _dialogueNumber++;
+            DialogueManager.OpenDialogue("Level" + CurrentAct + "_" + CurrentLevel + "_" + _dialogueNumber);
+
+        }
+
 
         //Starts the game with no other consideration of bools and things
         public void SimpleStartLevel()
@@ -182,9 +185,6 @@ namespace Assets.Scripts.MainManagers
         /// </summary>
         public void RestartFromCheckPoint()
         {
-            //St players starting pooint as thir last checkpoint or the ntry level if there is none
-            _checkpoint = Player.DetermingStartingTile().ReturnPosition();
-
             //Restart the player
             Player.Restart();
 

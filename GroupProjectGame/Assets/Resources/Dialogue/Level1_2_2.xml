@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="2">
   <Lines>
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="What’s this? Board minutes. I’m sure Pig will want these." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="If we’re going to get back to normal after all of this we’ll need to save as much as possible." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="If we're going to get back to normal after all of this we'll need to save as much as possible." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="... Something's not quite right, though..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
   </Lines>
 </LineCollection>

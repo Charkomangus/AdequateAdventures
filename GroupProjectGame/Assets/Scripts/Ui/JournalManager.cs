@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,40 +9,46 @@ namespace Assets.Scripts.Ui
     {
 
         private Animator _animator;
-
         private GameObject _evidence, _options;
-     private Button[] _evidenceButtons;
+        private Button[] _evidenceButtons;
         private Sprite[] _hiddenSprites;
-       private Sprite[] _foundSprites;
+        private Sprite[] _foundSprites;
         private GameObject[] _pageButtons;
-      private GameObject _evidenceTextBox;
-        [SerializeField] private string[] _evidenceTexts;
-        private EventSystem eventSystem;
+        private GameObject _evidenceTextBox;
+        [SerializeField] private TextAsset[] _evidenceTexts;
+
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
+
+            //Find journal compoments
             _animator = GetComponent<Animator>();
             _evidence = GameObject.FindGameObjectWithTag("Evidence");
             _evidenceButtons = _evidence.GetComponentsInChildren<Button>();
             _options = GameObject.FindGameObjectWithTag("Options");
             _evidenceTextBox = GameObject.FindGameObjectWithTag("EvidenceTextBox");
+            _pageButtons = GameObject.FindGameObjectsWithTag("PageButtons");
 
+
+            //Load items from resourses
+            _evidenceTexts = Resources.LoadAll<TextAsset>("Evidence/Text/");           
             _hiddenSprites = Resources.LoadAll<Sprite>("Evidence/Hidden/");
             _foundSprites = Resources.LoadAll<Sprite>("Evidence/Found/");
-            _pageButtons = GameObject.FindGameObjectsWithTag("PageButtons");
+
+
 
             for (int i = 0; i < _evidenceButtons.Length; i++)
             {
                 var i1 = i;
                 _evidenceButtons[i].onClick.AddListener(delegate { OpenEvidenceTextBox(i1); });
-                EvidenceFound(i1, false);
-                if (i1 < 3)
-                EvidenceFound(i1, true);
+                EvidenceFound(i, false);
             }
             _evidenceTextBox.GetComponent<Button>().onClick.AddListener(delegate
             {
-                _evidence.GetComponent<CanvasGroup>().interactable = true; _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false); });
+                _evidence.GetComponent<CanvasGroup>().interactable = true;
+                _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
+            });
 
 
         }
@@ -50,25 +56,23 @@ namespace Assets.Scripts.Ui
 
 
         // Update is called once per frame
-        void Update ()
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.J))
-              OpenJournal(true);
-
-
-
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 if (_evidenceTextBox.GetComponent<Animator>().GetBool("Open"))
                 {
-                    _evidence.GetComponent<CanvasGroup>().interactable = true; _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
+                    _evidence.GetComponent<CanvasGroup>().interactable = true;
+                    _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
                 }
                 else
-                    OpenJournal(false);
+                    OpenJournal(!_animator.GetBool("Open"));
+            }
 
-            else if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
                 PreviousPage();
 
-            else if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
                 NextPage();
 
             else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
@@ -83,7 +87,10 @@ namespace Assets.Scripts.Ui
         private void OpenEvidenceTextBox(int evidence)
         {
             _evidenceTextBox.GetComponent<Animator>().SetBool("Open", true);
-            _evidenceTextBox.GetComponentInChildren<Text>().text = _evidenceTexts[evidence];
+            Debug.Log(_evidenceTexts[evidence]);
+            Debug.Log(_evidenceTexts[evidence]);
+            Debug.Log(_evidenceTexts[evidence].ToString());
+            _evidenceTextBox.GetComponentInChildren<Text>().text = _evidenceTexts[evidence].text;
             _evidence.GetComponent<CanvasGroup>().interactable = false;
         }
 
@@ -94,7 +101,8 @@ namespace Assets.Scripts.Ui
             _pageButtons[0].SetActive(false);
             _evidence.SetActive(false);
             _options.SetActive(true);
-            
+
+
         }
 
         //Open the evidence Page
@@ -104,7 +112,7 @@ namespace Assets.Scripts.Ui
             _pageButtons[0].SetActive(true);
             _evidence.SetActive(true);
             _options.SetActive(false);
-          
+
         }
 
 
@@ -117,7 +125,11 @@ namespace Assets.Scripts.Ui
                 Time.timeScale = 0;
             }
             else
+            {
+                _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
+                _evidence.GetComponent<CanvasGroup>().interactable = true;
                 Time.timeScale = 1;
+            }
 
             _animator.SetBool("Open", status);
         }
@@ -131,11 +143,13 @@ namespace Assets.Scripts.Ui
             {
                 _evidenceButtons[evidence].interactable = true;
                 sprite = _foundSprites[evidence];
+                _evidenceButtons[evidence].GetComponentInChildren<Text>().text = "Evidence";
             }
             else
             {
                 _evidenceButtons[evidence].interactable = false;
                 sprite = _hiddenSprites[evidence];
+                _evidenceButtons[evidence].GetComponentInChildren<Text>().text = "";
             }
 
             //This is done to exlude the parent buttons image
@@ -146,11 +160,11 @@ namespace Assets.Scripts.Ui
                 image.sprite = sprite;
                 break;
             }
-        
-              
 
 
-         
+
+
+
         }
     }
 }

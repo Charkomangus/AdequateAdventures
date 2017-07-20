@@ -9,13 +9,13 @@ namespace Assets.Scripts.Objects
         [SerializeField] private string SignText;
         [SerializeField]private int _puzzleNumber;
         // Use this for initialization
-        void Start()
+        private void Start()
         {
 
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
 
         }

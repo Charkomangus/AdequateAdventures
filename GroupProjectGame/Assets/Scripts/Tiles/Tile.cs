@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Dialogue;
+using Assets.Scripts.Actors;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.MapCreator;
 using UnityEngine;

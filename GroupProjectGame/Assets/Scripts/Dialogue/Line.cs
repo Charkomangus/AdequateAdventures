@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Actors;
 
 namespace Assets.Scripts.Dialogue
 {
@@ -14,7 +14,7 @@ namespace Assets.Scripts.Dialogue
 
         public Condition Condition;
 
-
+        public bool KillOnExit;
     }
 
     public enum Condition

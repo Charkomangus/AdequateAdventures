@@ -9,7 +9,7 @@ namespace Assets.Scripts.Managers
     
 
         // Use this for initialization
-        void Awake ()
+        private void Awake ()
         {
             _enviromentArt = GetComponentInChildren<SpriteRenderer>();
         }

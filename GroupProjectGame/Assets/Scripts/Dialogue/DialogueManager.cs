@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Assets.Scripts.Actors;
 using Assets.Scripts.MainManagers;
-using Assets.Scripts.MapCreator;
 using Assets.Scripts.Tiles;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,13 +19,15 @@ namespace Assets.Scripts.Dialogue
         [SerializeField]private int _currentPage, _maxPage;
         [SerializeField]private Text _content;
         [SerializeField] private GameObject _actorName, _choisesTransform;
-        [SerializeField]private Line _currentyLine;
+        [SerializeField]private Line _currentLine;
         [SerializeField] private GameObject _choisePrefab;
 
         [SerializeField] private List<GameObject> _choises;
         [SerializeField] private int _currentBranch;
+        private Animator _currentActor;
+        private bool _specialsOpen;
           // Use this for initialization
-        void Awake()
+        private void Awake()
         {
             _portraitsBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/");
             _portraitsBadger = Resources.LoadAll<Sprite>("Portraits/Badger/");
@@ -46,30 +47,20 @@ namespace Assets.Scripts.Dialogue
        
         }
 
-        //Input
+        //Keyboard Input
         private void Update()
         {
-            if (_managerAnimator.GetBool("Open") &&  (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)))
-            {
-                Debug.Log(_lines[_currentPage].Special);
-                var line = _lines[_currentPage];
-
-                if (line.Special == 0)
-                    NextLine();
-                else if (!_choisesTransform.GetComponent<Animator>().GetBool("Open"))
-                {
-                    _choisesTransform.GetComponent<Animator>().SetBool("Open", true);
-
-                    InstantiateChoise(line.Choise0);
-                    InstantiateChoise(line.Choise1);
-                    InstantiateChoise(line.Choise2);
-
-                }
-            }
+            if (!_managerAnimator.GetBool("Open") || !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.KeypadEnter)) return;
+            DetermineNextLine(_lines[_currentPage]);
         }
 
+        //Mouse Input
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            DetermineNextLine(_lines[_currentPage]);
+        }
 
-        //When a dialogue is treiggered ddisbale the trigger and open the dialogue
+        //When a dialogue is triggered disable the trigger and open the dialogue
         public void DialogueTrigger(Tile tile, string filename)
         {
             OpenDialogue(filename);
@@ -86,6 +77,8 @@ namespace Assets.Scripts.Dialogue
                 }
         }
 
+        
+
         //Opens the dialogue TEMP - for dialogue creator use only!
         public void OpenCreatorDialogue()
         {
@@ -93,13 +86,12 @@ namespace Assets.Scripts.Dialogue
             _maxPage = _lines.Length;
             if (_currentPage < _maxPage)
             {
-                Debug.Log("OPEN");
                 _managerAnimator.SetBool("Open", true);
                 _textbox.SetBool("Open", true);
                
-                _currentyLine = _lines[_currentPage];
-                SetActor(_currentyLine);
-                SetContent(_currentyLine);
+                _currentLine = _lines[_currentPage];
+                SetActor(_currentLine);
+                SetContent(_currentLine);
             }
             else
                 CloseDialogue();
@@ -128,8 +120,8 @@ namespace Assets.Scripts.Dialogue
                     Special = container.Lines[x].Special,
                     Choise0 = container.Lines[x].Choise0,
                     Choise1 = container.Lines[x].Choise1,
-                    Choise2 = container.Lines[x].Choise2
-
+                    Choise2 = container.Lines[x].Choise2,
+                    KillOnExit = container.Lines[x].KillOnExit
 
                 };
                 _lines[x] = line;
@@ -143,9 +135,9 @@ namespace Assets.Scripts.Dialogue
                 _managerAnimator.SetBool("Open", true);
                 _textbox.SetBool("Open", true);
 
-                _currentyLine = _lines[_currentPage];
-                SetActor(_currentyLine);
-                SetContent(_currentyLine);
+                _currentLine = _lines[_currentPage];
+                SetActor(_currentLine);
+                SetContent(_currentLine);
             }
             else
                 CloseDialogue();
@@ -170,11 +162,11 @@ namespace Assets.Scripts.Dialogue
             //Left or right
             var direction = line.Direction;
             //Activate correct actor
-            var actor = direction == 0 ? _actor0 : _actor1;
+            _currentActor = direction == 0 ? _actor0 : _actor1;
             //Assign correct sprite according to actor and expression chosen
             var sprite = DetermineActor(line.Actor, line.ActorExpression);
-            actor.GetComponent<Image>().sprite = sprite;
-            actor.SetBool("Open", true);
+            _currentActor.GetComponent<Image>().sprite = sprite;
+            _currentActor.SetBool("Open", true);
 
             //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its be cruel otherwise.
             _actorName.GetComponentInChildren<Text>().text = line.Actor == Actor.InjuredMouse ? "Mouse" : line.Actor.ToString();
@@ -192,45 +184,35 @@ namespace Assets.Scripts.Dialogue
             }
             _choises.Clear();
 
+            //If it was set to dissapear the actor will do so. However nothing will occur if the same side is used for the next line.
+            if (_lines[_currentPage].KillOnExit)
+            {
+                _currentActor.SetBool("Open", false);
+            }
 
-            _currentPage++;
-            //Check if the next dialogue suits the breanch we are on - if not skip it
+                //Increment the current page
+                _currentPage++;
+         
+            //If the page was the last page close the dialogue otherwise carry on
             if (_currentPage < _maxPage)
             {
-                if (_lines[_currentPage].Branch == _currentBranch)
+                //Check if the next dialogue suits the branch we are on or is main dialogue - if not skip it
+                if (_lines[_currentPage].Branch == _currentBranch || _lines[_currentPage].Branch == 0)
                 {
-                    _currentyLine = _lines[_currentPage];
-                    SetActor(_currentyLine);
-                    SetContent(_currentyLine);
-                }
-                else if (_lines[_currentPage].Branch == 0)
-                {
-
-                    _currentyLine = _lines[_currentPage];
-                    SetActor(_currentyLine);
-                    SetContent(_currentyLine);
+                    _currentLine = _lines[_currentPage];
+                    SetActor(_currentLine);
+                    SetContent(_currentLine);
                 }
                 else
                 {
+                    //This skips the line
                     NextLine();
                 }
             }
             else
                 CloseDialogue();
         }
-
-        //Create a new line
-        private void CreateNewLine(string content)
-        {
-            _lines[_currentPage] = _lines[_currentPage + 1];
-            _lines[_currentPage].Content = content;
-            _lines[_currentPage].Special = 0;
-            
-            SetContent(_lines[_currentPage]);
-            SetActor(_lines[_currentPage]);
-            _currentPage++;
-
-        }
+   
 
         //Set the content
         private void SetContent(Line line)
@@ -238,23 +220,23 @@ namespace Assets.Scripts.Dialogue
             _content.text = line.Content;
         }
 
+       
 
-        //Click to the rest of the dialogue
-        public void OnPointerDown(PointerEventData eventData)
+        private void DetermineNextLine(Line line)
         {
-            Debug.Log(_lines[_currentPage].Special);
-            var line =  _lines[_currentPage];
-
-
+         
             if (line.Special == 0)
+            {
                 NextLine();
-            else if(!_choisesTransform.GetComponent<Animator>().GetBool("Open"))
+                _specialsOpen = false;
+            }
+            else if (!_choisesTransform.GetComponent<Animator>().GetBool("Open") && !_specialsOpen)
             {
                 _choisesTransform.GetComponent<Animator>().SetBool("Open", true);
-
                 InstantiateChoise(line.Choise0);
                 InstantiateChoise(line.Choise1);
                 InstantiateChoise(line.Choise2);
+                _specialsOpen = true;
 
             }
 
@@ -277,30 +259,31 @@ namespace Assets.Scripts.Dialogue
         //Switch off the choises
         private void ChooseResponse(int chosenButton)
         {
-            for (int j = 0; j < _choises.Count; j++)
-            {
-               if (j == chosenButton)
-               {
-                   _choises[j].GetComponent<Button>().interactable = false;
-                    StartCoroutine(CloseSpecial(_choises[j]));
-                
-                    _currentBranch = chosenButton+1;
-               }
-                else
-                {
-                    _choises[j].GetComponent<Animator>().SetBool("Open", false);
-
-                }
-            }
+            StartCoroutine(CloseSpecial(_choises[chosenButton]));
+            _currentBranch = chosenButton+1;
         
         }
 
         //Close any remaining special items
-        IEnumerator CloseSpecial(GameObject button)
+        private IEnumerator CloseSpecial(GameObject button)
         {
+            List<GameObject> otherButtons = new List<GameObject>();
+            for (int i = 0; i < _choises.Count; i++)
+            {
+                if (_choises[i] != button)
+                    otherButtons.Add(_choises[i]);
+
+            }
+        
+            foreach (var otherButton in otherButtons)
+            {
+                otherButton.GetComponent<Button>().interactable = false;
+            }
             yield return new WaitForSecondsRealtime(1);
-            button.GetComponent<Animator>().SetBool("Open", false);
-            yield return new WaitForSecondsRealtime(1);
+            button.GetComponent<Button>().interactable = false;
+
+
+            yield return new WaitForSecondsRealtime(0.25f);
             _choisesTransform.GetComponent<Animator>().SetBool("Open", false);
             NextLine();
         

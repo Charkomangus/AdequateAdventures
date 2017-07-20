@@ -9,7 +9,7 @@ namespace Assets.Scripts.Cameras
 
         private Vector3 _position, _originalPosition;
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             _player = GameManager.Instance.Player.transform;
             _originalPosition = transform.position;
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Cameras
         }
 
         // Update is called once per frame
-        void Update ()
+        private void Update ()
         {	   
             transform.position = Vector3.Lerp(new Vector3(_player.position.x, transform.position.y, _player.position.z), _position,0.5f*Time.deltaTime);
 

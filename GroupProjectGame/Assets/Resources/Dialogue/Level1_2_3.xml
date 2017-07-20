@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
   <Lines>
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="A report… That the Foreman wrote." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="... A report that the Foreman wrote." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="This looks serious. Very serious." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="I need to tell someone about this." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
   </Lines>

@@ -39,8 +39,8 @@ GameObject:
   - component: {fileID: 222273199526356618}
   - component: {fileID: 114319973537709942}
   - component: {fileID: 114734102724285710}
-  - component: {fileID: 95531527952534812}
   - component: {fileID: 225654041056695236}
+  - component: {fileID: 95917981308871122}
   m_Layer: 0
   m_Name: Choice
   m_TagString: Untagged
@@ -48,7 +48,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95531527952534812
+--- !u!95 &95917981308871122
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -57,7 +57,7 @@ Animator:
   m_GameObject: {fileID: 1242244449194710}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c7f5256941b85264d8e3c7f69b22bb1f, type: 2}
+  m_Controller: {fileID: 9100000, guid: ed70d8779d950d849b1eeda3679dc99b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -118,8 +118,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 37c50552492925f428f986b91d7abc34,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 37c50552492925f428f986b91d7abc34, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -186,7 +187,7 @@ RectTransform:
   m_GameObject: {fileID: 1242244449194710}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.96153843, y: 0.96153843, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224578759701529352}
   m_Father: {fileID: 0}
@@ -194,7 +195,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1846.1539, y: -1038.4615}
+  m_AnchoredPosition: {x: -1846.1538, y: -1038.4615}
   m_SizeDelta: {x: 750, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224578759701529352

@@ -1,6 +1,6 @@
 ﻿using System;
 using Assets.Scripts.MainManagers;
-using Assets.Scripts.MapCreator;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Tiles;
 using Boo.Lang;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace Assets.Scripts.Objects
 
         private PuzzleManager _puzzlemanager;
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             _puzzleNumber = GetComponentInParent<Tile>().ReturnPuzzleNumber();
             _currentScene = SceneManager.GetActiveScene().name;

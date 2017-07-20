@@ -5,7 +5,7 @@
     <Line ActorName="Pig" Expression="2" Direction="1" Branch="0" Condition="None" Content="*Wailing*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Beaver" Expression="2" Direction="1" Branch="0" Condition="None" Content="HEY! Are you okay, hun? And you, sir?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Beaver" Expression="2" Direction="1" Branch="0" Condition="None" Content="Can we have a paramedic over here? Faster than a hot knife through butter, please!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Beaver" Expression="0" Direction="1" Branch="0" Condition="None" Content="Now darling how are you feeling? Are you hurt at all?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Beaver" Expression="0" Direction="1" Branch="0" Condition="None" Content="Now darlin' how are you feeling? Are you hurt at all?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Beaver" Expression="1" Direction="1" Branch="0" Condition="None" Content="You look like you've been chewed up and spit out, hun." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="I'm fine, honestly. I'm just a bit overwhelmed. It's been an interesting morning.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Beaver" Expression="2" Direction="1" Branch="0" Condition="None" Content="And how about your little friend here, is he crying cos' he's hurt?&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />

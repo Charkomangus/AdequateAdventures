@@ -1,8 +1,5 @@
 ﻿using System;
-using Assets.Scripts.MapCreator;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tiles
 {
@@ -26,16 +23,15 @@ namespace Assets.Scripts.Tiles
         private SpriteRenderer _sprite;
    
         // Use this for initialization
-        void Awake()
+        private void Awake()
         {
            
             _sprite = GetComponent<SpriteRenderer>();
           
         }
 
-     
 
-        void Start()
+        private void Start()
         {
             _tile = GetComponentInParent<Tile>();
             _tileType = _tile.ReturnType();

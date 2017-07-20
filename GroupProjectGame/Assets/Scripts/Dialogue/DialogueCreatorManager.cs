@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.MapCreator;
-
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Assets.Scripts.Actors;
 
 namespace Assets.Scripts.Dialogue
 {
     public class DialogueCreatorManager : MonoBehaviour
     {
+        public Toggle KillOnExiToggle;
         public Button Load, Save;
         public Dropdown ActorName, Expression, Direction, Special, Branch, Condition;
         public GameObject Choises, AreYouSureLoad, AreYouSureSave;
@@ -23,7 +21,7 @@ namespace Assets.Scripts.Dialogue
         public Animator MapNotification;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             UpdateExpressions(ActorName.value);
             SetPageCounters();
@@ -33,7 +31,8 @@ namespace Assets.Scripts.Dialogue
             ActorName.onValueChanged.AddListener(delegate { UpdateExpressions(ActorName.value); });
             Load.onClick.AddListener(delegate { LoadDialogueFromXml(LoadField.text); SetPageCounters(); });
             Save.onClick.AddListener(delegate { SaveDialogueToXml(SaveField.text); NewMapNotification(SaveField.text, 0); });
-          
+      
+
             //This allows the user to directly load a page by using the slider
             PagePercentageSlider.onValueChanged.AddListener(delegate
             {
@@ -46,7 +45,7 @@ namespace Assets.Scripts.Dialogue
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             Lines[CurrentPage] = CreateNewLine();
         }
@@ -134,11 +133,12 @@ namespace Assets.Scripts.Dialogue
             Special.value = 0;
             Condition.value = 0;
             Branch.value = 0;
-
+            KillOnExiToggle.isOn = false;
             Content.text = "";
             FirstChoise.text = "";
             SecondChoise.text = "";
             ThirdChoice.text = "";
+
            
 
         }
@@ -224,6 +224,8 @@ namespace Assets.Scripts.Dialogue
             FirstChoise.text = line.Choise0;
             SecondChoise.text = line.Choise1;
             ThirdChoice.text = line.Choise2;
+            KillOnExiToggle.isOn = line.KillOnExit;
+           
         }
 
         //Create a new line using the inputted information
@@ -240,8 +242,9 @@ namespace Assets.Scripts.Dialogue
                 Special = Special.value,
                 Choise0 = FirstChoise.text,
                 Choise1 = SecondChoise.text,
-                Choise2 = ThirdChoice.text
-               
+                Choise2 = ThirdChoice.text,
+                KillOnExit = KillOnExiToggle.isOn
+            
             };
             return line;
         }
@@ -292,7 +295,8 @@ namespace Assets.Scripts.Dialogue
                         Special = container.Lines[x].Special,
                         Choise0 = container.Lines[x].Choise0,
                         Choise1 = container.Lines[x].Choise1,
-                        Choise2 = container.Lines[x].Choise2
+                        Choise2 = container.Lines[x].Choise2,
+                        KillOnExit = container.Lines[x].KillOnExit
 
 
                     };

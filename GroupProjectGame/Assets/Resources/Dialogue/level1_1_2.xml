@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="12">
   <Lines>
-    <Line ActorName="Weasel" Expression="1" Direction="1" Branch="0" Condition="None" Content="Well, well, well... an ankle, out here alone in the snow." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="2" Direction="1" Branch="0" Condition="None" Content="So helpless. So scared. So... delicious." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Nice scarf. And I ain’t afraid of no mook like you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Hop along, and maybe I’ll forget this happened." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="1" Direction="1" Branch="0" Condition="None" Content="It is a nice scarf, probably worth more than the hovel you probably call a home." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="Yeah well, we can’t all work under a bridge." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="0" Direction="1" Branch="0" Condition="None" Content="I wouldn’t recommend that a little country belle like yourself antagonises strangers in the woods." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="0" Direction="1" Branch="0" Condition="None" Content="Especially one so little and delicate." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="2" Direction="1" Branch="0" Condition="None" Content="And such tatty clothes, who’d miss a little runt like you?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I’ve had about enough of this. Do you have a point to make?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="1" Direction="1" Branch="0" Condition="None" Content="Not particularly, but it was a pleasure to meet such a fine, distinguished lady." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Weasel" Expression="2" Direction="1" Branch="0" Condition="None" Content="Safe travels, little bunny. Don’t stray too far from the beaten path..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="0" Direction="1" Branch="0" Condition="None" Content="Well, well, well... an pretty little Bunny, out here alone in the snow." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="1" Direction="1" Branch="0" Condition="None" Content="So helpless. So scared. So delicious." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Nice scarf. And I ain't afraid of no mook like you.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Hop along, and maybe I'll forget this happened." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="2" Direction="1" Branch="0" Condition="None" Content="It is a nice scarf, probably worth more than the hovel you call a home, no doubt.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Yeah well, we can't all work under a bridge.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="0" Direction="1" Branch="0" Condition="None" Content="I wouldn't recommend that a little country belle like yourself antagonises strangers in the woods." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="1" Direction="1" Branch="0" Condition="None" Content="Especially one so little and delicate." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="1" Direction="1" Branch="0" Condition="None" Content="And such tatty clothes, who'd miss a little runt like you?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I've had about enough of this. Do you have a point to make?&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="2" Direction="1" Branch="0" Condition="None" Content="Not particularly, but it was a pleasure to meet such a fine, distinguished lady." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Weasel" Expression="0" Direction="1" Branch="0" Condition="None" Content="Safe travels, little bunny. Don't stray too far from the beaten path..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
   </Lines>
 </LineCollection>

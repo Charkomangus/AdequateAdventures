@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Cameras;
-using Assets.Scripts.Dialogue;
 using Assets.Scripts.Tiles;
+using Assets.Scripts.Actors;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -184,6 +184,7 @@ namespace Assets.Scripts.MapCreator
             Objects.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Object; ObjectType = TileObject.Empty; });
             Actors.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Actor; ActorType = Actor.Null; });
             //Tile Type
+
             TileNormal.onClick.AddListener(delegate { TileType = TileType.Normal; });
             TileOil.onClick.AddListener(delegate { TileType = TileType.Oil; });
             TileIce.onClick.AddListener(delegate { TileType = TileType.Ice; });

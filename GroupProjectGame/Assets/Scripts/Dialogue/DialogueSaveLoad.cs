@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using Assets.Scripts.MapCreator;
-using Assets.Scripts.Tiles;
+using Assets.Scripts.Actors;
 using UnityEngine;
 
 namespace Assets.Scripts.Dialogue
@@ -41,6 +40,9 @@ namespace Assets.Scripts.Dialogue
 
         [XmlAttribute("ThirdChoice")]
         public string Choise2;
+
+        [XmlAttribute("KillOnExit")]
+        public bool KillOnExit;
     }
 
     /// <summary>
@@ -98,7 +100,8 @@ namespace Assets.Scripts.Dialogue
                 Special = line.Special,
                 Choise0 = line.Choise0,
                 Choise1 = line.Choise1,
-                Choise2 = line.Choise2
+                Choise2 = line.Choise2,
+                KillOnExit = line.KillOnExit
             };
         }
 
