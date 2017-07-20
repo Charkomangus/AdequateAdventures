@@ -80,19 +80,25 @@ namespace Assets.Scripts.MainManagers
                 {
                     case 1:
                         if (puzzle == 4)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(10);
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(11);
+                        else if(puzzle != -1)
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(9);
                         else
                             Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
                         break;
                     case 2:
                         if (puzzle == 2 || puzzle == 3)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(10);
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(11);
+                        else if (puzzle != -1)
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(9);
                         else
                             Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
                         break;
                     case 3:
                         if (puzzle == 1 || puzzle == 2)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(10);
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(11);
+                        else if (puzzle != -1)
+                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(9);
                         else
                             Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
                         break;
