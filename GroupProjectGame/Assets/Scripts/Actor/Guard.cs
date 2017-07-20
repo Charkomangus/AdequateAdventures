@@ -123,7 +123,7 @@ public class Guard : MonoBehaviour {
         yield return new WaitForSeconds(1);
         GameManager.Instance.UiManager.SetFade(false);
         yield return new WaitForSeconds(2);
-        GameManager.Instance.RestartCheckPoint();
+        GameManager.Instance.RestartFromCheckPoint();
         Camera.main.fieldOfView = 60;
 
     }

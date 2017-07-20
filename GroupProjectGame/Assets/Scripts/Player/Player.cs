@@ -376,7 +376,7 @@ namespace Assets.Scripts.Player
             yield return new WaitForSeconds(2);
 
 
-            GameManager.Instance.RestartCheckPoint();
+            GameManager.Instance.RestartFromCheckPoint();
             
             gameCamera.transform.position = new Vector3(gameCamera.transform.position.x, 7.5f, gameCamera.transform.position.z);
         }
