@@ -23,15 +23,12 @@ namespace Assets.Scripts.Ui
         void Start()
         {
             signBox = FindObjectOfType<SignBox>();
-            signs = FindObjectsOfType<Sign>();
+           
 
             _fade = GameObject.FindGameObjectWithTag("Fade").GetComponent<Animator>();
             _journalManager = GetComponentInChildren<JournalManager>();
 
-            for (int i = 0; i < signs.Length; i++)
-            {
-                signs[i].SetSignText(SignTexts[i]);
-            }
+         
         
         
 
@@ -41,7 +38,11 @@ namespace Assets.Scripts.Ui
         // Update is called once per frame
         void Update()
         {
-        
+            signs = FindObjectsOfType<Sign>();
+            for (int i = 0; i < signs.Length; i++)
+            {
+                signs[i].SetSignText(SignTexts[i]);
+            }
         }
 
         public void Open(string text)

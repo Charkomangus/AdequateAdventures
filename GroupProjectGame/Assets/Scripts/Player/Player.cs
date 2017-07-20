@@ -80,16 +80,21 @@ namespace Assets.Scripts.Player
             //If the player is close to the parent tile speed them up and read further input
             if (HasReachedTile())
             {
-                SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
-                PlayerInput();
-                DetermineMoveState(); 
+             
 
                 //Free the current parent tile and kill the object
                 if (_scheduleToDie)
                 {
                     StartCoroutine(PlayerDeath());
+                    _parentTile.GetComponentInChildren<ParticleSystem>().Play();
+                    _parentTile.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
                     _scheduleToDie = false;
+                    return;
                 }
+
+                SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
+                PlayerInput();
+                DetermineMoveState();
             }
             else
             {
@@ -362,15 +367,18 @@ namespace Assets.Scripts.Player
         //Guard waits in place
         private IEnumerator PlayerDeath()
         {
+            var gameCamera = UnityEngine.Camera.main.GetComponent<GameCamera>();
             GetComponent<SpriteRenderer>().enabled = false;
             _initialized = false;
-            Camera.main.GetComponent<GameCamera>().SetCameraHeight(2);
+            gameCamera.SetCameraHeight(2);
             yield return new WaitForSeconds(1);
             GameManager.Instance.UiManager.SetFade(false);
             yield return new WaitForSeconds(2);
-            GameManager.Instance.RestartLevel();
-            GetComponent<SpriteRenderer>().enabled = true;
-            Camera.main.gameObject.transform.position = new Vector3(Camera.main.gameObject.transform.position.x, 7.5f, Camera.main.gameObject.transform.position.z);
+
+
+            GameManager.Instance.RestartCheckPoint();
+            
+            gameCamera.transform.position = new Vector3(gameCamera.transform.position.x, 7.5f, gameCamera.transform.position.z);
         }
 
         //Determing what happens depending on the player input and position 
@@ -487,6 +495,7 @@ namespace Assets.Scripts.Player
         {
             //Check if there is a checkpoint - if not use the level entry as one
             var tile = _currentPuzzleTile ?? GameManager.Instance.LevelEntry;
+            GetComponent<SpriteRenderer>().enabled = true;
             transform.position = tile.transform.position;
             SetParentTile(tile);
             _latestTile = null;

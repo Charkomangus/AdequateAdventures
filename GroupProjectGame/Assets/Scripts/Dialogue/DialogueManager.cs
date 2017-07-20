@@ -266,7 +266,7 @@ namespace Assets.Scripts.Dialogue
             if (string.IsNullOrEmpty(choise)) return;
             var button = Instantiate(_choisePrefab, _choisesTransform.transform);
             button.GetComponentInChildren<Text>().text = choise;
-            button.GetComponent<Animator>().SetBool("Open", true);
+
             var temp = _choises.Count;
             button.GetComponent<Button>().onClick.AddListener(delegate { ChooseResponse(temp); });
             _choises.Add(button);

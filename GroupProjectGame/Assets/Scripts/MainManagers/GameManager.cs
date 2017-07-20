@@ -178,14 +178,23 @@ namespace Assets.Scripts.MainManagers
         }
 
         /// <summary>
-        /// Change the Game State to the Game Scene
+        /// Restarts the game to start from the last puzzle encountered
         /// </summary>
-        public void RestartLevel()
+        public void RestartFromCheckPoint()
         {
+            //St players starting pooint as thir last checkpoint or the ntry level if there is none
             _checkpoint = Player.DetermingStartingTile().ReturnPosition();
+
+            //Restart the player
             Player.Restart();
-          PuzzleManager.ResetPuzzle();
+
+            //Reset the current Puzzle, leaving the others untouched
+            PuzzleManager.ResetPuzzle();
+
+            //Reset all guards
             GuardManager.ResetGuards();
+
+            //DO the introdocturary fade in from black
             UiManager.SetFade(true);
 
         }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="9">
+  <Lines>
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Late again. Of course." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Just like every other day." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I really need to have a word with that Rooster." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Hes been sleeping in ever since he became a booze-hound." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="I hope the Foreman doesnt notice, I mean I could always make an excuse." Special="1" FirstChoice="TELL THE FOREMAN THE TRUTH" SecondChoice="MAKE AN EXCUSE" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="1" Condition="None" Content="Hes whip smart, hed figure me out anyway." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="2" Condition="None" Content="Maybe hell even believe me!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="At any rate, I better hurry up." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I hope its not too icy today, thatll slow me down." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+  </Lines>
+</LineCollection>

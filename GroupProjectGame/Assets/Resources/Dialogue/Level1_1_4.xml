@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="6">
+  <Lines>
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Holy… I can’t believe this is happening. What do I do?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I can hear screams. I need to do something.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I can’t hear sirens. The Fire Department aren’t close yet." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Has anyone even called them?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="I need to focus. I need to help my friends." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Mouse is in there, I hope she’s okay... I'm going in." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+  </Lines>
+</LineCollection>

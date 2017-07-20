@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
+  <Lines>
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Mouse I hope you made it out okay." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I need to focus, I cant think about that." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Pig needs me, and I need to talk to him." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+  </Lines>
+</LineCollection>

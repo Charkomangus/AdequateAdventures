@@ -15357,7 +15357,7 @@ MonoBehaviour:
   TileNormal: {fileID: 1000012750145078, guid: 290ef2749221eeb4da40499ab7d55e30, type: 2}
   TileOil: {fileID: 1899746574885190, guid: 610d0126f40243c478d0a606c64748d6, type: 2}
   TileIce: {fileID: 1694058701548122, guid: d1e857617931ee844950f7fb133c7fae, type: 2}
-  TileFire: {fileID: 1600374146105974, guid: 0715e38fba740014ca49c682bcba0421, type: 2}
+  TileFire: {fileID: 1043481673275578, guid: 0715e38fba740014ca49c682bcba0421, type: 2}
   TileIceCracks: {fileID: 1341784249211348, guid: 01103bde83d63f641aa9524cc870ab66,
     type: 2}
   TileBlocked: {fileID: 1919284378390686, guid: 8881bb1c50d6d9b47a4497d77e417550,

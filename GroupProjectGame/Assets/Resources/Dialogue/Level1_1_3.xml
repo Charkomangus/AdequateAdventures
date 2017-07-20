@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="4">
+  <Lines>
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Hmmmm. Something in the snow, that creep must have dropped it... " Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="It looks like a carbon copy of a receipt." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="The boss’ boss signed it. I’m sure he’ll want it back." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="Maybe he’ll even let me off for being late!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+  </Lines>
+</LineCollection>

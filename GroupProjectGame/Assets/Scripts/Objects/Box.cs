@@ -61,10 +61,11 @@ namespace Assets.Scripts.Objects
                 //Free the current parent tile and kill the object
                 else if (scheduleToDie)
                 {
-                 
+                    scheduleToDie = false;
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
                     GetComponent<SpriteRenderer>().enabled = false;
+                    _parentTile.GetComponentInChildren<ParticleSystem>().Play();
                 }
             }
             else
