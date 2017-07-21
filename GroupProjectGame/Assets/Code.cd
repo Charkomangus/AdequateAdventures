@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Assets.Scripts.Actors.Guard">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Assets.Scripts.Actors.Guard.GuardMoveState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Actors\Guard.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>SAQAEAEABKQFACAIQAASAEUYAUQwAEAAIwCJQIAAQQA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Guard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Actors.GuardManager">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Actors\GuardManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Cameras.GameCamera">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAABACAAAQAAIAAACEACAAAAAAAAAAAAgAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\Cameras\GameCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Cameras.MapCreatorCamera">
+    <Position X="26" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Assets.Scripts.Cameras.MapCreatorCamera.CameraState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Cameras\MapCreatorCamera.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAQgCAMQBKAAEICgBxAQAAAQEA4AQAAAAACgQALASgA=</HashCode>
+      <FileName>Assets\Scripts\Cameras\MapCreatorCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Dialogue.DialogueCreatorManager">
+    <Position X="27.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAQAgugAEiiASCAAADCYCRACAAAIAAgSEIAEgBACIAI=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\DialogueCreatorManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Dialogue.DialogueManager" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUACAYQYAIYDRABECSRQQgAIEEAIIgQIIBAAAAkIMA=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\DialogueManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Assets.Scripts.Dialogue.LinesXml">
+    <Position X="17.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAiAAAgCAAAAAACAAAAA4AAAAAggAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\DialogueSaveLoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Dialogue.LineContainer">
+    <Position X="6.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\DialogueSaveLoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Dialogue.DialogueSaveLoad">
+    <Position X="5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAQAAAAQAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\DialogueSaveLoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MainManagers.GameManager">
+    <Position X="24.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAQAACEACAIAAQAAoAYAQIgAAIkAAENwGUAAZKAAEA=</HashCode>
+      <FileName>Assets\Scripts\MainManagers\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MainManagers.StateManager">
+    <Position X="27.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEABAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQgIAA=</HashCode>
+      <FileName>Assets\Scripts\MainManagers\StateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Managers.AudioManager">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQDAAAgACAAAoAAAAKAAAMABEAAUAAAgAAAAgAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Managers\AudioManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Managers.EnviromentManager">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Managers\EnviromentManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Managers.MenuManager">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAAAAgAAAAAAAgAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\Managers\MenuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Managers.PuzzleManager">
+    <Position X="19" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAARAQAEAAQAAAACAAAAAIEAAAABABBAABAAIAAA=</HashCode>
+      <FileName>Assets\Scripts\Managers\PuzzleManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MapCreator.MapCreatorManager">
+    <Position X="29.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>skzAjMLIQCMMyTwsXJDiACIUECMWlSFgQswAQgCDGEU=</HashCode>
+      <FileName>Assets\Scripts\MapCreator\MapCreatorManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MapCreator.MapGenerator">
+    <Position X="22.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAAAAIAAAAAAAQAAcIABAAAIAAAAAAEAEBABAAEAAA=</HashCode>
+      <FileName>Assets\Scripts\MapCreator\MapGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MapCreator.TileXml">
+    <Position X="6.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAgAAIAAAKAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MapCreator\MapSaveLoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MapCreator.MapXmlContainer">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MapCreator\MapSaveLoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.MapCreator.MapSaveLoad">
+    <Position X="1.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAQAAEAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MapCreator\MapSaveLoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Objects.Box">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAMCACAAACAKAAAAAAAUAAAAAAAAIAAAAAgAAQA=</HashCode>
+      <FileName>Assets\Scripts\Objects\Box.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Objects.Sign">
+    <Position X="1.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAQACACAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Scripts\Objects\Sign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Objects.SlidingBox">
+    <Position X="10.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAMCACAAACAKAAAAQAAUACAAAAAAIAAIAAgAAQA=</HashCode>
+      <FileName>Assets\Scripts\Objects\SlidingBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Objects.Switch">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Assets.Scripts.Objects.Switch.Type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Objects\Switch.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAYAAAIiACAAAAACAAAAAAAAIAAAAQAAIAAAAIAAACA=</HashCode>
+      <FileName>Assets\Scripts\Objects\Switch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Player.Player">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECUAUAEAAaAJECAAQJAAAAEQIAIACAGARAAIxIwAAQA=</HashCode>
+      <FileName>Assets\Scripts\Player\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Tiles.ConveyorBelt">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Assets.Scripts.Tiles.ConveyorBelt.Direction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Tiles\ConveyorBelt.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAICBSBEAAACAAAAAAgAEAAAAAAAJAEIQAgEAGA=</HashCode>
+      <FileName>Assets\Scripts\Tiles\ConveyorBelt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Tiles.PrefabHolder">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAAAAAIECPAMQADCAAAAAAIQgBAgQAwAAACAIEE=</HashCode>
+      <FileName>Assets\Scripts\Tiles\PrefabHolder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Tiles.Tile" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBKiiEJSHyBoEKy6QhBAAFohUBsAigqUAoCHCQGFBCY=</HashCode>
+      <FileName>Assets\Scripts\Tiles\Tile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Assets.Scripts.Ui.JournalManager">
+    <Position X="1.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAEAASIAAAQCAACgAAAAAAoAAAAAIAQAgAACIAA=</HashCode>
+      <FileName>Assets\Scripts\Ui\JournalManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Ui.OptionsManager">
+    <Position X="22.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAACAAAAAAgAAEAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Ui\OptionsManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Ui.SignBox">
+    <Position X="20.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAEAACAAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Ui\SignBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Ui.UiManager">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAACAAIAAAAAgAAAAAAAAAAAAAAAgAAEAAAFA=</HashCode>
+      <FileName>Assets\Scripts\Ui\UiManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Scripts.Utility.ControlInput">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAEAAIAiBAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utility\ControlInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Assets.Scripts.Dialogue.Line">
+    <Position X="8.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAACAAAgCAgAAAACAAAAA4AAAAAggAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\Line.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Assets.Scripts.Actors.Actor">
+    <Position X="5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAFAMQAACAAAAAAAAgAAAAAYAAAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Actors\ActorType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Assets.Scripts.Dialogue.Condition">
+    <Position X="6.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Dialogue\Line.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Assets.Scripts.MainManagers.GameState">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgAAAAAAAAAAAAAAAAAAAAAAgIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MainManagers\StateManager.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Assets.Scripts.MapCreator.PlacingStatus">
+    <Position X="10.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAgAAAAAACAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MapCreator\MapCreatorManager.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Assets.Scripts.Player.PlayerMoveState">
+    <Position X="15.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAJAAABAAAAAAAAAgAAAAAAAAEAACACAAAgAAAI=</HashCode>
+      <FileName>Assets\Scripts\Player\Player.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Assets.Scripts.Tiles.TileObject">
+    <Position X="19" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABAAAAKAAAAAAAIAABAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\Tiles\TileObject.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Assets.Scripts.Tiles.TileType">
+    <Position X="22.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAACAACQABQAAAAAAAMAAQAAAIAAACAQAA=</HashCode>
+      <FileName>Assets\Scripts\Tiles\TileType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Assets.Scripts.MainManagers.OnStateChangeHandler">
+    <Position X="6.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MainManagers\StateManager.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

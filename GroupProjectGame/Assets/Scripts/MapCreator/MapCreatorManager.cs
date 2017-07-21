@@ -109,7 +109,7 @@ namespace Assets.Scripts.MapCreator
         private string _oldCurrentLevel;
         public Animator MapNotification;
 
-        public SpriteRenderer _overlay;
+        public SpriteRenderer Overlay;
         private Sprite _overlaySprite;
         private string _overlayMap;
         //CAMERA
@@ -128,8 +128,8 @@ namespace Assets.Scripts.MapCreator
 
             _mapTransform = transform.Find("Map");
             _mainCamera = Camera.main.GetComponent<MapCreatorCamera>();
-            OverlayOpacityPercentage.text = (int)(_overlay.color.a * 100) + "%";
-            OverlayOpacitySlider.value = _overlay.color.a;
+            OverlayOpacityPercentage.text = (int)(Overlay.color.a * 100) + "%";
+            OverlayOpacitySlider.value = Overlay.color.a;
 
             //UI buttons
             ClearMap.onClick.AddListener(delegate { GenerateBlankMap(MapSize); SetOverlay(""); });
@@ -167,9 +167,9 @@ namespace Assets.Scripts.MapCreator
                 NewMapInput(NewMapSize);
             });
 
-            OverlayToggle.onValueChanged.AddListener(delegate { _overlay.gameObject.SetActive(OverlayToggle.isOn); });
+            OverlayToggle.onValueChanged.AddListener(delegate { Overlay.gameObject.SetActive(OverlayToggle.isOn); });
             OverlayOpacitySlider.onValueChanged.AddListener(delegate {
-            _overlay.color = new Color(1,1,1,OverlayOpacitySlider.value);
+            Overlay.color = new Color(1,1,1,OverlayOpacitySlider.value);
             OverlayOpacityPercentage.text = (int)(OverlayOpacitySlider.value*100) + "%";
             });
 
@@ -274,11 +274,11 @@ namespace Assets.Scripts.MapCreator
             if (_overlaySprite == null)
             {
                 OverlayNameText.text = "N/A";
-                _overlay.sprite = null;
+                Overlay.sprite = null;
             }
             else
             {
-                _overlay.sprite = _overlaySprite;
+                Overlay.sprite = _overlaySprite;
                 OverlayNameText.text = mapName;
             }
         }

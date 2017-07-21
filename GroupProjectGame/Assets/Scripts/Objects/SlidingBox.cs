@@ -13,8 +13,8 @@ namespace Assets.Scripts.Objects
         [SerializeField]
         private Tile _parentTile, _originalTile;
         private float _moveSpeed;
-        private List<Tile> newTiles;
-        [SerializeField]private bool scheduleToDie, _conveyed;
+        private List<Tile> _newTiles;
+        [SerializeField]private bool _scheduleToDie, _conveyed;
         [SerializeField]private int _direction;
         [SerializeField]
         private int _puzzleNumber;
@@ -61,9 +61,9 @@ namespace Assets.Scripts.Objects
                 }
               
                 //Free the current parent tile and kill the object
-                else if (scheduleToDie)
+                else if (_scheduleToDie)
                 {
-                    scheduleToDie = false;
+                    _scheduleToDie = false;
                     _parentTile.GetComponentInChildren<ParticleSystem>().Play();
                     _parentTile.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
                     _parentTile.SetBlocked(false);
@@ -85,7 +85,7 @@ namespace Assets.Scripts.Objects
             transform.position = _originalTile.transform.position;
             SetParentTile(_originalTile, -1);
             GetComponent<SpriteRenderer>().enabled = true;
-            scheduleToDie = false;
+            _scheduleToDie = false;
             _direction = -1;
         }
 
@@ -116,12 +116,12 @@ namespace Assets.Scripts.Objects
 
                     case TileType.Door:
                         _parentTile.SetBlocked(false);
-                        scheduleToDie = true;
+                        _scheduleToDie = true;
                         return;
                     //If the box encounters Ice cracks or fire kill it when it reaches the tile
                     case TileType.IceCracks:
                     case TileType.Fire:
-                        scheduleToDie = true;
+                        _scheduleToDie = true;
                         return;
 
                     //Switch direction to fit the belts

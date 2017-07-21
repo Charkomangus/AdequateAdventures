@@ -1,3 +1,9 @@
+/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
 using System;
 using System.Collections.Generic;
 using Assets.Scripts.Actors;
@@ -9,12 +15,22 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tiles
 {
+    /// <summary>
+    /// The tile class is the building block of this project - It determines what a tile is, what its behaviour will be like and what objects or actors will be present upon it
+    /// </summary>
     public class Tile : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
-        [Header("Tile Type")] [SerializeField] private TileType _type = TileType.Normal;
-        [Header("Object")] [SerializeField] private TileObject _object = TileObject.Empty;
-        [Header("Actor")][SerializeField]private Actor _actor = Actor.Null;
-        [Header("Flags")] [SerializeField] private bool _blocked;
+        [Header("Tile Type")]
+        [SerializeField] private TileType _type = TileType.Normal;
+
+        [Header("Object")]
+        [SerializeField] private TileObject _object = TileObject.Empty;
+
+        [Header("Actor")]
+        [SerializeField]private Actor _actor = Actor.Null;
+
+        [Header("Flags")]
+        [SerializeField] private bool _blocked;
         [SerializeField]private bool _dialogue;
         [SerializeField] private bool _exit;
         [SerializeField] private bool _entry;
@@ -24,10 +40,9 @@ namespace Assets.Scripts.Tiles
         [SerializeField] private int _puzzleNumber = -1;
         [SerializeField] private int _tileDirection = -1;
 
-        [Header("Position")] [SerializeField] private Vector2 _gridPosition = Vector2.zero;
-
-   
-
+        [Header("Position")]
+        [SerializeField] private Vector2 _gridPosition = Vector2.zero;
+        
         //Local reference to Prefabs of the tile and objects
         private GameObject _tilePrefab, _objectPrefab, _actorPrefab;
 
@@ -38,8 +53,9 @@ namespace Assets.Scripts.Tiles
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
 
-
-        // Use this for initialization
+        /// <summary>
+        /// Use this for initialization
+        /// </summary>
         private void Start()
         {
             //If the tiles type is null and it's currently in level destroy this tile
@@ -53,43 +69,102 @@ namespace Assets.Scripts.Tiles
             name = _type + " Tile";
 
 
-            //Generate the tiles object
-            GenerateNewObject();
-
-            //If this tile has an assigned direction set the convyer belts direction
-            if (_tileDirection != -1)
-            {
-                SetObjectsDirection(_tileDirection);
-
-            }
+            //Get a reference to the current map - Depending on the scene, from a different source
+            List<List<Tile>> map = new List<List<Tile>>();
             switch (SceneManager.GetActiveScene().name)
             {
                 case "Level1":
-                {
-                    List<List<Tile>> map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
-                    int mapSize = GameManager.Instance.GetComponent<MapGenerator>().ReturnMapSize();
-                    GenerateNeighbors(map, mapSize);
-                    GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
-                    ShowFlags();
-                }
+                    map = GameManager.Instance.GetComponent<MapGenerator>().ReturnMap();
                     break;
-                //Level creator
-                case "MapCreatorScene":
-                {
-                    List<List<Tile>> map = GetComponentInParent<MapCreatorManager>().ReturnMap();
-                    int mapSize = GetComponentInParent<MapCreatorManager>().ReturnMapSize();
-                    GenerateNeighbors(map, mapSize);
 
-                    //Show flags as text
-                    GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
-                    ShowFlags();
-                }
+                case "MapCreatorScene":
+                    map = MapCreatorManager.Instance.ReturnMap();
                     break;
             }
-            ShowFlags();
+            //Generate neighbors
+            GenerateNeighbors(map, map.Count);
+
+            //Generate the tiles object
+            GenerateNewObject();
             SetObject(_object);
+
+            //If this tile has an assigned direction (that isnt -1) set whatever objects reside on it directions
+            if (_tileDirection != -1)
+            {
+                SetObjectsDirection(_tileDirection);
+            }
+           
+            //Show what flags this tile has
+            ShowFlags();
+           
         }
-        
+
+        //Set all the tiles traits (Type, Flags, Objects and Actors)
+        private void SetTile()
+        {
+            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
+            {
+                case PlacingStatus.Type:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetType(MapCreatorManager.Instance.TileType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetType(TileType.Normal);
+                    }
+                }
+                    break;
+                case PlacingStatus.Object:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetObject(MapCreatorManager.Instance.ObjectType);
+
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetObject(TileObject.Empty);
+                    }
+                    GenerateNewObject();
+                }
+                    break;
+                case PlacingStatus.Flag:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetFlag(MapCreatorManager.Instance.TileFlag);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        DeleteFlags(this);
+                    }
+                    ShowFlags();
+                    break;
+                }
+                case PlacingStatus.Actor:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetActor(MapCreatorManager.Instance.ActorType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetActor(Actor.Null);
+                    }
+                    break;
+                }
+            }
+        }
+
+
+
+
+
+        #region Set Traits
+
+
         //If this tile is a conveyor belt set it's directions
         private void SetObjectsDirection(int direction)
         {
@@ -107,7 +182,11 @@ namespace Assets.Scripts.Tiles
 
         //Show what bool this tile has
         public void ShowFlags()
-        {       
+        {
+            if (!GetComponentInChildren<TextMesh>().gameObject.activeSelf)
+            {
+                GetComponentInChildren<TextMesh>().gameObject.SetActive(true);
+            }
             if (_puzzleEntry)
                 GetComponentInChildren<TextMesh>().text = "PE";
             else if (_puzzleComplete)
@@ -116,63 +195,19 @@ namespace Assets.Scripts.Tiles
                 GetComponentInChildren<TextMesh>().text = "ENTRY";
             else if (_exit)
                 GetComponentInChildren<TextMesh>().text = "EXIT";
-            else if(_dialogue)
+            else if (_dialogue)
                 GetComponentInChildren<TextMesh>().text = "DLGE";
             else if (_puzzleNumber >= 0)
                 GetComponentInChildren<TextMesh>().text = _puzzleNumber.ToString(); //TEMP
             else if (_tileDirection != -1)
                 GetComponentInChildren<TextMesh>().text = _tileDirection.ToString();
-            
+
             else if (_patrol)
                 GetComponentInChildren<TextMesh>().text = "PATROL";
             else
                 GetComponentInChildren<TextMesh>().text = " ";
         }
 
-        /// <summary>
-        /// Each tile will find out what all it's neighboring tiles are and store them in a list. 
-        /// </summary>
-        public void GenerateNeighbors(List<List<Tile>> map, int mapSize)
-        {
-            _neighbors = new List<Tile>();
-
-            //NORTH
-            if (_gridPosition.y > 0)
-            {
-                var n = new Vector2(_gridPosition.x, _gridPosition.y - 1);
-                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
-                North = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
-            }
-
-            //WEST
-            if (_gridPosition.x > 0)
-            {
-                var n = new Vector2(_gridPosition.x - 1, _gridPosition.y);
-                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
-                West = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
-            }
-            //EAST
-            if (_gridPosition.x < mapSize - 1)
-            {
-                var n = new Vector2(_gridPosition.x + 1, _gridPosition.y);
-                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
-                East = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
-            }
-
-            //SOUTH
-            if (_gridPosition.y < mapSize - 1)
-            {
-                var n = new Vector2(_gridPosition.x, _gridPosition.y + 1);
-                _neighbors.Add(map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
-                South = map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)];
-            }
-        }
-
-        #region Set Traits
-
-        
-
-       
 
         //Set the tile prefab and variables
         public void SetType(TileType type)
@@ -245,9 +280,9 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set the tiles flags
-        private void SetFlag(string TileFlag)
+        private void SetFlag(string tileFlag)
         {
-            switch (TileFlag)
+            switch (tileFlag)
             {
                 case "Entry":
                     _entry = true;
@@ -339,10 +374,10 @@ namespace Assets.Scripts.Tiles
         }
 
         //Set tiles actor
-        public void SetActor(Actor Actor)
+        public void SetActor(Actor actor)
         {
-            _actor = Actor;
-            switch (Actor)
+            _actor = actor;
+            switch (actor)
             {
                 case Actor.Badger:
                     _blocked = true;
@@ -431,6 +466,49 @@ namespace Assets.Scripts.Tiles
 
 
         #endregion
+
+        #region GenerateStuff
+
+
+        /// <summary>
+        /// Each tile will find out what all it's neighboring tiles are and store them in a list. 
+        /// </summary>
+        public void GenerateNeighbors(List<List<Tile>> map, int mapSize)
+        {
+            _neighbors = new List<Tile>();
+
+            //NORTH
+            if (_gridPosition.y > 0)
+            {
+                var n = new Vector2(_gridPosition.x, _gridPosition.y - 1);
+                _neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
+                North = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+            }
+
+            //WEST
+            if (_gridPosition.x > 0)
+            {
+                var n = new Vector2(_gridPosition.x - 1, _gridPosition.y);
+                _neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
+                West = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+            }
+            //EAST
+            if (_gridPosition.x < mapSize - 1)
+            {
+                var n = new Vector2(_gridPosition.x + 1, _gridPosition.y);
+                _neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
+                East = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+            }
+
+            //SOUTH
+            if (_gridPosition.y < mapSize - 1)
+            {
+                var n = new Vector2(_gridPosition.x, _gridPosition.y + 1);
+                _neighbors.Add(map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)]);
+                South = map[(int)Mathf.Round(n.x)][(int)Mathf.Round(n.y)];
+            }
+        }
+
         //Generate a tiles objects
         public void GenerateNewObject()
         {
@@ -509,6 +587,11 @@ namespace Assets.Scripts.Tiles
 
             _currentType = newType;
         }
+        #endregion
+
+        #region Delete
+
+        
 
         //Completely destroy a tile and its close family
         private void Delete2()
@@ -565,6 +648,10 @@ namespace Assets.Scripts.Tiles
             }
         }
 
+        #endregion
+
+        #region Puzzle
+        
         //Set all valid tiles to the apropriate puzzle number then increase the puzzle number
         public void PuzzleLoop(int puzzleNumber)
         {
@@ -598,90 +685,48 @@ namespace Assets.Scripts.Tiles
                    tile.ReturnType() == TileType.Blocked;
         }
 
+        #endregion
 
-        //Set all the tiles traits (Type, Flags, Objects and Actors)
-        private void SetTile()
-        {
-            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
-            {
-                case PlacingStatus.Type:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetType(MapCreatorManager.Instance.TileType);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetType(TileType.Normal);
-                    }
-                }
-                    break;
-                case PlacingStatus.Object:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetObject(MapCreatorManager.Instance.ObjectType);
-
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetObject(TileObject.Empty);
-                    }
-                    GenerateNewObject();
-                }
-                    break;
-                case PlacingStatus.Flag:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetFlag(MapCreatorManager.Instance.TileFlag);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        DeleteFlags(this);
-                    }
-                    ShowFlags();
-                    break;
-                }
-                case PlacingStatus.Actor:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetActor(MapCreatorManager.Instance.ActorType);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetActor(Actor.Null);
-                    }
-                    break;
-                }
-            }
-        }
-
+        /*This is used for the map creator - it allows to "paint" the tiles over*/
         #region Paint Tile
 
-        //REMOVE IN RELEASE
+#if DEBUG
+        
+
+
+        /// <summary>
+        /// When the mouse is clicked   
+        /// </summary>
+        /// <param name="eventData">Mouse input</param>
         public void OnPointerClick(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
             SetTile();
         }
 
-        //REMOVE IN RELEASE
+        /// <summary>
+        /// When the mouse enters the tile
+        /// </summary>
+        /// <param name="eventData">Mouse input</param>
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
             SetTile();
         }
 
-        //REMOVE IN RELEASE
+        /// <summary>
+        /// When the mouse mouse is clicked
+        /// </summary>
+        /// <param name="eventData">Mouse input</param>
         public void OnPointerDown(PointerEventData eventData)
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
             SetTile();
         }
-#endregion
+#endif
+        #endregion
 
+        /*As the primary building block of this project tiles require almost all their variables to be accesible - what follows is all the gets and sets that requires*/
         #region Sets & Returns
 
         /// <summary>
@@ -702,7 +747,6 @@ namespace Assets.Scripts.Tiles
             return South;
         }
 
-
         /// <summary>
         /// Return Tile West of this tile
         /// </summary>
@@ -711,7 +755,6 @@ namespace Assets.Scripts.Tiles
         {
             return West;
         }
-
 
         /// <summary>
         /// Return Tile East of this tile
@@ -759,7 +802,6 @@ namespace Assets.Scripts.Tiles
             return _currentActor;
         }
 
-
         /// <summary>
         /// Set the Tiles Position
         /// </summary>
@@ -769,11 +811,10 @@ namespace Assets.Scripts.Tiles
             _gridPosition = newPosition;
         }
 
-
         /// <summary>
         /// Return the Tiles neighbors
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Tile neighbors</returns>
         public List<Tile> ReturnNeighbors()
         {
             return _neighbors;
@@ -782,7 +823,7 @@ namespace Assets.Scripts.Tiles
         /// <summary>
         /// Return the current player status
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Position in grid</returns>
         public Vector2 ReturnPosition()
         {
             return _gridPosition;
@@ -791,7 +832,7 @@ namespace Assets.Scripts.Tiles
         /// <summary>
         /// Returns the tiles type
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Tile Type</returns>
         public TileType ReturnType()
         {
             return _type;
@@ -800,7 +841,7 @@ namespace Assets.Scripts.Tiles
         /// <summary>
         /// Returns the tiles object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Object on Tile</returns>
         public TileObject ReturnObject()
         {
             return _object;
@@ -808,140 +849,177 @@ namespace Assets.Scripts.Tiles
         /// <summary>
         /// Returns the tiles actor
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Actor on Tile</returns>
         public Actor ReturnActor()
         {
             return _actor;
         }
 
-        //Set this tile as a level exit
+        /// <summary>
+        /// Set this tile as a level exit
+        /// </summary>
         public void SetExit(bool status)
         {
             _exit = status;
         }
-
-        //Return true if this tile is an exit
+        /// <summary>
+        ///Return true if this tile is an exit
+        /// </summary>
         public bool IsExit()
         {
             return _exit;
         }
 
-        //Set this tile as a level entry
+        /// <summary>
+        /// Set this tile as a level entry
+        /// </summary>
         public void SetEntry(bool status)
         {
             _entry = status;
         }
 
-        //Return true if this tile is an entry
+        /// <summary>
+        /// Return true if this tile is an entry
+        /// </summary>
         public bool IsEntry()
         {
             return _entry;
         }
 
-        //Set this tile as a puzzle complete tile
+        /// <summary>
+        /// Set this tile as a puzzle complete tile
+        /// </summary>
         public void SetPuzzleComplete(bool status)
         {
             _puzzleComplete = status;
         }
 
-        //Return true if this tile is an puzzle complete tile
+        /// <summary>
+        /// Return true if this tile is an puzzle complete tile
+        /// </summary>
         public bool IsPuzzleComplete()
         {
             return _puzzleComplete;
         }
 
-        //Set this tile as a dialogue tile
+        /// <summary>
+        /// Set this tile as a dialogue tile
+        /// </summary>
         public void SetDialogue(bool status)
         {
             _dialogue = status;
         }
 
-        //Return true if this tile is a dialogue tile
+        /// <summary>
+        /// Return true if this tile is a dialogue tile
+        /// </summary>
         public bool IsDialogue()
         {
             return _dialogue;
         }
 
-
-        //Set this tile as a puzzle entry
+        /// <summary>
+        /// Set this tile as a puzzle entry
+        /// </summary>
         public void SetPuzzleEntry(bool status)
         {
             _puzzleEntry = status;
         }
 
-        //Return true if this tile is an puzzle entry
+        /// <summary>
+        /// Return true if this tile is an puzzle entry
+        /// </summary>
         public bool IsPuzzleEntry()
         {
             return _puzzleEntry;
         }
 
-        //Set this tile as a blocked tile.
+        /// <summary>
+        /// Set tile blocked
+        /// </summary>
         public void SetBlocked(bool status)
         {
             _blocked = status;
         }
 
-        //Return true if this tile is an puzzle entry
+        /// <summary>
+        /// Return if tile is blocked
+        /// </summary>
         public bool IsBlocked()
         {
             return _blocked;
         }
 
-        //Set this tiles direction
+        /// <summary>
+        /// Set this tiles direction
+        /// </summary>
         public void SetDirection(int direction)
         {
             _tileDirection = direction;
         }
 
-        //Return if the tile is a patrol tile
+        /// <summary>
+        /// Return if tile is a patrol tile
+        /// </summary>
         public bool ReturnPatrol()
         {
             return _patrol;
         }
 
-
-        //Set this tiles as a patrol tile
+        /// <summary>
+        /// Set tiles as a patrol tiles
+        /// </summary>
         public void SetPatrol(bool status)
         {
             _patrol = status;
             ShowFlags();
         }
 
-        //Return the tiles puzzle number
+        /// <summary>
+        /// Return tiles puzzle number
+        /// </summary>
         public int ReturnPuzzleNumber()
         {
             return _puzzleNumber;
         }
 
-
-        //Set this tiles puzzle number
-        public void SetPuzzleNumber(int PuzzleNumber)
+        /// <summary>
+        /// Set tiles puzzle number
+        /// </summary>
+        public void SetPuzzleNumber(int puzzleNumber)
         {
-            _puzzleNumber = PuzzleNumber;
+            _puzzleNumber = puzzleNumber;
             ShowFlags();
         }
 
-        //Return the tiles direction
+        /// <summary>
+        /// Returns tiles current dirrection
+        /// </summary>
         public int ReturnDirection()
         {
             return _tileDirection;
         }
 
 
-        //Sets tiles material
+        /// <summary>
+        /// Set tiles current material
+        /// </summary>
         public void SetMaterial(Material material)
         {
             GetComponentInChildren<Renderer>().sharedMaterial = material;
         }
 
-
-        //Returns tiles current material
+        /// <summary>
+        /// Returns tiles current material
+        /// </summary>
         public Material ReturnMaterial()
         {
             return GetComponentInChildren<Renderer>().sharedMaterial;
         }
 
-        //Returns tiles current material
+        /// <summary>
+        /// Return wwhat flag the tile has. If multiple exists only the most important will be returned
+        /// </summary>
         public string ReturnFlag()
         {
             if (_puzzleEntry)

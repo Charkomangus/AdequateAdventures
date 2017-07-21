@@ -8,101 +8,34 @@ namespace Assets.Scripts.Managers
 {
     public class PuzzleManager : MonoBehaviour {
 
-        [SerializeField]private ConveyorBelt[] _conveyorBelts;
-        [SerializeField] private List<ConveyorBelt> _redConveyorBelts, _greenConveyorBelts, _blueConveyorBelts;
-
- 
+        private ConveyorBelt[] _conveyorBelts;
+        [SerializeField]
+        private readonly List<ConveyorBelt> _redConveyorBelts = new List<ConveyorBelt>();
+        [SerializeField]
+        private readonly List<ConveyorBelt> _greenConveyorBelts = new List<ConveyorBelt>();
+        [SerializeField]
+        private readonly List<ConveyorBelt> _blueConveyorBelts = new List<ConveyorBelt>();
 
         [SerializeField]
-        private Box[]Boxes;
+        private Box[]_boxes;
 
         [SerializeField]
-        private SlidingBox[] SlidingBoxes;
+        private SlidingBox[] _slidingBoxes;
 
         [SerializeField]
-        private Switch[] Switches;
+        private Switch[] _switches;
 
         [SerializeField]
-        private ConveyorBelt[] Belts;
+        private ConveyorBelt[] _belts;
 
-
-        // Use this for initialization
-        private void Start ()
-        {
-        }
-
-        //Reset objects in the current puzzle
-        public void ResetPuzzle()
-        {
-            Boxes = FindObjectsOfType<Box>();
-            SlidingBoxes = FindObjectsOfType<SlidingBox>();
-            Switches = FindObjectsOfType<Switch>();
-            Belts = FindObjectsOfType<ConveyorBelt>();
-            var puzzle = GameManager.Instance.Player.ReturnCurrentPuzzle();
-
-            foreach (var box in Boxes)
-            {
-                if(box.ReturnPuzzle() == puzzle)
-                    box.ResetObject();
-            }
-
-            foreach (var slidingBox in SlidingBoxes)
-            {
-                if (slidingBox.ReturnPuzzle() == puzzle)
-                    slidingBox.ResetObject();
-            }
-            foreach (var Switch in Switches)
-            {
-                if (Switch.ReturnPuzzle() == puzzle)
-                    Switch.ResetObject();
-            }
-
-            foreach (var belt in Belts)
-            {
-                if (belt.ReturnPuzzle() == puzzle)
-                    belt.ResetObject();
-            }
-        }
-
-
-        //Reset everything in the level
-        public void RestartLevel()
-        {
-            Boxes = FindObjectsOfType<Box>();
-            SlidingBoxes = FindObjectsOfType<SlidingBox>();
-            Switches = FindObjectsOfType<Switch>();
-            Belts = FindObjectsOfType<ConveyorBelt>();
-
-            foreach (var box in Boxes)
-            {
-                box.ResetObject();
-            }
-
-            foreach (var slidingBox in SlidingBoxes)
-            {
-                slidingBox.ResetObject();
-            }
-            foreach (var Switch in Switches)
-            {
-                Switch.ResetObject();
-            }
-
-            foreach (var belt in Belts)
-            {
-                belt.ResetObject();
-            }
-        }
-
-
-    
-
-        // Update is called once per frame
-        private void Update () {
-		
-        }
-
+     
         public void Initialize()
         {
+            //Fill in the lists of objects again as they might have changed (boxes destroyed, etc)
+            _boxes = FindObjectsOfType<Box>();
+            _slidingBoxes = FindObjectsOfType<SlidingBox>();
+            _switches = FindObjectsOfType<Switch>();
+            _belts = FindObjectsOfType<ConveyorBelt>();
             _conveyorBelts = FindObjectsOfType<ConveyorBelt>();
 
             foreach (var belt in _conveyorBelts)
@@ -119,6 +52,65 @@ namespace Assets.Scripts.Managers
                         _blueConveyorBelts.Add(belt);
                         break;
                 }
+            }
+        }
+
+        //Reset objects in the current puzzle
+        public void ResetPuzzle()
+        {
+         
+            var puzzle = GameManager.Instance.Player.ReturnCurrentPuzzle();
+
+            foreach (var box in _boxes)
+            {
+                if(box.ReturnPuzzle() == puzzle)
+                    box.ResetObject();
+            }
+
+            foreach (var slidingBox in _slidingBoxes)
+            {
+                if (slidingBox.ReturnPuzzle() == puzzle)
+                    slidingBox.ResetObject();
+            }
+            foreach (var Switch in _switches)
+            {
+                if (Switch.ReturnPuzzle() == puzzle)
+                    Switch.ResetObject();
+            }
+
+            foreach (var belt in _belts)
+            {
+                if (belt.ReturnPuzzle() == puzzle)
+                    belt.ResetObject();
+            }
+        }
+
+
+        //Reset everything in the level
+        public void RestartLevel()
+        {
+            _boxes = FindObjectsOfType<Box>();
+            _slidingBoxes = FindObjectsOfType<SlidingBox>();
+            _switches = FindObjectsOfType<Switch>();
+            _belts = FindObjectsOfType<ConveyorBelt>();
+
+            foreach (var box in _boxes)
+            {
+                box.ResetObject();
+            }
+
+            foreach (var slidingBox in _slidingBoxes)
+            {
+                slidingBox.ResetObject();
+            }
+            foreach (var Switch in _switches)
+            {
+                Switch.ResetObject();
+            }
+
+            foreach (var belt in _belts)
+            {
+                belt.ResetObject();
             }
         }
 

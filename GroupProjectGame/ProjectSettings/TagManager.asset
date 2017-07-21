@@ -21,6 +21,9 @@ TagManager:
   - Evidence
   - Options
   - EvidenceTextBox
+  - Percentage
+  - MusicVolume
+  - SoundVolume
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ namespace Assets.Scripts.Objects
     {
         private string _currentScene;
         private SpriteRenderer _spriteRenderer;
-        [SerializeField]private Sprite[] sprites;
+        [SerializeField]private Sprite[] _sprites;
         private enum Type
         {
             Red,
@@ -25,13 +25,9 @@ namespace Assets.Scripts.Objects
 
         private PuzzleManager _puzzlemanager;
         // Use this for initialization
-        private void Start()
+        void Start()
         {
-            _puzzleNumber = GetComponentInParent<Tile>().ReturnPuzzleNumber();
             _currentScene = SceneManager.GetActiveScene().name;
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-      
-            _spriteRenderer.sprite = sprites[0];
             switch (_currentScene)
             {
                 case "Level1":
@@ -40,6 +36,8 @@ namespace Assets.Scripts.Objects
                         switch (_switchType)
                     {
                         case Type.Red:
+                            Debug.Log("Loaded Red");
+                                _sprites = Resources.LoadAll<Sprite>("Switch/Red/");
                             foreach (var belt in _puzzlemanager.ReturnRedConveyorBelts())
                                 {
                                     if (belt.ReturnPuzzle() == _puzzleNumber)
@@ -47,14 +45,18 @@ namespace Assets.Scripts.Objects
                                 }
                                 break;
                         case Type.Green:
-                            foreach (var belt in _puzzlemanager.ReturnGreenConveyorBelts())
+                            Debug.Log("Loaded Green");
+                                _sprites = Resources.LoadAll<Sprite>("Switch/Green/");
+                                foreach (var belt in _puzzlemanager.ReturnGreenConveyorBelts())
                             {
                                 if (belt.ReturnPuzzle() == _puzzleNumber)
                                     _belts.Add(belt);
                             }
                                 break;
                         case Type.Blue:
-                            foreach (var belt in _puzzlemanager.ReturnBlueConveyorBelts())
+                                Debug.Log("Loaded blue");
+                            _sprites = Resources.LoadAll<Sprite>("Switch/Blue/");
+                                foreach (var belt in _puzzlemanager.ReturnBlueConveyorBelts())
                             {
                                 if (belt.ReturnPuzzle() == _puzzleNumber)
                                     _belts.Add(belt);
@@ -64,6 +66,11 @@ namespace Assets.Scripts.Objects
                             throw new ArgumentOutOfRangeException();
                     }
                 }
+                    _puzzleNumber = GetComponentInParent<Tile>().ReturnPuzzleNumber();
+                  
+                    _spriteRenderer = GetComponent<SpriteRenderer>();
+
+                    _spriteRenderer.sprite = _sprites[0];
                     break;
                 //Level creator
                 case "MapCreatorScene":
@@ -98,7 +105,7 @@ namespace Assets.Scripts.Objects
       
         public void FlipSwitch()
         {
-            _spriteRenderer.sprite = _spriteRenderer.sprite == sprites[0] ? sprites[1] : sprites[0];
+            _spriteRenderer.sprite = _spriteRenderer.sprite == _sprites[0] ? _sprites[1] : _sprites[0];
             foreach (var belt in _belts)
                 {
                     belt.SwapDirection();
@@ -108,7 +115,7 @@ namespace Assets.Scripts.Objects
         //Reset switch to it's original position
         public void ResetObject()
         {
-            _spriteRenderer.sprite = sprites[0];
+            _spriteRenderer.sprite = _sprites[0];
         }
 
 

@@ -1,45 +1,57 @@
-﻿using System;
+﻿/*******************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*******************************************************/
+using System;
+using Assets.Scripts.MapCreator;
 using Assets.Scripts.Utility;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Cameras
 {
+    /// <summary>
+    /// Camera class intended for the map creator. Due to the function of the map creeator this camera can operate in a multilude of different ways and can be easily controlled via input
+    /// </summary>
     public class MapCreatorCamera : MonoBehaviour
     {
+        //Topdown is 90 degress, Angled is 45
         private enum CameraState
         {
             Topdown,
             Angled
         }
 
+        //The camera starts enabled
         public bool Enabled = true;
 
-
-        private Transform _transform; //camera tranform
+        private MapCreatorManager _mapCreatorManager;
+        private Transform _transform;
+        //Set to the opposite you want to start with
         private CameraState _cameraState = CameraState.Angled;
-        private float _zoomPos; //value in range (0, 1) used as t in Matf.Lerp
+        //value in range (0, 1) used as t in Matf.Lerp
+        private float _zoomPos; 
 
 
 
         //Control Variables
-        private const float KeyboardMoveSpeed = 5f;
+        private const float KeyboardMoveSpeed = 7f;
         private const float RotationSpeed = 50f;
         private const float PanningSpeed = 5f;
         private const float MouseRotationSpeed = 50f;
-        private float _maxHeight = 5;
-        private float _minHeight = 100;
+        private float _maxHeight = 3;
+        private float _minHeight = 55;
         private const float HeightDampening = 5f;
         private const float KeyboardZoomingSensitivity = 3f;
         private const float ScrollWheelZoomingSensitivity = 60f;
-        private float _limitX = 20; //x limit of map
-        private float _limitY = 20; //z limit of map
+        private int _limitX = 30; //x limit of map - these will change depending on the map size
+        private int _limitY = 30; //z limit of map - these will change depending on the map size
 
-    
 
-        /// <summary>
-        /// Assigned default controls
-        /// </summary>
+
+       
+        //Assigned default controls
         private const KeyCode ZoomInKey = KeyCode.Minus;
         private const KeyCode ZoomOutKey = KeyCode.Equals;
         private const KeyCode PanningKey = KeyCode.Mouse2;
@@ -48,11 +60,10 @@ namespace Assets.Scripts.Cameras
         private const KeyCode MouseRotationKey = KeyCode.Mouse1;
         private const KeyCode ChangeCameraKey = KeyCode.Space;
 
-
         /// <summary>
-        /// Handle zooming direction depending on button pressed
+        ///Handle zooming direction depending on button pressed   
         /// </summary>
-        private int ZoomDirection
+        private static int ZoomDirection
         {
             get
             {
@@ -92,19 +103,10 @@ namespace Assets.Scripts.Cameras
         /// </summary>
         private void Start()
         {
+            _mapCreatorManager = FindObjectOfType<MapCreatorManager>();
             _transform = transform;
-            switch (SceneManager.GetActiveScene().name)
-            {
-                case "Level1":
-                    _cameraState = CameraState.Angled;
-                    ChangeCameraMode();
-                    break;
-                case "MapCreatorScene":
-
-                    _cameraState = CameraState.Angled;
-                    ChangeCameraMode();
-                    break;
-            }
+            _cameraState = CameraState.Angled;
+            ChangeCameraMode();
         }
 
         /// <summary>
@@ -113,23 +115,23 @@ namespace Assets.Scripts.Cameras
         private void Update()
         {
             if(!Enabled) return;
+
+            //Otherwise Move
             Move();
 
-
-            //Other Various Input
-            //if (Input.anyKeyDown && BattleManager.Instance.ReturnCurrentPlayer().IsUser())
-            //    ResetTarget();
+            //Change camera mode
             if (Input.GetKeyDown(ChangeCameraKey))
                 ChangeCameraMode();
 
+            //Ensure that the camera limits corrwspond to the current map size
+            _limitX = _mapCreatorManager.ReturnMapSize()/2;
+            _limitY = _mapCreatorManager.ReturnMapSize()/2; 
 
-
-            _limitX = 30f;
-            _limitY = 30f;
+            //Limit position so user doesnt accicdentally get lost
             LimitPosition();
-
-
+            //Calculate Height
             HeightCalculation();
+            //Calculate Rotation
             Rotation();
         }
 
@@ -146,21 +148,18 @@ namespace Assets.Scripts.Cameras
                     {
                         _cameraState = CameraState.Angled;
                         SetXRotation(45);
-
-
                         break;
                     }
                 case CameraState.Angled:
                     {
                         _cameraState = CameraState.Topdown;
                         SetXRotation(90f);
-
                         break;
                     }
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            SetCameraSettings();
+           
         }
 
 
@@ -173,26 +172,8 @@ namespace Assets.Scripts.Cameras
             _transform.localEulerAngles = new Vector3(angle, _transform.localEulerAngles.y, _transform.localEulerAngles.z);
         }
 
-        /// <summary>
-        /// Change default camera settings depending on what mode it is on
-        /// </summary>
-        private void SetCameraSettings()
-        {
-            switch (_cameraState)
-            {
-                case CameraState.Topdown:
-                    {
-                        SetHeight(2, 40);
-                        break;
-                    }
-                case CameraState.Angled:
-                    SetHeight(2, 50);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
+     
+        //Set the max and min height of the camera
         private void SetHeight(int max, int min)
         {
             _maxHeight = max;
@@ -204,7 +185,7 @@ namespace Assets.Scripts.Cameras
         #region ROTATION
 
         /// <summary>
-        /// rotate camera
+        /// Rotate camera
         /// </summary>
         private void Rotation()
         {
@@ -257,9 +238,9 @@ namespace Assets.Scripts.Cameras
             desiredMove *= KeyboardMoveSpeed;
             desiredMove *= Time.deltaTime;
             desiredMove = Quaternion.Euler(new Vector3(0f, transform.eulerAngles.y, 0f)) * desiredMove;
-            desiredMove = _transform.InverseTransformDirection(desiredMove);
+           desiredMove = _transform.InverseTransformDirection(desiredMove);
             _transform.Translate(desiredMove, Space.Self);
-            desiredMove = new Vector3();
+
 
 
 
@@ -280,27 +261,28 @@ namespace Assets.Scripts.Cameras
         #region CAMERALIMITS
 
         /// <summary>
-        /// limit camera position
+        /// Limit camera movement to the limits
         /// </summary>
         private void LimitPosition()
-        {
-            if (_transform.position.y < 3)
-                _transform.position = new Vector3(_transform.position.x, 3, _transform.position.z);
-            _transform.position = new Vector3(Mathf.Clamp(_transform.position.x, -_limitX, _limitX), Mathf.Clamp(_transform.position.y, -200, 200), Mathf.Clamp(_transform.position.z, -_limitY, _limitY));
+        {            
+            _transform.position = new Vector3(Mathf.Clamp(_transform.position.x, -_limitX, _limitX), _transform.position.y, Mathf.Clamp(_transform.position.z, -_limitY, _limitY));
         }
 
         /// <summary>
-        /// calcualte height
+        /// Calculate what height the camera should be
         /// </summary>
         private void HeightCalculation()
         {
-
+            //Using the scroll wheel determine what the zoom position is
             _zoomPos += ControlInput.ScrollWheel * Time.deltaTime * ScrollWheelZoomingSensitivity;
+            //Using the keyboard determine what the zoom position is
             _zoomPos += ZoomDirection * Time.deltaTime * KeyboardZoomingSensitivity;
 
+            //Clamp it between 0 and 1
             _zoomPos = Mathf.Clamp01(_zoomPos);
 
-            var targetHeight = Mathf.Lerp(_minHeight, _maxHeight, _zoomPos);
+            //Constrain it between the min and max height
+            var targetHeight = Mathf.LerpUnclamped(_minHeight, _maxHeight, _zoomPos);
           
 
 

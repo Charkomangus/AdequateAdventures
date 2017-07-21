@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿/*******************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*******************************************************/
+using System.Collections.Generic;
 using Assets.Scripts.Actors;
-using Assets.Scripts.Cameras;
 using Assets.Scripts.Dialogue;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
@@ -11,6 +16,11 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.MainManagers
 {
+    /// <summary>
+    /// God class. This class will hover through all the game acting as central intelligense (starting levels, etc) 
+    /// and as a reference of managers that other classes will now be able to access bia GameManager.Instance.ChosenManager. 
+    /// This class uses the singleton pattern to ensure there is only one of it and it survives any scene transitions.
+    /// </summary>
     public class GameManager : MonoBehaviour {
 
         //Creating an Instance so scripts can access it's variables.
@@ -70,42 +80,7 @@ namespace Assets.Scripts.MainManagers
             }
         }
 
-        private void Update()
-        {
-            var puzzle = Player.ReturnCurrentPuzzle();
-            if (Player.IsInitialized() == false) return;
-            if (CurrentAct == 1)
-            {
-                switch (CurrentLevel)
-                {
-                    case 1:
-                        if (puzzle == 4)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(11);
-                        else if(puzzle != -1)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(9);
-                        else
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
-                        break;
-                    case 2:
-                        if (puzzle == 2 || puzzle == 3)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(11);
-                        else if (puzzle != -1)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(9);
-                        else
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
-                        break;
-                    case 3:
-                        if (puzzle == 1 || puzzle == 2)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(11);
-                        else if (puzzle != -1)
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(9);
-                        else
-                            Camera.main.GetComponent<GameCamera>().SetCameraHeight(7.5f);
-                        break;
-                }
-            }
-
-        }
+        
 
 
         private void OnLevelWasLoaded()
@@ -195,6 +170,7 @@ namespace Assets.Scripts.MainManagers
             Player.Restart();
 
             //Reset the current Puzzle, leaving the others untouched
+            PuzzleManager.Initialize();
             PuzzleManager.ResetPuzzle();
 
             //Reset all guards

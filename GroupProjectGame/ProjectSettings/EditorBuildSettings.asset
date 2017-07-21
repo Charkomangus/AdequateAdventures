@@ -23,6 +23,6 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 4fd7f5aa9a9567d4ca3933f94c1a21e8
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MapCreatorScene.unity
     guid: ee91d13b0e4e70942becb14202be9d22

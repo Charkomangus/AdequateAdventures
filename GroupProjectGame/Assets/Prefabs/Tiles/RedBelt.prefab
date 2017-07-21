@@ -43,6 +43,8 @@ MonoBehaviour:
   _direction: 0
   _tileType: 9
   _speed: 4
+  _originalDirection: 0
+  _puzzleNumber: 0
 --- !u!212 &212997908390545034
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -83,6 +85,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!222 &222402325157432446
 CanvasRenderer:
   m_ObjectHideFlags: 1

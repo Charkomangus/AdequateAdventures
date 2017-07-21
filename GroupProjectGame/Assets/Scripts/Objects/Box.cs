@@ -11,7 +11,7 @@ namespace Assets.Scripts.Objects
         [SerializeField]private Tile _parentTile, _originalTile;
         [SerializeField]
         private int _moveSpeed;       
-        private bool scheduleToDie, _conveyed;
+        private bool _scheduleToDie, _conveyed;
         [SerializeField]
         private int _puzzleNumber;
 
@@ -58,9 +58,9 @@ namespace Assets.Scripts.Objects
                     }
                 }
                 //Free the current parent tile and kill the object
-                else if (scheduleToDie)
+                else if (_scheduleToDie)
                 {
-                    scheduleToDie = false;
+                    _scheduleToDie = false;
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
                     GetComponent<SpriteRenderer>().enabled = false;
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Objects
             //If the box encounters Ice cracks or fire kill it when it reaches the tile
             if (type == TileType.IceCracks || type == TileType.Fire)
             {
-                scheduleToDie = true;
+                _scheduleToDie = true;
                 return;
             }
 

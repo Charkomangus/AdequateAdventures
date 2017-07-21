@@ -6,7 +6,7 @@ namespace Assets.Scripts.Objects
     {
 
       
-        [SerializeField] private string SignText;
+        [SerializeField] private string _signText;
         [SerializeField]private int _puzzleNumber;
         // Use this for initialization
         private void Start()
@@ -23,12 +23,12 @@ namespace Assets.Scripts.Objects
 
         public string ReturnSignText()
         {
-            return SignText;
+            return _signText;
         }
     
         public void SetSignText(string text)
         {
-            SignText = text;
+            _signText = text;
         }
        
     }

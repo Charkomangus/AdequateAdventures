@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*******************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*******************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.MainManagers;
@@ -7,42 +13,42 @@ using UnityEngine;
 
 namespace Assets.Scripts.Actors
 {
+    /// <summary>
+    /// This class controls all the guard behaviour. The feature has been cut so much of the logic can be simplified, partitioned and improved
+    /// </summary>
     public class Guard : MonoBehaviour {
 
-        //Player animation state
+        //Guards animation state
         private enum GuardMoveState
         {
             Stationary, Turning, Patrol
         }
         private Animator _animator;
 
-        [Header("Tiles")] [SerializeField] private Tile _parentTile;
+        [Header("Tiles")]
+        [SerializeField] private Tile _parentTile;
         [SerializeField] private Tile _latestTile;
         [SerializeField]private int _currentPuzzle = -1;
-   
+        private Tile _originalTile;
 
         [Header("Movement")]
-        [SerializeField]
-        private GuardMoveState _guardMoveState;
+        [SerializeField]private GuardMoveState _guardMoveState;
         [SerializeField]private float _moveSpeed;
         [SerializeField]private int _waitTime;
         [SerializeField]private int _patrolLength;
         [SerializeField]private readonly List<Tile> _watchedTiles = new List<Tile>();
         [SerializeField]private readonly List<Tile> _patrolTiles = new List<Tile>();
         private int _tilesWalked;
-
-
-
+        private int _originalDirection;
+        private int _patrolDirection;
+        private int _speedMultiplier;
         [Header("Status")]
-        [SerializeField]private bool _seeing;
         [SerializeField]private bool _initialized;
         [SerializeField]private int _direction;
         [SerializeField] private int _currentPatrolTile;
-        private int _originalDirection;
-        private int _patrolDirection;
-        private Tile _originalTile;
         private bool _caughtPlayer;
 
+        //Set initial values using the parent tile
         private void Start()
         {
             _animator = GetComponent<Animator>();
@@ -50,12 +56,12 @@ namespace Assets.Scripts.Actors
             _parentTile = GetComponentInParent<Tile>();
             transform.position = _parentTile.transform.position;
             _originalTile = _parentTile;
-            _originalDirection = _direction;
             _direction = _parentTile.ReturnDirection();
-
+            _originalDirection = _direction;
+            _speedMultiplier = 3;
         }
 
-        // Use this for initialization
+        // Use this for initialization - Update will not occur until this is called
         public void InitializeGuard()
         {  
             _initialized = true;
@@ -64,18 +70,18 @@ namespace Assets.Scripts.Actors
         // Update is called once per frame
         private void Update()
         {
-
-
             //If the player has not been yet initalised or hasd no valid parent tile return
             if (_parentTile == null || !_initialized) return;
 
+            //Make this guard the child of it's parent tile
             transform.SetParent(_parentTile.transform);
+            //Update the puzzle Number
             _currentPuzzle = _parentTile.ReturnPuzzleNumber();
 
             //If the guard is close to the parent tile speed them up
             if (HasReachedTile())
             {
-        
+                //If the player has been caught suspend further movement and launch the Caught Player subroutine
                 if (_caughtPlayer)
                 {
                     _caughtPlayer = false;
@@ -83,9 +89,10 @@ namespace Assets.Scripts.Actors
                     return;
                 }
            
+                //Move quickly
+                SmoothMove(transform.position, _parentTile.transform.position, _speedMultiplier * _moveSpeed);
 
-                SmoothMove(transform.position, _parentTile.transform.position, 3 * _moveSpeed);
-
+                //If the guard is located on a patrol tile create a route and start following it
                 if (_parentTile.ReturnPatrol())
                 {
                     _guardMoveState = GuardMoveState.Patrol;
@@ -96,51 +103,57 @@ namespace Assets.Scripts.Actors
 
 
                 }
+                //If not on patrol do the standard behaviour of 4 tiles in a direction, wait, turn and go back
                 else
                 {
-                    //If not on patrol do the standard four tile shuffle
+               
                     DetermineDirection();
                     Move(_latestTile);
                
                 }
+                //Set animation to match direction and status
                 DetermineAnimationStatus();
-          
-
             }
             else
             {
-           
+                //Normal movement
                 SmoothMove(transform.position, _parentTile.transform.position, _moveSpeed);
             }
+            //Create the guards sight area
             SeeingCone();
         }
 
-        //Guard waits in place
+        //RRRestart the game from the latest checkpoint and play the caught animation
         private IEnumerator CaughtPlayer()
         {
+            //Disables players controls
             GameManager.Instance.Player.SetInitialized(false);
+            //Zoom in dramatically
             if (Camera.main.fieldOfView > 16)
                 Camera.main.fieldOfView-= 0.4f;
             yield return new WaitForSeconds(1);
+            //Fade in even more dramatically
             GameManager.Instance.UiManager.SetFade(false);
             yield return new WaitForSeconds(2);
+            //Restart level from last checkpoint and reset camera
             GameManager.Instance.RestartFromCheckPoint();
             Camera.main.fieldOfView = 60;
-
         }
 
+        //Create a route using patrol tiles
         private void AddPatrolTiles(Tile tile)
         {
+            //If the original tile is not present in the route add it
             if (!_patrolTiles.Contains(tile))
             {
                 _patrolTiles.Add(tile);
             }
-
+            //If the original tiles neighbors are patrol tiles and are not present in the route add them - typically the max is 2 patrol neighbor tiles
             foreach (var neighbor in tile.ReturnNeighbors())
             {
                 if (!neighbor.ReturnPatrol() || _patrolTiles.Contains(neighbor)) continue;
                 _patrolTiles.Add(neighbor);
-
+                //Recursion until patrol route is complete
                 AddPatrolTiles(neighbor);
             }
         }
@@ -149,19 +162,19 @@ namespace Assets.Scripts.Actors
         //Create a list with all the patrol tiles including the original tile
         private void CreatePatrolRoute(Tile tile)
         {
+            //If the original tile is not present in the route add it
             if (!_patrolTiles.Contains(_parentTile))
             {
                 _patrolTiles.Add(_parentTile);
             }
 
+            //Using the guards direction start the patrol from a particular neighbor - WARNING if direction given has no patrol tile it will default to West
             switch (_direction)
             {
-          
                 case 0:
                     AddPatrolTiles(_parentTile.North);
                     break;
                 case 1:
-           
                     AddPatrolTiles(_parentTile.South);
                     break;
                 case 2:
@@ -171,6 +184,7 @@ namespace Assets.Scripts.Actors
                     AddPatrolTiles(_parentTile.East);
                     break;
                 case -1:
+                    //Find the closest patrol neighbor
                     foreach (var neighbor in _parentTile.ReturnNeighbors())
                     {
                         if (!neighbor.ReturnPatrol() || _patrolTiles.Contains(neighbor)) continue;
@@ -181,16 +195,16 @@ namespace Assets.Scripts.Actors
                     break;
             }
 
-
-            //TEMP
+#if DEBUG
+            //DEBUG PURPOSES - Number patrol tiles
             for (int i = 0; i < _patrolTiles.Count; i++)
             {
                 _patrolTiles[i].GetComponentInChildren<TextMesh>().text = i.ToString();
             }
         }
+#endif
 
-
-        //Go from one tile to the other
+        //Go from one tile to the next
         private void FollowPatrolRoute()
         {
             for (int i = 0; i < _patrolTiles.Count; i++)
@@ -202,12 +216,12 @@ namespace Assets.Scripts.Actors
                 }
             }
        
-            //WHen you reach the last patrol tile
+            //When you reach the last patrol tile
             if (_currentPatrolTile == _patrolTiles.Count - 1 && _patrolDirection != -1)
             {
                 foreach (var neighbor in _patrolTiles[_currentPatrolTile].ReturnNeighbors())
                 {
-
+                    //if it connects to the first tile continue from there
                     if (neighbor == _patrolTiles[0])
                     {
                         _currentPatrolTile = -1;
@@ -219,23 +233,24 @@ namespace Assets.Scripts.Actors
                 }
 
             }
-            //BEgin the patrol 
+            //Initial tile
             else if (_currentPatrolTile == 0 && _patrolDirection != 1)
             {
                 foreach (var neighbor in _patrolTiles[0].ReturnNeighbors())
-                {                
+                {          
+                    //If it connects to the last tile and your direction is that way go that way      
                     if (neighbor == _patrolTiles[_patrolTiles.Count-1])
                     {
                         _currentPatrolTile = _patrolTiles.Count;
                         _patrolDirection = -1;
                         break;
                     }
-                    //Otherwise keep going
+                    //Otherwise keep going forward
                     _patrolDirection = 1;
                 }
             }
        
-      
+            //Increment the current patrol tile by 1 or -1
             _currentPatrolTile += _patrolDirection;
 
             _latestTile = _patrolTiles[_currentPatrolTile];
@@ -244,11 +259,11 @@ namespace Assets.Scripts.Actors
             if (_latestTile.IsBlocked())
             {
                 _patrolDirection = -_patrolDirection;
-
                 _currentPatrolTile += _patrolDirection;
                 return;
-         
             }
+
+            //Set guard to patrol mode
             _guardMoveState = GuardMoveState.Patrol;
 
             // Determine which direction to face
@@ -261,7 +276,7 @@ namespace Assets.Scripts.Actors
             else if (_latestTile == _parentTile.East)
                 _direction = 3;
 
-            //Move to the latest tile 
+            //Move to the latest tile - free earlier tile
             _parentTile.SetBlocked(false);
             _parentTile = _latestTile;
             _parentTile.SetBlocked(true);
@@ -278,17 +293,16 @@ namespace Assets.Scripts.Actors
         //Creates a cone with all the tiles the guard sees
         private bool CreateSeeingCone(Tile tile, int x, int y)
         {
+            //Find the specific tile - this is to avoid using the neighbor system which can result in slow loading times
             var tempTile = GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x + x, (int)tile.ReturnPosition().y + y);
 
+            //If the players tile is that specific tile the game is up and the caught player coroutine will launch
             if (tempTile == GameManager.Instance.Player.ReturnParentTile())
             {
                 _caughtPlayer = true;
-                return false;
             }
-
-
-
-            if (IsValidTile(tempTile))
+            //Otherwise if this tile is valid add it to the list
+            else if (IsValidTile(tempTile))
             {
                 AddTile(_watchedTiles, tempTile);
                 return true;
@@ -301,6 +315,7 @@ namespace Assets.Scripts.Actors
         //Switch direction
         private void Turn()
         {
+            //Seeing Cone is not active while turning
             _guardMoveState = GuardMoveState.Turning;
             switch (_direction)
             {
@@ -317,7 +332,6 @@ namespace Assets.Scripts.Actors
                     _direction = 2;
                     break;
             }
-        
             _guardMoveState = GuardMoveState.Patrol;
         }
 
@@ -341,13 +355,13 @@ namespace Assets.Scripts.Actors
             }
         }
 
-        //Move guard smoothly
+        //Move guard smoothly - Frame Independent
         private void SmoothMove(Vector3 startPosition, Vector3 endPosition, float speed)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, speed * Time.deltaTime);
         }
 
-        //Check if guard has reached parent tile
+        //Check if guard has reached parent tile or is close
         private bool HasReachedTile()
         {
             return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 0.4f && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 0.4f;
@@ -368,19 +382,17 @@ namespace Assets.Scripts.Actors
             Turn();
         }
 
-
-
-
-
         //Check if movement should happen to the tile and set whcih tile the player is directly looking at
         private void Move(Tile destination)
         {
             if (IsValidTile(destination))
             {
-                //Treat the tile the player is on as a blocked tile
+                //Free older parent
                 _parentTile.SetBlocked(false);
                 _parentTile = destination;
+                //Treat the tile the player is on as a blocked tile
                 _parentTile.SetBlocked(true);
+                //Make note of what puzzle the guard is now in
                 _currentPuzzle = destination.ReturnPuzzleNumber();
                 //Increase the amount of tiles walked
                 _tilesWalked++;
@@ -405,50 +417,62 @@ namespace Assets.Scripts.Actors
         //ResetGuard to its original location and direction
         public void ResetGuard()
         {
-            _direction = _originalDirection;
             _initialized = false;
+            _direction = _originalDirection;
             _parentTile.SetBlocked(false);
             _parentTile = _originalTile;
             _parentTile.SetBlocked(true);
             transform.position = _parentTile.transform.position;
-     
             InitializeGuard();
         }
-//Creates a cone where the guard can see
+
+
+        //Creates a cone where the guard can see
         private void SeeingCone()
         {
+
+
+
+            
+
             if (_watchedTiles.Count > 0)
             {
+#if DEBUG
+                //DEBUG - clear old seeing tiles from an colour
                 foreach (var tile in _watchedTiles)
                 {
                     tile.GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1);
                 }
+#endif
                 _watchedTiles.Clear();
             }
+            //Depending on the direction the guard is facing create a 3 x 3 seeing block. Any tiles that are blocked or null will not be included
             switch (_direction)
             {
                 case 0:
+                    //First Row
                     if (CreateSeeingCone(_parentTile, 0, -1))
                         if (CreateSeeingCone(_parentTile, 0, -2))
                             CreateSeeingCone(_parentTile, 0, -3);
-
+                    //Second Row
                     if (CreateSeeingCone(_parentTile, 1, -1))
                         if (CreateSeeingCone(_parentTile, 1, -2))
                             CreateSeeingCone(_parentTile, 1, -3);
-
+                    //Third Row
                     if (CreateSeeingCone(_parentTile, -1, -1))
                         if (CreateSeeingCone(_parentTile, -1, -2))
                             CreateSeeingCone(_parentTile, -1, -3);
                     break;
                 case 1:
+                    //First Row
                     if (CreateSeeingCone(_parentTile, 0, 1))
                         if (CreateSeeingCone(_parentTile, 0, 2))
                             CreateSeeingCone(_parentTile, 0, 3);
-
+                    //Second Row
                     if (CreateSeeingCone(_parentTile, 1, 1))
                         if (CreateSeeingCone(_parentTile, 1, 2))
                             CreateSeeingCone(_parentTile, 1, 3);
-
+                    //Third Row
                     if (CreateSeeingCone(_parentTile, -1, 1))
                         if (CreateSeeingCone(_parentTile, -1, 2))
                             CreateSeeingCone(_parentTile, -1, 3);
@@ -456,29 +480,29 @@ namespace Assets.Scripts.Actors
                
                     break;
                 case 2:
-
+                    //First Row
                     if (CreateSeeingCone(_parentTile, -1, 0))
                         if (CreateSeeingCone(_parentTile, -2, 0))
                             CreateSeeingCone(_parentTile, -3, 0);
-
+                    //Second Row
                     if (CreateSeeingCone(_parentTile, -1, 1))
                         if (CreateSeeingCone(_parentTile, -2, 1))
                             CreateSeeingCone(_parentTile, -3, 1);
-
+                    //Third Row
                     if (CreateSeeingCone(_parentTile, -1, -1))
                         if (CreateSeeingCone(_parentTile, -2, -1))
                             CreateSeeingCone(_parentTile, -3, -1);
                     break;
                 case 3:
-
+                    //First Row
                     if (CreateSeeingCone(_parentTile, 1, 0))
                         if (CreateSeeingCone(_parentTile, 2, 0))
                             CreateSeeingCone(_parentTile, 3, 0);
-
+                    //Second Row
                     if (CreateSeeingCone(_parentTile, 1, -1))
                         if (CreateSeeingCone(_parentTile, 2, -1))
                             CreateSeeingCone(_parentTile, 3, -1);
-
+                    //Third Row
                     if (CreateSeeingCone(_parentTile, 1, 1))
                         if (CreateSeeingCone(_parentTile, 2, 1))
                             CreateSeeingCone(_parentTile, 3, 1);
@@ -488,17 +512,17 @@ namespace Assets.Scripts.Actors
                     break;
             }
 
+#if DEBUG
+            //DEBUG - Colour seeign tiles so designers can more easily expirement with stealth
+            if (_watchedTiles.Count <= 0) return;
 
-            //Check if he sees the player //TEMP
-            if (_watchedTiles.Count > 0)
-                foreach (var tile in _watchedTiles)
-                {
-                    tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
-                }
-
+            foreach (var tile in _watchedTiles)
+            {
+                tile.GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
+            }
 
         }
-
+#endif
         //Play the apropriate animation depending on the direction and status of the guard
         private void DetermineAnimationStatus()
         {
@@ -522,6 +546,7 @@ namespace Assets.Scripts.Actors
                             break;
                     }
                     break;
+                    //No animations exist for turning
                 case GuardMoveState.Turning:
                     break;
                 case GuardMoveState.Patrol:
@@ -534,7 +559,6 @@ namespace Assets.Scripts.Actors
                             _animator.Play("GuardPatrolDown");
                             break;
                         case 2:
-
                             _animator.Play("GuardPatrolLeft");
                             break;
                         case 3:
@@ -545,18 +569,13 @@ namespace Assets.Scripts.Actors
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        
         }
 
-        //Return which puzzle the guards are in
-        public int ReturnCurrentPuzzle()
-        {
-            return _currentPuzzle;
-        }
-
-        //Set the direction
+        #region Gets & Sets
+        //Set the direction and play the apropriate animation
         public void SetDirection(int direction)
         {
+
             if(_animator == null)
                 _animator = GetComponent<Animator>();
     
@@ -580,10 +599,13 @@ namespace Assets.Scripts.Actors
                     break;
             }
         }
+        //Return which puzzle the guards are in
+        public int ReturnCurrentPuzzle()
+        {
+            return _currentPuzzle;
+        }
 
 
-
-
-
+        #endregion
     }
 }

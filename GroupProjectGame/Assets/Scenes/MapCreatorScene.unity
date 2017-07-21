@@ -12795,7 +12795,7 @@ MonoBehaviour:
   SelectedTile: {fileID: 1415806827}
   CurrentLevel: {fileID: 268389369}
   MapNotification: {fileID: 147794720}
-  _overlay: {fileID: 98794846}
+  Overlay: {fileID: 98794846}
 --- !u!4 &1827523616
 Transform:
   m_ObjectHideFlags: 0
@@ -12826,14 +12826,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a400c3fe7381e84d8ae3aad75d660f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _conveyorBelts: []
-  _redConveyorBelts: []
-  _greenConveyorBelts: []
-  _blueConveyorBelts: []
-  Boxes: []
-  SlidingBoxes: []
-  Switches: []
-  Belts: []
+  _boxes: []
+  _slidingBoxes: []
+  _switches: []
+  _belts: []
 --- !u!1 &1830372470
 GameObject:
   m_ObjectHideFlags: 0

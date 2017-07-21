@@ -526,10 +526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44f4f4aef6c78b4ba1178e3cc52f05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicVolume: {fileID: 2770206}
-  _musicVolumePercentage: {fileID: 654326989}
-  _soundEffectVolume: {fileID: 2101577601}
-  _soundEffectPercentage: {fileID: 889690753}
 --- !u!1 &93456833
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,7 +948,7 @@ GameObject:
   - component: {fileID: 236049662}
   m_Layer: 5
   m_Name: MusicVolume
-  m_TagString: Untagged
+  m_TagString: MusicVolume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1118,7 +1114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 158, y: -972.45374}
+  m_AnchoredPosition: {x: 158, y: -972.4535}
   m_SizeDelta: {x: 226, y: 63.090908}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &289683152
@@ -2583,7 +2579,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 93456835}
-        m_MethodName: RestartLevel
+        m_MethodName: RestartFromCheckPoint
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2640,7 +2636,7 @@ GameObject:
   - component: {fileID: 654326989}
   m_Layer: 5
   m_Name: MusicVolumePercentage
-  m_TagString: Untagged
+  m_TagString: Percentage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3121,7 +3117,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 717396864}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -3585,7 +3581,7 @@ GameObject:
   - component: {fileID: 889690753}
   m_Layer: 5
   m_Name: SoundEffectVolumePercentage
-  m_TagString: Untagged
+  m_TagString: Percentage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3987,7 +3983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 158, y: -879.36316}
+  m_AnchoredPosition: {x: 158, y: -879.3629}
   m_SizeDelta: {x: 226, y: 63.090908}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &915902384
@@ -5649,14 +5645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2f38716f4279a428c87c0f67fbb66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signBox: {fileID: 1407962743}
-  signs: []
-  SignTexts:
-  - 'BEWARE: Rock slides are a frequent occurance in this area. You can push them
-    out of the way with E.'
-  - 'NOTICE: Beware cracks in the ice when skating on the lake. Caution saves lifes!'
-  _fade: {fileID: 0}
-  _journalManager: {fileID: 0}
 --- !u!114 &1240578883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6178,14 +6166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a400c3fe7381e84d8ae3aad75d660f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _conveyorBelts: []
-  _redConveyorBelts: []
-  _greenConveyorBelts: []
-  _blueConveyorBelts: []
-  Boxes: []
-  SlidingBoxes: []
-  Switches: []
-  Belts: []
+  _boxes: []
+  _slidingBoxes: []
+  _switches: []
+  _belts: []
 --- !u!114 &1292918520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8306,7 +8290,7 @@ GameObject:
   - component: {fileID: 1668380424}
   m_Layer: 5
   m_Name: SoundEffectVolume
-  m_TagString: Untagged
+  m_TagString: SoundVolume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

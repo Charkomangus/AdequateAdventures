@@ -76,8 +76,6 @@ namespace Assets.Scripts.Player
             //If the player is close to the parent tile speed them up and read further input
             if (HasReachedTile())
             {
-             
-
                 //Free the current parent tile and kill the object
                 if (_scheduleToDie)
                 {
@@ -313,6 +311,25 @@ namespace Assets.Scripts.Player
             if (IsValidTile(destination))
             {
                 DetermineFlagsEncountered(destination);
+                
+                //If the destination tile is a conveyor belt with the opposing direction of the player cancel the move. This is done to avoid the player glitching back and forth
+                if(destination.ReturnType() == TileType.RedConveyorBelt || destination.ReturnType() == TileType.BlueConveyorBelt || destination.ReturnType() == TileType.GreenConveyorBelt)
+                    switch (destination.GetComponentInChildren<ConveyorBelt>().ReturnDirection())
+                    {
+                        case 0:
+                            if (_direction == 1) return;
+                            break;
+                        case 1:
+                            if (_direction == 0) return;
+                            break;
+                        case 2:
+                            if (_direction == 2) return;
+                            break;
+                        case 3:
+                            if (_direction == 3) return;
+                            break;
+                    }
+
                 //Treat the tile the player is on as a blocked tile
                 _parentTile.SetBlocked(false);
                 _parentTile = destination;

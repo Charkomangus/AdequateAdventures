@@ -89,23 +89,7 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-      //  Return the tile in the direction this conveyor belt is facing
-        public int ReturnDirection()
-        {
-            switch (_direction)
-            {
-                case Direction.North:
-                    return 0;
-                case Direction.South:
-                    return 1;
-                case Direction.East:
-                    return 2;
-                case Direction.West:
-                    return 3;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+      
 
         //Set the belts direction
         public void SetDirecton(int newDirection)
@@ -195,6 +179,23 @@ namespace Assets.Scripts.Tiles
             return _puzzleNumber;
         }
 
+        //  Return the tile in the direction this conveyor belt is facing
+        public int ReturnDirection()
+        {
+            switch (_direction)
+            {
+                case Direction.North:
+                    return 0;
+                case Direction.South:
+                    return 1;
+                case Direction.East:
+                    return 2;
+                case Direction.West:
+                    return 3;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
     }
 }
