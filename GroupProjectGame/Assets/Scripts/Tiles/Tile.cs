@@ -21,35 +21,49 @@ namespace Assets.Scripts.Tiles
     public class Tile : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         [Header("Tile Type")]
-        [SerializeField] private TileType _type = TileType.Normal;
+        [SerializeField]
+        private TileType _type = TileType.Normal;
 
         [Header("Object")]
-        [SerializeField] private TileObject _object = TileObject.Empty;
+        [SerializeField]
+        private TileObject _object = TileObject.Empty;
 
         [Header("Actor")]
-        [SerializeField]private Actor _actor = Actor.Null;
+        [SerializeField]
+        private Actor _actor = Actor.Null;
 
         [Header("Flags")]
-        [SerializeField] private bool _blocked;
-        [SerializeField]private bool _dialogue;
-        [SerializeField] private bool _exit;
-        [SerializeField] private bool _entry;
-        [SerializeField] private bool _puzzleComplete;
-        [SerializeField] private bool _puzzleEntry;
-        [SerializeField] private bool _patrol;
-        [SerializeField] private int _puzzleNumber = -1;
-        [SerializeField] private int _tileDirection = -1;
+        [SerializeField]
+        private bool _blocked;
+        [SerializeField]
+        private bool _dialogue;
+        [SerializeField]
+        private bool _exit;
+        [SerializeField]
+        private bool _entry;
+        [SerializeField]
+        private bool _puzzleComplete;
+        [SerializeField]
+        private bool _puzzleEntry;
+        [SerializeField]
+        private bool _patrol;
+        [SerializeField]
+        private int _puzzleNumber = -1;
+        [SerializeField]
+        private int _tileDirection = -1;
 
         [Header("Position")]
-        [SerializeField] private Vector2 _gridPosition = Vector2.zero;
-        
+        [SerializeField]
+        private Vector2 _gridPosition = Vector2.zero;
+
         //Local reference to Prefabs of the tile and objects
         private GameObject _tilePrefab, _objectPrefab, _actorPrefab;
 
         //Which type and object does this tile currently have
         private GameObject _currentType, _currentObject, _currentActor;
 
-        [Header("Neighbors")] private readonly List<Tile> _tiles = new List<Tile>();
+        [Header("Neighbors")]
+        private readonly List<Tile> _tiles = new List<Tile>();
         private List<Tile> _neighbors = new List<Tile>();
         public Tile North, West, East, South;
 
@@ -93,94 +107,18 @@ namespace Assets.Scripts.Tiles
             {
                 SetObjectsDirection(_tileDirection);
             }
-           
+
             //Show what flags this tile has
             ShowFlags();
-           
+
         }
 
-        //Set all the tiles traits (Type, Flags, Objects and Actors)
-        private void SetTile()
-        {
-            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
-            {
-                case PlacingStatus.Type:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetType(MapCreatorManager.Instance.TileType);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetType(TileType.Normal);
-                    }
-                }
-                    break;
-                case PlacingStatus.Object:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetObject(MapCreatorManager.Instance.ObjectType);
-
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetObject(TileObject.Empty);
-                    }
-                    GenerateNewObject();
-                }
-                    break;
-                case PlacingStatus.Flag:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetFlag(MapCreatorManager.Instance.TileFlag);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        DeleteFlags(this);
-                    }
-                    ShowFlags();
-                    break;
-                }
-                case PlacingStatus.Actor:
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetActor(MapCreatorManager.Instance.ActorType);
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        SetActor(Actor.Null);
-                    }
-                    break;
-                }
-            }
-        }
-
-
-
-
-
+        /*This is used to set the tiles type, objects and actors*/
         #region Set Traits
 
-
-        //If this tile is a conveyor belt set it's directions
-        private void SetObjectsDirection(int direction)
-        {
-            if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt ||
-                _type == TileType.GreenConveyorBelt)
-            {
-                GetComponentInChildren<ConveyorBelt>().SetDirecton(direction);
-            }
-            else if (_currentActor != null)
-            {
-
-                GetComponentInChildren<Guard>().SetDirection(direction);
-            }
-        }
-
-        //Show what bool this tile has
+        /// <summary>
+        /// Writes what flags the tile has on a text mesh - for designer usage in level design
+        /// </summary>
         public void ShowFlags()
         {
             if (!GetComponentInChildren<TextMesh>().gameObject.activeSelf)
@@ -209,7 +147,10 @@ namespace Assets.Scripts.Tiles
         }
 
 
-        //Set the tile prefab and variables
+        /// <summary>
+        /// Sets the tiles type, generates it and also sets if its blocked or not
+        /// </summary>
+        /// <param name="type"></param>
         public void SetType(TileType type)
         {
             name = _type + " Tile";
@@ -221,27 +162,22 @@ namespace Assets.Scripts.Tiles
                     _blocked = false;
                     _tilePrefab = PrefabHolder.Instance.TileNormal;
                     break;
-
                 case TileType.Oil:
                     _blocked = false;
                     _tilePrefab = PrefabHolder.Instance.TileOil;
                     break;
-
                 case TileType.Ice:
                     _blocked = false;
                     _tilePrefab = PrefabHolder.Instance.TileIce;
                     break;
-
                 case TileType.Blocked:
                     _blocked = true;
                     _tilePrefab = PrefabHolder.Instance.TileBlocked;
                     break;
-
                 case TileType.Wall:
                     _blocked = true;
                     _tilePrefab = PrefabHolder.Instance.TileWall;
                     break;
-
                 case TileType.Fire:
                     _blocked = false;
                     _tilePrefab = PrefabHolder.Instance.TileFire;
@@ -275,12 +211,15 @@ namespace Assets.Scripts.Tiles
                     _tilePrefab = PrefabHolder.Instance.TileNormal;
                     break;
             }
-
+            //Generate the tile prefab
             GenerateVisuals();
         }
 
-        //Set the tiles flags
-        private void SetFlag(string tileFlag)
+        /// <summary>
+        /// Sets the tiles flags - only one at a time
+        /// </summary>
+        /// <param name="tileFlag"></param>
+        public void SetFlag(string tileFlag)
         {
             switch (tileFlag)
             {
@@ -316,50 +255,22 @@ namespace Assets.Scripts.Tiles
                     DeleteFlags(this);
                     ShowFlags();
                     break;
-                //Set the conveyor belt that is on this tile direction
+                //Set the conveyor belt or actors direction
                 case "North":
                     _tileDirection = 0;
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
-                    {
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
-                    }
-                    else if(_currentActor!= null)
-                    {
-                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
-                    }
+                    SetObjectsDirection(_tileDirection);
                     break;
                 case "South":
                     _tileDirection = 1;
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
-                    {
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
-                    }
-                    else if (_currentActor != null)
-                    {
-                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
-                    }
+                    SetObjectsDirection(_tileDirection);
                     break;
                 case "West":
                     _tileDirection = 2;
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
-                    {
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
-                    }
-                    else if (_currentActor != null)
-                    {
-                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
-                    }
+                    SetObjectsDirection(_tileDirection);
                     break;
                 case "East":
                     _tileDirection = 3;
-                    if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
-                    {
-                        GetComponentInChildren<ConveyorBelt>().SetDirecton(_tileDirection);
-                    }
-                    else if (_currentActor != null)
-                    {
-                        GetComponentInChildren<Guard>().SetDirection(_tileDirection);
-                    }
+                    SetObjectsDirection(_tileDirection);
                     break;
                 case "Delete":
                     Delete(this);
@@ -373,7 +284,26 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-        //Set tiles actor
+        /// <summary>
+        /// Sets the direction of objects or actors present
+        /// </summary>
+        private void SetObjectsDirection(int direction)
+        {
+            if (_type == TileType.BlueConveyorBelt || _type == TileType.RedConveyorBelt || _type == TileType.GreenConveyorBelt)
+            {
+                GetComponentInChildren<ConveyorBelt>().SetDirecton(direction);
+            }
+            else if (_currentActor != null)
+            {
+                GetComponentInChildren<Guard>().SetDirection(direction);
+            }
+        }
+
+
+        /// <summary>
+        /// Sets the apropriate actor prefab - ready to be created
+        /// </summary>
+        /// <param name="actor"></param>
         public void SetActor(Actor actor)
         {
             _actor = actor;
@@ -459,16 +389,41 @@ namespace Assets.Scripts.Tiles
                 case TileObject.Empty:
                     _objectPrefab = null;
                     break;
+                case TileObject.Evidence1:
+                    _objectPrefab = PrefabHolder.Instance.Evidence1;
+                    break;
+                case TileObject.Evidence2:
+                    _objectPrefab = PrefabHolder.Instance.Evidence2;
+                    break;
+                case TileObject.Evidence3:
+                    _objectPrefab = PrefabHolder.Instance.Evidence3;
+                    break;
+                case TileObject.Evidence4:
+                    _objectPrefab = PrefabHolder.Instance.Evidence4;
+                    break;
+                case TileObject.Evidence5:
+                    _objectPrefab = PrefabHolder.Instance.Evidence5;
+                    break;
+                case TileObject.Evidence6:
+                    _objectPrefab = PrefabHolder.Instance.Evidence6;
+                    break;
+                case TileObject.Evidence7:
+                    _objectPrefab = PrefabHolder.Instance.Evidence7;
+                    break;
+                case TileObject.Evidence8:
+                    _objectPrefab = PrefabHolder.Instance.Evidence8;
+                    break;
+                case TileObject.Evidence9:
+                    _objectPrefab = PrefabHolder.Instance.Evidence9;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("Object", Object, null);
             }
         }
-
-
         #endregion
 
+        /*This section is used to generate the tiles type, objects and actors*/
         #region GenerateStuff
-
 
         /// <summary>
         /// Each tile will find out what all it's neighboring tiles are and store them in a list. 
@@ -509,7 +464,9 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-        //Generate a tiles objects
+        /// <summary>
+        /// Instantiate a new copy of an object in this tile
+        /// </summary>
         public void GenerateNewObject()
         {
             var container = transform.Find("Objects").gameObject;
@@ -524,7 +481,10 @@ namespace Assets.Scripts.Tiles
             _currentObject = newObject;
         }
 
-        //Generate a tiles objects
+        /// <summary>
+        /// Transfer an existing object to this tile
+        /// </summary>
+        /// <param name="newObject"></param>
         public void GenerateObject(GameObject newObject)
         {
             var container = transform.Find("Objects").gameObject;
@@ -538,7 +498,9 @@ namespace Assets.Scripts.Tiles
             _currentObject = newObject;
         }
 
-        //Generate a tiles objects
+        /// <summary>
+        /// Instantiate a new copy of an actor to this tile
+        /// </summary>
         public void GenerateNewActor()
         {
             var container = transform.Find("Actors").gameObject;
@@ -550,11 +512,13 @@ namespace Assets.Scripts.Tiles
             if (_actorPrefab == null) return;
             var newActor = Instantiate(_actorPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
             newActor.transform.SetParent(container.transform);
-          //  newActor.name = MapCreatorManager.Instance.ActorType.ToString(); //TEMP
             _currentActor = newActor;
         }
 
-        //Generate a tiles objects
+        /// <summary>
+        /// Move an existing actor to this tile
+        /// </summary>
+        /// <param name="newActor"></param>
         public void GenerateActor(GameObject newActor)
         {
             var container = transform.Find("Actors").gameObject;
@@ -566,13 +530,13 @@ namespace Assets.Scripts.Tiles
             if (_actorPrefab == null) return;
             newActor.transform.SetParent(container.transform);
             _currentActor = newActor;
-
         }
 
-        //Generate a tiles visuals
+        /// <summary>
+        /// Instantiate the chosen tile prefab - certain tile types will import other logic with them
+        /// </summary>
         public void GenerateVisuals()
         {
-
             var container = transform.Find("Visuals").gameObject;
             //initially remove all children
             for (var i = 0; i < container.transform.childCount; i++)
@@ -582,18 +546,17 @@ namespace Assets.Scripts.Tiles
 
             var newType = Instantiate(_tilePrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
             newType.transform.localScale = new Vector3(1, 1, 1);
-
             newType.transform.SetParent(container.transform);
-
             _currentType = newType;
         }
         #endregion
 
-        #region Delete
+        /*This section is used to delete tiles or reset them to default state*/
+        #region Delete   
 
-        
-
-        //Completely destroy a tile and its close family
+        /// <summary>
+        /// Delete this tile and the one next two and the two below them
+        /// </summary>
         private void Delete2()
         {
             if (North != null && North.East != null)
@@ -605,7 +568,10 @@ namespace Assets.Scripts.Tiles
             Delete(this);
         }
 
-        //Completely destroy a tile
+        /// <summary>
+        /// Delete a tile
+        /// </summary>
+        /// <param name="tile"></param>
         private void Delete(Tile tile)
         {
             if (tile == null) return;
@@ -615,7 +581,10 @@ namespace Assets.Scripts.Tiles
             tile.SetObject(TileObject.Empty);
         }
 
-        //Set all bools to false and all ints to -1
+        /// <summary>
+        /// Set all flags, bools and ints of a tile to false/-1
+        /// </summary>
+        /// <param name="tile"></param>
         private void DeleteFlags(Tile tile)
         {
             tile.SetEntry(false);
@@ -629,7 +598,10 @@ namespace Assets.Scripts.Tiles
             tile.SetDirection(-1);
         }
 
-        //Completely destroy a tile, its close family and all it's friends
+        /// <summary>
+        /// Delete a tile and all othertiles in a southern tile only stopping if it hits a wall or null
+        /// </summary>
+        /// <param name="tile"></param>
         private void DeleteAll(Tile tile)
         {
             while (true)
@@ -650,16 +622,23 @@ namespace Assets.Scripts.Tiles
 
         #endregion
 
+        /*This is used to categorise tiles in spearate puzzle areas primarily for area of effect of switches and reseting puzzles*/
         #region Puzzle
-        
-        //Set all valid tiles to the apropriate puzzle number then increase the puzzle number
+
+        /// <summary>
+        /// Set all valid tiles to the apropriate puzzle number then increase the puzzle number
+        /// </summary>
+        /// <param name="puzzleNumber">Number of puzzle</param>
         public void PuzzleLoop(int puzzleNumber)
         {
             SetPuzzle(puzzleNumber);
             MapCreatorManager.Instance.PuzzleNumber++;
         }
 
-        //Create an area that constitutes a puzzle. Stops at walls and PuzzleComlete/PuzzleEntry tiles.
+        /// <summary>
+        /// Create an area that constitutes a puzzle. Stops at walls and PuzzleComlete/PuzzleEntry tiles.
+        /// </summary>
+        /// <param name="puzzleNumber"></param>
         private void SetPuzzle(int puzzleNumber)
         {
             //Set this tile to the aproproate puzzle number
@@ -677,7 +656,12 @@ namespace Assets.Scripts.Tiles
             }
         }
 
-        //Check if this tile can be a valid puzzle tile
+        /// <summary>
+        /// Check if this tile can be a valid puzzle tile
+        /// </summary>
+        /// <param name="tile">A tile</param>
+        /// <param name="puzzleNumber">Current Puzzle Number</param>
+        /// <returns></returns>
         private bool IsValidPuzzleTile(Tile tile, int puzzleNumber)
         {
             return tile.ReturnPuzzleNumber() == puzzleNumber || tile.IsPuzzleComplete() || tile.IsPuzzleEntry() ||
@@ -691,9 +675,6 @@ namespace Assets.Scripts.Tiles
         #region Paint Tile
 
 #if DEBUG
-        
-
-
         /// <summary>
         /// When the mouse is clicked   
         /// </summary>
@@ -722,6 +703,68 @@ namespace Assets.Scripts.Tiles
         {
             if (SceneManager.GetActiveScene().name != "MapCreatorScene") return;
             SetTile();
+        }
+
+
+        /// <summary>
+        /// Set all the tiles traits (Type, Flags, Objects and Actors) by clicking on the tile in the map creator
+        /// </summary>
+        private void SetTile()
+        {
+            switch (MapCreatorManager.Instance.CurrentPlacingStatus)
+            {
+                case PlacingStatus.Type:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetType(MapCreatorManager.Instance.TileType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetType(TileType.Normal);
+                    }
+                }
+                    break;
+                case PlacingStatus.Object:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetObject(MapCreatorManager.Instance.ObjectType);
+
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetObject(TileObject.Empty);
+                    }
+                    GenerateNewObject();
+                }
+                    break;
+                case PlacingStatus.Flag:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetFlag(MapCreatorManager.Instance.TileFlag);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        DeleteFlags(this);
+                    }
+                    ShowFlags();
+                    break;
+                }
+                case PlacingStatus.Actor:
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetActor(MapCreatorManager.Instance.ActorType);
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        SetActor(Actor.Null);
+                    }
+                    break;
+                }
+            }
         }
 #endif
         #endregion
@@ -1030,7 +1073,7 @@ namespace Assets.Scripts.Tiles
                 return "Entry";
             if (_exit)
                 return "Exit";
-         
+
             if (_tileDirection != -1)
             {
                 switch (_tileDirection)

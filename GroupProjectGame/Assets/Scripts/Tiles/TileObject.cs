@@ -17,6 +17,15 @@ namespace Assets.Scripts.Tiles
         GreenSwitch,
         RedSwitch,
         BlueSwitch,
+        Evidence1,
+        Evidence2,
+        Evidence3,
+        Evidence4,
+        Evidence5,
+        Evidence6,
+        Evidence7,
+        Evidence8,
+        Evidence9,
         Empty
     }
 }

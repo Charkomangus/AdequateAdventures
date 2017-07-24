@@ -1,6 +1,13 @@
-﻿using System;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
+using System;
 using System.Collections;
 using Assets.Scripts.Cameras;
+using Assets.Scripts.Evidence;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
@@ -275,10 +282,24 @@ namespace Assets.Scripts.Player
                 case TileObject.Sign:
                     GameManager.Instance.UiManager.Open(_latestTile.GetComponentInChildren<Sign>().ReturnSignText());
                     break;
-                
+                //Pickup evidence
+                case TileObject.Evidence1:
+                case TileObject.Evidence2:
+                case TileObject.Evidence3:
+                case TileObject.Evidence4:
+                case TileObject.Evidence5:
+                case TileObject.Evidence6:
+                case TileObject.Evidence7:
+                case TileObject.Evidence8:
+                case TileObject.Evidence9:
+                    _latestTile.GetComponentInChildren<Evidences>().EvidencePickedUp();
+                    break;
                 //Do nothing
                 case TileObject.Empty:
                     break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

@@ -4,6 +4,8 @@
  * Proprietary and confidential
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
+
+using Assets.Scripts.MainManagers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,11 +31,30 @@ namespace Assets.Scripts.Ui
             _soundEffectPercentage = GameObject.FindGameObjectWithTag("SoundVolume").GetComponentsInChildren<Text>()[1];
 
             //Set the percentages to refelct the sliders current value
-            _musicVolumePercentage.text = _musicVolume.value + "%";
-            _soundEffectPercentage.text = _soundEffectVolume.value + "%";
+            UpdateMusicVolume(_musicVolume.value);
+            UpdateAudioVolume(_soundEffectVolume.value);
+
             //If the sliders change update the percentage accordingly
-            _musicVolume.onValueChanged.AddListener(delegate { _musicVolumePercentage.text = _musicVolume.value + "%"; });
-            _soundEffectVolume.onValueChanged.AddListener(delegate{_soundEffectPercentage.text = _soundEffectVolume.value + "%";});
+            _musicVolume.onValueChanged.AddListener(delegate { UpdateMusicVolume(_musicVolume.value); });
+            _soundEffectVolume.onValueChanged.AddListener(delegate{ UpdateAudioVolume(_soundEffectVolume.value); });
+        }
+
+        /// <summary>
+        /// Update the text percentage and change the music volume
+        /// </summary>
+        private void UpdateMusicVolume(float value)
+        {
+            _musicVolumePercentage.text = value + "%";
+            GameManager.Instance.AudioManager.SetMusicVolume(value);
+        }
+
+        /// <summary>
+        /// Update the text percentage and change the sound volume
+        /// </summary>
+        private void UpdateAudioVolume(float value)
+        {
+            _soundEffectPercentage.text = value + "%";
+            GameManager.Instance.AudioManager.SetAudioVolume(value);
         }
     }
 }

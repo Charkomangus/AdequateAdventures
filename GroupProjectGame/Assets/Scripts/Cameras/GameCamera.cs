@@ -9,37 +9,53 @@ using UnityEngine;
 
 namespace Assets.Scripts.Cameras
 {
+    /// <summary>
+    /// This class controls the main gameplay camera - it follows the player and its height can be set to a new value
+    /// </summary>
     public class GameCamera : MonoBehaviour
     {
-        private Transform _player;
-
-        private Vector3 _position, _originalPosition;
-
+        private Player.Player _player;
+        private Vector3 _originalPosition;
+        private float newHeight;
         private float _normalHeight;
         private float _puzzleHeight;
         private float _hugePuzzleHeight;
-        // Use this for initialization
+        private int _oldPuzzleNumber;
+       
+        /// <summary>
+        /// Set default camera heights
+        /// </summary>
         private void Start()
         {
-            _player = GameManager.Instance.Player.transform;
+            _player = GameManager.Instance.Player;
             _originalPosition = transform.position;
-            _position = _originalPosition;
+            //Set camera heights
+            newHeight = 7.5f;
             _normalHeight = 7.5f;
             _puzzleHeight = 9;
             _hugePuzzleHeight = 12f;
         }
-
-        // Update is called once per frame
-        private void Update()
+       
+        /// <summary>
+        /// Update is called once per frame
+        /// </summary>
+        private void LateUpdate()
         {
-            transform.position = Vector3.Lerp(new Vector3(_player.position.x, transform.position.y, _player.position.z),_position, Time.deltaTime);
-            DetermineHeight();
+            transform.position = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(_player.transform.position.x, newHeight, _player.transform.position.z ), Time.deltaTime);
+
+            //Only update the height if the player has exited or entered a new puzzle
+            if (_player.ReturnCurrentPuzzle() != _oldPuzzleNumber)
+                DetermineHeight();
+
+            _oldPuzzleNumber = _player.ReturnCurrentPuzzle();
         }
 
-        //Check what puzzle the player is in and zoom out accordingly
+        /// <summary>
+        /// Check what puzzle the player is in and zoom out accordingly
+        /// </summary>
         private void DetermineHeight()
         {
-
             //Get some informationg from the game manager
             var player = GameManager.Instance.Player;
             var puzzle = player.ReturnCurrentPuzzle();
@@ -100,12 +116,13 @@ namespace Assets.Scripts.Cameras
 
         }
 
-
-
-        //Set the preffered height of the camera
+        /// <summary>
+        /// Set the preffered height of the camera
+        /// </summary>
+        /// <param name="height"></param>
         public void SetCameraHeight(float height)
         {
-          _position = new Vector3(transform.position.x, height, transform.position.z);
+            newHeight = height;
         }
     }
 }

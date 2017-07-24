@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
+using System;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
 using UnityEngine;
@@ -165,29 +171,45 @@ namespace Assets.Scripts.Objects
                     break;
             }
         }
-        //Check if player has reached parent tile
+        /// <summary>
+        /// Check if the object is close to the tile
+        /// </summary>
+        /// <returns></returns>
         private bool HasReachedTile()
         {
-            if(_conveyed)
-                return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 1 && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 1;
-            else
+            if (_conveyed)
+                return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 0.6f && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 0.6f;
             return Math.Abs(transform.position.x - _parentTile.transform.position.x) < 0.3f && Math.Abs(transform.position.z - _parentTile.transform.position.z) < 0.3f;
         }
 
-
+        /// <summary>
+        /// Move to a new location smoothly - frame independent
+        /// </summary>
+        /// <param name="startPosition">Current Tile</param>
+        /// <param name="endPosition">Destinatiob</param>
+        /// <param name="speed">Multiplied by Time.deltaTime</param>
         public void SmoothMove(Vector3 startPosition, Vector3 endPosition, float speed)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, speed * Time.deltaTime);
         }
-
+        #region Gets & Sets
+        /// <summary>
+        /// Set the puzzle number
+        /// </summary>
+        /// <param name="puzzle"></param>
         public void SetPuzzle(int puzzle)
         {
             _puzzleNumber = puzzle;
         }
 
+        /// <summary>
+        /// Return the puzzle number the box is on
+        /// </summary>
+        /// <returns></returns>
         public int ReturnPuzzle()
         {
             return _puzzleNumber;
         }
+        #endregion
     }
 }

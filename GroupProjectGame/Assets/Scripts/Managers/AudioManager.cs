@@ -9,13 +9,11 @@ namespace Assets.Scripts.Managers
     {
         //The main audio source
         public AudioSource MusicAudioSource;
-
         public AudioSource SoundAudioSource;
 
 
         //Music
         public AudioClip ConfrontationAudioClip;
-
         public AudioClip LevelOneClip;
         public AudioClip LevelTwoClip;
         public AudioClip LevelThreeClip;
@@ -38,6 +36,12 @@ namespace Assets.Scripts.Managers
             {
                 PlayMusic(OpeningMenuClip);
             }
+          
+            AllButtons = FindObjectsOfType<Button>();
+            foreach (var button in AllButtons)
+            {
+                button.onClick.AddListener(delegate { PlayAudio(UiClick, false); });
+            }
             PlayMusic(LevelTwoClip);
 
         }
@@ -51,60 +55,12 @@ namespace Assets.Scripts.Managers
 
         private void OnLevelWasLoaded()
         {
-
-            AllButtons = GameObject.FindObjectsOfType<Button>();
+            AllButtons = FindObjectsOfType<Button>();
             foreach (var button in AllButtons)
             {
                 button.onClick.AddListener(delegate { PlayAudio(UiClick, false); });
             }
-            switch (SceneManager.GetActiveScene().name)
-            {
-                case "Level1":
-                    switch (GameManager.Instance.CurrentLevel)
-                    {
-                        case 1:
-                            PlayMusic(LevelOneClip);
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            PlayMusic(LevelTwoClip);
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
-                        case 7:
-                            PlayMusic(LevelThreeClip);
-                            break;
-                        case 8:
-                            break;
-                        case 9:
-                            break;
-                        case 10:
-                            PlayMusic(ConfrontationAudioClip);
-                            break;
-                    }
-                    break;
-                case "menu":
-                    PlayMusic(OpeningMenuClip);
-
-                    break;
-                case "Transistion":
-                    break;
-
-                case "Outro":
-                    Cursor.visible = false;
-                    PlayMusic(OpeningMenuClip);
-                    break;
-                case "MapCreatorScene":
-                    break;
-                case "Intro":
-                    PlayMusic(OpeningMenuClip);
-                    break;
-            }
+            PlayMusic(LevelOneClip);
         }
 
         /// <summary>
@@ -135,6 +91,29 @@ namespace Assets.Scripts.Managers
             SoundAudioSource.loop = loop;
             SoundAudioSource.clip = audioClip;
             SoundAudioSource.Play();
+        }
+
+
+        /// <summary>
+        /// Set the volume of the music audiosource
+        /// </summary>
+        /// <param name="volume"></param>
+        public void SetMusicVolume(float volume)
+        {
+            //The input is 0 - 100. We convert it to 0 - 1
+            var temp = volume / 100;
+            MusicAudioSource.volume = temp;
+        }
+
+        /// <summary>
+        /// Set the volume of the sound audiosource
+        /// </summary>
+        /// <param name="volume"></param>
+        public void SetAudioVolume(float volume)
+        {
+            //The input is 0 - 100. We convert it to 0 - 1
+            var temp = volume / 100;
+            SoundAudioSource.volume = temp;
         }
     }
 }

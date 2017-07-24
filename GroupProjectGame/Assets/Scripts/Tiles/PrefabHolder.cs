@@ -1,11 +1,21 @@
-﻿using UnityEngine;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
+using UnityEngine;
 
 namespace Assets.Scripts.Tiles
 {
-    public class PrefabHolder : MonoBehaviour {
+    /// <summary>
+    /// This holds a database of publicly usable prefabs. This includes tiles, objects and actors.
+    /// </summary>
+    public class PrefabHolder : MonoBehaviour
+    {
         public static PrefabHolder Instance;
 
-        
+
         [Header("Tile Prefabs")]
         public GameObject BaseTilePrefab;
         public GameObject TileNormal;
@@ -29,6 +39,16 @@ namespace Assets.Scripts.Tiles
         public GameObject GreenSwitch;
         public GameObject BlueSwitch;
 
+        [Header("Tile Evidence")]
+        public GameObject Evidence1;
+        public GameObject Evidence2;
+        public GameObject Evidence3;
+        public GameObject Evidence4;
+        public GameObject Evidence5;
+        public GameObject Evidence6;
+        public GameObject Evidence7;
+        public GameObject Evidence8;
+        public GameObject Evidence9;
 
         [Header("Tile Actors")]
         public GameObject Badger;
@@ -41,12 +61,12 @@ namespace Assets.Scripts.Tiles
         public GameObject Rats;
         public GameObject Weasel;
         public GameObject Guard;
-        
+
 
         private void Awake()
         {
             Instance = this;
-        
+
         }
     }
 }

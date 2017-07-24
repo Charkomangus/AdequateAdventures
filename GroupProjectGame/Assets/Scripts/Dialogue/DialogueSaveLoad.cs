@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/*******************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*******************************************************/
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Assets.Scripts.Actors;

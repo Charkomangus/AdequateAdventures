@@ -37,6 +37,7 @@ namespace Assets.Scripts.MainManagers
         public DialogueManager DialogueManager;
         public JournalManager JournalManager;
 
+
         public Transform MapTransform;
         private int _mapSize;
         private List<List<Tile>> _map;
@@ -69,7 +70,7 @@ namespace Assets.Scripts.MainManagers
             GuardManager = FindObjectOfType<GuardManager>();
             DialogueManager = FindObjectOfType<DialogueManager>();
             JournalManager = FindObjectOfType<JournalManager>();
-        }
+            }
 
         // Use this for initialization
         private void Start ()
@@ -111,6 +112,7 @@ namespace Assets.Scripts.MainManagers
             Player.InitializePlayer();
             UiManager.SetFade(true);
             GuardManager.SpawnGuards();
+        
             if (CurrentAct == 1 && CurrentLevel == 1)
                 TriggerDialogue();
         }

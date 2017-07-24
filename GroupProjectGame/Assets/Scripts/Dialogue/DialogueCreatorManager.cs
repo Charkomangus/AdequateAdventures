@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/*******************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*******************************************************/
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +12,13 @@ using Assets.Scripts.Actors;
 
 namespace Assets.Scripts.Dialogue
 {
+    /// <summary>
+    /// This class governs the dialoguie creator. This lets writers create dialogues for the project quickly
+    /// </summary>
     public class DialogueCreatorManager : MonoBehaviour
     {
-        public Toggle KillOnExiToggle;
+        //Set all manager variables - This script is not used in any of the game scenes so they can be left public for ease of acess
+        public Toggle KillOnExitToggle;
         public Button Load, Save;
         public Dropdown ActorName, Expression, Direction, Special, Branch, Condition;
         public GameObject Choises, AreYouSureLoad, AreYouSureSave;
@@ -19,14 +29,16 @@ namespace Assets.Scripts.Dialogue
         public Text PageCounterText, PagePercentageText;
         public Slider PagePercentageSlider;
         public Animator MapNotification;
-
-        // Use this for initialization
+    
+        /// <summary>
+        /// Set listeners for buttons and update the UI to begin with
+        /// </summary>
         private void Start()
         {
             UpdateExpressions(ActorName.value);
             SetPageCounters();
             Special.onValueChanged.AddListener(delegate { SpecialChoices(Special.captionText.text); });
-        LoadField.onEndEdit.AddListener(delegate { AreYouSureLoad.SetActive(true); });
+            LoadField.onEndEdit.AddListener(delegate { AreYouSureLoad.SetActive(true); });
             SaveField.onEndEdit.AddListener(delegate { AreYouSureSave.SetActive(true); });
             ActorName.onValueChanged.AddListener(delegate { UpdateExpressions(ActorName.value); });
             Load.onClick.AddListener(delegate { LoadDialogueFromXml(LoadField.text); SetPageCounters(); });
@@ -34,25 +46,21 @@ namespace Assets.Scripts.Dialogue
       
 
             //This allows the user to directly load a page by using the slider
-            PagePercentageSlider.onValueChanged.AddListener(delegate
-            {
-                if (!Input.GetMouseButton(0)) return;
-                Lines[CurrentPage] = CreateNewLine();
-                CurrentPage = (int)PagePercentageSlider.value;
-                LoadPage(CurrentPage);
-                SetPageCounters();
-            });
-
-            LoadDialogueFromXml("level1_1_2");
-              SetPageCounters();
+            PagePercentageSlider.onValueChanged.AddListener(delegate{if (!Input.GetMouseButton(0)) return;Lines[CurrentPage] = CreateNewLine();CurrentPage = (int)PagePercentageSlider.value;
+                LoadPage(CurrentPage);SetPageCounters();});
         }
-
-        // Update is called once per frame
+       
+        /// <summary>
+        /// Keep the current page saved including any latest updates
+        /// </summary>
         private void Update()
         {
             Lines[CurrentPage] = CreateNewLine();
         }
 
+        /// <summary>
+        /// Delete everything and start anew
+        /// </summary>
         public void NewDialogue()
         {
             CurrentPage = 0;
@@ -61,6 +69,10 @@ namespace Assets.Scripts.Dialogue
             SetPageCounters();
         }
 
+        /// <summary>
+        /// Update the actor expression dropdown list depending on which actor has been selected
+        /// </summary>
+        /// <param name="value"></param>
         private void UpdateExpressions(int value)
         {
             Expression.options = new List<Dropdown.OptionData>();
@@ -81,6 +93,7 @@ namespace Assets.Scripts.Dialogue
                     Expression.options.Add(new Dropdown.OptionData("Neutral"));
                     Expression.options.Add(new Dropdown.OptionData("Shocked"));
                     break;
+                //Mouse and Injured Mouse are treated alike
                 case 3:
                 case 4:
                     Expression.options.Add(new Dropdown.OptionData("Neutral"));
@@ -110,11 +123,14 @@ namespace Assets.Scripts.Dialogue
                     break;
 
             }
+            //Set default choise - Neutral
             Expression.value = 0;
             Expression.captionText.text = Expression.options[0].text;
         }
-
-        //Update any page text or buttons that needs to be updated
+        
+        /// <summary>
+        /// Update any page text or buttons that needs to be updated
+        /// </summary>
         private void SetPageCounters()
         {
             PreviousPageButton.SetActive(CurrentPage != 0);
@@ -125,40 +141,41 @@ namespace Assets.Scripts.Dialogue
             //Set what percentage
             PagePercentageText.text = (int)((float)(CurrentPage) / (MaxPages) * 100) + "%";
         }
-
-        //Resets the dialogue page to the default state
+        
+        /// <summary>
+        /// Resets the current page to the default empty state
+        /// </summary>
         public void ClearDialogue()
         {
-
             ActorName.value = 6;
             Expression.value = 0;
             Direction.value = 0;
             Special.value = 0;
             Condition.value = 0;
             Branch.value = 0;
-            KillOnExiToggle.isOn = false;
+            KillOnExitToggle.isOn = false;
             Content.text = "";
             FirstChoise.text = "";
             SecondChoise.text = "";
             ThirdChoice.text = "";
-
-           
-
         }
 
-        //Clear the page if its the last one otherwise delete the page entriely and update the page list
+        /// <summary>
+        /// Clear the page if its the last one otherwise delete the page entriely and update the page list
+        /// </summary>
         public void DeletePage()
         {
+            //If the dialogue only has one page just clear the page
             if (MaxPages == 0)
                 ClearDialogue();
             else
             {
-                Debug.Log(Lines.Length);
-                //Create and arry one smaller than the original
+                //Create and arry one smaller than the original - This will result in an error eventually but currently the limit is at a 1000 deletes
                 Line[] tempLines = new Line[Lines.Length - 1];
 
                 int i = 0;
                 int j = 0;
+
                 //Loop through the lines and copy them to the new array (excluding the current one)
                 while (i < Lines.Length)
                 {
@@ -173,21 +190,27 @@ namespace Assets.Scripts.Dialogue
                 //Copy the new array into the old one
                 Lines = tempLines;
                 MaxPages--;
+
+                //If you are over the max page reset back to the max page
                 if (CurrentPage > MaxPages)
                     CurrentPage = MaxPages;
                 LoadPage(CurrentPage);
                 SetPageCounters();
-                Debug.Log(Lines.Length);
             }
         }
 
-        //Reveal the special choises
+        /// <summary>
+        /// Reveal the special choises text input
+        /// </summary>
+        /// <param name="status"></param>
         private void SpecialChoices(string status)
         {
             Choises.SetActive(status == "Yes");
         }
 
-        //If this is a new page save the old otherwise access the next pages content
+        /// <summary>
+        /// If this is a new page save the old otherwise access the next pages content
+        /// </summary>
         public void NextPage()
         {
             Lines[CurrentPage] = CreateNewLine();
@@ -205,6 +228,9 @@ namespace Assets.Scripts.Dialogue
             SetPageCounters();
         }
 
+        /// <summary>
+        /// Access the previous pages content - save current page
+        /// </summary>
         public void PreviousPage()
         {
             Lines[CurrentPage] = CreateNewLine();
@@ -212,8 +238,11 @@ namespace Assets.Scripts.Dialogue
             LoadPage(CurrentPage);
             SetPageCounters();
         }
-
-        //Loads a page using infomation storred in a line
+        
+        /// <summary>
+        /// Loads a page using infomation storred in a line
+        /// </summary>
+        /// <param name="pageNumber"></param>
         private void LoadPage(int pageNumber)
         {
             var line = Lines[pageNumber];
@@ -227,11 +256,13 @@ namespace Assets.Scripts.Dialogue
             FirstChoise.text = line.Choise0;
             SecondChoise.text = line.Choise1;
             ThirdChoice.text = line.Choise2;
-            KillOnExiToggle.isOn = line.KillOnExit;
-           
+            KillOnExitToggle.isOn = line.KillOnExit;
         }
-
-        //Create a new line using the inputted information
+        
+        /// <summary>
+        /// Create a new line using the inputted information
+        /// </summary>
+        /// <returns></returns>
         private Line CreateNewLine()
         {
             Line line = new Line
@@ -246,14 +277,15 @@ namespace Assets.Scripts.Dialogue
                 Choise0 = FirstChoise.text,
                 Choise1 = SecondChoise.text,
                 Choise2 = ThirdChoice.text,
-                KillOnExit = KillOnExiToggle.isOn
+                KillOnExit = KillOnExitToggle.isOn
             
             };
             return line;
         }
-     
 
-        //Notify user of any changes such as the map has been saved, etc.
+        /// <summary>
+        /// Notify user of any changes such as the map has been saved, etc.
+        /// </summary>
         private void NewMapNotification(string dialogueName, int mode)
         {
             MapNotification.SetTrigger("Open");
@@ -275,7 +307,7 @@ namespace Assets.Scripts.Dialogue
         }
 
         /// <summary>
-        /// Load a map from an XML file
+        /// Load a dialogue from an XML file
         /// </summary>
         private void LoadDialogueFromXml(string filename)
         {
@@ -284,6 +316,7 @@ namespace Assets.Scripts.Dialogue
 
             if (container != null)
             {
+                //Set lines to be 1000 places large - this allows for fairly large dialogues
                 Lines = new Line[1000];
                 for (var x = 0; x < container.Size; x++)
                 {
@@ -300,12 +333,11 @@ namespace Assets.Scripts.Dialogue
                         Choise1 = container.Lines[x].Choise1,
                         Choise2 = container.Lines[x].Choise2,
                         KillOnExit = container.Lines[x].KillOnExit
-
-
                     };
+                    //Add the new line
                     Lines[x] = line;
                 }
-
+                //Update variables
                 MaxPages = container.Size;
                 CurrentPage = 0;
                 SetPageCounters();
@@ -314,6 +346,7 @@ namespace Assets.Scripts.Dialogue
             }
             else
             {
+                //Inform of failure
                 NewMapNotification("", 2);
             }
         }
@@ -329,6 +362,10 @@ namespace Assets.Scripts.Dialogue
         }
 
 
+        /// <summary>
+        /// Returns a list with all the dialogue lines
+        /// </summary>
+        /// <returns></returns>
         public List<Line> ReturnLines()
         {
             List<Line> lineList = Lines.ToList();

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*******************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*******************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Actors;
@@ -41,6 +47,7 @@ namespace Assets.Scripts.Dialogue
         // Use this for initialization
         private void Awake()
         {
+            //Load all the portraits of characters
             _portraitsBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/Normal/");
             _portraitsBlinkingBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/Blink/");
             _portraitsBadger = Resources.LoadAll<Sprite>("Portraits/Badger/Normal/");
@@ -59,7 +66,8 @@ namespace Assets.Scripts.Dialogue
             _portraitsBlinkingRats = Resources.LoadAll<Sprite>("Portraits/Rats/Blink/");
             _portraitsHedgehog = Resources.LoadAll<Sprite>("Portraits/Hedgehog/Normal/");
             _portraitsBlinkingHedgehog = Resources.LoadAll<Sprite>("Portraits/Hedgehog/Blink/");
-            _manager = GameObject.FindObjectOfType<DialogueCreatorManager>();
+
+         
             _content = GameObject.FindGameObjectWithTag("Content").GetComponent<Text>();
             _actorName = GameObject.FindGameObjectWithTag("ActorName");
             _choisesTransform = GameObject.FindGameObjectWithTag("Choises");
@@ -348,10 +356,6 @@ namespace Assets.Scripts.Dialogue
         {
             StartCoroutine(CloseSpecial(_choises[chosenButton]));
             _currentBranch = chosenButton+1;
-            foreach (var choise in _choises)
-            {
-                choise.GetComponent<Button>().interactable = false;
-            }
         
         }
 

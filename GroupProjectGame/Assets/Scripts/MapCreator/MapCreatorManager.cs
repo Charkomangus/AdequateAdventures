@@ -44,8 +44,13 @@ namespace Assets.Scripts.MapCreator
         public Button RemoveActors;
 
         //Category buttons
-        public Button Types, Flags, Objects, Actors;
-      
+        [Header("Category buttons")]
+        public Button Types;
+        public Button Flags;
+        public Button Objects;
+        public Button Actors;
+        public Button Evidence;
+
         [Header("Tile Types")]
         public TileType TileType;
         public Button TileNormal;
@@ -86,7 +91,18 @@ namespace Assets.Scripts.MapCreator
         public Button ObjectBlueSwitch;
         public Button ObjectNull;
 
-        [Header("Tile Objects")]
+        [Space]
+        public Button Evidence1;
+        public Button Evidence2;
+        public Button Evidence3;
+        public Button Evidence4;
+        public Button Evidence5;
+        public Button Evidence6;
+        public Button Evidence7;
+        public Button Evidence8;
+        public Button Evidence9;
+
+        [Header("Tile Actors")]
         public Actor ActorType;
         public Button Badger;
         public Button Beaver;
@@ -182,7 +198,8 @@ namespace Assets.Scripts.MapCreator
             Types.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Type; TileType = TileType.Normal; });
             Flags.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Flag; TileFlag = "N/A"; });
             Objects.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Object; ObjectType = TileObject.Empty; });
-            Actors.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Actor; ActorType = Actor.Null; });
+            Actors.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Actor;ActorType = Actor.Null;});
+            Evidence.onClick.AddListener(delegate { CurrentPlacingStatus = PlacingStatus.Object; ObjectType = TileObject.Empty; });
             //Tile Type
 
             TileNormal.onClick.AddListener(delegate { TileType = TileType.Normal; });
@@ -221,6 +238,17 @@ namespace Assets.Scripts.MapCreator
             ObjectBlueSwitch.onClick.AddListener(delegate { ObjectType = TileObject.BlueSwitch; });
             ObjectNull.onClick.AddListener(delegate { ObjectType = TileObject.Empty; });
 
+            //Tile Evidence
+            Evidence1.onClick.AddListener(delegate { ObjectType = TileObject.Evidence1; });
+            Evidence2.onClick.AddListener(delegate { ObjectType = TileObject.Evidence2; });
+            Evidence3.onClick.AddListener(delegate { ObjectType = TileObject.Evidence3; });
+            Evidence4.onClick.AddListener(delegate { ObjectType = TileObject.Evidence4; });
+            Evidence5.onClick.AddListener(delegate { ObjectType = TileObject.Evidence5; });
+            Evidence6.onClick.AddListener(delegate { ObjectType = TileObject.Evidence6; });
+            Evidence7.onClick.AddListener(delegate { ObjectType = TileObject.Evidence7; });
+            Evidence8.onClick.AddListener(delegate { ObjectType = TileObject.Evidence8; });
+            Evidence9.onClick.AddListener(delegate { ObjectType = TileObject.Evidence9; });
+
             //Actors
             Badger.onClick.AddListener(delegate { ActorType = Actor.Badger; });
             Beaver.onClick.AddListener(delegate { ActorType = Actor.Beaver; });
@@ -232,7 +260,7 @@ namespace Assets.Scripts.MapCreator
             Weasel.onClick.AddListener(delegate { ActorType = Actor.Weasel; });
             Guard.onClick.AddListener(delegate { ActorType = Actor.Guard; });
             DeleteActors.onClick.AddListener(delegate { ActorType = Actor.Null; });
-            RemoveActors.onClick.AddListener(delegate { RemoveAllActors(); });
+            RemoveActors.onClick.AddListener(RemoveAllActors);
         }
      
         private void Start()

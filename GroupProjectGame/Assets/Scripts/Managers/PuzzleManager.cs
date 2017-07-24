@@ -10,11 +10,11 @@ namespace Assets.Scripts.Managers
 
         private ConveyorBelt[] _conveyorBelts;
         [SerializeField]
-        private readonly List<ConveyorBelt> _redConveyorBelts = new List<ConveyorBelt>();
+        private List<ConveyorBelt> _redConveyorBelts = new List<ConveyorBelt>();
         [SerializeField]
-        private readonly List<ConveyorBelt> _greenConveyorBelts = new List<ConveyorBelt>();
+        private List<ConveyorBelt> _greenConveyorBelts = new List<ConveyorBelt>();
         [SerializeField]
-        private readonly List<ConveyorBelt> _blueConveyorBelts = new List<ConveyorBelt>();
+        private List<ConveyorBelt> _blueConveyorBelts = new List<ConveyorBelt>();
 
         [SerializeField]
         private Box[]_boxes;

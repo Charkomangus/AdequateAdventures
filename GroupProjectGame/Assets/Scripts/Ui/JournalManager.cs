@@ -5,7 +5,7 @@
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
 
-using Assets.Scripts.MainManagers;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -78,7 +78,10 @@ namespace Assets.Scripts.Ui
                     _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
                 }
                 else
+                {
+               
                     OpenJournal(!_animator.GetBool("Open"));
+                }
             }
             else if (Input.GetKeyDown(KeyCode.X))
             {
@@ -90,6 +93,45 @@ namespace Assets.Scripts.Ui
 
             else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
                 NextPage();
+
+
+            //EVIDENCE - if the evidence is found and its number is pressed open it
+            if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && _evidenceButtons[0].interactable)
+            {
+                OpenEvidenceTextBox(0);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && _evidenceButtons[1].interactable)
+            {
+                OpenEvidenceTextBox(1);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && _evidenceButtons[2].interactable)
+            {
+                OpenEvidenceTextBox(2);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && _evidenceButtons[3].interactable)
+            {
+                OpenEvidenceTextBox(3);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5)) && _evidenceButtons[4].interactable)
+            {
+                OpenEvidenceTextBox(4);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6)) && _evidenceButtons[5].interactable)
+            {
+                OpenEvidenceTextBox(5);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7)) && _evidenceButtons[6].interactable)
+            {
+                OpenEvidenceTextBox(6);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8)) && _evidenceButtons[7].interactable)
+            {
+                OpenEvidenceTextBox(7);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9)) && _evidenceButtons[8].interactable)
+            {
+                OpenEvidenceTextBox(8);
+            }
         }
         
         /// <summary>
@@ -137,12 +179,14 @@ namespace Assets.Scripts.Ui
             {
                 PreviousPage();
                 Time.timeScale = 0;
+                Cursor.visible = true;
             }
             else
             {
                 _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
                 _evidence.GetComponent<CanvasGroup>().interactable = true;
                 Time.timeScale = 1;
+                Cursor.visible = false;
             }
 
             _animator.SetBool("Open", status);
@@ -161,7 +205,7 @@ namespace Assets.Scripts.Ui
             {
                 _evidenceButtons[evidence].interactable = true;
                 sprite = _foundSprites[evidence];
-                _evidenceButtons[evidence].GetComponentInChildren<Text>().text = "Evidence";
+                _evidenceButtons[evidence].GetComponentInChildren<Text>().text = evidence + " - Evidence";
             }
             //Make the button non-interactable and hide the sprite and text
             else
@@ -179,6 +223,15 @@ namespace Assets.Scripts.Ui
                 image.sprite = sprite;
                 break;
             }
+        }
+
+        //Guard waits in place
+        public IEnumerator OpenEvidence(int number)
+        {
+            OpenJournal(true);
+            yield return new WaitForSecondsRealtime(0.75f);
+            OpenEvidenceTextBox(number);        
+
         }
 
         /// <summary>
