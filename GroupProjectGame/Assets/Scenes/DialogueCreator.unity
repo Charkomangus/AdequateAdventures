@@ -1248,6 +1248,15 @@ MonoBehaviour:
   _portraitsWeasel: []
   _portraitsRats: []
   _portraitsHedgehog: []
+  _portraitsBlinkingBunny: []
+  _portraitsBlinkingHedgehog: []
+  _portraitsBlinkingBadger: []
+  _portraitsBlinkingRats: []
+  _portraitsBlinkingWeasel: []
+  _portraitsBlinkingBeaver: []
+  _portraitsBlinkingMouse: []
+  _portraitsBlinkingPig: []
+  _portraitsBlinkingInjuredMouse: []
   _actor0: {fileID: 1365445893}
   _actor1: {fileID: 2026699192}
   _textbox: {fileID: 983192416}
@@ -1262,6 +1271,7 @@ MonoBehaviour:
     type: 2}
   _choises: []
   _currentBranch: 0
+  blinkEyeRate: 4
 --- !u!222 &129534406
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12070,7 +12080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -16303,7 +16313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

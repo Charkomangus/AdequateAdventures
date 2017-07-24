@@ -32,9 +32,8 @@ namespace Assets.Scripts.Cameras
         // Update is called once per frame
         private void Update()
         {
-            transform.position = Vector3.Lerp(new Vector3(_player.position.x, transform.position.y, _player.position.z),
-                _position, 0.5f * Time.deltaTime);
-
+            transform.position = Vector3.Lerp(new Vector3(_player.position.x, transform.position.y, _player.position.z),_position, Time.deltaTime);
+            DetermineHeight();
         }
 
         //Check what puzzle the player is in and zoom out accordingly

@@ -42,6 +42,9 @@ namespace Assets.Scripts.Dialogue
                 LoadPage(CurrentPage);
                 SetPageCounters();
             });
+
+            LoadDialogueFromXml("level1_1_2");
+              SetPageCounters();
         }
 
         // Update is called once per frame

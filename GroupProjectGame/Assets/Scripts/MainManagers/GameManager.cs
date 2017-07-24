@@ -35,7 +35,7 @@ namespace Assets.Scripts.MainManagers
         public EnviromentManager EnviromentManager;
         public GuardManager GuardManager;
         public DialogueManager DialogueManager;
-
+        public JournalManager JournalManager;
 
         public Transform MapTransform;
         private int _mapSize;
@@ -68,7 +68,7 @@ namespace Assets.Scripts.MainManagers
             EnviromentManager = FindObjectOfType<EnviromentManager>();
             GuardManager = FindObjectOfType<GuardManager>();
             DialogueManager = FindObjectOfType<DialogueManager>();
-
+            JournalManager = FindObjectOfType<JournalManager>();
         }
 
         // Use this for initialization
@@ -122,7 +122,7 @@ namespace Assets.Scripts.MainManagers
 
             if (CurrentAct == 4)
             {
-                MapGenerator.LoadMapFromXml("LevelMaps/testStealth");
+                MapGenerator.LoadMapFromXml("LevelMaps/test");
                 EnviromentManager.LoadEnviromentArt("");
             }
             else
@@ -161,18 +161,20 @@ namespace Assets.Scripts.MainManagers
             StateManager.SetGameState(GameState.Game);
         }
 
+
+
+
         /// <summary>
         /// Restarts the game to start from the last puzzle encountered
         /// </summary>
         public void RestartFromCheckPoint()
-        {
-            //Restart the player
-            Player.Restart();
+        {    
 
             //Reset the current Puzzle, leaving the others untouched
             PuzzleManager.Initialize();
             PuzzleManager.ResetPuzzle();
-
+            //Restart the player
+            Player.Restart();
             //Reset all guards
             GuardManager.ResetGuards();
 

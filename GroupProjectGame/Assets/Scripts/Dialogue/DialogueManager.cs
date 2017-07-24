@@ -7,12 +7,15 @@ using Assets.Scripts.Tiles;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Dialogue
 {
     public class DialogueManager : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField]private Sprite[] _portraitsBunny, _portraitsBadger, _portraitsBeaver, _portraitsMouse, _portraitsInjuredMouse, _portraitsPig, _portraitsWeasel, _portraitsRats, _portraitsHedgehog;
+        [SerializeField]
+        private Sprite[] _portraitsBlinkingBunny, _portraitsBlinkingHedgehog, _portraitsBlinkingBadger, _portraitsBlinkingRats, _portraitsBlinkingWeasel, _portraitsBlinkingBeaver, _portraitsBlinkingMouse, _portraitsBlinkingPig, _portraitsBlinkingInjuredMouse;
         [SerializeField]private Animator _actor0, _actor1, _textbox, _managerAnimator;
         [SerializeField]private DialogueCreatorManager _manager;
         [SerializeField] private Line[] _lines = new Line[1000];
@@ -26,38 +29,56 @@ namespace Assets.Scripts.Dialogue
         [SerializeField] private int _currentBranch;
         private Animator _currentActor;
         private bool _specialsOpen;
-          // Use this for initialization
+
+
+        private Actor actor0, actor1;
+        private int ActorExpression0, ActorExpression1;
+        private bool blinking;
+        //   Random eye blinker script 
+        public float blinkEyeRate = 4;
+
+        private float blinkEyeTime;
+        // Use this for initialization
         private void Awake()
         {
-            _portraitsBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/");
-            _portraitsBadger = Resources.LoadAll<Sprite>("Portraits/Badger/");
-            _portraitsBeaver = Resources.LoadAll<Sprite>("Portraits/Beaver/");
-            _portraitsMouse = Resources.LoadAll<Sprite>("Portraits/Mouse/");
-            _portraitsInjuredMouse = Resources.LoadAll<Sprite>("Portraits/InjuredMouse/");
-            _portraitsPig = Resources.LoadAll<Sprite>("Portraits/Pig/");
-            _portraitsWeasel = Resources.LoadAll<Sprite>("Portraits/Weasel/");
-            _portraitsRats = Resources.LoadAll<Sprite>("Portraits/Rats/");
-            _portraitsHedgehog = Resources.LoadAll<Sprite>("Portraits/Hedgehog/");
-
-
+            _portraitsBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/Normal/");
+            _portraitsBlinkingBunny = Resources.LoadAll<Sprite>("Portraits/Bunny/Blink/");
+            _portraitsBadger = Resources.LoadAll<Sprite>("Portraits/Badger/Normal/");
+            _portraitsBlinkingBadger = Resources.LoadAll<Sprite>("Portraits/Badger/Blink/");
+            _portraitsBeaver = Resources.LoadAll<Sprite>("Portraits/Beaver/Normal/");
+            _portraitsBlinkingBeaver = Resources.LoadAll<Sprite>("Portraits/Beaver/Blink/");
+            _portraitsMouse = Resources.LoadAll<Sprite>("Portraits/Mouse/Normal/");
+            _portraitsBlinkingMouse = Resources.LoadAll<Sprite>("Portraits/Mouse/Blink/");
+            _portraitsInjuredMouse = Resources.LoadAll<Sprite>("Portraits/InjuredMouse/Normal/");
+            _portraitsBlinkingInjuredMouse = Resources.LoadAll<Sprite>("Portraits/InjuredMouse/Blink/");
+            _portraitsPig = Resources.LoadAll<Sprite>("Portraits/Pig/Normal/");
+            _portraitsBlinkingPig = Resources.LoadAll<Sprite>("Portraits/Pig/Blink/");
+            _portraitsWeasel = Resources.LoadAll<Sprite>("Portraits/Weasel/Normal/");
+            _portraitsBlinkingWeasel = Resources.LoadAll<Sprite>("Portraits/Weasel/Blink/");
+            _portraitsRats = Resources.LoadAll<Sprite>("Portraits/Rats/Normal/");
+            _portraitsBlinkingRats = Resources.LoadAll<Sprite>("Portraits/Rats/Blink/");
+            _portraitsHedgehog = Resources.LoadAll<Sprite>("Portraits/Hedgehog/Normal/");
+            _portraitsBlinkingHedgehog = Resources.LoadAll<Sprite>("Portraits/Hedgehog/Blink/");
             _manager = GameObject.FindObjectOfType<DialogueCreatorManager>();
             _content = GameObject.FindGameObjectWithTag("Content").GetComponent<Text>();
             _actorName = GameObject.FindGameObjectWithTag("ActorName");
             _choisesTransform = GameObject.FindGameObjectWithTag("Choises");
+
        
         }
 
         //Keyboard Input
         private void Update()
         {
+
             if (!_managerAnimator.GetBool("Open") || !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.KeypadEnter)) return;
-            DetermineNextLine(_lines[_currentPage]);
+            DetermineNextLine();
         }
 
         //Mouse Input
         public void OnPointerDown(PointerEventData eventData)
         {
-            DetermineNextLine(_lines[_currentPage]);
+            DetermineNextLine();
         }
 
         //When a dialogue is triggered disable the trigger and open the dialogue
@@ -131,13 +152,13 @@ namespace Assets.Scripts.Dialogue
             {
                 _maxPage = container.Size;
                 _currentPage = 0;
-                Debug.Log("OPEN");
                 _managerAnimator.SetBool("Open", true);
                 _textbox.SetBool("Open", true);
 
                 _currentLine = _lines[_currentPage];
                 SetActor(_currentLine);
                 SetContent(_currentLine);
+              
             }
             else
                 CloseDialogue();
@@ -162,17 +183,77 @@ namespace Assets.Scripts.Dialogue
             //Left or right
             var direction = line.Direction;
             //Activate correct actor
-            _currentActor = direction == 0 ? _actor0 : _actor1;
+            if (direction == 0)
+            {
+                actor0 = line.Actor;
+                ActorExpression0 = line.ActorExpression;
+                _currentActor = _actor0;
+            }
+            else
+            {
+                actor1 = line.Actor;
+                ActorExpression1 = line.ActorExpression;
+                _currentActor = _actor1;
+            }
             //Assign correct sprite according to actor and expression chosen
             var sprite = DetermineActor(line.Actor, line.ActorExpression);
             _currentActor.GetComponent<Image>().sprite = sprite;
-            _currentActor.SetBool("Open", true);
 
-            //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its be cruel otherwise.
+            blinking = true;
+         
+            //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its too cruel otherwise.
             _actorName.GetComponentInChildren<Text>().text = line.Actor == Actor.InjuredMouse ? "Mouse" : line.Actor.ToString();
             _actorName.transform.localPosition = direction == 0 ? new Vector3(-750, _actorName.transform.localPosition.y, _actorName.transform.localPosition.z) : new Vector3(Mathf.Abs(_actorName.transform.localPosition.x), _actorName.transform.localPosition.y, _actorName.transform.localPosition.z);
-          
+
+
+            
+            if (!_currentActor.GetBool("Open"))
+            {
+                _currentActor.SetBool("Open", true);
+                StartCoroutine(Blink(direction));
+            }
+
+           
+      
         }
+
+        private IEnumerator Blink(int direction)
+        {
+            while (blinking)
+            {
+                blinkEyeRate = Random.Range(40, 100);
+                if (direction == 0)
+                {
+                    if (blinkEyeTime >= blinkEyeRate) //CHANGED THE "=" TO "=="
+                    {
+                        _actor0.GetComponent<Image>().sprite = DetermineActorBlinking(actor0, ActorExpression0);
+                        blinkEyeTime = 0;
+                    }
+                    else
+                    {
+                        _actor0.GetComponent<Image>().sprite = DetermineActor(actor0, ActorExpression0);
+                        blinkEyeTime++;
+                    }
+                }
+                else
+                {
+                    if (blinkEyeTime >= blinkEyeRate) //CHANGED THE "=" TO "=="
+                    {
+                        _actor1.GetComponent<Image>().sprite = DetermineActorBlinking(actor1, ActorExpression1);
+                        blinkEyeTime = 0;
+                    }
+                    else
+                    {
+                        _actor1.GetComponent<Image>().sprite = DetermineActor(actor1, ActorExpression1);
+                        blinkEyeTime++;
+                    }
+                }
+                yield return new WaitForSecondsRealtime(0.05f);
+            
+            }
+        }
+
+
 
         //Load the next line of dialogue
         private void NextLine()
@@ -220,11 +301,17 @@ namespace Assets.Scripts.Dialogue
             _content.text = line.Content;
         }
 
+
+
+        public void DetermineNextLine()
+        {
+            DetermineNextLine(_lines[_currentPage]);
+        }
        
 
         private void DetermineNextLine(Line line)
         {
-         
+            if(GameManager.Instance.JournalManager.IsOpen()) return;
             if (line.Special == 0)
             {
                 NextLine();
@@ -261,6 +348,10 @@ namespace Assets.Scripts.Dialogue
         {
             StartCoroutine(CloseSpecial(_choises[chosenButton]));
             _currentBranch = chosenButton+1;
+            foreach (var choise in _choises)
+            {
+                choise.GetComponent<Button>().interactable = false;
+            }
         
         }
 
@@ -313,6 +404,34 @@ namespace Assets.Scripts.Dialogue
                     return _portraitsRats[actorExpression];
                 case Actor.Weasel:
                     return _portraitsWeasel[actorExpression];
+                default:
+                    throw new ArgumentOutOfRangeException("actor", actor, null);
+            }
+        }
+
+        //Determineswhich sprite is apropriate given the current actor and its expression
+        private Sprite DetermineActorBlinking(Actor actor, int actorExpression)
+        {
+            switch (actor)
+            {
+                case Actor.Badger:
+                    return _portraitsBlinkingBadger[actorExpression];
+                case Actor.Beaver:
+                    return _portraitsBlinkingBeaver[actorExpression];
+                case Actor.Hedgehog:
+                    return _portraitsBlinkingHedgehog[actorExpression];
+                case Actor.Mouse:
+                    return _portraitsBlinkingMouse[actorExpression];
+                case Actor.InjuredMouse:
+                    return _portraitsBlinkingInjuredMouse[actorExpression];
+                case Actor.Pig:
+                    return _portraitsBlinkingPig[actorExpression];
+                case Actor.Bunny:
+                    return _portraitsBlinkingBunny[actorExpression];
+                case Actor.Rats:
+                    return _portraitsBlinkingRats[actorExpression];
+                case Actor.Weasel:
+                    return _portraitsBlinkingWeasel[actorExpression];
                 default:
                     throw new ArgumentOutOfRangeException("actor", actor, null);
             }

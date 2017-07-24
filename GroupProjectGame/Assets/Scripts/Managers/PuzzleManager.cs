@@ -56,9 +56,35 @@ namespace Assets.Scripts.Managers
         }
 
         //Reset objects in the current puzzle
+        public void ResetPuzzle(int puzzle)
+        {
+           
+            foreach (var box in _boxes)
+            {
+                if (box.ReturnPuzzle() == puzzle)
+                    box.ResetObject();
+            }
+
+            foreach (var slidingBox in _slidingBoxes)
+            {
+                if (slidingBox.ReturnPuzzle() == puzzle)
+                    slidingBox.ResetObject();
+            }
+            foreach (var Switch in _switches)
+            {
+                if (Switch.ReturnPuzzle() == puzzle)
+                    Switch.ResetObject();
+            }
+
+            foreach (var belt in _belts)
+            {
+                if (belt.ReturnPuzzle() == puzzle)
+                    belt.ResetObject();
+            }
+        }
+        //Reset objects in the current puzzle
         public void ResetPuzzle()
         {
-         
             var puzzle = GameManager.Instance.Player.ReturnCurrentPuzzle();
 
             foreach (var box in _boxes)

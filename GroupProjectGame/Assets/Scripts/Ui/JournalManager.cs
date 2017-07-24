@@ -4,7 +4,10 @@
  * Proprietary and confidential
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
+
+using Assets.Scripts.MainManagers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Ui
@@ -76,6 +79,10 @@ namespace Assets.Scripts.Ui
                 }
                 else
                     OpenJournal(!_animator.GetBool("Open"));
+            }
+            else if (Input.GetKeyDown(KeyCode.X))
+            {
+                OpenJournal(!_animator.GetBool("Open"));
             }
 
             else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
@@ -172,6 +179,22 @@ namespace Assets.Scripts.Ui
                 image.sprite = sprite;
                 break;
             }
+        }
+
+        /// <summary>
+        /// Return true if the journal is open
+        /// </summary>
+        public bool IsOpen()
+        {
+            return _animator.GetBool("Open");
+        }
+
+        /// <summary>
+        /// Return the game to the menu
+        /// </summary>
+        public void GoBackToMenu()
+        {
+           SceneManager.LoadScene("Menu");
         }
     }
 }

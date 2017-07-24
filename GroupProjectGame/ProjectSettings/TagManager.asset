@@ -24,6 +24,7 @@ TagManager:
   - Percentage
   - MusicVolume
   - SoundVolume
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

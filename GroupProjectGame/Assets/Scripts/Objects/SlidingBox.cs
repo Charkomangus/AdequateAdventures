@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
 using Boo.Lang;
 using UnityEngine;
@@ -64,11 +65,16 @@ namespace Assets.Scripts.Objects
                 else if (_scheduleToDie)
                 {
                     _scheduleToDie = false;
-                    _parentTile.GetComponentInChildren<ParticleSystem>().Play();
-                    _parentTile.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+                    if (_parentTile.ReturnType() == TileType.IceCracks)
+                    {
+                        _parentTile.GetComponentInChildren<ParticleSystem>().Play();
+                        _parentTile.GetComponentInChildren<SpriteRenderer>().sprite =
+                            Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+                    }
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
                     GetComponent<SpriteRenderer>().enabled = false;
+                    ResetObject();
                 }
             }
             else
@@ -82,8 +88,23 @@ namespace Assets.Scripts.Objects
         //Return the box back to it's original position
         public void ResetObject()
         {
-            transform.position = _originalTile.transform.position;
-            SetParentTile(_originalTile, -1);
+            if (_originalTile == GameManager.Instance.Player.ReturnParentTile())
+            {
+                foreach (var neighbor in _originalTile.ReturnNeighbors())
+                {
+                    if (neighbor.IsBlocked() == false)
+                    {
+                        SetParentTile(neighbor, -1);
+                        transform.position = neighbor.transform.position;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                SetParentTile(_originalTile, -1);
+                transform.position = _originalTile.transform.position;
+            }
             GetComponent<SpriteRenderer>().enabled = true;
             _scheduleToDie = false;
             _direction = -1;

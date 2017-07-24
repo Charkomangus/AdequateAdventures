@@ -80,8 +80,13 @@ namespace Assets.Scripts.Player
                 if (_scheduleToDie)
                 {
                     StartCoroutine(PlayerDeath());
-                    _parentTile.GetComponentInChildren<ParticleSystem>().Play();
-                    _parentTile.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+
+                    if (_parentTile.ReturnType() == TileType.IceCracks)
+                    {
+                        _parentTile.GetComponentInChildren<ParticleSystem>().Play();
+                        _parentTile.GetComponentInChildren<SpriteRenderer>().sprite =
+                            Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+                    }
                     _scheduleToDie = false;
                     return;
                 }
@@ -287,8 +292,15 @@ namespace Assets.Scripts.Player
 
         private void DetermineFlagsEncountered(Tile tile)
         {
-            if (tile.IsPuzzleEntry() || tile.IsPuzzleComplete())
+            if (tile.IsPuzzleEntry() && GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x, (int)tile.ReturnPosition().y) != _currentPuzzleTile)
+            {
                 _currentPuzzleTile = tile;
+                GameManager.Instance.UiManager.TriggerCheckpoint();
+            }
+            else if (tile.IsPuzzleComplete())
+            {
+                _currentPuzzleTile = tile;
+            }
             else if (tile.IsExit())
             {
                 GameManager.Instance.UiManager.SetFade(false);
@@ -385,14 +397,13 @@ namespace Assets.Scripts.Player
             GetComponent<SpriteRenderer>().enabled = false;
             _initialized = false;
             gameCamera.SetCameraHeight(2);
+         
             yield return new WaitForSeconds(1);
             GameManager.Instance.UiManager.SetFade(false);
             yield return new WaitForSeconds(2);
-
-
-            GameManager.Instance.RestartFromCheckPoint();
-            
+            gameCamera.SetCameraHeight(7.5f);
             gameCamera.transform.position = new Vector3(gameCamera.transform.position.x, 7.5f, gameCamera.transform.position.z);
+            GameManager.Instance.RestartFromCheckPoint();
         }
 
         //Determing what happens depending on the player input and position 

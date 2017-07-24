@@ -18,6 +18,7 @@ namespace Assets.Scripts.Ui
         private Sign[] _signs;
         private TextAsset[] _signTexts;
         private Animator _fade;
+        private Animator _checkpoint;
 
         /// <summary>
         /// Fade is needed straight away so it goes in awake
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Ui
         private void Awake()
         {
             _fade = GameObject.FindGameObjectWithTag("Fade").GetComponent<Animator>();
+
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace Assets.Scripts.Ui
         {
             _signTexts = Resources.LoadAll<TextAsset>("Sign/Text/");
             _signBox = FindObjectOfType<SignBox>();
+            _checkpoint = GameObject.FindGameObjectWithTag("Checkpoint").GetComponent<Animator>();
         }
 
         /// <summary>
@@ -68,6 +71,14 @@ namespace Assets.Scripts.Ui
         {
             if (_fade == null) return;
             _fade.SetBool("Open", status);
+        }
+
+        /// <summary>
+        /// Switches on the checkpoint animation
+        /// </summary>
+        public void TriggerCheckpoint()
+        {
+            _checkpoint.SetTrigger("Open");
         }
 
     }
