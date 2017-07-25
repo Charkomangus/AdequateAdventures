@@ -676,7 +676,7 @@ namespace Assets.Scripts.Tiles
         /*This is used for the map creator - it allows to "paint" the tiles over*/
         #region Paint Tile
 
-#if DEBUG
+
         /// <summary>
         /// When the mouse is clicked   
         /// </summary>
@@ -768,7 +768,7 @@ namespace Assets.Scripts.Tiles
                 }
             }
         }
-#endif
+
         #endregion
 
         /*As the primary building block of this project tiles require almost all their variables to be accesible - what follows is all the gets and sets that requires*/
