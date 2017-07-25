@@ -6,6 +6,7 @@
 *********************************************************************************/
 
 using System.Collections;
+using Assets.Scripts.MainManagers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,7 +25,9 @@ namespace Assets.Scripts.Ui
         private Sprite[] _foundSprites;
         private GameObject[] _pageButtons;
         private GameObject _evidenceTextBox;
-        [SerializeField] private TextAsset[] _evidenceTexts;
+        [SerializeField]private bool _evidencePicked;
+        [SerializeField]private bool _inputFrozen;
+        [SerializeField]private TextAsset[] _evidenceTexts;
 
         /// <summary>
         /// Find all the necessery componments and set them to the default values
@@ -62,6 +65,7 @@ namespace Assets.Scripts.Ui
         /// </summary>
         private void Update()
         {
+            if (_inputFrozen) return;
             JournalInput();
         }
 
@@ -187,6 +191,11 @@ namespace Assets.Scripts.Ui
                 _evidence.GetComponent<CanvasGroup>().interactable = true;
                 Time.timeScale = 1;
                 Cursor.visible = false;
+                if (_evidencePicked)
+                {
+                    GameManager.Instance.TriggerDialogue();
+                    _evidencePicked = false;
+                }
             }
 
             _animator.SetBool("Open", status);
@@ -216,8 +225,8 @@ namespace Assets.Scripts.Ui
             }
 
             //This is done to exlude the parent buttons image
-            var Images = _evidenceButtons[evidence].GetComponentsInChildren<Image>();
-            foreach (Image image in Images)
+            var images = _evidenceButtons[evidence].GetComponentsInChildren<Image>();
+            foreach (Image image in images)
             {
                 if (image.gameObject == _evidenceButtons[evidence].gameObject) continue;
                 image.sprite = sprite;
@@ -226,12 +235,20 @@ namespace Assets.Scripts.Ui
         }
 
         //Guard waits in place
+        /// <summary>
+        /// Open the recently aquired evidence and show the contents
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public IEnumerator OpenEvidence(int number)
         {
+            _inputFrozen = true;
+            _evidencePicked = true;
             OpenJournal(true);
             yield return new WaitForSecondsRealtime(0.75f);
-            OpenEvidenceTextBox(number);        
-
+            OpenEvidenceTextBox(number);
+            yield return new WaitForSecondsRealtime(0.75f);
+            _inputFrozen = false;
         }
 
         /// <summary>

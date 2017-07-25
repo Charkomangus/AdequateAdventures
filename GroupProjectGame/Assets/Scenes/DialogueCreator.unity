@@ -2679,7 +2679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4da2acc51a6a447894346550a9c272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KillOnExiToggle: {fileID: 1699105981}
+  KillOnExitToggle: {fileID: 1699105981}
   Load: {fileID: 280382523}
   Save: {fileID: 1170002436}
   ActorName: {fileID: 378147737}

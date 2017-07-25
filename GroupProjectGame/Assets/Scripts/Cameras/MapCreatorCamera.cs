@@ -47,9 +47,6 @@ namespace Assets.Scripts.Cameras
         private const float ScrollWheelZoomingSensitivity = 60f;
         private int _limitX = 30; //x limit of map - these will change depending on the map size
         private int _limitY = 30; //z limit of map - these will change depending on the map size
-
-
-
        
         //Assigned default controls
         private const KeyCode ZoomInKey = KeyCode.Minus;

@@ -112,7 +112,7 @@ namespace Assets.Scripts.MainManagers
             Player.InitializePlayer();
             UiManager.SetFade(true);
             GuardManager.SpawnGuards();
-        
+            _dialogueNumber = 0;
             if (CurrentAct == 1 && CurrentLevel == 1)
                 TriggerDialogue();
         }
@@ -152,7 +152,7 @@ namespace Assets.Scripts.MainManagers
         {
             _dialogueNumber++;
             DialogueManager.OpenDialogue("Level" + CurrentAct + "_" + CurrentLevel + "_" + _dialogueNumber);
-
+            Debug.Log("Level" + CurrentAct + "_" + CurrentLevel + "_" + _dialogueNumber);
         }
 
 

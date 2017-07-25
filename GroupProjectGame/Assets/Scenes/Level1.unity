@@ -3724,6 +3724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced8fe42ac67383458de0e5eea15a080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _evidencePicked: 0
+  _inputFrozen: 0
   _evidenceTexts:
   - {fileID: 0}
   - {fileID: 0}

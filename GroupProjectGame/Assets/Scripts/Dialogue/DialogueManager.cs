@@ -12,6 +12,7 @@ using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -319,7 +320,8 @@ namespace Assets.Scripts.Dialogue
 
         private void DetermineNextLine(Line line)
         {
-            if(GameManager.Instance.JournalManager.IsOpen()) return;
+            if (SceneManager.GetActiveScene().name == "Level1")
+               if(GameManager.Instance.JournalManager.IsOpen()) return;
             if (line.Special == 0)
             {
                 NextLine();
