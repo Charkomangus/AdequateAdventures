@@ -14,7 +14,7 @@ namespace Assets.Scripts.MapCreator
     {
       private int _mapSize;
         private List<List<Tile>> _map = new List<List<Tile>>();
-        private readonly List<Tile> _puzzleEntryTiles = new List<Tile>();
+        [SerializeField]private readonly List<Tile> _puzzleEntryTiles = new List<Tile>();
         private readonly List<Tile> _puzzleCompleteTiles = new List<Tile>();
         private Tile _entryTile;
 

@@ -7,19 +7,6 @@ namespace Assets.Scripts.Objects
 
       
         [SerializeField] private string _signText;
-        [SerializeField]private int _puzzleNumber;
-        // Use this for initialization
-        private void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
-
-        }
-
 
         public string ReturnSignText()
         {

@@ -13,6 +13,9 @@ namespace Assets.Scripts.MainManagers
 
     public delegate void OnStateChangeHandler();
 
+    /// <summary>
+    /// Old solution to handle current game state. Was dropped for being overly complex for what was needed
+    /// </summary>
     public class StateManager : Object
     {
         protected StateManager() { }
@@ -20,6 +23,9 @@ namespace Assets.Scripts.MainManagers
         public event OnStateChangeHandler OnStateChange;
         public GameState GameState { get; private set; }
 
+        /// <summary>
+        /// Singleton pattern
+        /// </summary>
         public static StateManager Instance
         {
             get
@@ -32,12 +38,19 @@ namespace Assets.Scripts.MainManagers
 
         }
 
+        /// <summary>
+        /// Set the game state
+        /// </summary>
+        /// <param name="state"></param>
         public void SetGameState(GameState state)
         {
             GameState = state;
             if (OnStateChange != null) OnStateChange();
         }
 
+        /// <summary>
+        /// Destroy the instance when the app;lication quits
+        /// </summary>
         public void OnApplicationQuit()
         {
             _instance = null;

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Assets.Scripts.Actors;
+using Assets.Scripts.MainManagers;
 using UnityEngine;
 
 namespace Assets.Scripts.Dialogue
@@ -161,7 +162,9 @@ namespace Assets.Scripts.Dialogue
             if (text == null)
             {
                 Debug.Log("File not found");
+
                 Time.timeScale = 1;
+                GameManager.Instance.Player.SetInitialized(true);
                 return null;
             }
 

@@ -12,6 +12,7 @@ using Assets.Scripts.MapCreator;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Tiles
 {
@@ -354,6 +355,7 @@ namespace Assets.Scripts.Tiles
             GenerateNewActor();
         }
 
+        
 
         //Set the tiles obhect and variables
         public void SetObject(TileObject Object)

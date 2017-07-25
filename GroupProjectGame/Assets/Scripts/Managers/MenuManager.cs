@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,14 +16,19 @@ namespace Assets.Scripts.Managers
         // Use this for initialization
         private void Start()
         {
-            start.onClick.AddListener(StartGame);
+         
+            start.onClick.AddListener(delegate { StartCoroutine(StartGame()); });
             End.onClick.AddListener(EndGame);
         }
 
 
-        public void StartGame()
+        private IEnumerator StartGame()
         {
-            SceneManager.LoadScene("Level1");
+            GetComponent<Animator>().SetBool("Open", false);
+            start.interactable = false;
+         
+            yield return new WaitForSeconds(3);
+            SceneManager.LoadScene("LevelLoader");
         }
 
         public void EndGame()

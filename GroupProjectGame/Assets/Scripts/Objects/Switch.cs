@@ -34,7 +34,7 @@ namespace Assets.Scripts.Objects
         private SpriteRenderer _spriteRenderer;
         private Sprite[] _sprites;
         //List containing the conveyor belts that this switch will affect
-        private List<ConveyorBelt> _belts = new List<ConveyorBelt>();
+        private readonly List<ConveyorBelt> _belts = new List<ConveyorBelt>();
 
         // Use this for initialization
         void Start()

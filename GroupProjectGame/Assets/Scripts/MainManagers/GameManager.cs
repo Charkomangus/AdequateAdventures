@@ -4,8 +4,11 @@
  * Proprietary and confidential
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Actors;
+using Assets.Scripts.Cameras;
 using Assets.Scripts.Dialogue;
 using Assets.Scripts.Managers;
 using Assets.Scripts.MapCreator;
@@ -30,7 +33,6 @@ namespace Assets.Scripts.MainManagers
         public AudioManager AudioManager;
         public UiManager UiManager;
         public PuzzleManager PuzzleManager;
-        public StateManager StateManager;
         public MapGenerator MapGenerator;
         public EnviromentManager EnviromentManager;
         public GuardManager GuardManager;
@@ -50,19 +52,22 @@ namespace Assets.Scripts.MainManagers
         public Player.Player Player;
 
 
-        public string Level; //TEMP
+        public GameObject debugPanel;
    
 
         // Use this for initialization
         private void Awake()
         {
-            if(Instance != null)
+            if (Instance != null)
+            {
+               
                 Destroy(gameObject);
+                return;
+            }           
+            Instance = this;
             Application.targetFrameRate = 30;
             DontDestroyOnLoad(this);
-            Instance = this;
-            StateManager = StateManager.Instance;
-            StateManager.OnStateChange += HandleOnStateChange;
+         
             CurrentScene = SceneManager.GetActiveScene().name;
             AudioManager = GetComponentInChildren<AudioManager>();
             MapGenerator = GetComponent<MapGenerator>();
@@ -70,26 +75,20 @@ namespace Assets.Scripts.MainManagers
             GuardManager = FindObjectOfType<GuardManager>();
             DialogueManager = FindObjectOfType<DialogueManager>();
             JournalManager = FindObjectOfType<JournalManager>();
-            }
+        }
 
         // Use this for initialization
         private void Start ()
         {
-            if (CurrentScene == "Level1")
-            {
-                StartLevel();
-            }
+            OnLevelWasLoaded();
         }
 
-        
-
+      
 
         private void OnLevelWasLoaded()
         {
-            Debug.Log("Level" + CurrentAct + "_" + CurrentLevel + " was loaded.");
             CurrentScene = SceneManager.GetActiveScene().name;
-            
-            switch (SceneManager.GetActiveScene().name)
+            switch (CurrentScene)
             {
                 case "Level1":
                     StartLevel();                    
@@ -101,27 +100,46 @@ namespace Assets.Scripts.MainManagers
             
         }
 
-        //Start level
-        public void StartLevel()
+
+        private void Update()
         {
+            if(Input.GetKeyDown(KeyCode.B))
+            debugPanel.SetActive(!debugPanel.activeSelf);
+
+
+
+        }
+
+        //Start level
+        private void StartLevel()
+        {
+          
+            EnviromentManager = FindObjectOfType<EnviromentManager>();
+            GuardManager = FindObjectOfType<GuardManager>();
+            DialogueManager = FindObjectOfType<DialogueManager>();
+            JournalManager = FindObjectOfType<JournalManager>();
             UiManager = FindObjectOfType<UiManager>();
             PuzzleManager = FindObjectOfType<PuzzleManager>();
+
             InitializeMap();
             PuzzleManager.Initialize();
             Player = FindObjectOfType<Player.Player>();
             Player.InitializePlayer();
-            UiManager.SetFade(true);
             GuardManager.SpawnGuards();
+         
             _dialogueNumber = 0;
-            if (CurrentAct == 1 && CurrentLevel == 1)
-                TriggerDialogue();
+            UiManager.SetFade(true);
+            //if (CurrentAct == 1 && CurrentLevel == 1)
+            //    TriggerDialogue();
         }
 
         //Loads the corresponding map to the current act and level and initializes variables concerning it
         private void InitializeMap()
         {
+           
             MapTransform = GameObject.FindGameObjectWithTag("Map").transform;
 
+            MapGenerator = GetComponent<MapGenerator>();
             if (CurrentAct == 4)
             {
                 MapGenerator.LoadMapFromXml("LevelMaps/test");
@@ -139,39 +157,25 @@ namespace Assets.Scripts.MainManagers
         }
 
 
-
-        //Open the apropriate dialogue
-        public void TriggerDialogue(Tile tile)
+        //Guard waits in place
+        public IEnumerator EndOfLevel()
         {
-            _dialogueNumber++;
-            DialogueManager.DialogueTrigger(tile, "Level" + CurrentAct + "_" + CurrentLevel +"_" + _dialogueNumber);
-          
+            var gameCamera = Camera.main.GetComponent<GameCamera>();
+            Player.SetInitialized(false);
+            gameCamera.SetCameraHeight(2);
+            yield return new WaitForSeconds(1);
+            UiManager.SetFade(false);
+            yield return new WaitForSeconds(2);
+            gameCamera.SetCameraHeight(7.5f);
+            gameCamera.transform.position = new Vector3(gameCamera.transform.position.x, 7.5f, gameCamera.transform.position.z);
+            NextLevel();
         }
-        //Open the apropriate dialogue
-        public void TriggerDialogue()
-        {
-            _dialogueNumber++;
-            DialogueManager.OpenDialogue("Level" + CurrentAct + "_" + CurrentLevel + "_" + _dialogueNumber);
-            Debug.Log("Level" + CurrentAct + "_" + CurrentLevel + "_" + _dialogueNumber);
-        }
-
-
-        //Starts the game with no other consideration of bools and things
-        public void SimpleStartLevel()
-        {
-            //Start game scene
-            StateManager.SetGameState(GameState.Game);
-        }
-
-
-
 
         /// <summary>
         /// Restarts the game to start from the last puzzle encountered
         /// </summary>
         public void RestartFromCheckPoint()
-        {    
-
+        {
             //Reset the current Puzzle, leaving the others untouched
             PuzzleManager.Initialize();
             PuzzleManager.ResetPuzzle();
@@ -179,54 +183,13 @@ namespace Assets.Scripts.MainManagers
             Player.Restart();
             //Reset all guards
             GuardManager.ResetGuards();
-
-            //DO the introdocturary fade in from black
+            //Do the introdocturary fade in from black
             UiManager.SetFade(true);
-
-        }
-
-
-        /// <summary>
-        /// Change the Game State to the Game Scene
-        /// </summary>
-        public void SetLevel1(int level)
-        {
-            CurrentAct = 1;
-            CurrentLevel = level;
-            SimpleStartLevel();
-
         }
 
         /// <summary>
-        /// Change the Game State to the Game Scene
+        /// Go to the next Level
         /// </summary>
-        public void SetLevel2(int level)
-        {
-            CurrentAct = 2;
-            CurrentLevel = level;
-            SimpleStartLevel();
-
-        }
-
-        /// <summary>
-        /// Change the Game State to the Game Scene
-        /// </summary>
-        public void SetLevel3(int level)
-        {
-            CurrentAct = 3;
-            CurrentLevel = level;
-            SimpleStartLevel();
-        }
-
-        /// <summary>
-        /// Change the Game State to the Game Scene
-        /// </summary>
-        public void SetLevel0()
-        {
-            CurrentAct = 4;
-            SimpleStartLevel();
-        }
-        //Go to the next level
         public void NextLevel()
         {
             if (CurrentAct == 3 && CurrentLevel == 3)
@@ -235,34 +198,35 @@ namespace Assets.Scripts.MainManagers
                 CurrentAct++;
             else
                 CurrentLevel++;
-            SimpleStartLevel();
+            SceneManager.LoadScene("LevelLoader");
         }
 
-
-        //DEBUG
-        public void NextLevelDebug()
+        #region Dialogue
+      
+        //Open the apropriate dialogue
+        public void TriggerDialogue(Tile tile)
         {
-            switch (CurrentLevel)
-            {
-                case 1:
-                    CurrentLevel = 2;
-                    break;
-                case 2:
-                    CurrentLevel = 3;
-                    break;
-                case 3:
-                    CurrentLevel = 1;
-                    CurrentAct++;
-                    break;
-            }
-            SimpleStartLevel();
+            _dialogueNumber++;
+            DialogueManager.DialogueTrigger(tile, "Level" + CurrentAct + "_" + CurrentLevel +"_" + _dialogueNumber);
+          
         }
 
-        public void HandleOnStateChange()
+        //Open the next dialogue
+        public void TriggerDialogue()
         {
-            Invoke("StartLevel", 0);
+            _dialogueNumber++;
+            DialogueManager.OpenDialogue("Level" + CurrentAct + "_" + CurrentLevel + "_" + _dialogueNumber);
+           
         }
 
+        //Open the dialogue using the filename given
+        public void TriggerDialogue(string filename)
+        {
+            _dialogueNumber++;
+            DialogueManager.OpenDialogue(filename);
+        }
+
+        #endregion
 
         #region Sets & Returns
         /// <summary>
@@ -292,8 +256,48 @@ namespace Assets.Scripts.MainManagers
             return LevelEntry;
         }
 
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel1(int level)
+        {
+            CurrentAct = 1;
+            CurrentLevel = level;
+            SceneManager.LoadScene("LevelLoader");
 
-       
+        }
+
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel2(int level)
+        {
+            CurrentAct = 2;
+            CurrentLevel = level;
+            SceneManager.LoadScene("LevelLoader");
+        }
+
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel3(int level)
+        {
+            CurrentAct = 3;
+            CurrentLevel = level;
+            SceneManager.LoadScene("LevelLoader");
+        }
+
+        /// <summary>
+        /// Change the Game State to the Game Scene
+        /// </summary>
+        public void SetLevel0()
+        {
+            CurrentAct = 4;
+            SceneManager.LoadScene("LevelLoader");
+        }
+
+
+
         #endregion
 
     }

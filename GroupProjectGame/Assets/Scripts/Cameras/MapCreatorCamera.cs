@@ -112,7 +112,7 @@ namespace Assets.Scripts.Cameras
         private void Update()
         {
             if(!Enabled) return;
-
+          
             //Otherwise Move
             Move();
 
@@ -280,9 +280,6 @@ namespace Assets.Scripts.Cameras
 
             //Constrain it between the min and max height
             var targetHeight = Mathf.LerpUnclamped(_minHeight, _maxHeight, _zoomPos);
-          
-
-
 
             _transform.position = Vector3.Lerp(_transform.position,new Vector3(_transform.position.x, targetHeight, _transform.position.z),
                 Time.deltaTime * HeightDampening);

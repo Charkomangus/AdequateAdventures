@@ -8,6 +8,7 @@ using System;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Objects
 {
@@ -74,8 +75,11 @@ namespace Assets.Scripts.Objects
                     if (_parentTile.ReturnType() == TileType.IceCracks)
                     {
                         _parentTile.GetComponentInChildren<ParticleSystem>().Play();
-                        _parentTile.GetComponentInChildren<SpriteRenderer>().sprite =
-                            Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+                        var temp = _parentTile.GetComponentInChildren<SpriteRenderer>();
+                        temp.sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+
+                        temp.transform.localScale = new Vector3(Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f));
+                        temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 180)));
                     }
                     ResetObject();
                     
@@ -97,7 +101,7 @@ namespace Assets.Scripts.Objects
             {
                 foreach (var neighbor in _originalTile.ReturnNeighbors())
                 {
-                    if (neighbor.IsBlocked() == false)
+                    if (neighbor.IsBlocked() == false && neighbor.ReturnType() != TileType.IceCracks && neighbor.ReturnType() != TileType.Fire)
                     {
                         SetParentTile(neighbor, -1);
                         transform.position = neighbor.transform.position;

@@ -18,6 +18,9 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Dialogue
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DialogueManager : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField]private Sprite[] _portraitsBunny, _portraitsBadger, _portraitsBeaver, _portraitsMouse, _portraitsInjuredMouse, _portraitsPig, _portraitsWeasel, _portraitsRats, _portraitsHedgehog;
@@ -76,13 +79,7 @@ namespace Assets.Scripts.Dialogue
        
         }
 
-        //Keyboard Input
-        private void Update()
-        {
-
-            if (!_managerAnimator.GetBool("Open") || !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.KeypadEnter)) return;
-            DetermineNextLine();
-        }
+     
 
         //Mouse Input
         public void OnPointerDown(PointerEventData eventData)
@@ -106,8 +103,10 @@ namespace Assets.Scripts.Dialogue
                     row[y].ShowFlags();
                 }
         }
-
         
+
+
+
 
         //Opens the dialogue TEMP - for dialogue creator use only!
         public void OpenCreatorDialogue()
@@ -132,6 +131,7 @@ namespace Assets.Scripts.Dialogue
         {
             //Pause movement
             Time.timeScale = 0;
+            GameManager.Instance.Player.SetInitialized(false);
 
             //Load map level
             var container = DialogueSaveLoad.LoadFromResources(filename);
@@ -174,11 +174,14 @@ namespace Assets.Scripts.Dialogue
         }
 
 
+  
+
 
         //Close the dialogue screen
         private void CloseDialogue()
         {
             Time.timeScale = 1;
+            GameManager.Instance.Player.SetInitialized(true);
             _currentPage = 0;
            _managerAnimator.SetBool("Open", false);
             _textbox.SetBool("Open", false);

@@ -264,7 +264,8 @@ namespace Assets.Scripts.Ui
         /// </summary>
         public void GoBackToMenu()
         {
-           SceneManager.LoadScene("Menu");
+            Time.timeScale = 1;
+            SceneManager.LoadScene("Menu");
         }
     }
 }

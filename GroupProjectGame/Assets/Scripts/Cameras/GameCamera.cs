@@ -41,6 +41,11 @@ namespace Assets.Scripts.Cameras
         /// </summary>
         private void LateUpdate()
         {
+            if (_player == null)
+            {
+                _player = GameManager.Instance.Player; return;
+            }
+           
             transform.position = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             transform.position = Vector3.Lerp(transform.position, new Vector3(_player.transform.position.x, newHeight, _player.transform.position.z ), Time.deltaTime);
 

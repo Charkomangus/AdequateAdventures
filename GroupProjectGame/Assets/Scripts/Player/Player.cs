@@ -6,12 +6,14 @@
 *********************************************************************************/
 using System;
 using System.Collections;
+using System.Security.Cryptography;
 using Assets.Scripts.Cameras;
 using Assets.Scripts.Evidence;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Player
 {
@@ -56,8 +58,8 @@ namespace Assets.Scripts.Player
 
             //Start at entry tile - if it's null pick one at random.
             _parentTile = DetermingStartingTile();
-            
-            transform.position = _parentTile.transform.position;
+            if(_parentTile != null)
+                transform.position = _parentTile.transform.position;
           
             _moveSpeed = _normalSpeed;
             _slidingSpeed = _moveSpeed * 2;
@@ -76,9 +78,16 @@ namespace Assets.Scripts.Player
         // Update is called once per frame
         private void Update()
         {
+            if (_parentTile == null)
+            {
+                _parentTile = DetermingStartingTile();
+                if(_parentTile == null) return;
+                transform.position = _parentTile.transform.position;
+            }
             //If the player has not been yet initalised or hasd no valid parent tile return
             if (_parentTile == null || !_initialized) return;
-
+         
+        
             DetermineMovement();
             //If the player is close to the parent tile speed them up and read further input
             if (HasReachedTile())
@@ -90,9 +99,12 @@ namespace Assets.Scripts.Player
 
                     if (_parentTile.ReturnType() == TileType.IceCracks)
                     {
-                        _parentTile.GetComponentInChildren<ParticleSystem>().Play();
-                        _parentTile.GetComponentInChildren<SpriteRenderer>().sprite =
-                            Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+                            _parentTile.GetComponentInChildren<ParticleSystem>().Play();
+                        var temp = _parentTile.GetComponentInChildren<SpriteRenderer>();
+                        temp.sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
+
+                        temp.transform.localScale = new Vector3(Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f));
+                        temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 180)));
                     }
                     _scheduleToDie = false;
                     return;
@@ -201,7 +213,7 @@ namespace Assets.Scripts.Player
 
         //Move player smoothly
         public void SmoothMove(Vector3 startPosition, Vector3 endPosition, float speed)
-        { 
+        {
             transform.position = Vector3.Lerp(startPosition, endPosition, speed * Time.deltaTime);
         }
       
@@ -322,7 +334,7 @@ namespace Assets.Scripts.Player
             else if (tile.IsExit())
             {
                 GameManager.Instance.UiManager.SetFade(false);
-                GameManager.Instance.NextLevelDebug();
+                StartCoroutine(GameManager.Instance.EndOfLevel());
             }
             else if (tile.IsDialogue())
             {
@@ -414,8 +426,7 @@ namespace Assets.Scripts.Player
             var gameCamera = UnityEngine.Camera.main.GetComponent<GameCamera>();
             GetComponent<SpriteRenderer>().enabled = false;
             _initialized = false;
-            gameCamera.SetCameraHeight(2);
-         
+            gameCamera.SetCameraHeight(2);         
             yield return new WaitForSeconds(1);
             GameManager.Instance.UiManager.SetFade(false);
             yield return new WaitForSeconds(2);
@@ -423,6 +434,9 @@ namespace Assets.Scripts.Player
             gameCamera.transform.position = new Vector3(gameCamera.transform.position.x, 7.5f, gameCamera.transform.position.z);
             GameManager.Instance.RestartFromCheckPoint();
         }
+
+
+
 
         //Determing what happens depending on the player input and position 
         private void DetermineMoveState()

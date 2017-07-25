@@ -9,28 +9,21 @@ namespace Assets.Scripts.Managers
     public class PuzzleManager : MonoBehaviour {
 
         private ConveyorBelt[] _conveyorBelts;
-        [SerializeField]
-        private List<ConveyorBelt> _redConveyorBelts = new List<ConveyorBelt>();
-        [SerializeField]
-        private List<ConveyorBelt> _greenConveyorBelts = new List<ConveyorBelt>();
-        [SerializeField]
-        private List<ConveyorBelt> _blueConveyorBelts = new List<ConveyorBelt>();
+        private readonly List<ConveyorBelt> _redConveyorBelts;
+        private readonly List<ConveyorBelt> _greenConveyorBelts;
+        private readonly List<ConveyorBelt> _blueConveyorBelts;
 
-        [SerializeField]
+       
         private Box[]_boxes;
-
-        [SerializeField]
         private SlidingBox[] _slidingBoxes;
-
-        [SerializeField]
         private Switch[] _switches;
-
-        [SerializeField]
         private ConveyorBelt[] _belts;
+
 
      
         public void Initialize()
         {
+
             //Fill in the lists of objects again as they might have changed (boxes destroyed, etc)
             _boxes = FindObjectsOfType<Box>();
             _slidingBoxes = FindObjectsOfType<SlidingBox>();
@@ -54,6 +47,7 @@ namespace Assets.Scripts.Managers
                 }
             }
         }
+
 
         //Reset objects in the current puzzle
         public void ResetPuzzle(int puzzle)

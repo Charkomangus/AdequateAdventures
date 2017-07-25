@@ -149,6 +149,7 @@ namespace Assets.Scripts.Actors
             Camera.main.fieldOfView = 60;
         }
        
+
         /// <summary>
         /// Create a route using patrol tiles
         /// </summary>
@@ -208,14 +209,14 @@ namespace Assets.Scripts.Actors
                     break;
             }
 
-#if DEBUG
+
             //DEBUG PURPOSES - Number patrol tiles
             for (int i = 0; i < _patrolTiles.Count; i++)
             {
                 _patrolTiles[i].GetComponentInChildren<TextMesh>().text = i.ToString();
             }
         }
-#endif
+
 
         /// <summary>
         /// Go from one tile to the next
@@ -470,13 +471,13 @@ namespace Assets.Scripts.Actors
         {
             if (_watchedTiles.Count > 0)
             {
-#if DEBUG
+
                 //DEBUG - clear old seeing tiles from an colour
                 foreach (var tile in _watchedTiles)
                 {
                     tile.GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1);
                 }
-#endif
+
                 _watchedTiles.Clear();
             }
             //Depending on the direction the guard is facing create a 3 x 3 seeing block. Any tiles that are blocked or null will not be included
@@ -545,7 +546,7 @@ namespace Assets.Scripts.Actors
                     break;
             }
 
-#if DEBUG
+
             //DEBUG - Colour seeign tiles so designers can more easily expirement with stealth
             if (_watchedTiles.Count <= 0) return;
 
@@ -555,7 +556,8 @@ namespace Assets.Scripts.Actors
             }
 
         }
-#endif
+
+
         /// <summary>
         /// Play the apropriate animation depending on the direction and status of the guard
         /// </summary>
