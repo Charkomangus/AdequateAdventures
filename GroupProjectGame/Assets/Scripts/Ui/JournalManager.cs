@@ -25,7 +25,6 @@ namespace Assets.Scripts.Ui
         private Sprite[] _foundSprites;
         private GameObject[] _pageButtons;
         private GameObject _evidenceTextBox;
-        [SerializeField]private bool _evidencePicked;
         [SerializeField]private bool _inputFrozen;
         [SerializeField]private TextAsset[] _evidenceTexts;
 
@@ -67,6 +66,7 @@ namespace Assets.Scripts.Ui
         {
             if (_inputFrozen) return;
             JournalInput();
+           
         }
 
         /// <summary>
@@ -87,7 +87,11 @@ namespace Assets.Scripts.Ui
                     OpenJournal(!_animator.GetBool("Open"));
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.X))
+
+            //No further input if the text box is open
+            if (_evidenceTextBox.GetComponent<Animator>().GetBool("Open") || !_evidence.GetComponent<CanvasGroup>().interactable) return;
+           
+            if (Input.GetKeyDown(KeyCode.X))
             {
                 OpenJournal(!_animator.GetBool("Open"));
             }
@@ -104,7 +108,8 @@ namespace Assets.Scripts.Ui
             {
                 OpenEvidenceTextBox(0);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && _evidenceButtons[1].interactable)
+
+            if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && _evidenceButtons[1].interactable)
             {
                 OpenEvidenceTextBox(1);
             }
@@ -189,12 +194,12 @@ namespace Assets.Scripts.Ui
             {
                 _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
                 _evidence.GetComponent<CanvasGroup>().interactable = true;
-                Time.timeScale = 1;
-                Cursor.visible = false;
-                if (_evidencePicked)
+
+                //Unfreeze time only if the dialogue is not working
+                if (!GameManager.Instance.DialogueManager.IsOpen())
                 {
-                    GameManager.Instance.TriggerDialogue();
-                    _evidencePicked = false;
+                    Time.timeScale = 1;
+                    Cursor.visible = false;
                 }
             }
 
@@ -214,7 +219,7 @@ namespace Assets.Scripts.Ui
             {
                 _evidenceButtons[evidence].interactable = true;
                 sprite = _foundSprites[evidence];
-                _evidenceButtons[evidence].GetComponentInChildren<Text>().text = evidence + " - Evidence";
+                _evidenceButtons[evidence].GetComponentInChildren<Text>().text = _evidenceTexts[evidence].name;
             }
             //Make the button non-interactable and hide the sprite and text
             else
@@ -234,6 +239,15 @@ namespace Assets.Scripts.Ui
             }
         }
 
+        /// <summary>
+        /// Call thew reset from checkpoint
+        /// </summary>
+        public void ResetToCheckPoint()
+        {
+            Time.timeScale = 1;
+            GameManager.Instance.RestartFromCheckPoint();
+        }
+
         //Guard waits in place
         /// <summary>
         /// Open the recently aquired evidence and show the contents
@@ -243,7 +257,6 @@ namespace Assets.Scripts.Ui
         public IEnumerator OpenEvidence(int number)
         {
             _inputFrozen = true;
-            _evidencePicked = true;
             OpenJournal(true);
             yield return new WaitForSecondsRealtime(0.75f);
             OpenEvidenceTextBox(number);

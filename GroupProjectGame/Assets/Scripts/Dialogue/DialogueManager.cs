@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Actors;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
+using Assets.Scripts.Ui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -39,8 +40,7 @@ namespace Assets.Scripts.Dialogue
         [SerializeField] private int _currentBranch;
         private Animator _currentActor;
         private bool _specialsOpen;
-
-
+        public bool _EvidencePicked;
         private Actor actor0, actor1;
         private int ActorExpression0, ActorExpression1;
         private bool blinking;
@@ -84,8 +84,25 @@ namespace Assets.Scripts.Dialogue
         //Mouse Input
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (!IsOpen()) return;
             DetermineNextLine();
         }
+
+        
+        private void Update()
+        {
+            if(!IsOpen()) return;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (GameManager.Instance == null)
+                {
+                    DetermineNextLine();
+                }
+                else if (!GameManager.Instance.JournalManager.IsOpen())
+                    DetermineNextLine();
+            }
+        }
+
 
         //When a dialogue is triggered disable the trigger and open the dialogue
         public void DialogueTrigger(Tile tile, string filename)
@@ -117,13 +134,13 @@ namespace Assets.Scripts.Dialogue
             {
                 _managerAnimator.SetBool("Open", true);
                 _textbox.SetBool("Open", true);
-               
+
                 _currentLine = _lines[_currentPage];
                 SetActor(_currentLine);
                 SetContent(_currentLine);
             }
             else
-                CloseDialogue();
+                StartCoroutine(CloseDialogue());
         }
 
         //Opens the dialogue TEMP - for dialogue creator use only!
@@ -131,6 +148,7 @@ namespace Assets.Scripts.Dialogue
         {
             //Pause movement
             Time.timeScale = 0;
+            UnityEngine.Cursor.visible = true;
             GameManager.Instance.Player.SetInitialized(false);
 
             //Load map level
@@ -170,23 +188,38 @@ namespace Assets.Scripts.Dialogue
               
             }
             else
-                CloseDialogue();
+                StartCoroutine(CloseDialogue());
         }
 
 
-  
-
+        
 
         //Close the dialogue screen
-        private void CloseDialogue()
+        private IEnumerator CloseDialogue()
         {
             Time.timeScale = 1;
-            GameManager.Instance.Player.SetInitialized(true);
             _currentPage = 0;
+            _specialsOpen = false;
            _managerAnimator.SetBool("Open", false);
             _textbox.SetBool("Open", false);
             _actor0.SetBool("Open", false);
+           
             _actor1.SetBool("Open", false);
+            UnityEngine.Cursor.visible = false;
+            if (_EvidencePicked)
+            {
+                StartCoroutine(GameManager.Instance.JournalManager.OpenEvidence(0));
+                _EvidencePicked = false;
+
+            }
+            yield return new WaitForSeconds(0.5f);
+            if(GameManager.Instance != null)
+                GameManager.Instance.Player.SetInitialized(true);
+            yield return new WaitForSeconds(1);
+            _actor1.GetComponent<Image>().sprite = null;
+            _actor0.GetComponent<Image>().sprite = null;
+
+           
         }
       
         //Set the apropriate actors spite and position
@@ -303,7 +336,7 @@ namespace Assets.Scripts.Dialogue
                 }
             }
             else
-                CloseDialogue();
+                StartCoroutine(CloseDialogue());
         }
    
 
@@ -444,6 +477,11 @@ namespace Assets.Scripts.Dialogue
                 default:
                     throw new ArgumentOutOfRangeException("actor", actor, null);
             }
+        }
+
+        public bool IsOpen()
+        {
+            return _managerAnimator.GetBool("Open");
         }
     }
 }

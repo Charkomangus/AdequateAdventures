@@ -19,9 +19,11 @@ namespace Assets.Scripts.Managers
         }
 	
         // Update is called once per frame
-        void Update () {
-		if(Input.GetKeyDown(KeyCode.H))
-                OpenHint();
+        void Update ()
+        {
+            if (Input.GetKeyDown(KeyCode.H))
+                if (!GameManager.Instance.JournalManager.IsOpen() && !GameManager.Instance.DialogueManager.IsOpen())
+                    OpenHint();
         }
 
 

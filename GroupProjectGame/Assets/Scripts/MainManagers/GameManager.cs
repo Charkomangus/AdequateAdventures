@@ -38,7 +38,7 @@ namespace Assets.Scripts.MainManagers
         public GuardManager GuardManager;
         public DialogueManager DialogueManager;
         public JournalManager JournalManager;
-
+        public int EvidenceFound;
 
         public Transform MapTransform;
         private int _mapSize;
@@ -63,7 +63,7 @@ namespace Assets.Scripts.MainManagers
                
                 Destroy(gameObject);
                 return;
-            }           
+            }             
             Instance = this;
             Application.targetFrameRate = 30;
             DontDestroyOnLoad(this);
@@ -83,54 +83,65 @@ namespace Assets.Scripts.MainManagers
             OnLevelWasLoaded();
         }
 
-      
+
 
         private void OnLevelWasLoaded()
         {
+            if (Instance != this)return;
+
             CurrentScene = SceneManager.GetActiveScene().name;
             switch (CurrentScene)
             {
                 case "Level1":
-                    StartLevel();                    
+                    StartLevel();
+                    break;
+                case "LevelLoader":
+                    EnviromentManager = null;
+                    GuardManager = null;
+                    DialogueManager = null;
+                    JournalManager = null;
+                    UiManager = null;
+                    PuzzleManager = null;
+                    Player = null;
+                    LevelEntry = null;
+                    UnityEngine.Cursor.visible = false;
                     break;
                 case "Menu":
                     UnityEngine.Cursor.visible = true;
                     break;
             }
-            
         }
 
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.B))
-            debugPanel.SetActive(!debugPanel.activeSelf);
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                debugPanel.SetActive(!debugPanel.activeSelf);
 
-
+                UnityEngine.Cursor.visible = debugPanel.activeSelf;
+            }
 
         }
 
         //Start level
         private void StartLevel()
         {
-          
             EnviromentManager = FindObjectOfType<EnviromentManager>();
             GuardManager = FindObjectOfType<GuardManager>();
             DialogueManager = FindObjectOfType<DialogueManager>();
             JournalManager = FindObjectOfType<JournalManager>();
             UiManager = FindObjectOfType<UiManager>();
             PuzzleManager = FindObjectOfType<PuzzleManager>();
-
-            InitializeMap();
-            PuzzleManager.Initialize();
             Player = FindObjectOfType<Player.Player>();
-            Player.InitializePlayer();
-            GuardManager.SpawnGuards();
-         
+
+            StartCoroutine(LoadLevel());
             _dialogueNumber = 0;
-            UiManager.SetFade(true);
-            //if (CurrentAct == 1 && CurrentLevel == 1)
-            //    TriggerDialogue();
+        
+            if (CurrentAct == 1 && CurrentLevel == 1)
+            {
+                TriggerDialogue();
+            }
         }
 
         //Loads the corresponding map to the current act and level and initializes variables concerning it
@@ -152,10 +163,26 @@ namespace Assets.Scripts.MainManagers
             }
 
             _map = MapGenerator.ReturnMap();
-            _mapSize = MapGenerator.ReturnMapSize();
-            LevelEntry = MapGenerator.ReturnEntryTile();
+            _mapSize = MapGenerator.ReturnMapSize();           
+                LevelEntry = MapGenerator.FindLevelEntry();
+            
+          
         }
-
+        //Guard waits in place
+        public IEnumerator LoadLevel()
+        {
+            yield return new WaitForSeconds(0);
+            InitializeMap();
+            PuzzleManager.Initialize();
+            for (int i = 0; i < EvidenceFound; i++)
+            {
+                JournalManager.EvidenceFound(i, true);
+            }
+           
+            Player.InitializePlayer();
+            GuardManager.SpawnGuards();
+           
+        }
 
         //Guard waits in place
         public IEnumerator EndOfLevel()

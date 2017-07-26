@@ -23,11 +23,12 @@ namespace Assets.Scripts.Evidence
         /// </summary>
         public void EvidencePickedUp()
         {
-            if (_evidenceNumber != -1) 
+            if (_evidenceNumber != -1)
             {
-                var temp = GameManager.Instance.JournalManager;
-                temp.EvidenceFound(_evidenceNumber, true);
-                StartCoroutine(temp.OpenEvidence(_evidenceNumber));
+                GameManager.Instance.EvidenceFound++;
+                GameManager.Instance.TriggerDialogue();
+                GameManager.Instance.DialogueManager._EvidencePicked = true;
+
             }
             GetComponent<SpriteRenderer>().sprite = null;
             GetComponentInParent<Tile>().SetObject(TileObject.Empty);

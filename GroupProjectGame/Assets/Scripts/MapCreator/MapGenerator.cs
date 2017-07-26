@@ -36,9 +36,6 @@ namespace Assets.Scripts.MapCreator
                     tile.SetPosition(new Vector3(i, j, 0));
                     tile.SetType(TileType.Normal);
                     tile.SetPuzzleNumber(-1);
-                    FindLevelEntry(i, j);
-                    PuzzleEntry(i, j);
-                    PuzzleExit(i, j);
                     row.Add(tile);
                 }
                 _map.Add(row);
@@ -46,21 +43,33 @@ namespace Assets.Scripts.MapCreator
         }
 
         //Find the tile that has an entry flag on it
-        private void FindLevelEntry(int i, int j)
+        public Tile FindLevelEntry()
         {
-            if (_map[i][j].IsEntry())
+            for (var x = 0; x < _map.Count; x++)
             {
-                _entryTile = _map[i][j];
-            }
+                for (var y = 0; y < _map.Count; y++)
+                {
+                    if (_map[x][y].IsEntry())
+                        return _map[x][y];
+
+                    
+                        
+                    }
+
+                }
+            return null;
         }
+         
+        
 
         //Find the tile that has an entry flag on it
-        private void PuzzleEntry(int i, int j)
+        private bool PuzzleEntry(int i, int j)
         {
             if (_map[i][j].IsPuzzleEntry())
             {
-                _puzzleEntryTiles.Add(_map[i][j]);
+                return true;
             }
+            return false;
         }
 
         //Find the tile that has an entry flag on it

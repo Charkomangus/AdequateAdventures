@@ -838,6 +838,16 @@ namespace Assets.Scripts.Tiles
             return _currentObject;
         }
 
+
+        /// <summary>
+        /// Return The tiles object type
+        /// </summary>
+        /// <returns></returns>
+        public TileObject ReturnCurrentObjectType(){
+            
+            return _object;
+        }
+
         /// <summary>
         /// Return The tiles render Type
         /// </summary>

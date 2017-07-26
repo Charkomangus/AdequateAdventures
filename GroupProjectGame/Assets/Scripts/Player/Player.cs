@@ -46,6 +46,8 @@ namespace Assets.Scripts.Player
         [SerializeField]private bool _endedLevel;
         [SerializeField] private bool _scheduleToDie;
         [SerializeField]private bool _initialized;
+
+        [SerializeField]private SpriteRenderer[] Reflections;
         //Int to indicate direction 0 is North, 1 is South, 2 is East, 3 is West
         private int _direction;
    
@@ -67,6 +69,11 @@ namespace Assets.Scripts.Player
             _moving = false;
             _endedLevel = false;
             _initialized = true;
+            Reflections = GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 1; i < Reflections.Length; i++)
+            {
+                Reflections[i].color = new Color(0,0,0,0);
+            }
         }
 
         //Start at entry tile - if it's null pick one at random.
@@ -92,6 +99,8 @@ namespace Assets.Scripts.Player
             //If the player is close to the parent tile speed them up and read further input
             if (HasReachedTile())
             {
+                if(_parentTile.ReturnType() == TileType.Normal)
+                    SetReflection(-1);
                 //Free the current parent tile and kill the object
                 if (_scheduleToDie)
                 {
@@ -211,6 +220,24 @@ namespace Assets.Scripts.Player
             }
         }
 
+        private void SetReflection(int i)
+        {
+            for (int j = 1; j < Reflections.Length; j++)
+            {
+                //If you are not sliding set them all to false
+                if (!_sliding)
+                    i = -1;
+                if (j == i)
+                    Reflections[j].color = new Color(0.8f, 0.8f, 0.8f, 0.8f);
+                else
+                {
+                    Reflections[j].color = new Color(0, 0, 0, 0);
+                }
+
+            }
+            
+        }
+
         //Move player smoothly
         public void SmoothMove(Vector3 startPosition, Vector3 endPosition, float speed)
         {
@@ -322,7 +349,7 @@ namespace Assets.Scripts.Player
 
         private void DetermineFlagsEncountered(Tile tile)
         {
-            if (tile.IsPuzzleEntry() && GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x, (int)tile.ReturnPosition().y) != _currentPuzzleTile)
+            if ((tile.IsPuzzleEntry() || tile.IsEntry())&& GameManager.Instance.MapGenerator.ReturnSpecificTile((int)tile.ReturnPosition().x, (int)tile.ReturnPosition().y) != _currentPuzzleTile)
             {
                 _currentPuzzleTile = tile;
                 GameManager.Instance.UiManager.TriggerCheckpoint();
@@ -338,11 +365,28 @@ namespace Assets.Scripts.Player
             }
             else if (tile.IsDialogue())
             {
-
-
                 GameManager.Instance.TriggerDialogue(tile);
+            }
+            else if (tile.ReturnCurrentObject() != null)
+            {
+                var temp = tile.ReturnCurrentObjectType();
 
-
+                switch (temp)
+                {
+                    case TileObject.Evidence1:
+                    case TileObject.Evidence2:
+                    case TileObject.Evidence3:
+                    case TileObject.Evidence4:
+                    case TileObject.Evidence5:
+                    case TileObject.Evidence6:
+                    case TileObject.Evidence7:
+                    case TileObject.Evidence8:
+                    case TileObject.Evidence9:
+                        tile.ReturnCurrentObject().GetComponent<Evidences>().EvidencePickedUp();
+                        break;
+                }
+              
+                  
             }
         }
 
@@ -433,6 +477,7 @@ namespace Assets.Scripts.Player
             gameCamera.SetCameraHeight(7.5f);
             gameCamera.transform.position = new Vector3(gameCamera.transform.position.x, 7.5f, gameCamera.transform.position.z);
             GameManager.Instance.RestartFromCheckPoint();
+            Camera.main.GetComponent<GameCamera>().DetermineHeight();
         }
 
 
@@ -446,24 +491,28 @@ namespace Assets.Scripts.Player
                 case PlayerMoveState.Up:
 
                     DetermineAnimationStatus("Up");
+                    SetReflection(2);
                     _direction = 0;
                     Move(_parentTile.ReturnNorth());
                     break;
 
                 case PlayerMoveState.Down:
                     DetermineAnimationStatus("Down");
+                    SetReflection(1);
                     _direction = 1;
                     Move(_parentTile.ReturnSouth());
                     break;
 
                 case PlayerMoveState.Right:
                     DetermineAnimationStatus("Right");
+                    SetReflection(4);
                     _direction = 2;
                     Move(_parentTile.ReturnEast());
                     break;
 
                 case PlayerMoveState.Left:
                     DetermineAnimationStatus("Left");
+                    SetReflection(3);
                     _direction = 3;
                     Move(_parentTile.ReturnWest());
                     break;
@@ -493,6 +542,7 @@ namespace Assets.Scripts.Player
             //Interact with objects
             if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
             {
+                if(!GameManager.Instance.DialogueManager.IsOpen() && !GameManager.Instance.JournalManager.IsOpen())
                 Interact();
             }
 

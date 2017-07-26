@@ -9,9 +9,9 @@ namespace Assets.Scripts.Managers
     public class PuzzleManager : MonoBehaviour {
 
         private ConveyorBelt[] _conveyorBelts;
-        private readonly List<ConveyorBelt> _redConveyorBelts;
-        private readonly List<ConveyorBelt> _greenConveyorBelts;
-        private readonly List<ConveyorBelt> _blueConveyorBelts;
+        private readonly List<ConveyorBelt> _redConveyorBelts = new List<ConveyorBelt>();
+        private readonly List<ConveyorBelt> _greenConveyorBelts = new List<ConveyorBelt>();
+        private readonly List<ConveyorBelt> _blueConveyorBelts = new List<ConveyorBelt>();
 
        
         private Box[]_boxes;

@@ -14848,13 +14848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a400c3fe7381e84d8ae3aad75d660f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _redConveyorBelts: []
-  _greenConveyorBelts: []
-  _blueConveyorBelts: []
-  _boxes: []
-  _slidingBoxes: []
-  _switches: []
-  _belts: []
 --- !u!1 &1830372470
 GameObject:
   m_ObjectHideFlags: 0
@@ -17533,9 +17526,9 @@ MonoBehaviour:
     type: 2}
   TileWall: {fileID: 1714163579851398, guid: 95fb83f35cc70504ab1963679b911349, type: 2}
   TileDoor: {fileID: 1389792090590884, guid: dbd91c4b45f898d42a3ac1a80e46aecf, type: 2}
-  RedBelt: {fileID: 1372820762686430, guid: 1b3a153318d2c894d9847bf027b287c4, type: 2}
-  GreenBelt: {fileID: 1252626975415082, guid: a013b05474d315647980f363dc8cef28, type: 2}
-  BlueBelt: {fileID: 1375477525791954, guid: 013f88abb9a15e447addf43dd167f734, type: 2}
+  RedBelt: {fileID: 1909928611357050, guid: 1b3a153318d2c894d9847bf027b287c4, type: 2}
+  GreenBelt: {fileID: 1225960355417170, guid: a013b05474d315647980f363dc8cef28, type: 2}
+  BlueBelt: {fileID: 1173613177188388, guid: 013f88abb9a15e447addf43dd167f734, type: 2}
   TileNull: {fileID: 1243063957082526, guid: efb342105367f464485f68ed35dbf07a, type: 2}
   Box: {fileID: 1072647835305200, guid: 0bf05ab7dd1501443b948009f3ab030a, type: 2}
   SlidingBox: {fileID: 1471259964504928, guid: 64ed5b51441c1ce4e97ddd40270f2328, type: 2}
@@ -17556,11 +17549,11 @@ MonoBehaviour:
   Badger: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
   Beaver: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
   Hedgehog: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
-  Mouse: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Mouse: {fileID: 1733238721505426, guid: d224e872628ef2c429b10b21935ad252, type: 2}
   InjuredMouse: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410,
     type: 2}
-  Pig: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
-  Bunny: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Pig: {fileID: 1291618186936068, guid: 0e91ff0679b62ff489a45d8bf43d710a, type: 2}
+  Bunny: {fileID: 1176117486315634, guid: 7b3592226c04d2a4ab4c222cfe731bfd, type: 2}
   Rats: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
-  Weasel: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Weasel: {fileID: 1003259772486502, guid: f1669ccc4cec17a449484f5a0d551081, type: 2}
   Guard: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}

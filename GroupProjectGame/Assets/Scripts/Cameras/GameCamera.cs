@@ -15,7 +15,6 @@ namespace Assets.Scripts.Cameras
     public class GameCamera : MonoBehaviour
     {
         private Player.Player _player;
-        private Vector3 _originalPosition;
         private float newHeight;
         private float _normalHeight;
         private float _puzzleHeight;
@@ -28,7 +27,6 @@ namespace Assets.Scripts.Cameras
         private void Start()
         {
             _player = GameManager.Instance.Player;
-            _originalPosition = transform.position;
             //Set camera heights
             newHeight = 7.5f;
             _normalHeight = 7.5f;
@@ -43,7 +41,7 @@ namespace Assets.Scripts.Cameras
         {
             if (_player == null)
             {
-                _player = GameManager.Instance.Player; return;
+                _player = FindObjectOfType<Player.Player>();
             }
            
             transform.position = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
@@ -59,7 +57,7 @@ namespace Assets.Scripts.Cameras
         /// <summary>
         /// Check what puzzle the player is in and zoom out accordingly
         /// </summary>
-        private void DetermineHeight()
+        public         void DetermineHeight()
         {
             //Get some informationg from the game manager
             var player = GameManager.Instance.Player;
@@ -100,7 +98,7 @@ namespace Assets.Scripts.Cameras
                             break;
                         case 3:
                             //Huge Puzzles
-                            if (puzzle == 1 || puzzle == 2)
+                            if (puzzle == 1 || puzzle == 2 || puzzle == 0)
                                 SetCameraHeight(_hugePuzzleHeight);
                             //Normal Puzzles
                             else if (puzzle != -1)

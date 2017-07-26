@@ -164,7 +164,8 @@ namespace Assets.Scripts.Dialogue
                 Debug.Log("File not found");
 
                 Time.timeScale = 1;
-                GameManager.Instance.Player.SetInitialized(true);
+                if(GameManager.Instance != null)
+                    GameManager.Instance.Player.SetInitialized(true);
                 return null;
             }
 

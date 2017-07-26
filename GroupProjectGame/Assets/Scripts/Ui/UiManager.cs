@@ -15,8 +15,9 @@ namespace Assets.Scripts.Ui
     public class UiManager : MonoBehaviour
     {
         private SignBox _signBox;
+        [SerializeField]
         private Sign[] _signs;
-        private TextAsset[] _signTexts;
+        [SerializeField]private TextAsset[] _signTexts;
         private Animator _fade;
         private Animator _checkpoint;
 
@@ -34,6 +35,7 @@ namespace Assets.Scripts.Ui
         /// </summary>
         private void Start()
         {
+            _signs = FindObjectsOfType<Sign>();
             _signTexts = Resources.LoadAll<TextAsset>("Sign/Text/");
             _signBox = FindObjectOfType<SignBox>();
             _checkpoint = GameObject.FindGameObjectWithTag("Checkpoint").GetComponent<Animator>();
@@ -45,14 +47,20 @@ namespace Assets.Scripts.Ui
         private void Update()
         {
             //If the signs array is emptry fill it with all the signs
-          if(_signs == null)
-              _signs = FindObjectsOfType<Sign>();
-
-          //Set each sign to its corresponding text
-            for (int i = 0; i < _signs.Length; i++)
+            if (_signs.Length <= 0)
             {
-                _signs[i].SetSignText(_signTexts[i].text);
+                _signs = FindObjectsOfType<Sign>();
+
+
+
+
+                //Set each sign to its corresponding text
+                for (int i = 0; i < _signs.Length; i++)
+                {
+                    _signs[i].SetSignText(_signTexts[i].text);
+                }
             }
+
         }
 
         /// <summary>

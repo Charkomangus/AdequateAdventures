@@ -25,6 +25,7 @@ TagManager:
   - MusicVolume
   - SoundVolume
   - Checkpoint
+  - Sillouate
   layers:
   - Default
   - TransparentFX
@@ -65,11 +66,17 @@ TagManager:
   - name: EnviromentArt
     uniqueID: 2363283121
     locked: 0
+  - name: EnviromentExtra
+    uniqueID: 1251835673
+    locked: 0
   - name: Belts
     uniqueID: 2771220559
     locked: 0
   - name: Objects
     uniqueID: 3111630997
+    locked: 0
+  - name: Reflection
+    uniqueID: 3816080973
     locked: 0
   - name: Player
     uniqueID: 3027028607

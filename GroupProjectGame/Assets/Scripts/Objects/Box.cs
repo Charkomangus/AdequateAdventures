@@ -132,6 +132,7 @@ namespace Assets.Scripts.Objects
            
             //Set new tile as parent tile
             _parentTile = tile;
+
            _parentTile.SetObject(TileObject.Box);
             _parentTile.GenerateObject(gameObject);
 

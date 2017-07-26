@@ -45,7 +45,7 @@ namespace Assets.Scripts.Objects
             {
                 //Gameplay
                 case "Level1":
-                    _puzzlemanager = GameManager.Instance.PuzzleManager;
+                    _puzzlemanager = FindObjectOfType<PuzzleManager>();
                     break;
                 //Level creator
                 case "MapCreatorScene":
