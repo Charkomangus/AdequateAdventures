@@ -97,8 +97,11 @@ namespace Assets.Scripts.Cameras
                                 SetCameraHeight(_normalHeight);
                             break;
                         case 3:
+                            //Extra Huge Puzzles
+                            if(puzzle == 3)
+                                SetCameraHeight(_hugePuzzleHeight+1);
                             //Huge Puzzles
-                            if (puzzle == 1 || puzzle == 2 || puzzle == 3)
+                            else if (puzzle == 1 || puzzle == 2)
                                 SetCameraHeight(_hugePuzzleHeight);
                             //Normal Puzzles
                             else if (puzzle != -1)
