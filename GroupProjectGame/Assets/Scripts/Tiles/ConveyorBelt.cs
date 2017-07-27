@@ -67,6 +67,9 @@ namespace Assets.Scripts.Tiles
                 case 3:
                     _direction = Direction.West;
                     break;
+                case -1:
+                    _direction = Direction.East;
+                        break;
             }
             //Update the sprite
             GenerateVisuals();

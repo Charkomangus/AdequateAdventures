@@ -655,7 +655,7 @@ MonoBehaviour:
   LevelEntry: {fileID: 0}
   LevelExit: {fileID: 0}
   CurrentAct: 1
-  CurrentLevel: 3
+  CurrentLevel: 1
   _dialogueNumber: 0
   CurrentScene: 
   Player: {fileID: 0}
@@ -1317,7 +1317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151, y: -970.54553}
+  m_AnchoredPosition: {x: 151, y: -970.5455}
   m_SizeDelta: {x: 226, y: 62.909092}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &289683152

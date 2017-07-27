@@ -27,6 +27,7 @@ namespace Assets.Scripts.Evidence
             {
                 GameManager.Instance.EvidenceFound++;
                 GameManager.Instance.TriggerDialogue();
+                GameManager.Instance.JournalManager.EvidenceFound(_evidenceNumber, true);
                 GameManager.Instance.DialogueManager._EvidencePicked = true;
 
             }

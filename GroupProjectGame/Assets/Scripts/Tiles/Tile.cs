@@ -111,7 +111,9 @@ namespace Assets.Scripts.Tiles
 
             //Show what flags this tile has
             ShowFlags();
-
+            //If it is the start or the end of a puzzle borrow the opuzzle number of tiles around you
+            if(IsPuzzleEntry() || IsPuzzleComplete())
+                BorrowPuzzleNumber();
         }
 
         /*This is used to set the tiles type, objects and actors*/
@@ -282,6 +284,19 @@ namespace Assets.Scripts.Tiles
                 case "DeleteAll":
                     DeleteAll(this);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Take the puzzle number of a neighbor
+        /// </summary>
+        private void BorrowPuzzleNumber()
+        {
+            foreach (var neighbor in _neighbors)
+            {
+               if (neighbor.ReturnPuzzleNumber() == -1) continue;
+                SetPuzzleNumber(neighbor.ReturnPuzzleNumber());
+                break;
             }
         }
 
