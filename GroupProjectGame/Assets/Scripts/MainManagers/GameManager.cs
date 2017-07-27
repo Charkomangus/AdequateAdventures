@@ -221,7 +221,7 @@ namespace Assets.Scripts.MainManagers
         {
             if (CurrentAct == 3 && CurrentLevel == 3)
                 Debug.Log("ENDGAME");
-            else if (CurrentLevel == 3)
+            else if (CurrentLevel == 4)
                 CurrentAct++;
             else
                 CurrentLevel++;
