@@ -790,6 +790,23 @@ namespace Assets.Scripts.Tiles
         #region Sets & Returns
 
         /// <summary>
+        /// Deactivate this tiles dialogue flag and continue to do so for all the neighbors that are also dialogues
+        /// </summary>
+        public void DeleteDialogue()
+        {
+            SetDialogue(false);
+            ShowFlags();
+
+            foreach (var neighbor in ReturnNeighbors())
+            {
+                if (!neighbor.IsDialogue()) continue;
+                neighbor.SetDialogue(false);
+                neighbor.ShowFlags();
+                neighbor.DeleteDialogue();
+            }
+        }
+
+        /// <summary>
         /// Return Tile north of this tile
         /// </summary>
         /// <returns></returns>

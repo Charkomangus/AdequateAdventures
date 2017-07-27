@@ -227,7 +227,7 @@ RectTransform:
   m_Children:
   - {fileID: 1281277814}
   m_Father: {fileID: 1110179839}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -508,7 +508,7 @@ RectTransform:
   - {fileID: 1987324359}
   - {fileID: 1328328271}
   m_Father: {fileID: 1110179839}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -655,7 +655,7 @@ MonoBehaviour:
   LevelEntry: {fileID: 0}
   LevelExit: {fileID: 0}
   CurrentAct: 1
-  CurrentLevel: 3
+  CurrentLevel: 1
   _dialogueNumber: 0
   CurrentScene: 
   Player: {fileID: 0}
@@ -3199,6 +3199,7 @@ MonoBehaviour:
   _choises: []
   _currentBranch: 0
   _EvidencePicked: 0
+  _evidenceNumber: 0
   blinkEyeRate: 4
 --- !u!222 &717396867
 CanvasRenderer:
@@ -5303,10 +5304,10 @@ RectTransform:
   m_Children:
   - {fileID: 1562997672}
   - {fileID: 1568040943}
+  - {fileID: 1359642990}
   - {fileID: 40113803}
   - {fileID: 2033046031}
   - {fileID: 27843223}
-  - {fileID: 1359642990}
   m_Father: {fileID: 890521831}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6177,8 +6178,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0b284c5c2660ea247a9b07d388f590a3, type: 3}
-    m_FontSize: 36
+    m_Font: {fileID: 12800000, guid: 1dd8860d4f65e724991f11eb566cd1eb, type: 3}
+    m_FontSize: 38
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -6187,8 +6188,8 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1.1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
   m_Text: Well, pig ole boy this is quite a sticky situation we find ourselves in.
     I think we might be having some bacon tonight ain't that right Macky? Macky? Hey,
     where is Macky? Maaaacccccckkkyyy? ...... Oh dangit all!
@@ -6562,7 +6563,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1110179839}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10950,7 +10951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 2493, y: -66}
+  m_AnchoredPosition: {x: 2493.0002, y: -66}
   m_SizeDelta: {x: 1009, y: 1009}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &2026699192
@@ -11034,7 +11035,7 @@ RectTransform:
   - {fileID: 862954639}
   - {fileID: 1285516290}
   m_Father: {fileID: 1110179839}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

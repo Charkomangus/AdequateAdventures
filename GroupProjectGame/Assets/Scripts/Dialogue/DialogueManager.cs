@@ -41,6 +41,7 @@ namespace Assets.Scripts.Dialogue
         private Animator _currentActor;
         private bool _specialsOpen;
         public bool _EvidencePicked;
+        public int _evidenceNumber;
         private Actor actor0, actor1;
         private int ActorExpression0, ActorExpression1;
         private bool blinking;
@@ -108,17 +109,7 @@ namespace Assets.Scripts.Dialogue
         public void DialogueTrigger(Tile tile, string filename)
         {
             OpenDialogue(filename);
-            var container = GameManager.Instance.ReturnMap();
-            
-            tile.SetDialogue(false);
-            tile.ShowFlags();
-            foreach (List<Tile> row in container)
-                for (var y = 0; y < container.Count; y++)
-                {
-                    if (!row[y].IsDialogue() || row[y].ReturnPuzzleNumber() != tile.ReturnPuzzleNumber()) continue;
-                    row[y].SetDialogue(false);
-                    row[y].ShowFlags();
-                }
+            tile.DeleteDialogue();
         }
         
 
@@ -175,7 +166,7 @@ namespace Assets.Scripts.Dialogue
                 _lines[x] = line;
             }
             _maxPage = _lines.Length;
-            if (_currentPage < _maxPage)
+            if (_currentPage <= _maxPage)
             {
                 _maxPage = container.Size;
                 _currentPage = 0;
@@ -208,7 +199,7 @@ namespace Assets.Scripts.Dialogue
             UnityEngine.Cursor.visible = false;
             if (_EvidencePicked)
             {
-                StartCoroutine(GameManager.Instance.JournalManager.OpenEvidence(0));
+                StartCoroutine(GameManager.Instance.JournalManager.OpenEvidence(_evidenceNumber));
                 _EvidencePicked = false;
 
             }
