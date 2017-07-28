@@ -195,6 +195,11 @@ namespace Assets.Scripts.Dialogue
                 GameManager.Instance.CinematicsManager.TriggerCinematic(0);
                yield break;
             }
+            if (lastDialogue == "Level1_4_3")
+            {
+               SceneManager.LoadScene("Ending");
+                yield break;
+            }
             Time.timeScale = 1;
             _currentPage = 0;
             _specialsOpen = false;

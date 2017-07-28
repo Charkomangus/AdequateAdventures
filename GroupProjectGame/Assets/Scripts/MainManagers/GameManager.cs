@@ -142,9 +142,10 @@ namespace Assets.Scripts.MainManagers
             StartCoroutine(LoadLevel());
             _dialogueNumber = 0;
         
-            if (CurrentAct == 1 && CurrentLevel == 1)
+            if (CurrentAct == 1)
             {
-                TriggerDialogue();
+                if(CurrentLevel == 1 || CurrentLevel == 4)
+                    TriggerDialogue();
             }
         }
 
@@ -223,10 +224,12 @@ namespace Assets.Scripts.MainManagers
         /// </summary>
         public void NextLevel()
         {
-            if (CurrentAct == 3 && CurrentLevel == 3)
-                Debug.Log("ENDGAME");
+            Debug.Log(CurrentLevel);
+                if (CurrentAct == 3 && CurrentLevel == 3)
+                SceneManager.LoadScene("Ending");
             else if (CurrentLevel == 4)
-                CurrentAct++;
+                SceneManager.LoadScene("Ending");
+                //CurrentAct++; When more acts exist this will be uncommented
             else
                 CurrentLevel++;
             SceneManager.LoadScene("LevelLoader");
