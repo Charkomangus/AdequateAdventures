@@ -1214,7 +1214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.922}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1271,6 +1271,8 @@ MonoBehaviour:
     type: 2}
   _choises: []
   _currentBranch: 0
+  _EvidencePicked: 0
+  _evidenceNumber: 0
   blinkEyeRate: 4
 --- !u!222 &129534406
 CanvasRenderer:

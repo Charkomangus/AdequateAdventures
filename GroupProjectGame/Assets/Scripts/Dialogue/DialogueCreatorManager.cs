@@ -56,6 +56,8 @@ namespace Assets.Scripts.Dialogue
         private void Update()
         {
             Lines[CurrentPage] = CreateNewLine();
+            if (!UnityEngine.Cursor.visible)
+                UnityEngine.Cursor.visible = true;
         }
 
         /// <summary>

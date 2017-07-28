@@ -233,24 +233,35 @@ namespace Assets.Scripts.Dialogue
             }
             //Assign correct sprite according to actor and expression chosen
             var sprite = DetermineActor(line.Actor, line.ActorExpression);
-            _currentActor.GetComponent<Image>().sprite = sprite;
 
-            blinking = true;
-         
-            //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its too cruel otherwise.
-            _actorName.GetComponentInChildren<Text>().text = line.Actor == Actor.InjuredMouse ? "Mouse" : line.Actor.ToString();
-            _actorName.transform.localPosition = direction == 0 ? new Vector3(-750, _actorName.transform.localPosition.y, _actorName.transform.localPosition.z) : new Vector3(Mathf.Abs(_actorName.transform.localPosition.x), _actorName.transform.localPosition.y, _actorName.transform.localPosition.z);
-
-
-            
-            if (!_currentActor.GetBool("Open"))
+            if (sprite == null)
             {
-                _currentActor.SetBool("Open", true);
-                StartCoroutine(Blink(direction));
-            }
+                _currentActor.SetBool("Open", false);
+                _actorName.GetComponent<Image>().color = new Color(0,0,0,0);
+                _actorName.GetComponentInChildren<Text>().text = "";
 
-           
-      
+            }
+            else
+            {
+                _currentActor.GetComponent<Image>().sprite = sprite;
+
+                blinking = true;
+
+                //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its too cruel otherwise.
+                _actorName.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                _actorName.GetComponentInChildren<Text>().text =line.Actor == Actor.InjuredMouse ? "Mouse" : line.Actor.ToString();
+                _actorName.transform.localPosition = direction == 0                    ? new Vector3(-750, _actorName.transform.localPosition.y, _actorName.transform.localPosition.z)
+                    : new Vector3(Mathf.Abs(_actorName.transform.localPosition.x), _actorName.transform.localPosition.y,
+                        _actorName.transform.localPosition.z);
+
+
+
+                if (!_currentActor.GetBool("Open"))
+                {
+                    _currentActor.SetBool("Open", true);
+                    StartCoroutine(Blink(direction));
+                }
+            }
         }
 
         private IEnumerator Blink(int direction)
@@ -262,12 +273,16 @@ namespace Assets.Scripts.Dialogue
                 {
                     if (blinkEyeTime >= blinkEyeRate) //CHANGED THE "=" TO "=="
                     {
-                        _actor0.GetComponent<Image>().sprite = DetermineActorBlinking(actor0, ActorExpression0);
+                        var sprite = DetermineActorBlinking(actor0, ActorExpression0);
+                        if (sprite != null)
+                            _actor0.GetComponent<Image>().sprite = sprite;
                         blinkEyeTime = 0;
                     }
                     else
                     {
-                        _actor0.GetComponent<Image>().sprite = DetermineActor(actor0, ActorExpression0);
+                        var sprite = DetermineActor(actor0, ActorExpression0);
+                        if (sprite != null)
+                            _actor0.GetComponent<Image>().sprite = sprite;
                         blinkEyeTime++;
                     }
                 }
@@ -275,12 +290,16 @@ namespace Assets.Scripts.Dialogue
                 {
                     if (blinkEyeTime >= blinkEyeRate) //CHANGED THE "=" TO "=="
                     {
-                        _actor1.GetComponent<Image>().sprite = DetermineActorBlinking(actor1, ActorExpression1);
+                        var sprite = DetermineActorBlinking(actor1, ActorExpression1);
+                        if (sprite != null)
+                            _actor1.GetComponent<Image>().sprite = sprite;
                         blinkEyeTime = 0;
                     }
                     else
                     {
-                        _actor1.GetComponent<Image>().sprite = DetermineActor(actor1, ActorExpression1);
+                        var sprite = DetermineActor(actor1, ActorExpression1);
+                        if (sprite != null)
+                            _actor1.GetComponent<Image>().sprite = sprite;
                         blinkEyeTime++;
                     }
                 }
@@ -438,7 +457,7 @@ namespace Assets.Scripts.Dialogue
                 case Actor.Weasel:
                     return _portraitsWeasel[actorExpression];
                 default:
-                    throw new ArgumentOutOfRangeException("actor", actor, null);
+                    return null;
             }
         }
 
@@ -466,7 +485,7 @@ namespace Assets.Scripts.Dialogue
                 case Actor.Weasel:
                     return _portraitsBlinkingWeasel[actorExpression];
                 default:
-                    throw new ArgumentOutOfRangeException("actor", actor, null);
+                    return null;
             }
         }
 
