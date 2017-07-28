@@ -38,6 +38,7 @@ namespace Assets.Scripts.MainManagers
         public GuardManager GuardManager;
         public DialogueManager DialogueManager;
         public JournalManager JournalManager;
+        public CinematicsManager CinematicsManager;
         public int EvidenceFound;
 
         public Transform MapTransform;
@@ -75,6 +76,7 @@ namespace Assets.Scripts.MainManagers
             GuardManager = FindObjectOfType<GuardManager>();
             DialogueManager = FindObjectOfType<DialogueManager>();
             JournalManager = FindObjectOfType<JournalManager>();
+            CinematicsManager = FindObjectOfType<CinematicsManager>();
         }
 
         // Use this for initialization
@@ -119,7 +121,8 @@ namespace Assets.Scripts.MainManagers
             {
                 debugPanel.SetActive(!debugPanel.activeSelf);
 
-                UnityEngine.Cursor.visible = debugPanel.activeSelf;
+                if (!UnityEngine.Cursor.visible)
+                    UnityEngine.Cursor.visible = true;
             }
 
         }
@@ -131,6 +134,7 @@ namespace Assets.Scripts.MainManagers
             GuardManager = FindObjectOfType<GuardManager>();
             DialogueManager = FindObjectOfType<DialogueManager>();
             JournalManager = FindObjectOfType<JournalManager>();
+            CinematicsManager = FindObjectOfType<CinematicsManager>();
             UiManager = FindObjectOfType<UiManager>();
             PuzzleManager = FindObjectOfType<PuzzleManager>();
             Player = FindObjectOfType<Player.Player>();

@@ -23,6 +23,7 @@ namespace Assets.Scripts.Objects
         [SerializeField]
         private int _puzzleNumber;
 
+        [SerializeField]private Sprite[] images;
         // Use this for initialization
         private void Start ()
         {
@@ -30,6 +31,10 @@ namespace Assets.Scripts.Objects
             _parentTile = GetComponentInParent<Tile>();
             _originalTile = _parentTile;
             _puzzleNumber = _parentTile.ReturnPuzzleNumber();
+            images = Resources.LoadAll<Sprite>("LevelMapArt/Level" + GameManager.Instance.CurrentAct+"_"+GameManager.Instance.CurrentLevel+"/");
+            GetComponent<SpriteRenderer>().sprite = images[Random.Range(0, images.Length)];
+            var temp = Random.Range(0.75f, 1);
+            transform.localScale = new Vector3(temp, temp, temp);
         }
 	
         // Update is called once per frame
@@ -132,7 +137,6 @@ namespace Assets.Scripts.Objects
            
             //Set new tile as parent tile
             _parentTile = tile;
-
            _parentTile.SetObject(TileObject.Box);
             _parentTile.GenerateObject(gameObject);
 

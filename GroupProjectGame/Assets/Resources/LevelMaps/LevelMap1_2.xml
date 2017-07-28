@@ -2722,9 +2722,9 @@
     <Tile Type="Normal" LocationX="41" LocationY="53" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="41" LocationY="54" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="41" LocationY="55" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="41" LocationY="56" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="41" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="41" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="41" LocationY="56" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="41" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="41" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="41" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="41" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="41" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -2788,8 +2788,8 @@
     <Tile Type="Normal" LocationX="42" LocationY="54" Object="Box" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="42" LocationY="55" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="42" LocationY="56" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="42" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="42" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="42" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="42" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="42" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="42" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="42" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -2854,7 +2854,7 @@
     <Tile Type="Normal" LocationX="43" LocationY="55" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="43" LocationY="56" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="43" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="43" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="43" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="43" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="43" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="43" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -2919,7 +2919,7 @@
     <Tile Type="Normal" LocationX="44" LocationY="55" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="44" LocationY="56" Object="Box" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="44" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="44" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="44" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="44" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="44" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="44" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3053,7 +3053,7 @@
     <Tile Type="Wall" LocationX="46" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="46" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="46" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="46" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Normal" LocationX="46" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="46" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="46" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="47" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3118,7 +3118,7 @@
     <Tile Type="Wall" LocationX="47" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="47" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="47" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="47" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Normal" LocationX="47" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="47" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="47" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="48" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3181,10 +3181,10 @@
     <Tile Type="Normal" LocationX="48" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="48" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="48" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="48" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="48" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="48" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="48" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="48" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="48" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="48" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="48" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="48" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="49" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="49" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3246,10 +3246,10 @@
     <Tile Type="Normal" LocationX="49" LocationY="57" Object="Box" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="49" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="49" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="49" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="49" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="49" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="49" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="49" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="49" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="49" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Ice" LocationX="49" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="49" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="50" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="50" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3311,10 +3311,10 @@
     <Tile Type="Normal" LocationX="50" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="50" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="50" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="50" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="50" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="50" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="50" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="50" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="50" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="50" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="50" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="50" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="51" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="51" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3376,10 +3376,10 @@
     <Tile Type="Normal" LocationX="51" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="51" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="51" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="51" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="51" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="51" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="51" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="51" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="51" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="51" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Oil" LocationX="51" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="51" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="52" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="52" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3509,7 +3509,7 @@
     <Tile Type="Normal" LocationX="53" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="53" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Normal" LocationX="53" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="53" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="54" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="54" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3569,12 +3569,12 @@
     <Tile Type="Normal" LocationX="54" LocationY="55" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="54" LocationY="56" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="54" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="54" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="54" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="54" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="54" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="54" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="54" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="54" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Normal" LocationX="54" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="54" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="55" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="55" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3630,16 +3630,16 @@
     <Tile Type="Normal" LocationX="55" LocationY="51" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="55" LocationY="52" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="55" LocationY="53" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="55" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="55" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="55" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="55" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="55" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="55" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="55" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="55" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="55" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="55" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Oil" LocationX="55" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="55" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="55" LocationY="62" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Oil" LocationX="55" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Normal" LocationX="55" LocationY="63" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="55" LocationY="64" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="56" LocationY="0" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Null" LocationX="56" LocationY="1" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3695,11 +3695,11 @@
     <Tile Type="Blocked" LocationX="56" LocationY="51" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="56" LocationY="52" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="56" LocationY="53" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="56" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="56" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="56" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="56" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="56" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="56" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="56" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="56" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="56" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="56" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Oil" LocationX="56" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="56" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3760,11 +3760,11 @@
     <Tile Type="Blocked" LocationX="57" LocationY="51" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="57" LocationY="52" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="57" LocationY="53" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="57" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="57" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="57" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="57" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="57" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="57" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="57" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="57" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="57" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="57" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Oil" LocationX="57" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="57" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
@@ -3825,11 +3825,11 @@
     <Tile Type="Blocked" LocationX="58" LocationY="51" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="58" LocationY="52" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Wall" LocationX="58" LocationY="53" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="58" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="58" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Blocked" LocationX="58" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="58" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="58" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="58" LocationY="54" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="58" LocationY="55" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="58" LocationY="56" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Fire" LocationX="58" LocationY="57" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
+    <Tile Type="Fire" LocationX="58" LocationY="58" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Wall" LocationX="58" LocationY="59" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Oil" LocationX="58" LocationY="60" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="58" LocationY="61" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />

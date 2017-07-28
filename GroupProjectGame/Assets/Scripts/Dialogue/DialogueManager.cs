@@ -48,6 +48,7 @@ namespace Assets.Scripts.Dialogue
         //   Random eye blinker script 
         public float blinkEyeRate = 4;
 
+        private string lastDialogue;
         private float blinkEyeTime;
         // Use this for initialization
         private void Awake()
@@ -108,6 +109,7 @@ namespace Assets.Scripts.Dialogue
         //When a dialogue is triggered disable the trigger and open the dialogue
         public void DialogueTrigger(Tile tile, string filename)
         {
+            lastDialogue = filename;
             OpenDialogue(filename);
             tile.DeleteDialogue();
         }
@@ -188,6 +190,11 @@ namespace Assets.Scripts.Dialogue
         //Close the dialogue screen
         private IEnumerator CloseDialogue()
         {
+            if (lastDialogue == "Level1_3_2")
+            {
+                GameManager.Instance.CinematicsManager.TriggerCinematic(0);
+               yield break;
+            }
             Time.timeScale = 1;
             _currentPage = 0;
             _specialsOpen = false;

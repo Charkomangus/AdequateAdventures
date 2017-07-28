@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelLoader.unity
     guid: 80aa3acd094f2f746bcc14728d7cea8c
+  - enabled: 0
+    path: Assets/Scenes/DialogueCreator.unity
+    guid: eac8e2d677f1bea4d8484ebad5027ded

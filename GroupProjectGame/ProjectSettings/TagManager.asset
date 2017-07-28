@@ -26,6 +26,7 @@ TagManager:
   - SoundVolume
   - Checkpoint
   - Sillouate
+  - Cinematics
   layers:
   - Default
   - TransparentFX

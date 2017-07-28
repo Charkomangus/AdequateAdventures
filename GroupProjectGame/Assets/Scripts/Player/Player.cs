@@ -467,6 +467,7 @@ namespace Assets.Scripts.Player
         //Guard waits in place
         private IEnumerator PlayerDeath()
         {
+            SetReflection(-1);
             var gameCamera = UnityEngine.Camera.main.GetComponent<GameCamera>();
             GetComponent<SpriteRenderer>().enabled = false;
             _initialized = false;

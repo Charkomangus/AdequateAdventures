@@ -32,9 +32,9 @@ namespace Assets.Scripts.Managers
         // Use this for initialization
         private void Start()
         {
-            if (SceneManager.GetActiveScene().name == "menu")
+            if (SceneManager.GetActiveScene().name == "Menu")
             {
-                PlayMusic(OpeningMenuClip);
+           
             }
           
             AllButtons = FindObjectsOfType<Button>();
@@ -42,14 +42,18 @@ namespace Assets.Scripts.Managers
             {
                 button.onClick.AddListener(delegate { PlayAudio(UiClick, false); });
             }
-            PlayMusic(LevelTwoClip);
+            PlayMusic(OpeningMenuClip);
 
         }
 
         // Update is called once per frame
         private void Update()
         {
-            
+            AllButtons = FindObjectsOfType<Button>();
+            foreach (var button in AllButtons)
+            {
+                button.onClick.AddListener(delegate { PlayAudio(UiClick, false); });
+            }
         }
 
 
