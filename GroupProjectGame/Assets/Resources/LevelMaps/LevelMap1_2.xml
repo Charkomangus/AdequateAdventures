@@ -3499,7 +3499,7 @@
     <Tile Type="Normal" LocationX="53" LocationY="50" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="51" Object="Empty" Flag="PuzzleEntry" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="52" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
-    <Tile Type="Normal" LocationX="53" LocationY="53" Object="Empty" Flag="Null" Puzzle="1" Actor="Mouse" />
+    <Tile Type="Normal" LocationX="53" LocationY="53" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="54" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="55" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
     <Tile Type="Normal" LocationX="53" LocationY="56" Object="Empty" Flag="Null" Puzzle="1" Actor="Null" />
