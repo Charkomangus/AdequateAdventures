@@ -656,7 +656,7 @@ MonoBehaviour:
   LevelEntry: {fileID: 0}
   LevelExit: {fileID: 0}
   CurrentAct: 1
-  CurrentLevel: 3
+  CurrentLevel: 1
   _dialogueNumber: 0
   CurrentScene: 
   Player: {fileID: 0}

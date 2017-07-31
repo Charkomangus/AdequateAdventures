@@ -51,6 +51,23 @@ namespace Assets.Scripts.Ui
             _checkpoint = GameObject.FindGameObjectWithTag("Checkpoint").GetComponent<Animator>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void Update()
+        {
+            if (_signs.Length <= 0)
+            {
+                _signs = FindObjectsOfType<Sign>();
+
+                //Set each sign to its corresponding text
+                for (int i = 0; i < _signs.Length; i++)
+                {
+                    _signs[i].SetSignText(_signTexts[i].text);
+                }
+            }
+        }
+
        
         /// <summary>
         /// Open the signbox UI
