@@ -49,11 +49,7 @@ namespace Assets.Scripts.Managers
         // Update is called once per frame
         private void Update()
         {
-            AllButtons = FindObjectsOfType<Button>();
-            foreach (var button in AllButtons)
-            {
-                button.onClick.AddListener(delegate { PlayAudio(UiClick, false); });
-            }
+           
         }
 
 

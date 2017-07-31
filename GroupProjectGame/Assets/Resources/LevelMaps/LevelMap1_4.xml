@@ -4233,7 +4233,7 @@
     <Tile Type="Blocked" LocationX="60" LocationY="29" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Blocked" LocationX="60" LocationY="30" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Blocked" LocationX="60" LocationY="31" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
-    <Tile Type="Normal" LocationX="60" LocationY="32" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
+    <Tile Type="Normal" LocationX="60" LocationY="32" Object="Empty" Flag="Null" Puzzle="-1" Actor="Beaver" />
     <Tile Type="Normal" LocationX="60" LocationY="33" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="60" LocationY="34" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />
     <Tile Type="Normal" LocationX="60" LocationY="35" Object="Empty" Flag="Null" Puzzle="-1" Actor="Null" />

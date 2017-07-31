@@ -183,7 +183,7 @@ namespace Assets.Scripts.MainManagers
             {
                 JournalManager.EvidenceFound(i, true);
             }
-           
+           UiManager.Initialize();
             Player.InitializePlayer();
             GuardManager.SpawnGuards();
            

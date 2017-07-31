@@ -20,7 +20,7 @@ namespace Assets.Scripts.Ui
         [SerializeField]private TextAsset[] _signTexts;
         private Animator _fade;
         private Animator _checkpoint;
-
+    
         /// <summary>
         /// Fade is needed straight away so it goes in awake
         /// </summary>
@@ -33,26 +33,12 @@ namespace Assets.Scripts.Ui
         /// <summary>
         /// Find the signs and the UI element SignBox
         /// </summary>
-        private void Start()
-        {
-            _signs = FindObjectsOfType<Sign>();
-            _signTexts = Resources.LoadAll<TextAsset>("Sign/Text/");
-            _signBox = FindObjectOfType<SignBox>();
-            _checkpoint = GameObject.FindGameObjectWithTag("Checkpoint").GetComponent<Animator>();
-        }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
-        private void Update()
+        public void Initialize()
         {
             //If the signs array is emptry fill it with all the signs
             if (_signs.Length <= 0)
             {
                 _signs = FindObjectsOfType<Sign>();
-
-
-
 
                 //Set each sign to its corresponding text
                 for (int i = 0; i < _signs.Length; i++)
@@ -60,9 +46,12 @@ namespace Assets.Scripts.Ui
                     _signs[i].SetSignText(_signTexts[i].text);
                 }
             }
-
+            _signTexts = Resources.LoadAll<TextAsset>("Sign/Text/");
+            _signBox = FindObjectOfType<SignBox>();
+            _checkpoint = GameObject.FindGameObjectWithTag("Checkpoint").GetComponent<Animator>();
         }
 
+       
         /// <summary>
         /// Open the signbox UI
         /// </summary>

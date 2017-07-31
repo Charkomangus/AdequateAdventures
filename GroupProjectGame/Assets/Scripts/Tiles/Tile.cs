@@ -80,6 +80,14 @@ namespace Assets.Scripts.Tiles
                 return;
             }
 
+            //If the tile is a fire tile randomise the appearance of the fire
+            if(_type == TileType.Fire)
+            {
+                var temp = GetComponentInChildren<ParticleSystem>();
+                temp.transform.localScale = new Vector3(Random.Range(0.85f,1.5f),Random.Range(0.85f, 1.5f),Random.Range(0.85f, 1.5f));
+                temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 359)));
+            }
+
             //Set Tiles name for easy identification
             name = _type + " Tile";
 
