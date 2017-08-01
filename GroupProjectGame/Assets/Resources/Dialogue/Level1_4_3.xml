@@ -27,7 +27,7 @@
     <Line ActorName="Beaver" Expression="1" Direction="1" Branch="0" Condition="None" Content="Yeah hun? What you got for me?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="I have something else I'd like to add to my statement." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Beaver" Expression="1" Direction="1" Branch="0" Condition="None" Content="Go on." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Well it's just that..." Special="1" FirstChoice="Tell the truth" SecondChoice="Lie" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Well it's just that..." Special="1" FirstChoice="Lie" SecondChoice="Tell The Truth" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="1" Condition="None" Content="That person of interest you were looking for, the weasel in the green scarf?&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="1" Condition="None" Content="I saw Pig talking to him in the forest this morning." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Beaver" Expression="1" Direction="1" Branch="1" Condition="None" Content="This is a... major breakthrough in the case." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
