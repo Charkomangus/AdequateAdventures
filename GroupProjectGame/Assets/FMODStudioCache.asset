@@ -15,12 +15,13 @@ MonoBehaviour:
   - {fileID: 114944410828376668}
   - {fileID: 114616308971003786}
   EditorEvents:
-  - {fileID: 114945364602705288}
-  - {fileID: 114147909008594760}
-  - {fileID: 114555456157362826}
+  - {fileID: 114193170974547420}
+  - {fileID: 114230707348476600}
+  - {fileID: 114989351967356366}
+  - {fileID: 114227157127057646}
   MasterBankRef: {fileID: 114616308971003786}
   StringsBankRef: {fileID: 114944410828376668}
-  stringsBankWriteTime: 636382832001544992
+  stringsBankWriteTime: 636383111038206231
   cacheVersion: 2
 --- !u!114 &114031585954259880
 MonoBehaviour:
@@ -67,7 +68,134 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114105313704291478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cc82a579a2429468b2364ff71fbd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Weasel
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114144023396664086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cc82a579a2429468b2364ff71fbd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Pig
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114147909008594760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56207ed94fbb65446972509aae31d531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/LEVEL3
+  guid: 5c06ca341f9b5e47b955380cff0a8a0a
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114335917238466392}
+  MinDistance: 1
+  MaxDistance: 20
+--- !u!114 &114148328119206814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cc82a579a2429468b2364ff71fbd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Beaver
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114193170974547420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56207ed94fbb65446972509aae31d531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/LEVEL4
+  guid: 1964495e0786114ea271a42c31bec362
+  Banks:
+  - {fileID: 114616308971003786}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114144023396664086}
+  - {fileID: 114953934458128250}
+  - {fileID: 114148328119206814}
+  MinDistance: 1
+  MaxDistance: 20
+--- !u!114 &114193600984090084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cc82a579a2429468b2364ff71fbd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Pig
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114227157127057646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56207ed94fbb65446972509aae31d531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/LEVEL2
+  guid: 8d6747c5468e2c48aa014195a4f4b73f
+  Banks:
+  - {fileID: 114616308971003786}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114265512251585448}
+  MinDistance: 1
+  MaxDistance: 20
+--- !u!114 &114230707348476600
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -86,10 +214,25 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114335917238466392}
+  - {fileID: 114275265248892700}
   MinDistance: 1
   MaxDistance: 20
---- !u!114 &114193600984090084
+--- !u!114 &114265512251585448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cc82a579a2429468b2364ff71fbd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Mouse
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114275265248892700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -192,8 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/LEVEL1
   guid: 6ed704409425b744b67e6cdae02a837c
-  Banks:
-  - {fileID: 114616308971003786}
+  Banks: []
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -229,11 +371,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: G:\Work\AdequateAdventures\GroupProjectGame\FMODProject\Build\Desktop\Master
     Bank.bank
-  lastModified: 636382832001524953
+  lastModified: 636383111038166334
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 15645824
+    Value: 19189920
   Exists: 1
 --- !u!114 &114630790270404356
 MonoBehaviour:
@@ -307,11 +449,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: FMODProject\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636382832001544992
+  lastModified: 636383111038206231
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 758
+    Value: 790
   Exists: 1
 --- !u!114 &114945364602705288
 MonoBehaviour:
@@ -326,8 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/LEVEL4
   guid: 1964495e0786114ea271a42c31bec362
-  Banks:
-  - {fileID: 114616308971003786}
+  Banks: []
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -337,6 +478,21 @@ MonoBehaviour:
   - {fileID: 114681774666624786}
   MinDistance: 1
   MaxDistance: 20
+--- !u!114 &114953934458128250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cc82a579a2429468b2364ff71fbd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Mouse
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114980525333469722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,3 +508,25 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114989351967356366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56207ed94fbb65446972509aae31d531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/LEVEL1
+  guid: 6ed704409425b744b67e6cdae02a837c
+  Banks:
+  - {fileID: 114616308971003786}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114105313704291478}
+  MinDistance: 1
+  MaxDistance: 20

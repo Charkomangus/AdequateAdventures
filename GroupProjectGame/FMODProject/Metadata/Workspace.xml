@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.01.09.00">
-    <object class="Workspace" id="{1c640ca1-fb73-4fd5-861b-1c08a2650697}">
+    <object class="Workspace" id="{fe7328a0-f65d-4530-8485-c23e7fee6f6d}">
         <relationship name="masterEventFolder">
             <destination>{db6bdc88-7f9b-4957-9b4d-3596749948ea}</destination>
         </relationship>
@@ -17,10 +17,10 @@
             <destination>{69e500f5-2705-4c59-b9a0-a600b92f7777}</destination>
         </relationship>
         <relationship name="platforms">
-            <destination>{9c3f7064-7216-4e01-b056-88a0a9ee5afa}</destination>
+            <destination>{7386ff6f-1767-416f-9a08-50dd390a09f3}</destination>
         </relationship>
     </object>
-    <object class="Platform" id="{9c3f7064-7216-4e01-b056-88a0a9ee5afa}">
+    <object class="Platform" id="{7386ff6f-1767-416f-9a08-50dd390a09f3}">
         <property name="hardwareType">
             <value>0</value>
         </property>

@@ -284,8 +284,10 @@ namespace Assets.Scripts.Dialogue
                     return 2;
                 case "Pig":
                     return 3;
-                case "Kill":
+                case "Beaver":
                     return 4;
+                case "Kill":
+                    return 5;
                 default:
                     return 0;
             }
@@ -307,6 +309,8 @@ namespace Assets.Scripts.Dialogue
                 case 3:
                     return "Pig";
                 case 4:
+                    return "Beaver";
+                case 5:
                     return "Kill";
                 default:
                     return "N/A";

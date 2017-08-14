@@ -363,17 +363,28 @@ namespace Assets.Scripts.Dialogue
             switch (temp)
             {
                 case "Kill":
-                    StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Weasel"));
-                    StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Pig"));
-                    StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Mouse"));
+                    if (GameManager.Instance != null)
+                    {
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Weasel"));
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Pig"));
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Mouse"));
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Beaver"));
+                    }
                     break;
                 case "N/A":
                     break;
                 case "Pig":
                 case "Mouse":
                 case "Weasel":
+                case "Beaver":
                     if (GameManager.Instance != null)
+                    {
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Weasel"));
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Pig"));
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Mouse"));
+                        StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Beaver"));
                         StartCoroutine(GameManager.Instance.AudioManager.OpenMusicMotif(temp));
+                    }
                     break;
             }
         }

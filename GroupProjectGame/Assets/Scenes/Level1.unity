@@ -2017,6 +2017,11 @@ Prefab:
       propertyPath: OpeningMenuClip
       value: 
       objectReference: {fileID: 8300000, guid: 73beff6ee26a7d6459c33fdd5c78e136, type: 3}
+    - target: {fileID: 114484015581256394, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: CurrentLevel
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b8b8584908226540a3433aa03ad8bd9, type: 2}
   m_IsPrefabParent: 0

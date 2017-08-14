@@ -28,7 +28,7 @@ namespace Assets.Scripts.Managers
         //FMOD Music
         public FMOD.Studio.EventInstance MusicEvent; 
         private string Level1Music = "event:/Level1";
-        private string Level2Music = "event:/Level1";
+        private string Level2Music = "event:/Level2";
         private string Level3Music = "event:/Level3";
         private string Level4Music = "event:/Level4";
         //Music
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Managers
         public float MusicLevel;
 
 
-        public float weasel;
+      
 
 
         /// <summary>
@@ -90,9 +90,13 @@ namespace Assets.Scripts.Managers
         public IEnumerator CloseMusicMotifs(string id)
         {
             if (MusicEvent == null) yield break;
-            FMOD.Studio.ParameterInstance musicIntensity;
-           
+
+            ParameterInstance musicIntensity;
             MusicEvent.getParameter(id, out musicIntensity);
+
+            //If the id doesnt exist this will be null
+            if (musicIntensity == null) yield break;
+
             float temp;
             musicIntensity.getValue(out temp);
             while (temp > 0)
@@ -101,7 +105,7 @@ namespace Assets.Scripts.Managers
                 yield return new WaitForSecondsRealtime(0.1f);
                 if(temp < 0)
                     temp = 0;
-                weasel = temp;
+               
               MusicEvent.setParameterValue(id, temp);
             }
           
@@ -116,8 +120,12 @@ namespace Assets.Scripts.Managers
         {
             if (MusicEvent == null) yield break;
 
-            FMOD.Studio.ParameterInstance musicIntensity;
+            ParameterInstance musicIntensity;
             MusicEvent.getParameter(id, out musicIntensity);
+         
+            //If the id doesnt exist this will be null
+            if(musicIntensity == null) yield break;
+
             float temp;
             musicIntensity.getValue(out temp);
             while (temp < 1)
@@ -127,7 +135,7 @@ namespace Assets.Scripts.Managers
 
                 if (temp > 1)
                     temp = 1;
-                weasel = temp;
+              
                 MusicEvent.setParameterValue(id, temp);
             }
         }
