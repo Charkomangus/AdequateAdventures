@@ -4,7 +4,6 @@
  * Proprietary and confidential
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
-
 using System.Collections;
 using Assets.Scripts.MainManagers;
 using UnityEngine;
@@ -58,7 +57,6 @@ namespace Assets.Scripts.Ui
             _evidenceTextBox.GetComponent<Button>().onClick.AddListener(delegate{_evidence.GetComponent<CanvasGroup>().interactable = true;_evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);});
         }
 
-
         /// <summary>
         /// Update is called once per frame
         /// </summary>
@@ -66,7 +64,6 @@ namespace Assets.Scripts.Ui
         {
             if (_inputFrozen) return;
             JournalInput();
-           
         }
 
         /// <summary>
@@ -83,7 +80,6 @@ namespace Assets.Scripts.Ui
                 }
                 else
                 {
-               
                     OpenJournal(!_animator.GetBool("Open"));
                 }
             }
@@ -108,36 +104,35 @@ namespace Assets.Scripts.Ui
             {
                 OpenEvidenceTextBox(0);
             }
-
             if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && _evidenceButtons[1].interactable)
             {
                 OpenEvidenceTextBox(1);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && _evidenceButtons[2].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && _evidenceButtons[2].interactable)
             {
                 OpenEvidenceTextBox(2);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && _evidenceButtons[3].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && _evidenceButtons[3].interactable)
             {
                 OpenEvidenceTextBox(3);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5)) && _evidenceButtons[4].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5)) && _evidenceButtons[4].interactable)
             {
                 OpenEvidenceTextBox(4);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6)) && _evidenceButtons[5].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6)) && _evidenceButtons[5].interactable)
             {
                 OpenEvidenceTextBox(5);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7)) && _evidenceButtons[6].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7)) && _evidenceButtons[6].interactable)
             {
                 OpenEvidenceTextBox(6);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8)) && _evidenceButtons[7].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8)) && _evidenceButtons[7].interactable)
             {
                 OpenEvidenceTextBox(7);
             }
-            else if ((Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9)) && _evidenceButtons[8].interactable)
+            if ((Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9)) && _evidenceButtons[8].interactable)
             {
                 OpenEvidenceTextBox(8);
             }

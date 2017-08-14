@@ -13,7 +13,7 @@
     <Line ActorName="InjuredMouse" Expression="1" Direction="1" Branch="0" Condition="None" Content="What can we do? He's powerful and we're not." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="With that attitude we can't accomplish anything! Look what he's done to you..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Who knows who else has been hurt, people are still missing!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="InjuredMouse" Expression="1" Direction="1" Branch="0" Condition="None" Content="I'm scared, Bunny, I've been through enough today. When you take on powerful men you cant win.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="InjuredMouse" Expression="1" Direction="1" Branch="0" Condition="None" Content="I'm scared, Bunny, I've been through enough today. When you take on powerful men you can't win." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I... I can't believe you don't want this. We're a team." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="InjuredMouse" Expression="0" Direction="1" Branch="0" Condition="None" Content="I think you want this, Bunny, not me. I just want to go home." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
@@ -48,6 +48,6 @@
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Well, I've done all I can. I hope it was enough." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="There's more to this, though, I can feel it in my bones." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I think I'll do a little digging. I don't have a job, anyway." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="But where to start..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="But where to Start..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
   </Lines>
 </LineCollection>

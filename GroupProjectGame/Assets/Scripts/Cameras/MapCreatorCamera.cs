@@ -28,7 +28,7 @@ namespace Assets.Scripts.Cameras
 
         private MapCreatorManager _mapCreatorManager;
         private Transform _transform;
-        //Set to the opposite you want to start with
+        //Set to the opposite you want to Start with
         private CameraState _cameraState = CameraState.Angled;
         //value in range (0, 1) used as t in Matf.Lerp
         private float _zoomPos; 

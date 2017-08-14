@@ -5,23 +5,24 @@
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
 using System;
+using System.Collections;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
-using Boo.Lang;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Objects
 {
+    /// <summary>
+    /// Box that keeps sliding till it hits an obstacle when pushed by a player
+    /// </summary>
     public class SlidingBox : MonoBehaviour
     {
-
-
         [Header("Tiles")]
         [SerializeField]
         private Tile _parentTile, _originalTile;
         private float _moveSpeed;
-        private List<Tile> _newTiles;
+        private Boo.Lang.List<Tile> _newTiles;
         [SerializeField]private bool _scheduleToDie, _conveyed;
         [SerializeField]private int _direction;
         [SerializeField]
@@ -36,7 +37,10 @@ namespace Assets.Scripts.Objects
             _puzzleNumber = _parentTile.ReturnPuzzleNumber();
         }
 
-        // Update is called once per frame
+
+        /// <summary>
+        /// Update is called once per frame
+        /// </summary>
         private void Update()
         {
             //Only perform this if the object is in the target tile
@@ -53,16 +57,16 @@ namespace Assets.Scripts.Objects
                     switch (direction)
                     {
                         case 0:
-                            SetParentTile(_parentTile.North, direction);
+                            StartCoroutine(SetParentTile(_parentTile.North, direction));
                             break;
                         case 1:
-                            SetParentTile(_parentTile.South, direction);
+                            StartCoroutine(SetParentTile(_parentTile.South, direction));
                             break;
                         case 2:
-                            SetParentTile(_parentTile.West, direction);
+                            StartCoroutine(SetParentTile(_parentTile.West, direction));
                             break;
                         case 3:
-                            SetParentTile(_parentTile.East, direction);
+                            StartCoroutine(SetParentTile(_parentTile.East, direction));
                             break;
                       
                     }
@@ -84,7 +88,8 @@ namespace Assets.Scripts.Objects
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
                     GetComponent<SpriteRenderer>().enabled = false;
-                    ResetObject();
+                  
+                     ResetObject();
                 }
             }
             else
@@ -94,8 +99,10 @@ namespace Assets.Scripts.Objects
                 SmoothMove(transform.position, _parentTile.transform.position, 2 * _moveSpeed);
             }
         }
-
-        //Return the box back to it's original position
+        
+        /// <summary>
+        /// Return the box back to it's original position
+        /// </summary>
         public void ResetObject()
         {
             if (_originalTile == GameManager.Instance.Player.ReturnParentTile())
@@ -104,7 +111,7 @@ namespace Assets.Scripts.Objects
                 {
                     if (neighbor.IsBlocked() == false && neighbor.ReturnType() != TileType.IceCracks && neighbor.ReturnType() != TileType.Fire)
                     {
-                        SetParentTile(neighbor, -1);
+                        StartCoroutine(SetParentTile(neighbor, -1));
                         transform.position = neighbor.transform.position;
                         break;
                     }
@@ -112,105 +119,99 @@ namespace Assets.Scripts.Objects
             }
             else
             {
-                SetParentTile(_originalTile, -1);
+                StartCoroutine(SetParentTile(_originalTile, -1));
                 transform.position = _originalTile.transform.position;
             }
             GetComponent<SpriteRenderer>().enabled = true;
             _scheduleToDie = false;
             _direction = -1;
         }
-
-        //Set parent tile. Depending on the tile type different behaviours will emerge.
-        public void SetParentTile(Tile tile, int direction)
+        
+        /// <summary>
+        /// Set parent tile. Depending on the tile type different behaviours will emerge.
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public IEnumerator SetParentTile(Tile tile, int direction)
         {
-            _direction = direction;
-            while (true)
-            {
-                if (tile == null) return;
-                if (tile.IsBlocked() && tile.ReturnType() != TileType.Door) return;
+            if (tile == null) yield break;
 
+            if (tile.ReturnType() == TileType.Door)
+            {
                 //Free the current parent tile
                 _parentTile.SetBlocked(false);
                 _parentTile.SetObject(TileObject.Empty);
 
-
-                //Set new tile as parent tile
+                //Free parent tile and dissapear box
                 _parentTile = tile;
-                _parentTile.SetObject(TileObject.SlidingBox);
-                _parentTile.GenerateObject(gameObject);
+                tile.SetType(TileType.Normal);             
+                tile.SetObject(TileObject.Empty);
+               GetComponent<SpriteRenderer>().enabled = false;
+                yield break;
+            }
+            if (tile.IsBlocked()) yield break;
 
-                _parentTileType = tile.ReturnType();
+            //Play audio pushing effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.CratePush, false);
 
-                if (direction == -1) return;
-                switch (_parentTileType)
-                {
+            //Free the current parent tile
+            _parentTile.SetBlocked(false);
+            _parentTile.SetObject(TileObject.Empty);
 
-                    case TileType.Door:
-                        _parentTile.SetBlocked(false);
-                        _scheduleToDie = true;
-                        return;
-                    //If the box encounters Ice cracks or fire kill it when it reaches the tile
-                    case TileType.IceCracks:
-                    case TileType.Fire:
-                        _scheduleToDie = true;
-                        return;
 
-                    //Switch direction to fit the belts
-                    case TileType.RedConveyorBelt:
-                    case TileType.GreenConveyorBelt:
-                    case TileType.BlueConveyorBelt:
-                        _direction = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnDirection();
-                        _conveyed = true;
-                        break;
-                    default:
-                        if (_conveyed == false)
-                        {
-                          
-                            switch (_direction)
-                            {
-                                case 0:
-                                    tile = _parentTile.North;
+            //Set new tile as parent tile
+            _parentTile = tile;
+            _parentTile.SetObject(TileObject.SlidingBox);
+            _parentTile.GenerateObject(gameObject);
 
-                                    continue;
-                                case 1:
-                                    tile = _parentTile.South;
-                                    continue;
-                                case 2:
-                                    tile = _parentTile.East;
-                                    continue;
-                                case 3:
-                                    tile = _parentTile.West;
-                                    continue;
-                            }
-                            break;
-                        }
-                        else
+            TileType type = tile.ReturnType();
+            if (direction == -1) yield break;
 
-                        _conveyed = false;
-                        switch (_direction)
-                        {
-                            case 0:
-                                tile = _parentTile.North;
-                                
-                                continue;
-                            case 1:
-                                tile = _parentTile.South;
-                                continue;
-                            case 2:
-                                tile = _parentTile.East;
-                                continue;
-                            case 3:
-                                tile = _parentTile.West;
-                                continue;
-                        }
-                        break;
+            switch (type)
+            {
+                //If the box encounters Ice cracks or fire kill it when it reaches the tile
+                case TileType.IceCracks:
+                case TileType.Fire:
+                    _scheduleToDie = true;
+                    yield break;
+                //If the box encounters a conveyor belt follow it's direction
+                case TileType.RedConveyorBelt:
+                case TileType.GreenConveyorBelt:
+                case TileType.BlueConveyorBelt:
+                    direction = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnDirection();
+                    _conveyed = true;
+                    break;
+                default:
+                    _conveyed = false;
 
-                }
+                    break;
+            }
 
-                //If the box is on a conveyor update its direction and set it to be conveyed
-                break;
+            //If the box is on a conveyor update its direction and set it to be conveyed
+            yield return new WaitForSeconds(0.12f);
+
+            //Do not use the usual behavior if its conveyed as it will be moved regardless
+            if (_conveyed) yield break;
+
+
+            switch (direction)
+            {
+                case 0:
+                    StartCoroutine(SetParentTile(_parentTile.North, 0));
+                    break;
+                case 1:
+                    StartCoroutine(SetParentTile(_parentTile.South, 1));
+                    break;
+                case 2:
+                    StartCoroutine(SetParentTile(_parentTile.East, 2));
+                    break;
+                case 3:
+                    StartCoroutine(SetParentTile(_parentTile.West, 3));
+                    break;
             }
         }
+ 
 
         /// <summary>
         /// Check if the object is close to the tile

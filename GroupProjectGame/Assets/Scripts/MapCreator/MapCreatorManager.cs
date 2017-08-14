@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Cameras;
@@ -9,6 +15,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.MapCreator
 {
+    //What the user is trying to place
     public enum PlacingStatus
     {
         Type,
@@ -17,7 +24,11 @@ namespace Assets.Scripts.MapCreator
         Actor
     }
 
-    public class MapCreatorManager : MonoBehaviour {
+    /// <summary>
+    /// This class controls the lever creator. It controls most of the logic and sets actions to all the ui in the scene
+    /// </summary>
+    public class MapCreatorManager : MonoBehaviour
+    {
          //Creating an Instance so scripts can access it's variables.
         public static MapCreatorManager Instance;
         public int MapSize;
@@ -270,7 +281,10 @@ namespace Assets.Scripts.MapCreator
             CurrentLevel.text = "CurrentLevel: N/A";
         }
 
-        //Remove any puzzle numbers
+       
+        /// <summary>
+        /// Remoive all puzzle numbers from the current map
+        /// </summary>
         private void RemovePuzzleNumbers()
         {
             PuzzleNumber = 0;
@@ -283,7 +297,9 @@ namespace Assets.Scripts.MapCreator
             }
         }
 
-        //Delete all actors in the map
+        /// <summary>
+        /// Remoive all actors from the current map
+        /// </summary>
         private void RemoveAllActors()
         {
             for (var x = 0; x < MapSize; x++)
@@ -295,7 +311,10 @@ namespace Assets.Scripts.MapCreator
             }
         }
 
-        //Switch on an art overlay if there is one
+        /// <summary>
+        /// If there is art with the same name of the level loaded set up the art overlay
+        /// </summary>
+        /// <param name="mapName"></param>
         private void SetOverlay(string mapName)
         {
             _overlaySprite = Resources.Load<Sprite>("LevelMapArt/EnviromentArt/" + mapName);
@@ -311,8 +330,21 @@ namespace Assets.Scripts.MapCreator
             }
         }
 
-        //Update Ui
+       /// <summary>
+       /// Update UI
+       /// </summary>
         private void Update()
+       {
+           UpdateCurrentPlacingStatusUi();
+            //Temp function
+           if (Input.GetKeyDown(KeyCode.Escape))
+               Application.Quit();
+        }
+
+        /// <summary>
+        /// SHow the user what they are currently painting on the map
+        /// </summary>
+        private void UpdateCurrentPlacingStatusUi()
         {
             switch (CurrentPlacingStatus)
             {
@@ -331,9 +363,13 @@ namespace Assets.Scripts.MapCreator
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        
         }
-        //Notify user of any changes such as the map has been saved, etc.
+
+        /// <summary>
+        /// Notify user of any changes such as the map has been saved, etc.
+        /// </summary>
+        /// <param name="mapName"></param>
+        /// <param name="mode"></param>
         private void NewMapNotification(string mapName, int mode)
         {
             MapNotification.SetTrigger("Open");
@@ -356,8 +392,11 @@ namespace Assets.Scripts.MapCreator
                     break;
             }
         }
-        
-        //Parse the new map input
+
+        /// <summary>
+        /// Parse the new map input
+        /// </summary>
+        /// <param name="input"></param>
         private void NewMapInput(InputField input)
         {
             if (input.text.Length > 0)
@@ -489,7 +528,6 @@ namespace Assets.Scripts.MapCreator
             }
         }
 
-
         /// <summary>
         /// Save current map to an xml file
         /// </summary>
@@ -513,8 +551,5 @@ namespace Assets.Scripts.MapCreator
         {
             return MapSize;
         }
-
-
-     
     }
 }

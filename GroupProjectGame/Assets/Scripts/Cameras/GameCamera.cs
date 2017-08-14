@@ -15,7 +15,7 @@ namespace Assets.Scripts.Cameras
     public class GameCamera : MonoBehaviour
     {
         private Player.Player _player;
-        private float newHeight;
+        private float _newHeight;
         private float _normalHeight;
         private float _puzzleHeight;
         private float _hugePuzzleHeight;
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Cameras
         {
             _player = GameManager.Instance.Player;
             //Set camera heights
-            newHeight = 7.5f;
+            _newHeight = 7.5f;
             _normalHeight = 7.5f;
             _puzzleHeight = 9;
             _hugePuzzleHeight = 12f;
@@ -45,7 +45,7 @@ namespace Assets.Scripts.Cameras
             }
            
             transform.position = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, new Vector3(_player.transform.position.x, newHeight, _player.transform.position.z ), Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(_player.transform.position.x, _newHeight, _player.transform.position.z ), Time.deltaTime);
 
             //Only update the height if the player has exited or entered a new puzzle
             if (_player.ReturnCurrentPuzzle() != _oldPuzzleNumber)
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Cameras
         /// <summary>
         /// Check what puzzle the player is in and zoom out accordingly
         /// </summary>
-        public         void DetermineHeight()
+        public void DetermineHeight()
         {
             //Get some informationg from the game manager
             var player = GameManager.Instance.Player;
@@ -119,7 +119,6 @@ namespace Assets.Scripts.Cameras
                     //ACT NOT YET IN PLACE
                     break;
             }
-
         }
 
         /// <summary>
@@ -128,7 +127,7 @@ namespace Assets.Scripts.Cameras
         /// <param name="height"></param>
         public void SetCameraHeight(float height)
         {
-            newHeight = height;
+            _newHeight = height;
         }
     }
 }

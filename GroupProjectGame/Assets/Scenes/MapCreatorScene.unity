@@ -2571,7 +2571,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!222 &292506355
@@ -3136,8 +3136,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Enter text...
 --- !u!222 &332105170
@@ -3412,7 +3412,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!222 &370715477
@@ -6096,7 +6096,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!222 &770223657
@@ -11705,8 +11705,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Enter text...
 --- !u!222 &1496496201
@@ -13016,8 +13016,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Enter text...
 --- !u!222 &1565729182
@@ -15857,11 +15857,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 200
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -15882,7 +15882,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: -1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -17547,10 +17547,10 @@ MonoBehaviour:
   Evidence8: {fileID: 1643058642240494, guid: 12e2b23a324e4b24a8f1ea326a83f363, type: 2}
   Evidence9: {fileID: 1563190852072068, guid: 094e6c1a90f23cc4db5651dc47379642, type: 2}
   Badger: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
-  Beaver: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
+  Beaver: {fileID: 1574234755612834, guid: 01aa1d99fdc80c14fbf3a7b232ac8705, type: 2}
   Hedgehog: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410, type: 2}
   Mouse: {fileID: 1733238721505426, guid: d224e872628ef2c429b10b21935ad252, type: 2}
-  InjuredMouse: {fileID: 1685588303948386, guid: 82f9866bdaf63f24a8306b7f24059410,
+  InjuredMouse: {fileID: 1733238721505426, guid: d224e872628ef2c429b10b21935ad252,
     type: 2}
   Pig: {fileID: 1291618186936068, guid: 0e91ff0679b62ff489a45d8bf43d710a, type: 2}
   Bunny: {fileID: 1176117486315634, guid: 7b3592226c04d2a4ab4c222cfe731bfd, type: 2}

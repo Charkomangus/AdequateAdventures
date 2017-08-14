@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.09.00">
+    <object class="AudioFile" id="{4a7c8247-7769-4b50-a662-1f34c682743e}">
+        <property name="assetPath">
+            <value>Level1-WeaselLine.ogg</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>69.818185941043083</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{206e6b00-e43a-46c0-bc00-9fdcb8662bb8}</destination>
+        </relationship>
+    </object>
+</objects>

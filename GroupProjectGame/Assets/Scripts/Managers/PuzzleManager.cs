@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
+using System.Collections.Generic;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Objects;
 using Assets.Scripts.Tiles;
@@ -6,6 +12,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Managers
 {
+    /// <summary>
+    /// This class is reponsible for all the puzzle objects. These can be boxes, conveyor belts, switches, etc.
+    /// </summary>
     public class PuzzleManager : MonoBehaviour {
 
         private ConveyorBelt[] _conveyorBelts;
@@ -20,7 +29,9 @@ namespace Assets.Scripts.Managers
         private ConveyorBelt[] _belts;
 
 
-     
+        /// <summary>
+        /// Fill in the lists of objects again as they might have changed (boxes destroyed, etc)
+        /// </summary>
         public void Initialize()
         {
 
@@ -49,7 +60,10 @@ namespace Assets.Scripts.Managers
         }
 
 
-        //Reset objects in the current puzzle
+        /// <summary>
+        /// Reset objects in the current puzzle
+        /// </summary>
+        /// <param name="puzzle"></param>
         public void ResetPuzzle(int puzzle)
         {
            
@@ -76,7 +90,10 @@ namespace Assets.Scripts.Managers
                     belt.ResetObject();
             }
         }
-        //Reset objects in the current puzzle
+
+        /// <summary>
+        /// Reset objects in the current puzzle
+        /// </summary>
         public void ResetPuzzle()
         {
             var puzzle = GameManager.Instance.Player.ReturnCurrentPuzzle();
@@ -105,8 +122,9 @@ namespace Assets.Scripts.Managers
             }
         }
 
-
-        //Reset everything in the level
+        /// <summary>
+        /// Reset everything in the level
+        /// </summary>
         public void RestartLevel()
         {
             _boxes = FindObjectsOfType<Box>();
@@ -134,16 +152,26 @@ namespace Assets.Scripts.Managers
             }
         }
 
+        /// <summary>
+        /// Return convyeor belts that are red
+        /// </summary>
+        /// <returns></returns>
         public List<ConveyorBelt> ReturnRedConveyorBelts()
         {
             return _redConveyorBelts;
         }
-
+        /// <summary>
+        /// Return convyeor belts that are Green
+        /// </summary>
+        /// <returns></returns>
         public List<ConveyorBelt> ReturnGreenConveyorBelts()
         {
             return _greenConveyorBelts;
         }
-
+        /// <summary>
+        /// Return convyeor belts that are blue
+        /// </summary>
+        /// <returns></returns>
         public List<ConveyorBelt> ReturnBlueConveyorBelts()
         {
             return _blueConveyorBelts;

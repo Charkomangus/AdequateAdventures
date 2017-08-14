@@ -21,6 +21,8 @@ namespace Assets.Scripts.Dialogue
 
         public int Special, Direction, Branch;
 
+        public string Audio;
+
         public Condition Condition;
 
         public bool KillOnExit;

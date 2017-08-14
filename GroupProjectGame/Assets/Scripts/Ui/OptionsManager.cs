@@ -4,7 +4,6 @@
  * Proprietary and confidential
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
-
 using Assets.Scripts.MainManagers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,8 +30,11 @@ namespace Assets.Scripts.Ui
             _soundEffectPercentage = GameObject.FindGameObjectWithTag("SoundVolume").GetComponentsInChildren<Text>()[1];
 
             //Set the percentages to refelct the sliders current value
-            UpdateMusicVolume(_musicVolume.value);
-            UpdateAudioVolume(_soundEffectVolume.value);
+            UpdateMusicVolume(GameManager.Instance.AudioManager.MusicLevel);
+            UpdateAudioVolume(GameManager.Instance.AudioManager.AudioLevel);
+            _musicVolume.value = GameManager.Instance.AudioManager.MusicLevel;
+            _soundEffectVolume.value = GameManager.Instance.AudioManager.AudioLevel;
+
 
             //If the sliders change update the percentage accordingly
             _musicVolume.onValueChanged.AddListener(delegate { UpdateMusicVolume(_musicVolume.value); });

@@ -13,14 +13,14 @@ using Assets.Scripts.Actors;
 namespace Assets.Scripts.Dialogue
 {
     /// <summary>
-    /// This class governs the dialoguie creator. This lets writers create dialogues for the project quickly
+    /// This class governs the dialogue creator. This lets writers create dialogues for the project quickly
     /// </summary>
     public class DialogueCreatorManager : MonoBehaviour
     {
         //Set all manager variables - This script is not used in any of the game scenes so they can be left public for ease of acess
         public Toggle KillOnExitToggle;
         public Button Load, Save;
-        public Dropdown ActorName, Expression, Direction, Special, Branch, Condition;
+        public Dropdown ActorName, Expression, Direction, Special, Branch, Condition, Audio;
         public GameObject Choises, AreYouSureLoad, AreYouSureSave;
         public InputField Content, FirstChoise, SecondChoise, ThirdChoice, SaveField, LoadField;
         public Line[] Lines = new Line[1000];
@@ -58,10 +58,12 @@ namespace Assets.Scripts.Dialogue
             Lines[CurrentPage] = CreateNewLine();
             if (!UnityEngine.Cursor.visible)
                 UnityEngine.Cursor.visible = true;
+            if(Input.GetKeyDown(KeyCode.Escape))
+                Application.Quit();
         }
 
         /// <summary>
-        /// Delete everything and start anew
+        /// Delete everything and Start anew
         /// </summary>
         public void NewDialogue()
         {
@@ -78,8 +80,6 @@ namespace Assets.Scripts.Dialogue
         private void UpdateExpressions(int value)
         {
             Expression.options = new List<Dropdown.OptionData>();
-            
-       
             switch (value)
             {
                 case 0:
@@ -140,8 +140,11 @@ namespace Assets.Scripts.Dialogue
             PagePercentageSlider.maxValue = MaxPages;
             PagePercentageSlider.value = CurrentPage ;
 
-            //Set what percentage
-            PagePercentageText.text = (int)((float)(CurrentPage) / (MaxPages) * 100) + "%";
+            //Set what percentage shows on the bar
+            if(CurrentPage == 0)
+                PagePercentageText.text = 0 + "%";
+            else
+                PagePercentageText.text = (int)((float)(CurrentPage+1) / (MaxPages+1) * 100) + "%";
         }
         
         /// <summary>
@@ -154,6 +157,7 @@ namespace Assets.Scripts.Dialogue
             Direction.value = 0;
             Special.value = 0;
             Condition.value = 0;
+            Audio.value = 0;
             Branch.value = 0;
             KillOnExitToggle.isOn = false;
             Content.text = "";
@@ -252,6 +256,7 @@ namespace Assets.Scripts.Dialogue
             Expression.value = line.ActorExpression;
             Branch.value = line.Branch;
             Condition.value = (int)line.Condition;
+            Audio.value = DetermineAudio(line.Audio);
             Direction.value = line.Direction;
             Special.value = line.Special;
             Content.text = line.Content;
@@ -260,7 +265,56 @@ namespace Assets.Scripts.Dialogue
             ThirdChoice.text = line.Choise2;
             KillOnExitToggle.isOn = line.KillOnExit;
         }
-        
+
+
+        /// <summary>
+        /// Determine which audio clip is selected
+        /// </summary>
+        /// <param name="audioName"></param>
+        /// <returns></returns>
+        private int DetermineAudio(string audioName)
+        {
+            switch (audioName)
+            {
+                case "N/A":
+                    return 0;
+                case "Weasel":
+                    return 1;
+                case "Mouse":
+                    return 2;
+                case "Pig":
+                    return 3;
+                case "Kill":
+                    return 4;
+                default:
+                    return 0;
+            }
+        }
+
+        /// <summary>
+        /// Determine which audio clip will be loaded
+        /// </summary>
+        private string DetermineAudioValue(int value)
+        {
+            switch (value)
+            {
+                case 0:
+                    return "N/A";
+                case 1:
+                    return "Weasel";
+                case 2:
+                    return "Mouse";
+                case 3:
+                    return "Pig";
+                case 4:
+                    return "Kill";
+                default:
+                    return "N/A";
+            }
+        }
+
+
+
         /// <summary>
         /// Create a new line using the inputted information
         /// </summary>
@@ -274,6 +328,7 @@ namespace Assets.Scripts.Dialogue
                 Direction = Direction.value,
                 Branch = Branch.value,
                 Condition = (Condition)Condition.value,
+                Audio = DetermineAudioValue(Audio.value),
                 Content = Content.text,
                 Special = Special.value,
                 Choise0 = FirstChoise.text,
@@ -329,6 +384,7 @@ namespace Assets.Scripts.Dialogue
                         Direction = container.Lines[x].Direction,
                         Branch = container.Lines[x].Branch,
                         Condition = container.Lines[x].Condition,
+                        Audio = container.Lines[x].Audio,
                         Content = container.Lines[x].Content,
                         Special = container.Lines[x].Special,
                         Choise0 = container.Lines[x].Choise0,

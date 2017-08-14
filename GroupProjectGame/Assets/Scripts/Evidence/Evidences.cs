@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Assets.Scripts.Evidence
 {
     /// <summary>
-    /// This clss controls the pickable evidence items
+    /// This class controls the pickable evidence items
     /// </summary>
     public class Evidences : MonoBehaviour
     {

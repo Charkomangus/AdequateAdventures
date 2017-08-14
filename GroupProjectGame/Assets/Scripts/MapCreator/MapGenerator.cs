@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.MainManagers;

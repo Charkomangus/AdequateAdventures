@@ -27,6 +27,9 @@ namespace Assets.Scripts.Dialogue
         [XmlAttribute("Direction")]
         public int Direction;
 
+        [XmlAttribute("Audio")]
+        public string Audio;
+
         [XmlAttribute("Branch")]
         public int Branch;
 
@@ -66,6 +69,9 @@ namespace Assets.Scripts.Dialogue
         public List<LinesXml> Lines = new List<LinesXml>();
     }
 
+    /// <summary>
+    /// Manages saving and loading of dialogues
+    /// </summary>
     public static class DialogueSaveLoad
     {
         /// <summary>
@@ -101,6 +107,7 @@ namespace Assets.Scripts.Dialogue
                 ActorName = line.Actor,
                 ActorExpression = line.ActorExpression,
                 Direction = line.Direction,
+                Audio = line.Audio,
                 Branch = line.Branch,
                 Condition = line.Condition,
                 Content = line.Content,

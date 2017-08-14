@@ -98,24 +98,19 @@ namespace Assets.Scripts.Actors
                 //Move quickly
                 SmoothMove(transform.position, _parentTile.transform.position, _speedMultiplier * _moveSpeed);
 
-                //If the guard is located on a patrol tile create a route and start following it
+                //If the guard is located on a patrol tile create a route and Start following it
                 if (_parentTile.ReturnPatrol())
                 {
                     _guardMoveState = GuardMoveState.Patrol;
                     if (_patrolTiles.Count <= 0)
                         CreatePatrolRoute(_parentTile);
                     FollowPatrolRoute();
-              
-
-
                 }
                 //If not on patrol do the standard behaviour of 4 tiles in a direction, wait, turn and go back
                 else
                 {
-               
                     DetermineDirection();
                     Move(_latestTile);
-               
                 }
                 //Set animation to match direction and status
                 DetermineAnimationStatus();
@@ -148,7 +143,6 @@ namespace Assets.Scripts.Actors
             GameManager.Instance.RestartFromCheckPoint();
             Camera.main.fieldOfView = 60;
         }
-       
 
         /// <summary>
         /// Create a route using patrol tiles
@@ -182,7 +176,7 @@ namespace Assets.Scripts.Actors
                 _patrolTiles.Add(_parentTile);
             }
 
-            //Using the guards direction start the patrol from a particular neighbor - WARNING if direction given has no patrol tile it will default to West
+            //Using the guards direction Start the patrol from a particular neighbor - WARNING if direction given has no patrol tile it will default to West
             switch (_direction)
             {
                 case 0:

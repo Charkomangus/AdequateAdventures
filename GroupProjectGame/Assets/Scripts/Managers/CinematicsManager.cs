@@ -1,59 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.MainManagers;
+﻿/*********************************************************************************
+ * Copyright (C) Charalampos Koundourakis (Adequate Adventures) - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
+*********************************************************************************/
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-/// <summary>
-/// This class ensures that cinematics trigger at the right time
-/// </summary>
-public class CinematicsManager : MonoBehaviour
+namespace Assets.Scripts.Managers
 {
-
-    private Animator[] _cinematics;
-	// Use this for initialization
-	void Start ()
-	{
-	    _cinematics = GetComponentsInChildren<Animator>();
-	}
-
     /// <summary>
-    /// Open a cinematic
+    /// This class ensures that cinematics trigger at the right time.
     /// </summary>
-    /// <param name="i"></param>
-    public void TriggerCinematic(int i)
+    public class CinematicsManager : MonoBehaviour
     {
-        _cinematics[i].SetTrigger("Open");
-    }
 
+        private Animator[] _cinematics;
 
-    private void OnLevelWasLoaded()
-    {
-        var act = GameManager.Instance.CurrentAct;
-        var level = GameManager.Instance.CurrentLevel;
-
-        switch (act)
+        /// <summary>
+        /// Use this for initialization
+        /// </summary>
+        void Start ()
         {
-            case 1:
-                switch (level)
-                {
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
+            _cinematics = GetComponentsInChildren<Animator>();
         }
 
+        /// <summary>
+        /// Open a cinematic
+        /// </summary>
+        /// <param name="i"></param>
+        public void TriggerCinematic(int i)
+        {
+            _cinematics[i].SetTrigger("Open");
+        }
     }
-
-
 }

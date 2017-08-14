@@ -5,6 +5,7 @@
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
 using System;
+using System.Collections;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
 using UnityEngine;
@@ -12,9 +13,11 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Objects
 {
-    public class Box : MonoBehaviour {
-
-
+    /// <summary>
+    /// Box that can be pushed by the player
+    /// </summary>
+    public class Box : MonoBehaviour
+    {
         [Header("Tiles")]
         [SerializeField]private Tile _parentTile, _originalTile;
         [SerializeField]
@@ -22,9 +25,11 @@ namespace Assets.Scripts.Objects
         private bool _scheduleToDie, _conveyed;
         [SerializeField]
         private int _puzzleNumber;
-
         [SerializeField]private Sprite[] images;
-        // Use this for initialization
+
+        /// <summary>
+        ///  Use this for initialization
+        /// </summary>
         private void Start ()
         {
             _moveSpeed = 2;
@@ -32,12 +37,16 @@ namespace Assets.Scripts.Objects
             _originalTile = _parentTile;
             _puzzleNumber = _parentTile.ReturnPuzzleNumber();
             images = Resources.LoadAll<Sprite>("LevelMapArt/Level" + GameManager.Instance.CurrentAct+"_"+GameManager.Instance.CurrentLevel+"/");
-            GetComponent<SpriteRenderer>().sprite = images[Random.Range(0, images.Length)];
+
+            if(images.Length > 0)
+                GetComponent<SpriteRenderer>().sprite = images[Random.Range(0, images.Length)];
             var temp = Random.Range(0.75f, 1);
             transform.localScale = new Vector3(temp, temp, temp);
         }
-	
-        // Update is called once per frame
+
+        /// <summary>
+        /// Update is called once per frame
+        /// </summary>
         private void Update ()
         {
             //Only perform this if the object is in the target tile
@@ -46,7 +55,7 @@ namespace Assets.Scripts.Objects
                 //Move towards the tile slowly
                 SmoothMove(transform.position, _parentTile.transform.position,   _moveSpeed);
 
-                //If its on a conveyor belt change its 
+                //If its on a conveyor belt change its direction
                 if (_conveyed)
                 {
                     _moveSpeed = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnSpeed();
@@ -54,19 +63,19 @@ namespace Assets.Scripts.Objects
                     switch (direction)
                     {
                         case 0:
-                            SetParentTile(_parentTile.North, direction);
+                            StartCoroutine(SetParentTile(_parentTile.North, direction));
                             break;
                         case 1:
-                            SetParentTile(_parentTile.South, direction);
+                            StartCoroutine(SetParentTile(_parentTile.South, direction));
                             break;
                         case 2:
-                            SetParentTile(_parentTile.West, direction);
+                            StartCoroutine(SetParentTile(_parentTile.West, direction));
                             break;
                         case 3:
-                            SetParentTile(_parentTile.East, direction);
+                            StartCoroutine(SetParentTile(_parentTile.East, direction));
                             break;
                         default:
-                            SetParentTile(_parentTile.East, direction);
+                            StartCoroutine(SetParentTile(_parentTile.East, direction));
                             break;
                     }
                 }
@@ -86,8 +95,7 @@ namespace Assets.Scripts.Objects
                         temp.transform.localScale = new Vector3(Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f));
                         temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 180)));
                     }
-                    ResetObject();
-                    
+                    ResetObject();                    
                 }
             }
             else
@@ -98,7 +106,9 @@ namespace Assets.Scripts.Objects
             }
         }
 
-        //Return the box back to it's original position
+        /// <summary>
+        /// Return the box back to it's original position
+        /// </summary>
         public void ResetObject()
         {
 
@@ -106,78 +116,93 @@ namespace Assets.Scripts.Objects
             {
                 foreach (var neighbor in _originalTile.ReturnNeighbors())
                 {
-                    if (neighbor.IsBlocked() == false && neighbor.ReturnType() != TileType.IceCracks && neighbor.ReturnType() != TileType.Fire)
-                    {
-                        SetParentTile(neighbor, -1);
-                        transform.position = neighbor.transform.position;
-                        break;
-                    }
+                    if (neighbor.IsBlocked() || neighbor.ReturnType() == TileType.IceCracks ||neighbor.ReturnType() == TileType.Fire) continue;
+                    StartCoroutine(SetParentTile(neighbor, -1));
+                    transform.position = neighbor.transform.position;
+                    break;
                 }
             }
             else
             {
-                SetParentTile(_originalTile, -1);
+                StartCoroutine(SetParentTile(_originalTile, -1));
                 transform.position = _originalTile.transform.position;
             }
           
             GetComponent<SpriteRenderer>().enabled = true;
         }
 
-        //Set parent tile. Depending on the tile type different behaviours will emerge.
-        public void SetParentTile(Tile tile, int direction)
+        /// <summary>
+        /// Set parent tile. Depending on the tile type different behaviours will emerge.
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public IEnumerator SetParentTile(Tile tile, int direction)
         {
-            if (tile == null) return;
-            if (tile.IsBlocked()) return;
+            if (tile == null) yield break;
+            if (tile.IsBlocked()) yield break;
             
             //Free the current parent tile
             _parentTile.SetBlocked(false);
             _parentTile.SetObject(TileObject.Empty);
 
          
-           
             //Set new tile as parent tile
             _parentTile = tile;
            _parentTile.SetObject(TileObject.Box);
             _parentTile.GenerateObject(gameObject);
 
             TileType type = tile.ReturnType();
-            if (direction == -1) return;
-            //If the box encounters Ice cracks or fire kill it when it reaches the tile
-            if (type == TileType.IceCracks || type == TileType.Fire)
+            if (direction == -1) yield break;
+            
+            switch (type)
             {
-                _scheduleToDie = true;
-                return;
+                //If the box encounters Ice cracks or fire kill it when it reaches the tile
+                case TileType.IceCracks:
+                case TileType.Fire:
+                    _scheduleToDie = true;
+                    yield break;
+                //If the box encounters a conveyor belt follow it's direction
+
+                case TileType.RedConveyorBelt:
+                case TileType.GreenConveyorBelt:
+                case TileType.BlueConveyorBelt:
+                    direction = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnDirection();
+                    _conveyed = true;
+                    break;
+                default:
+                    _conveyed = false;
+
+                    break;
             }
 
             //If the box is on a conveyor update its direction and set it to be conveyed
-            if (type == TileType.RedConveyorBelt || type == TileType.GreenConveyorBelt ||type == TileType.BlueConveyorBelt)
+
+
+            //If the box encounters ice or oil it should continue to call this function until that is no longer the case.
+            if (_parentTile.ReturnType() == TileType.Ice || _parentTile.ReturnType() == TileType.Oil)
             {
-                direction = _parentTile.GetComponentInChildren<ConveyorBelt>().ReturnDirection();
-                _conveyed = true;
+                yield return new WaitForSeconds(0.12f);
+                switch (direction)
+                {
+                    case 0:
+                        StartCoroutine(SetParentTile(_parentTile.North, 0));
+                        break;
+                    case 1:
+                        StartCoroutine(SetParentTile(_parentTile.South, 1));
+                        break;
+                    case 2:
+                        StartCoroutine(SetParentTile(_parentTile.East, 2));
+                        break;
+                    case 3:
+                        StartCoroutine(SetParentTile(_parentTile.West, 3));
+                        break;
+                }
             }
             else
             {
-                _conveyed = false;
-            }
-            
-
-            //If the box encounters ice or oil it should continue to call this function until that is no longer the case.
-            if (_parentTile.ReturnType() != TileType.Ice && _parentTile.ReturnType() != TileType.Oil) return;
-            Debug.Log("SLID!");
-            switch (direction)
-            {
-                case 0:
-                    SetParentTile(_parentTile.North, 0);
-                    break;
-                case 1:
-                    SetParentTile(_parentTile.South, 1);
-                    break;
-                case 2:
-                    SetParentTile(_parentTile.East, 2);
-                    break;
-                case 3:
-                    SetParentTile(_parentTile.West, 3);
-                    break;
+                //Play audio pushing effect
+                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.CratePush, false);
             }
         }
         /// <summary>

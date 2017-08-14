@@ -2,7 +2,7 @@
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="94">
   <Lines>
     <Line ActorName="Pig" Expression="2" Direction="1" Branch="0" Condition="None" Content="*Sniff*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="You may act the victim, but this factory fire started under your watch.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="You may act the victim, but this factory fire Started under your watch.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="Mouse told me that it was the replacement parts installed in the machines that caught fire.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="What have you got to say about that, aren't you responsible for everything that goes on here?&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Pig" Expression="0" Direction="1" Branch="0" Condition="None" Content="I don't know anything about new parts being installed today, I didn't even know they had been bought!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
@@ -27,7 +27,7 @@
     <Line ActorName="Pig" Expression="1" Direction="1" Branch="3" Condition="None" Content="..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Beaver" Expression="2" Direction="1" Branch="3" Condition="None" Content="Mr Pig, can you explain this?&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Pig" Expression="1" Direction="1" Branch="3" Condition="None" Content="I... My secretary puts a lot of things in front of me to sign! I can't possibly double and triple check them all!&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Beaver" Expression="1" Direction="1" Branch="3" Condition="None" Content="Well Mr Pig thats more reckless than fetchin' a rake in the dark." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Beaver" Expression="1" Direction="1" Branch="3" Condition="None" Content="Well Mr Pig that's more reckless than fetchin' a rake in the dark." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Beaver" Expression="2" Direction="1" Branch="3" Condition="None" Content="But it's hardly a crime. Bunny, how was Mr Pig to know that the parts would cause a fire?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Pig" Expression="0" Direction="1" Branch="3" Condition="None" Content="Exactly! It's not my fault, I'm as much a victim as anyone!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
     <Line ActorName="Pig" Expression="0" Direction="1" Branch="3" Condition="None" Content="Maybe I did sign for those parts, but they were just regular parts." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />

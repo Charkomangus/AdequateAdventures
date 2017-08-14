@@ -5,7 +5,6 @@
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
 using System;
-using Assets.Scripts.MainManagers;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Tiles;
 using Boo.Lang;
@@ -36,7 +35,9 @@ namespace Assets.Scripts.Objects
         //List containing the conveyor belts that this switch will affect
         private readonly List<ConveyorBelt> _belts = new List<ConveyorBelt>();
 
-        // Use this for initialization
+        /// <summary>
+        ///  Use this for initialization
+        /// </summary>
         void Start()
         {
             _currentScene = SceneManager.GetActiveScene().name;

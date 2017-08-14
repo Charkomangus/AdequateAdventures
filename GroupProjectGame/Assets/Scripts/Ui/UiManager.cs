@@ -20,13 +20,14 @@ namespace Assets.Scripts.Ui
         [SerializeField]private TextAsset[] _signTexts;
         private Animator _fade;
         private Animator _checkpoint;
-    
+        private Animator _help;
         /// <summary>
         /// Fade is needed straight away so it goes in awake
         /// </summary>
         private void Awake()
         {
             _fade = GameObject.FindGameObjectWithTag("Fade").GetComponent<Animator>();
+            _help = GameObject.FindGameObjectWithTag("Help").GetComponent<Animator>();
 
         }
 
@@ -85,6 +86,16 @@ namespace Assets.Scripts.Ui
         {
             if (_fade == null) return;
             _fade.SetBool("Open", status);
+        }
+
+
+        /// <summary>
+        /// Open and close the help info
+        /// </summary>
+        public void OpenHelp()
+        {
+            if (_help == null) return;
+            _help.SetTrigger("Open");
         }
 
         /// <summary>

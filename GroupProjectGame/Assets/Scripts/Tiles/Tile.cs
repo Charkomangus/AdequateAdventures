@@ -119,7 +119,7 @@ namespace Assets.Scripts.Tiles
 
             //Show what flags this tile has
             ShowFlags();
-            //If it is the start or the end of a puzzle borrow the opuzzle number of tiles around you
+            //If it is the Start or the end of a puzzle borrow the opuzzle number of tiles around you
             if(IsPuzzleEntry() || IsPuzzleComplete())
                 BorrowPuzzleNumber();
         }

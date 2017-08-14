@@ -51,12 +51,15 @@ namespace Assets.Scripts.MainManagers
         [SerializeField]private int _dialogueNumber;
         public string CurrentScene;
         public Player.Player Player;
-
-
+      
+       
+        //Test panel - for debug purposes only
         public GameObject debugPanel;
-   
 
-        // Use this for initialization
+
+        /// <summary>
+        /// Use this for initialization
+        /// </summary>
         private void Awake()
         {
             if (Instance != null)
@@ -79,13 +82,18 @@ namespace Assets.Scripts.MainManagers
             CinematicsManager = FindObjectOfType<CinematicsManager>();
         }
 
-        // Use this for initialization
+        /// <summary>
+        /// Call start up
+        /// </summary>
         private void Start ()
         {
             OnLevelWasLoaded();
         }
 
 
+        /// <summary>
+        /// Set up scene
+        /// </summary>
 
         private void OnLevelWasLoaded()
         {
@@ -115,6 +123,9 @@ namespace Assets.Scripts.MainManagers
         }
 
 
+        /// <summary>
+        /// Debug Panel
+        /// </summary>
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.B))
@@ -127,7 +138,9 @@ namespace Assets.Scripts.MainManagers
 
         }
 
-        //Start level
+        /// <summary>
+        /// Start level
+        /// </summary>
         private void StartLevel()
         {
             EnviromentManager = FindObjectOfType<EnviromentManager>();
@@ -144,12 +157,23 @@ namespace Assets.Scripts.MainManagers
         
             if (CurrentAct == 1)
             {
-                if(CurrentLevel == 1 || CurrentLevel == 4)
-                    TriggerDialogue();
+                switch (CurrentLevel)
+                {
+                    case 1:
+                        Debug.Log("START");
+                        UiManager.OpenHelp();
+                        TriggerDialogue();
+                        break;
+                    case 4:
+                        TriggerDialogue();
+                        break;
+                }
             }
         }
 
-        //Loads the corresponding map to the current act and level and initializes variables concerning it
+        /// <summary>
+        /// Loads the corresponding map to the current act and level and initializes variables concerning it
+        /// </summary>
         private void InitializeMap()
         {
            
@@ -173,7 +197,11 @@ namespace Assets.Scripts.MainManagers
             
           
         }
-        //Guard waits in place
+        
+        /// <summary>
+        /// Load new level
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator LoadLevel()
         {
             yield return new WaitForSeconds(0);
@@ -189,7 +217,10 @@ namespace Assets.Scripts.MainManagers
            
         }
 
-        //Guard waits in place
+        /// <summary>
+        /// End level
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator EndOfLevel()
         {
             var gameCamera = Camera.main.GetComponent<GameCamera>();
@@ -204,7 +235,7 @@ namespace Assets.Scripts.MainManagers
         }
 
         /// <summary>
-        /// Restarts the game to start from the last puzzle encountered
+        /// Restarts the game to Start from the last puzzle encountered
         /// </summary>
         public void RestartFromCheckPoint()
         {
@@ -236,8 +267,11 @@ namespace Assets.Scripts.MainManagers
         }
 
         #region Dialogue
-      
-        //Open the apropriate dialogue
+
+        /// <summary>
+        /// Open the apropriate dialogue
+        /// </summary>
+        /// <param name="tile"></param>
         public void TriggerDialogue(Tile tile)
         {
             _dialogueNumber++;
@@ -245,7 +279,9 @@ namespace Assets.Scripts.MainManagers
           
         }
 
-        //Open the next dialogue
+        /// <summary>
+        /// Open the next dialogue
+        /// </summary>
         public void TriggerDialogue()
         {
             _dialogueNumber++;
@@ -253,7 +289,10 @@ namespace Assets.Scripts.MainManagers
            
         }
 
-        //Open the dialogue using the filename given
+        /// <summary>
+        /// Open the dialogue using the filename given
+        /// </summary>
+        /// <param name="filename"></param>
         public void TriggerDialogue(string filename)
         {
             _dialogueNumber++;

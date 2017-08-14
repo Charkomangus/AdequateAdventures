@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using UnityEngine;
-using System.Collections;
 
 /// GVR audio room component that simulates environmental effects of a room with respect to the
 /// properties of the attached game object.

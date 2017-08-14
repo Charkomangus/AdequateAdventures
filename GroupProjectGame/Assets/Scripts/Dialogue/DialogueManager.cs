@@ -4,13 +4,11 @@
  * Proprietary and confidential
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *******************************************************/
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Actors;
 using Assets.Scripts.MainManagers;
 using Assets.Scripts.Tiles;
-using Assets.Scripts.Ui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -20,7 +18,7 @@ using Random = UnityEngine.Random;
 namespace Assets.Scripts.Dialogue
 {
     /// <summary>
-    /// 
+    /// This class manages the dialogues in the game.
     /// </summary>
     public class DialogueManager : MonoBehaviour, IPointerDownHandler
     {
@@ -45,12 +43,18 @@ namespace Assets.Scripts.Dialogue
         private Actor actor0, actor1;
         private int ActorExpression0, ActorExpression1;
         private bool blinking;
-        //   Random eye blinker script 
-        public float blinkEyeRate = 4;
+
+
+       //Eye blinking frequency
+        private float _blinkEyeRate = 4;
 
         private string lastDialogue;
         private float blinkEyeTime;
-        // Use this for initialization
+
+
+        /// <summary>
+        ///  Use this for initialization
+        /// </summary>
         private void Awake()
         {
             //Load all the portraits of characters
@@ -77,25 +81,29 @@ namespace Assets.Scripts.Dialogue
             _content = GameObject.FindGameObjectWithTag("Content").GetComponent<Text>();
             _actorName = GameObject.FindGameObjectWithTag("ActorName");
             _choisesTransform = GameObject.FindGameObjectWithTag("Choises");
-
-       
         }
 
-     
-
-        //Mouse Input
+        /// <summary>
+        /// Mouse Input - when clicked go to the next line
+        /// </summary>
+        /// <param name="eventData"></param>
         public void OnPointerDown(PointerEventData eventData)
         {
             if (!IsOpen()) return;
+            if(GameManager.Instance != null)
+                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.UiClick, false);
             DetermineNextLine();
         }
 
-        
+        /// <summary>
+        /// Keyboard Input 
+        /// </summary>
         private void Update()
         {
             if(!IsOpen()) return;
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("[0]"))
             {
+                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.UiClick, false);
                 if (GameManager.Instance == null)
                 {
                     DetermineNextLine();
@@ -105,20 +113,21 @@ namespace Assets.Scripts.Dialogue
             }
         }
 
-
-        //When a dialogue is triggered disable the trigger and open the dialogue
+        /// <summary>
+        /// When a dialogue is triggered disable the trigger and open the dialogue
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="filename"></param>
         public void DialogueTrigger(Tile tile, string filename)
         {
             lastDialogue = filename;
             OpenDialogue(filename);
             tile.DeleteDialogue();
         }
-        
 
-
-
-
-        //Opens the dialogue TEMP - for dialogue creator use only!
+        /// <summary>
+        /// Opens the dialogue TEMP - for dialogue creator use only!
+        /// </summary>
         public void OpenCreatorDialogue()
         {
             _lines = _manager.ReturnLines().ToArray();
@@ -131,12 +140,16 @@ namespace Assets.Scripts.Dialogue
                 _currentLine = _lines[_currentPage];
                 SetActor(_currentLine);
                 SetContent(_currentLine);
+                SetAudio(_currentLine);
             }
             else
                 StartCoroutine(CloseDialogue());
         }
 
-        //Opens the dialogue TEMP - for dialogue creator use only!
+        /// <summary>
+        /// Opens the dialogue 
+        /// </summary>
+        /// <param name="filename"></param>
         public void OpenDialogue(string filename)
         {
             //Pause movement
@@ -144,12 +157,13 @@ namespace Assets.Scripts.Dialogue
             UnityEngine.Cursor.visible = true;
             GameManager.Instance.Player.SetInitialized(false);
 
-            //Load map level
+            //Dialogue
             var container = DialogueSaveLoad.LoadFromResources(filename);
 
             if (container == null) return;
             for (var x = 0; x < container.Size; x++)
             {
+                //Create new line
                 var line = new Line
                 {
                     Actor = container.Lines[x].ActorName,
@@ -158,6 +172,7 @@ namespace Assets.Scripts.Dialogue
                     Branch = container.Lines[x].Branch,
                     Condition = container.Lines[x].Condition,
                     Content = container.Lines[x].Content,
+                    Audio =  container.Lines[x].Audio,
                     Special = container.Lines[x].Special,
                     Choise0 = container.Lines[x].Choise0,
                     Choise1 = container.Lines[x].Choise1,
@@ -168,6 +183,8 @@ namespace Assets.Scripts.Dialogue
                 _lines[x] = line;
             }
             _maxPage = _lines.Length;
+
+            //Only continue if you havent reachged the end of the dialogue
             if (_currentPage <= _maxPage)
             {
                 _maxPage = container.Size;
@@ -178,29 +195,35 @@ namespace Assets.Scripts.Dialogue
                 _currentLine = _lines[_currentPage];
                 SetActor(_currentLine);
                 SetContent(_currentLine);
+                SetAudio(_currentLine);
               
             }
+            //End of dialogue has been reached
             else
                 StartCoroutine(CloseDialogue());
         }
 
-
-        
-
-        //Close the dialogue screen
+        /// <summary>
+        /// Close the dialogue screen
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator CloseDialogue()
         {
-            if (lastDialogue == "Level1_3_2")
+            //Cinematics trigger
+            switch (lastDialogue)
             {
-                GameManager.Instance.CinematicsManager.TriggerCinematic(0);
-               yield break;
+                case "Level1_3_2":
+                    GameManager.Instance.CinematicsManager.TriggerCinematic(0);
+                    yield break;
+                case "Level1_4_3":
+                    SceneManager.LoadScene("Ending");
+                    yield break;
             }
-            if (lastDialogue == "Level1_4_3")
-            {
-               SceneManager.LoadScene("Ending");
-                yield break;
-            }
+
+            //Unfreeze time
             Time.timeScale = 1;
+
+            //Reset dialogue manager
             _currentPage = 0;
             _specialsOpen = false;
            _managerAnimator.SetBool("Open", false);
@@ -209,23 +232,29 @@ namespace Assets.Scripts.Dialogue
            
             _actor1.SetBool("Open", false);
             UnityEngine.Cursor.visible = false;
+
+            //Open the journal if evidence was picked up
             if (_EvidencePicked)
             {
                 StartCoroutine(GameManager.Instance.JournalManager.OpenEvidence(_evidenceNumber));
                 _EvidencePicked = false;
-
             }
             yield return new WaitForSeconds(0.5f);
+            //Start player
             if(GameManager.Instance != null)
                 GameManager.Instance.Player.SetInitialized(true);
             yield return new WaitForSeconds(1);
+
+            //After everything is finished set the actor sprites to null
             _actor1.GetComponent<Image>().sprite = null;
             _actor0.GetComponent<Image>().sprite = null;
-
            
         }
-      
-        //Set the apropriate actors spite and position
+
+        /// <summary>
+        /// Set the apropriate actors spite and position
+        /// </summary>
+        /// <param name="line"></param>
         private void SetActor(Line line)
         {
             //Left or right
@@ -256,9 +285,7 @@ namespace Assets.Scripts.Dialogue
             else
             {
                 _currentActor.GetComponent<Image>().sprite = sprite;
-
                 blinking = true;
-
                 //Set the actors name to what the actor is. If its the injured mouse just call him mouse, its too cruel otherwise.
                 _actorName.GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 _actorName.GetComponentInChildren<Text>().text =line.Actor == Actor.InjuredMouse ? "Mouse" : line.Actor.ToString();
@@ -266,63 +293,16 @@ namespace Assets.Scripts.Dialogue
                     : new Vector3(Mathf.Abs(_actorName.transform.localPosition.x), _actorName.transform.localPosition.y,
                         _actorName.transform.localPosition.z);
 
-
-
-                if (!_currentActor.GetBool("Open"))
-                {
-                    _currentActor.SetBool("Open", true);
-                    StartCoroutine(Blink(direction));
-                }
+                if (_currentActor.GetBool("Open")) return;
+                _currentActor.SetBool("Open", true);
+                StartCoroutine(Blink(direction));
             }
         }
+       
 
-        private IEnumerator Blink(int direction)
-        {
-            while (blinking)
-            {
-                blinkEyeRate = Random.Range(40, 100);
-                if (direction == 0)
-                {
-                    if (blinkEyeTime >= blinkEyeRate) //CHANGED THE "=" TO "=="
-                    {
-                        var sprite = DetermineActorBlinking(actor0, ActorExpression0);
-                        if (sprite != null)
-                            _actor0.GetComponent<Image>().sprite = sprite;
-                        blinkEyeTime = 0;
-                    }
-                    else
-                    {
-                        var sprite = DetermineActor(actor0, ActorExpression0);
-                        if (sprite != null)
-                            _actor0.GetComponent<Image>().sprite = sprite;
-                        blinkEyeTime++;
-                    }
-                }
-                else
-                {
-                    if (blinkEyeTime >= blinkEyeRate) //CHANGED THE "=" TO "=="
-                    {
-                        var sprite = DetermineActorBlinking(actor1, ActorExpression1);
-                        if (sprite != null)
-                            _actor1.GetComponent<Image>().sprite = sprite;
-                        blinkEyeTime = 0;
-                    }
-                    else
-                    {
-                        var sprite = DetermineActor(actor1, ActorExpression1);
-                        if (sprite != null)
-                            _actor1.GetComponent<Image>().sprite = sprite;
-                        blinkEyeTime++;
-                    }
-                }
-                yield return new WaitForSecondsRealtime(0.05f);
-            
-            }
-        }
-
-
-
-        //Load the next line of dialogue
+        /// <summary>
+        /// Load the next line of dialogue
+        /// </summary>
         private void NextLine()
         {
             //Destroy previous choises
@@ -338,8 +318,8 @@ namespace Assets.Scripts.Dialogue
                 _currentActor.SetBool("Open", false);
             }
 
-                //Increment the current page
-                _currentPage++;
+            //Increment the current page
+            _currentPage++;
          
             //If the page was the last page close the dialogue otherwise carry on
             if (_currentPage < _maxPage)
@@ -350,6 +330,7 @@ namespace Assets.Scripts.Dialogue
                     _currentLine = _lines[_currentPage];
                     SetActor(_currentLine);
                     SetContent(_currentLine);
+                    SetAudio(_currentLine);
                 }
                 else
                 {
@@ -360,22 +341,56 @@ namespace Assets.Scripts.Dialogue
             else
                 StartCoroutine(CloseDialogue());
         }
-   
 
-        //Set the content
+
+        /// <summary>
+        /// Set the content
+        /// </summary>
+        /// <param name="line"></param>
         private void SetContent(Line line)
         {
             _content.text = line.Content;
         }
 
+        /// <summary>
+        /// Change the audio motif
+        /// </summary>
+        /// <param name="line"></param>
+        private void SetAudio(Line line)
+        {
+            var temp = line.Audio;
+            Debug.Log(temp);
+            switch (temp)
+            {
+                case "Kill":
+                    StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Weasel"));
+                    StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Pig"));
+                    StartCoroutine(GameManager.Instance.AudioManager.CloseMusicMotifs("Mouse"));
+                    break;
+                case "N/A":
+                    break;
+                case "Pig":
+                case "Mouse":
+                case "Weasel":
+                    if (GameManager.Instance != null)
+                        StartCoroutine(GameManager.Instance.AudioManager.OpenMusicMotif(temp));
+                    break;
+            }
+        }
 
-
+        /// <summary>
+        /// Call determine next line for the current page 0- this exxists to make it easier to call this function
+        /// </summary>
         public void DetermineNextLine()
         {
             DetermineNextLine(_lines[_currentPage]);
         }
        
 
+        /// <summary>
+        /// Determine what action the next line needs to be set up
+        /// </summary>
+        /// <param name="line"></param>
         private void DetermineNextLine(Line line)
         {
             if (SceneManager.GetActiveScene().name == "Level1")
@@ -392,12 +407,14 @@ namespace Assets.Scripts.Dialogue
                 InstantiateChoise(line.Choise1);
                 InstantiateChoise(line.Choise2);
                 _specialsOpen = true;
-
             }
 
         }
 
-        //Create a new choise if there is content in the string
+        /// <summary>
+        /// Create a new choise object if there is content in the string
+        /// </summary>
+        /// <param name="choise"></param>
         private void InstantiateChoise(string choise)
         {
             if (string.IsNullOrEmpty(choise)) return;
@@ -411,7 +428,10 @@ namespace Assets.Scripts.Dialogue
 
 
 
-        //Switch off the choises
+        /// <summary>
+        /// Switch off the choises
+        /// </summary>
+        /// <param name="chosenButton"></param>
         private void ChooseResponse(int chosenButton)
         {
             StartCoroutine(CloseSpecial(_choises[chosenButton]));
@@ -419,15 +439,19 @@ namespace Assets.Scripts.Dialogue
         
         }
 
-        //Close any remaining special items
+        /// <summary>
+        /// Close any remaining special items
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns></returns>
         private IEnumerator CloseSpecial(GameObject button)
         {
             List<GameObject> otherButtons = new List<GameObject>();
-            for (int i = 0; i < _choises.Count; i++)
-            {
-                if (_choises[i] != button)
-                    otherButtons.Add(_choises[i]);
 
+            foreach (GameObject choise in _choises)
+            {
+                if (choise != button)
+                    otherButtons.Add(choise);
             }
         
             foreach (var otherButton in otherButtons)
@@ -435,17 +459,77 @@ namespace Assets.Scripts.Dialogue
                 otherButton.GetComponent<Button>().interactable = false;
             }
             yield return new WaitForSecondsRealtime(1);
-            button.GetComponent<Button>().interactable = false;
+            if(button != null)
+                button.GetComponent<Button>().interactable = false;
 
 
             yield return new WaitForSecondsRealtime(0.25f);
             _choisesTransform.GetComponent<Animator>().SetBool("Open", false);
             NextLine();
-        
-            
         }
 
-        //Determineswhich sprite is apropriate given the current actor and its expression
+        /// <summary>
+        /// Every so often (random value) swap the actor texture with a blinking one
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        private IEnumerator Blink(int direction)
+        {
+            while (blinking)
+            {
+                _blinkEyeRate = Random.Range(40, 100);
+
+                //Left side actor
+                if (direction == 0)
+                {
+                    //Blink!
+                    if (blinkEyeTime >= _blinkEyeRate)
+                    {
+                        var sprite = DetermineActorBlinking(actor0, ActorExpression0);
+                        if (sprite != null)
+                            _actor0.GetComponent<Image>().sprite = sprite;
+                        blinkEyeTime = 0;
+                    }
+                    //Normal
+                    else
+                    {
+                        var sprite = DetermineActor(actor0, ActorExpression0);
+                        if (sprite != null)
+                            _actor0.GetComponent<Image>().sprite = sprite;
+                        blinkEyeTime++;
+                    }
+                }
+                //Right side actor
+                else
+                {
+                    //Blink
+                    if (blinkEyeTime >= _blinkEyeRate)
+                    {
+                        var sprite = DetermineActorBlinking(actor1, ActorExpression1);
+                        if (sprite != null)
+                            _actor1.GetComponent<Image>().sprite = sprite;
+                        blinkEyeTime = 0;
+                    }
+                    //Normal
+                    else
+                    {
+                        var sprite = DetermineActor(actor1, ActorExpression1);
+                        if (sprite != null)
+                            _actor1.GetComponent<Image>().sprite = sprite;
+                        blinkEyeTime++;
+                    }
+                }
+                //Wait for a bit - this enables the count
+                yield return new WaitForSecondsRealtime(0.05f);
+            }
+        }
+
+        /// <summary>
+        /// Determineswhich sprite is apropriate given the current actor and its expression
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="actorExpression"></param>
+        /// <returns></returns>
         private Sprite DetermineActor(Actor actor, int actorExpression)
         {
             switch (actor)
@@ -473,7 +557,12 @@ namespace Assets.Scripts.Dialogue
             }
         }
 
-        //Determineswhich sprite is apropriate given the current actor and its expression
+        /// <summary>
+        /// Determines which blinking sprite is apropriate given the current actor and its expression
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="actorExpression"></param>
+        /// <returns></returns>
         private Sprite DetermineActorBlinking(Actor actor, int actorExpression)
         {
             switch (actor)
@@ -501,6 +590,10 @@ namespace Assets.Scripts.Dialogue
             }
         }
 
+        /// <summary>
+        /// Checks if the dialogue is open
+        /// </summary>
+        /// <returns></returns>
         public bool IsOpen()
         {
             return _managerAnimator.GetBool("Open");

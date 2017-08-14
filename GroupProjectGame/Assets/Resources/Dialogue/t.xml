@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="3">
+<LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="1">
   <Lines>
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="aaaaaaaaaaaaaaaaaaaaa" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Guard" Expression="0" Direction="0" Branch="0" Condition="None" Content="Gone" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="aaaaaaaaaaaaa" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Audio="Weasel" Branch="0" Condition="None" Content="hthh" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
   </Lines>
 </LineCollection>
