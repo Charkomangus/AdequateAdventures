@@ -84,6 +84,15 @@ namespace Assets.Scripts.Ui
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                if (_evidenceTextBox.GetComponent<Animator>().GetBool("Open"))
+                {
+                    _evidence.GetComponent<CanvasGroup>().interactable = true;
+                    _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
+                }
+            }
+
             //No further input if the text box is open
             if (_evidenceTextBox.GetComponent<Animator>().GetBool("Open") || !_evidence.GetComponent<CanvasGroup>().interactable) return;
            

@@ -8,6 +8,7 @@
 using System.Collections;
 using Assets.Scripts.MainManagers;
 using FMOD;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -75,6 +76,7 @@ namespace Assets.Scripts.Managers
             MusicEvent = FMODUnity.RuntimeManager.CreateInstance(musicPath);
             //Attach the sound to the audio manager object. Doesn't do much but makes FMOD happier and removes some of the 3D space warnings
             FMODUnity.RuntimeManager.AttachInstanceToGameObject(MusicEvent, GetComponent<Transform>(), GetComponent<Rigidbody>());
+           
             MusicEvent.setVolume(MusicLevel);
             MusicEvent.start(); //Start your music      
          
@@ -147,16 +149,24 @@ namespace Assets.Scripts.Managers
             }
 
 
+            if (MusicEvent == null) return;
+
+
+            PLAYBACK_STATE playback;
+            MusicEvent.getPlaybackState(out playback);
+            if (playback != PLAYBACK_STATE.PLAYING)
+            {
+                Debug.Log("REstarted");
+                MusicEvent.start();
+            }
         }
 
         private void StopMusicFmod()
         {
             //If it's playing stop it
-            if (MusicEvent != null)
-            {
-                MusicEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                MusicEvent.release();
-            }
+            if (MusicEvent == null) return;
+            MusicEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            MusicEvent.release();
         }
 
         /// <summary>

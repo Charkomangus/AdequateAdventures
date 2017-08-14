@@ -57,6 +57,7 @@ namespace Assets.Scripts.Ui
         {
             _soundEffectPercentage.text = value + "%";
             GameManager.Instance.AudioManager.SetAudioVolume(value);
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.UiClick, false);
         }
     }
 }

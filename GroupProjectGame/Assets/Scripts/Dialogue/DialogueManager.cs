@@ -101,7 +101,7 @@ namespace Assets.Scripts.Dialogue
         private void Update()
         {
             if(!IsOpen()) return;
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("[0]"))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
             {
                 GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.UiClick, false);
                 if (GameManager.Instance == null)

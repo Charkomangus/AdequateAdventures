@@ -18,7 +18,7 @@ namespace Assets.Scripts.Managers
         /// </summary>
         void Update ()
         {
-            if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.E) ||Input.GetKeyDown("[0]"))
+            if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
                 Application.Quit();
         }
     }

@@ -588,7 +588,7 @@ namespace Assets.Scripts.Player
             if (_sliding && _moving) return;
 
             //Interact with objects
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("[0]"))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
             {
                 if(!GameManager.Instance.DialogueManager.IsOpen() && !GameManager.Instance.JournalManager.IsOpen())
                 Interact();

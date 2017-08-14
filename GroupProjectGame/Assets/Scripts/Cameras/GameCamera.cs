@@ -31,7 +31,7 @@ namespace Assets.Scripts.Cameras
             _newHeight = 7.5f;
             _normalHeight = 7.5f;
             _puzzleHeight = 9;
-            _hugePuzzleHeight = 12f;
+            _hugePuzzleHeight = 11;
         }
        
         /// <summary>
