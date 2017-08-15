@@ -24,7 +24,6 @@ namespace Assets.Scripts.Objects
         private float _moveSpeed;
         private Boo.Lang.List<Tile> _newTiles;
         [SerializeField]private bool _scheduleToDie, _conveyed;
-        [SerializeField]private int _direction;
         [SerializeField]
         private int _puzzleNumber;
         private TileType _parentTileType;
@@ -128,7 +127,7 @@ namespace Assets.Scripts.Objects
             }
             GetComponent<SpriteRenderer>().enabled = true;
             _scheduleToDie = false;
-            _direction = -1;
+        
         }
         
         /// <summary>

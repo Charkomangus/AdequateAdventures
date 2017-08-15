@@ -16,7 +16,7 @@ namespace Assets.Scripts.Utility
     /// </summary>
     public class LevelLoader : MonoBehaviour
     {
-        private AsyncOperation _async; // When assigned, loading will Start
+        
         private Image _sillouate;
         private float _sillouateValue;
 
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Utility
 
             yield return new WaitForSecondsRealtime(Random.Range(1, 2));
             //Actually load the level
-            _async = SceneManager.LoadSceneAsync("Level1");
+            SceneManager.LoadSceneAsync("Level1");
         }
     }
 }
