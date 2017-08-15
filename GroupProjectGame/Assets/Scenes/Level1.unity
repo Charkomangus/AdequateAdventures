@@ -2020,7 +2020,7 @@ Prefab:
     - target: {fileID: 114484015581256394, guid: 5b8b8584908226540a3433aa03ad8bd9,
         type: 2}
       propertyPath: CurrentLevel
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
         type: 2}
