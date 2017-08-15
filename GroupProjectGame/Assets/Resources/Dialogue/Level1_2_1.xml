@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="9">
   <Lines>
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="MOUSE! Am I glad to see you!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Mouse" Expression="1" Direction="1" Branch="0" Condition="None" Content="Bunny I was so scared. I've been trying to get out but I can't.&#xD; They installed new machine parts this morning, they started a fire." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="You're going to be okay, I'm here now. I think you can go back the way I came." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Mouse" Expression="1" Direction="1" Branch="0" Condition="None" Content="I'm too afraid, Bunny, you know how I am in a crisis. I just freeze up." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="We've known each other for years. I know you can do this." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="You have to." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Mouse" Expression="0" Direction="1" Branch="0" Condition="None" Content="I... I know. I have to try. The CEO, Pig, he's still trapped in his office." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Mouse" Expression="1" Direction="1" Branch="0" Condition="None" Content="I tried to save him but..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
-    <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="I'm going to get him, Mouse, dont worry. Now go!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" />
+    <Line ActorName="Bunny" Expression="2" Direction="0" Audio="Mouse" Branch="0" Condition="None" Content="MOUSE! Am I glad to see you!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Mouse" Expression="1" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="Bunny I was so scared. I've been trying to get out but I can't.&#xD; They installed new machine parts this morning, they started a fire." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="You're going to be okay, I'm here now. I think you can go back the way I came." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Mouse" Expression="1" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="I'm too afraid, Bunny, you know how I am in a crisis. I just freeze up." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="We've known each other for years. I know you can do this." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="You have to." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Mouse" Expression="0" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="I... I know. I have to try. The CEO, Pig, he's still trapped in his office." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Mouse" Expression="1" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="I tried to save him but..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="0" Direction="0" Audio="Kill" Branch="0" Condition="None" Content="I'm going to get him, Mouse, dont worry. Now go!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
   </Lines>
 </LineCollection>

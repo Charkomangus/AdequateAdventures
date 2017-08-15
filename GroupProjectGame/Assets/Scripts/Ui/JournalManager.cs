@@ -71,12 +71,14 @@ namespace Assets.Scripts.Ui
         /// </summary>
         private void JournalInput()
         {
+
             if (Input.GetKeyDown(KeyCode.J))
             {
                 if (_evidenceTextBox.GetComponent<Animator>().GetBool("Open"))
                 {
                     _evidence.GetComponent<CanvasGroup>().interactable = true;
                     _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
+                    GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
                 }
                 else
                 {
@@ -88,6 +90,7 @@ namespace Assets.Scripts.Ui
             {
                 if (_evidenceTextBox.GetComponent<Animator>().GetBool("Open"))
                 {
+                    GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
                     _evidence.GetComponent<CanvasGroup>().interactable = true;
                     _evidenceTextBox.GetComponent<Animator>().SetBool("Open", false);
                 }
@@ -101,7 +104,10 @@ namespace Assets.Scripts.Ui
                 OpenJournal(!_animator.GetBool("Open"));
             }
 
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+
+            if (!GetComponent<Animator>().GetBool("Open")) return;
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
                 PreviousPage();
 
             else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
@@ -153,6 +159,8 @@ namespace Assets.Scripts.Ui
         /// <param name="evidence"></param>
         private void OpenEvidenceTextBox(int evidence)
         {
+            //Play audio effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
             _evidenceTextBox.GetComponent<Animator>().SetBool("Open", true);
             _evidenceTextBox.GetComponentInChildren<Text>().text = _evidenceTexts[evidence].text;
             _evidence.GetComponent<CanvasGroup>().interactable = false;
@@ -163,6 +171,8 @@ namespace Assets.Scripts.Ui
         /// </summary>
         public void NextPage()
         {
+            //Play audio effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
             _pageButtons[1].SetActive(true);
             _pageButtons[0].SetActive(false);
             _evidence.SetActive(false);
@@ -174,6 +184,8 @@ namespace Assets.Scripts.Ui
         /// </summary>
         public void PreviousPage()
         {
+            //Play audio effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
             _pageButtons[1].SetActive(false);
             _pageButtons[0].SetActive(true);
             _evidence.SetActive(true);
@@ -188,6 +200,8 @@ namespace Assets.Scripts.Ui
         /// <param name="status"></param>
         public void OpenJournal(bool status)
         {
+            //Play audio effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
             if (status)
             {
                 PreviousPage();
@@ -259,7 +273,9 @@ namespace Assets.Scripts.Ui
         /// <param name="number"></param>
         /// <returns></returns>
         public IEnumerator OpenEvidence(int number)
-        {
+        {   
+            //Play audio effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
             _inputFrozen = true;
             OpenJournal(true);
             yield return new WaitForSecondsRealtime(0.75f);

@@ -38,19 +38,24 @@ namespace Assets.Scripts.Managers
         //Sound effects
         public AudioClip UiClick;
         public AudioClip Switch;
-        public AudioClip CratePush;
-        public AudioClip CrateObstacleCollision;
-        public AudioClip AmbientMachinery;
+        public AudioClip MoveObject;
+        public AudioClip PickUp;
+        public AudioClip ChoiseClick;
+        public AudioClip ObjectBurn;
+        public AudioClip Splash;
+        public AudioClip Icecrack;
+        public AudioClip Journal;
+        //Ambient
+        public AudioClip AmbientWind;
         public AudioClip AmbientFire;
-        public Button[] AllButtons;
-
+        public AudioClip AmbientForest;
 
         //Public references to the audio levels in order for them to carry through scenes and update UI
         public float AudioLevel;
         public float MusicLevel;
 
 
-      
+        public Button[] AllButtons;
 
 
         /// <summary>
@@ -206,24 +211,26 @@ namespace Assets.Scripts.Managers
                     var act = GameManager.Instance.CurrentAct;
                     var level = GameManager.Instance.CurrentLevel;
 
-                    //Stop local audio
-                    if(MusicAudioSource.isPlaying)
-                        MusicAudioSource.Stop();
+                    
                     switch (act)
                     {
                         case 1:
                             switch (level)
                             {
                                 case 1:
+                                   PlayMusic(AmbientForest);
                                     PlayMusicFmod(Level1Music);
                                     break;
                                 case 2:
+                                    MusicAudioSource.Stop();
                                     PlayMusicFmod(Level2Music);
                                     break;
                                 case 3:
+                                    MusicAudioSource.Stop();
                                     PlayMusicFmod(Level3Music);
                                     break;
                                 case 4:
+                                    PlayMusic(AmbientForest);
                                     PlayMusicFmod(Level4Music);
                                     break;
                             }
@@ -261,16 +268,16 @@ namespace Assets.Scripts.Managers
         /// </summary>
         public void PlayAudio(AudioClip audioClip, bool loop)
         {
-           
             if (SoundAudioSource.isPlaying)
             {
-              return;
+                SoundAudioSource.Stop();
+
             }
             SoundAudioSource.loop = loop;
             SoundAudioSource.clip = audioClip;
             SoundAudioSource.Play();
-           
-        }
+        
+    }
 
 
         /// <summary>

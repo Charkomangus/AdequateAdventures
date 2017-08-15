@@ -91,9 +91,13 @@ namespace Assets.Scripts.Objects
                         _parentTile.GetComponentInChildren<ParticleSystem>().Play();
                         var temp = _parentTile.GetComponentInChildren<SpriteRenderer>();
                         temp.sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
-
+                        GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.Icecrack);
                         temp.transform.localScale = new Vector3(Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f));
                         temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 180)));
+                    }
+                    else
+                    {
+                        GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.ObjectBurn);
                     }
                     ResetObject();                    
                 }
@@ -152,6 +156,9 @@ namespace Assets.Scripts.Objects
            _parentTile.SetObject(TileObject.Box);
             _parentTile.GenerateObject(gameObject);
 
+            //Play audio pushing effect
+            GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.MoveObject);
+
             TileType type = tile.ReturnType();
             if (direction == -1) yield break;
             
@@ -159,7 +166,10 @@ namespace Assets.Scripts.Objects
             {
                 //If the box encounters Ice cracks or fire kill it when it reaches the tile
                 case TileType.IceCracks:
+                    _scheduleToDie = true;
+                    yield break;
                 case TileType.Fire:
+                  
                     _scheduleToDie = true;
                     yield break;
                 //If the box encounters a conveyor belt follow it's direction
@@ -177,8 +187,8 @@ namespace Assets.Scripts.Objects
             }
 
             //If the box is on a conveyor update its direction and set it to be conveyed
-
-
+           
+          
             //If the box encounters ice or oil it should continue to call this function until that is no longer the case.
             if (_parentTile.ReturnType() == TileType.Ice || _parentTile.ReturnType() == TileType.Oil)
             {
@@ -199,11 +209,7 @@ namespace Assets.Scripts.Objects
                         break;
                 }
             }
-            else
-            {
-                //Play audio pushing effect
-                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.CratePush, false);
-            }
+            
         }
         /// <summary>
         /// Check if the object is close to the tile

@@ -3317,6 +3317,7 @@ GameObject:
   - component: {fileID: 1425363346}
   - component: {fileID: 1425363350}
   - component: {fileID: 1425363351}
+  - component: {fileID: 1425363352}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -3431,6 +3432,13 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!81 &1425363352
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1425363345}
+  m_Enabled: 1
 --- !u!1 &1436371724
 GameObject:
   m_ObjectHideFlags: 0
@@ -3879,7 +3887,6 @@ GameObject:
   - component: {fileID: 1530651061}
   - component: {fileID: 1530651060}
   - component: {fileID: 1530651059}
-  - component: {fileID: 1530651058}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3887,13 +3894,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1530651058
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1530651057}
-  m_Enabled: 1
 --- !u!124 &1530651059
 Behaviour:
   m_ObjectHideFlags: 0
@@ -4388,6 +4388,70 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: MoveObject
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ceb8da29867dd3499a7becf4de550dc, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: PickUp
+      value: 
+      objectReference: {fileID: 8300000, guid: 18973cc45edd82f48b1cd3b9b9a1b1cb, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: ChoiseClick
+      value: 
+      objectReference: {fileID: 8300000, guid: 23e93da2edeec114a8620f0a94d91637, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: ObjectBurn
+      value: 
+      objectReference: {fileID: 8300000, guid: 0dab90776c2ecee45b83e44cc6149492, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: AmbientWind
+      value: 
+      objectReference: {fileID: 8300000, guid: e030ec2e410ac494ab3d183c377e415d, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: AmbientFire
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ac41d0cff7913e42a33bb9365ef89c6, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: AmbientForest
+      value: 
+      objectReference: {fileID: 8300000, guid: 7cd7da355d392ee4faf0fd6d8e4993f8, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Icecrack
+      value: 
+      objectReference: {fileID: 8300000, guid: 2966348804e05124d8003b3c750b141a, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Splash
+      value: 
+      objectReference: {fileID: 8300000, guid: c491b326e55cf3c45b515af8d5f8bc0f, type: 3}
+    - target: {fileID: 4551285298057486, guid: 5b8b8584908226540a3433aa03ad8bd9, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224972287869991030, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82889229817709672, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: MaxDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Journal
+      value: 
+      objectReference: {fileID: 8300000, guid: fcbb749bebae5674a90c19b7af6de652, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b8b8584908226540a3433aa03ad8bd9, type: 2}
   m_IsPrefabParent: 0
@@ -5326,23 +5390,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1927080957}
---- !u!1 &1958120520 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1619975350660090, guid: 5b8b8584908226540a3433aa03ad8bd9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1592954464}
---- !u!114 &1958120524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1958120520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697b045468dd7034794fcb883bc51b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ListenerNumber: 0
 --- !u!1 &1966287806
 GameObject:
   m_ObjectHideFlags: 0

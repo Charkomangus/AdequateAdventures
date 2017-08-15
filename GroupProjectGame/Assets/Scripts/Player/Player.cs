@@ -120,9 +120,13 @@ namespace Assets.Scripts.Player
                             _parentTile.GetComponentInChildren<ParticleSystem>().Play();
                         var temp = _parentTile.GetComponentInChildren<SpriteRenderer>();
                         temp.sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
-
+                        GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.Icecrack);
                         temp.transform.localScale = new Vector3(Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f));
                         temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 180)));
+                    }
+                    else
+                    {
+                        GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.ObjectBurn);
                     }
                     _scheduleToDie = false;
                     return;
@@ -279,7 +283,7 @@ namespace Assets.Scripts.Player
             TileObject Object = _latestTile.ReturnObject();
           
             Debug.Log("Interacting with " + Object);
-            var sfx = GameManager.Instance.AudioManager;
+           
             switch (Object)
             {
                 //Push box in the apropriate direction
@@ -322,19 +326,16 @@ namespace Assets.Scripts.Player
 
                 //Change direction of green conveyor belts
                 case TileObject.GreenSwitch:
-                    sfx.PlayAudio(sfx.Switch, false);
                     _latestTile.GetComponentInChildren<Switch>().FlipSwitch();
                     break;
 
                 //Change direction of red conveyor belts
                 case TileObject.RedSwitch:
-                    sfx.PlayAudio(sfx.Switch, false);
                     _latestTile.GetComponentInChildren<Switch>().FlipSwitch();
                     break;
 
                 //Change direction of blue conveyor belts
                 case TileObject.BlueSwitch:
-                    sfx.PlayAudio(sfx.Switch, false);
                     _latestTile.GetComponentInChildren<Switch>().FlipSwitch();
                     break;
 

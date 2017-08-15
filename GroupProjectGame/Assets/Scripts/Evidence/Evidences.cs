@@ -25,7 +25,7 @@ namespace Assets.Scripts.Evidence
         {
             if (_evidenceNumber != -1)
             {
-              
+                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.PickUp, false);
                 GameManager.Instance.EvidenceFound++;
                 GameManager.Instance.TriggerDialogue();
                 GameManager.Instance.JournalManager.EvidenceFound(_evidenceNumber, true);

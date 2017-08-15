@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="17">
   <Lines>
-    <Line ActorName="Pig" Expression="2" Direction="1" Branch="0" Condition="None" Content="*Wailing*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="MR PIG? CAN YOU HEAR ME?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="0" Direction="1" Branch="0" Condition="None" Content="HELLO! *sniff* IS SOMEONE THERE?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="1" Direction="1" Branch="0" Condition="None" Content="Please help me! I'll give you anything you want!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="Okay, please calm down Mr Pig. I'm here to help." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="0" Direction="1" Branch="0" Condition="None" Content="Praise be! You shall receive a bonus for this, worker, I'll see to it!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="2" Direction="1" Audio="Pig" Branch="0" Condition="None" Content="*Wailing*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="2" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="MR PIG? CAN YOU HEAR ME?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="0" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="HELLO! *sniff* IS SOMEONE THERE?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="1" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="Please help me! I'll give you anything you want!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="2" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="Okay, please calm down Mr Pig. I'm here to help." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="0" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="Praise be! You shall receive a bonus for this, worker, I'll see to it!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Branch="0" Condition="None" Content="Jeez... Okay, stand back!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Pig" Expression="0" Direction="1" Branch="0" Condition="None" Content="... now what?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I don't think we can go back that way, the fire's consuming the building." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
@@ -17,6 +17,6 @@
     <Line ActorName="Bunny" Expression="2" Direction="0" Branch="0" Condition="None" Content="Would you rather die here, you big baby?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Pig" Expression="0" Direction="1" Branch="0" Condition="None" Content="I... I don't..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="We're going. Now!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="2" Direction="1" Branch="0" Condition="None" Content="Noooooooooooooooooo!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="2" Direction="1" Audio="Kill" Branch="0" Condition="None" Content="Noooooooooooooooooo!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
   </Lines>
 </LineCollection>

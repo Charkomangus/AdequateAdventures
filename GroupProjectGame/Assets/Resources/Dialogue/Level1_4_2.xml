@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LineCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" size="94">
   <Lines>
-    <Line ActorName="Pig" Expression="2" Direction="1" Audio="N/A" Branch="0" Condition="None" Content="*Sniff*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="2" Direction="1" Audio="Pig" Branch="0" Condition="None" Content="*Sniff*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="You may act the victim, but this factory fire Started under your watch.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="Mouse told me that it was the replacement parts installed in the machines that caught fire.&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="0" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="What have you got to say about that, aren't you responsible for everything that goes on here?&#xD;" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
@@ -74,26 +74,26 @@
     <Line ActorName="Pig" Expression="0" Direction="1" Branch="1" Condition="None" Content="I've never seen that before in my life. And you can't prove otherwise." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Bunny" Expression="1" Direction="0" Branch="1" Condition="None" Content="You... YOU DID THIS!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
     <Line ActorName="Beaver" Expression="2" Direction="1" Branch="1" Condition="None" Content="Okay hun, settle down. We'll get to the bottom of this, I promise. Mr Pig, I'm gonna have to ask you to step aside." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="1" Condition="None" Content="I have some questions for you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="2" Direction="1" Branch="1" Condition="None" Content="But I *sniff*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="1" Condition="None" Content="Come along now." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="2" Condition="None" Content="How do you respond to that!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="0" Direction="1" Branch="2" Condition="None" Content="I don't think I can, I'm too confused." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="1" Direction="1" Branch="2" Condition="None" Content="I'm mighty confused myself, is this some kind of trick?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="2" Condition="None" Content="I thought I was onto something..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="2" Condition="None" Content="Okay, Mr Pig if you don't mind I have some questions for you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="2" Condition="None" Content="Please come with me." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="2" Direction="1" Branch="2" Condition="None" Content="But I..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="2" Condition="None" Content="Come along, sir." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="2" Direction="0" Branch="3" Condition="None" Content="How do you respond to that!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="0" Direction="1" Branch="3" Condition="None" Content="I don't think I can, I'm too confused." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="1" Direction="1" Branch="3" Condition="None" Content="I'm mighty confused myself, is this some kind of trick?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="3" Condition="None" Content="I thought I was onto something..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="3" Condition="None" Content="Okay, Mr Pig if you don't mind I have some questions for you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="3" Condition="None" Content="Please come with me." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Pig" Expression="2" Direction="1" Branch="3" Condition="None" Content="But I..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Beaver" Expression="2" Direction="1" Branch="3" Condition="None" Content="Come along, sir." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Guard" Expression="0" Direction="0" Branch="0" Condition="None" Content="..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
-    <Line ActorName="Bunny" Expression="1" Direction="0" Branch="0" Condition="None" Content="I don't know if that's enough evidence to get him locked away... I should talk to Mouse." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="1" Condition="None" Content="I have some questions for you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="2" Direction="1" Audio="N/A" Branch="1" Condition="None" Content="But I *sniff*" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="1" Condition="None" Content="Come along now." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="2" Direction="0" Audio="N/A" Branch="2" Condition="None" Content="How do you respond to that!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="0" Direction="1" Audio="N/A" Branch="2" Condition="None" Content="I don't think I can, I'm too confused." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="1" Direction="1" Audio="N/A" Branch="2" Condition="None" Content="I'm mighty confused myself, is this some kind of trick?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Audio="N/A" Branch="2" Condition="None" Content="I thought I was onto something..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="2" Condition="None" Content="Okay, Mr Pig if you don't mind I have some questions for you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="2" Condition="None" Content="Please come with me." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="2" Direction="1" Audio="N/A" Branch="2" Condition="None" Content="But I..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="2" Condition="None" Content="Come along, sir." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="2" Direction="0" Audio="N/A" Branch="3" Condition="None" Content="How do you respond to that!" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="0" Direction="1" Audio="N/A" Branch="3" Condition="None" Content="I don't think I can, I'm too confused." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="1" Direction="1" Audio="N/A" Branch="3" Condition="None" Content="I'm mighty confused myself, is this some kind of trick?" Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Audio="N/A" Branch="3" Condition="None" Content="I thought I was onto something..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="3" Condition="None" Content="Okay, Mr Pig if you don't mind I have some questions for you." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="3" Condition="None" Content="Please come with me." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Pig" Expression="2" Direction="1" Audio="N/A" Branch="3" Condition="None" Content="But I..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Beaver" Expression="2" Direction="1" Audio="N/A" Branch="3" Condition="None" Content="Come along, sir." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Guard" Expression="0" Direction="0" Audio="N/A" Branch="0" Condition="None" Content="..." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
+    <Line ActorName="Bunny" Expression="1" Direction="0" Audio="Kill" Branch="0" Condition="None" Content="I don't know if that's enough evidence to get him locked away... I should talk to Mouse." Special="0" FirstChoice="" SecondChoice="" ThirdChoice="" KillOnExit="false" />
   </Lines>
 </LineCollection>

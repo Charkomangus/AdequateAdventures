@@ -2016,12 +2016,72 @@ Prefab:
         type: 2}
       propertyPath: OpeningMenuClip
       value: 
-      objectReference: {fileID: 8300000, guid: 73beff6ee26a7d6459c33fdd5c78e136, type: 3}
+      objectReference: {fileID: 8300000, guid: 57de111e6f56eb8438cd0891c0182350, type: 3}
     - target: {fileID: 114484015581256394, guid: 5b8b8584908226540a3433aa03ad8bd9,
         type: 2}
       propertyPath: CurrentLevel
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: AmbientFire
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ac41d0cff7913e42a33bb9365ef89c6, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: AmbientForest
+      value: 
+      objectReference: {fileID: 8300000, guid: 7cd7da355d392ee4faf0fd6d8e4993f8, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: AmbientWind
+      value: 
+      objectReference: {fileID: 8300000, guid: e030ec2e410ac494ab3d183c377e415d, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: CratePush
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ceb8da29867dd3499a7becf4de550dc, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: PickUp
+      value: 
+      objectReference: {fileID: 8300000, guid: 18973cc45edd82f48b1cd3b9b9a1b1cb, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: MoveObject
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ceb8da29867dd3499a7becf4de550dc, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: ChoiseClick
+      value: 
+      objectReference: {fileID: 8300000, guid: 23e93da2edeec114a8620f0a94d91637, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: ObjectBurn
+      value: 
+      objectReference: {fileID: 8300000, guid: 0dab90776c2ecee45b83e44cc6149492, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Ending
+      value: 
+      objectReference: {fileID: 8300000, guid: 0812a678964ddb74aac2bd8cfa8fc1f5, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Splash
+      value: 
+      objectReference: {fileID: 8300000, guid: c491b326e55cf3c45b515af8d5f8bc0f, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Icecrack
+      value: 
+      objectReference: {fileID: 8300000, guid: 2966348804e05124d8003b3c750b141a, type: 3}
+    - target: {fileID: 114582893303930274, guid: 5b8b8584908226540a3433aa03ad8bd9,
+        type: 2}
+      propertyPath: Journal
+      value: 
+      objectReference: {fileID: 8300000, guid: fcbb749bebae5674a90c19b7af6de652, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b8b8584908226540a3433aa03ad8bd9, type: 2}
   m_IsPrefabParent: 0
@@ -3785,23 +3845,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1019278501}
---- !u!1 &1030648509 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1619975350660090, guid: 5b8b8584908226540a3433aa03ad8bd9,
-    type: 2}
-  m_PrefabInternal: {fileID: 534723367}
---- !u!114 &1030648510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1030648509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697b045468dd7034794fcb883bc51b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ListenerNumber: 0
 --- !u!1 &1080061151
 GameObject:
   m_ObjectHideFlags: 0
@@ -5006,6 +5049,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guards: []
+--- !u!1 &1296631695 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1176117486315634, guid: 7b3592226c04d2a4ab4c222cfe731bfd,
+    type: 2}
+  m_PrefabInternal: {fileID: 2007387474}
+--- !u!81 &1296631701
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1296631695}
+  m_Enabled: 1
 --- !u!1 &1328328270
 GameObject:
   m_ObjectHideFlags: 0
@@ -8745,8 +8800,8 @@ GameObject:
   - component: {fileID: 2112594748}
   - component: {fileID: 2112594747}
   - component: {fileID: 2112594746}
-  - component: {fileID: 2112594745}
   - component: {fileID: 2112594744}
+  - component: {fileID: 2112594749}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8778,13 +8833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064bbb13faa9c5e469b805a53c4051e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!81 &2112594745
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2112594742}
-  m_Enabled: 1
 --- !u!124 &2112594746
 Behaviour:
   m_ObjectHideFlags: 0
@@ -8835,6 +8883,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &2112594749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2112594742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!1 &2127072599
 GameObject:
   m_ObjectHideFlags: 0

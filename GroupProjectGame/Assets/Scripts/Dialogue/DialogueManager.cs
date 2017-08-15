@@ -90,9 +90,7 @@ namespace Assets.Scripts.Dialogue
         public void OnPointerDown(PointerEventData eventData)
         {
             if (!IsOpen()) return;
-            if(GameManager.Instance != null)
-                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.UiClick, false);
-            DetermineNextLine();
+           DetermineNextLine();
         }
 
         /// <summary>
@@ -101,16 +99,13 @@ namespace Assets.Scripts.Dialogue
         private void Update()
         {
             if(!IsOpen()) return;
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad0))
+            if (!Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Keypad0)) return;
+            if (GameManager.Instance == null)
             {
-                GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.UiClick, false);
-                if (GameManager.Instance == null)
-                {
-                    DetermineNextLine();
-                }
-                else if (!GameManager.Instance.JournalManager.IsOpen())
-                    DetermineNextLine();
+                DetermineNextLine();
             }
+            else if (!GameManager.Instance.JournalManager.IsOpen())
+                DetermineNextLine();
         }
 
         /// <summary>
@@ -445,6 +440,7 @@ namespace Assets.Scripts.Dialogue
         /// <param name="chosenButton"></param>
         private void ChooseResponse(int chosenButton)
         {
+            _choises[chosenButton].GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.ChoiseClick);
             StartCoroutine(CloseSpecial(_choises[chosenButton]));
             _currentBranch = chosenButton+1;
         

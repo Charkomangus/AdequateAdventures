@@ -52,6 +52,8 @@ namespace Assets.Scripts.Ui
         /// </summary>
         public void Open()
         {
+            //Play audio effect
+            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.Journal, false);
             _signBoxAnimator.SetBool("Open", !_signBoxAnimator.GetBool("Open"));
         }
 

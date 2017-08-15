@@ -81,9 +81,13 @@ namespace Assets.Scripts.Objects
                         _parentTile.GetComponentInChildren<ParticleSystem>().Play();
                         var temp = _parentTile.GetComponentInChildren<SpriteRenderer>();
                         temp.sprite = Resources.Load<Sprite>("LevelMapArt/icecrackbroken");
-
+                        GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.Icecrack);
                         temp.transform.localScale = new Vector3(Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f), Random.Range(0.6f, 0.9f));
                         temp.transform.Rotate(new Vector3(0, 0, Random.Range(0, 180)));
+                    }
+                    else
+                    {
+                        GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.ObjectBurn);
                     }
                     _parentTile.SetBlocked(false);
                     _parentTile.SetObject(TileObject.Empty);
@@ -152,10 +156,7 @@ namespace Assets.Scripts.Objects
             }
             if (tile.IsBlocked()) yield break;
 
-            //Play audio pushing effect
-            GameManager.Instance.AudioManager.PlayAudio(GameManager.Instance.AudioManager.CratePush, false);
-
-            //Free the current parent tile
+           //Free the current parent tile
             _parentTile.SetBlocked(false);
             _parentTile.SetObject(TileObject.Empty);
 
@@ -165,6 +166,9 @@ namespace Assets.Scripts.Objects
             _parentTile.SetObject(TileObject.SlidingBox);
             _parentTile.GenerateObject(gameObject);
 
+            //Play audio pushing effect
+            GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.MoveObject);
+
             TileType type = tile.ReturnType();
             if (direction == -1) yield break;
 
@@ -172,6 +176,8 @@ namespace Assets.Scripts.Objects
             {
                 //If the box encounters Ice cracks or fire kill it when it reaches the tile
                 case TileType.IceCracks:
+                    _scheduleToDie = true;
+                    yield break;
                 case TileType.Fire:
                     _scheduleToDie = true;
                     yield break;

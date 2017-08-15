@@ -5,6 +5,7 @@
  * Created by Charalampos Koundourakis <1603155@abertay.ac.uk> 
 *********************************************************************************/
 using System;
+using Assets.Scripts.MainManagers;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Tiles;
 using Boo.Lang;
@@ -104,6 +105,7 @@ namespace Assets.Scripts.Objects
         /// </summary>
         public void FlipSwitch()
         {
+            GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.AudioManager.Switch);
             _spriteRenderer.sprite = _spriteRenderer.sprite == _sprites[0] ? _sprites[1] : _sprites[0];
             foreach (var belt in _belts)
             {
